@@ -1,16 +1,52 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { insertCalculationSchema, insertLeadSchema } from "@shared/schema";
+import { ZodError } from "zod";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // put application routes here
-  // prefix all routes with /api
+  app.post("/api/calculations", async (req, res) => {
+    try {
+      const data = insertCalculationSchema.parse(req.body);
+      const calculation = await storage.createCalculation(data);
+      res.json(calculation);
+    } catch (e) {
+      if (e instanceof ZodError) {
+        res.status(400).json({ error: "Invalid data", details: e.errors });
+      } else {
+        res.status(500).json({ error: "Failed to save calculation" });
+      }
+    }
+  });
 
-  // use storage to perform CRUD operations on the storage interface
-  // e.g. storage.insertUser(user) or storage.getUserByUsername(username)
+  app.get("/api/calculations/:id", async (req, res) => {
+    try {
+      const calculation = await storage.getCalculation(req.params.id);
+      if (!calculation) {
+        return res.status(404).json({ error: "Calculation not found" });
+      }
+      res.json(calculation);
+    } catch (e) {
+      res.status(500).json({ error: "Failed to get calculation" });
+    }
+  });
+
+  app.post("/api/leads", async (req, res) => {
+    try {
+      const data = insertLeadSchema.parse(req.body);
+      const lead = await storage.createLead(data);
+      res.json(lead);
+    } catch (e) {
+      if (e instanceof ZodError) {
+        res.status(400).json({ error: "Invalid data", details: e.errors });
+      } else {
+        res.status(500).json({ error: "Failed to save lead" });
+      }
+    }
+  });
 
   return httpServer;
 }

@@ -1,38 +1,71 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import {
+  calculations,
+  leads,
+  type Calculation,
+  type InsertCalculation,
+  type Lead,
+  type InsertLead,
+} from "@shared/schema";
+import { db } from "./db";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  createCalculation(data: InsertCalculation): Promise<Calculation>;
+  getCalculation(id: string): Promise<Calculation | undefined>;
+  getRecentCalculations(limit?: number): Promise<Calculation[]>;
+  createLead(data: InsertLead): Promise<Lead>;
+  getLead(id: string): Promise<Lead | undefined>;
+  getRecentLeads(limit?: number): Promise<Lead[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+export class DatabaseStorage implements IStorage {
+  async createCalculation(data: InsertCalculation): Promise<Calculation> {
+    const [calc] = await db
+      .insert(calculations)
+      .values(data)
+      .returning();
+    return calc;
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getCalculation(id: string): Promise<Calculation | undefined> {
+    const [calc] = await db
+      .select()
+      .from(calculations)
+      .where(eq(calculations.id, id));
+    return calc || undefined;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+  async getRecentCalculations(limit = 50): Promise<Calculation[]> {
+    return db
+      .select()
+      .from(calculations)
+      .orderBy(desc(calculations.createdAt))
+      .limit(limit);
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async createLead(data: InsertLead): Promise<Lead> {
+    const [lead] = await db
+      .insert(leads)
+      .values(data)
+      .returning();
+    return lead;
+  }
+
+  async getLead(id: string): Promise<Lead | undefined> {
+    const [lead] = await db
+      .select()
+      .from(leads)
+      .where(eq(leads.id, id));
+    return lead || undefined;
+  }
+
+  async getRecentLeads(limit = 50): Promise<Lead[]> {
+    return db
+      .select()
+      .from(leads)
+      .orderBy(desc(leads.createdAt))
+      .limit(limit);
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
