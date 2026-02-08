@@ -12,6 +12,7 @@ export const calculations = pgTable("calculations", {
   desiredMonthlyIncome: doublePrecision("desired_monthly_income").notNull(),
   currentSavings: doublePrecision("current_savings").notNull(),
   monthlySavingsRate: doublePrecision("monthly_savings_rate").notNull(),
+  targetFreedomAge: integer("target_freedom_age").notNull().default(55),
   expectedLumpSum: doublePrecision("expected_lump_sum").notNull().default(0),
   lumpSumAge: integer("lump_sum_age"),
   annualReturn: doublePrecision("annual_return").notNull().default(7),
@@ -20,6 +21,7 @@ export const calculations = pgTable("calculations", {
   gapPercent: doublePrecision("gap_percent").notNull(),
   freedomAge: integer("freedom_age").notNull(),
   freedomScore: integer("freedom_score").notNull(),
+  referralSource: text("referral_source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
