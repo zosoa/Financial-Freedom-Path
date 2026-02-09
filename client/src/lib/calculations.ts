@@ -14,7 +14,7 @@ export interface CalculationInputs {
 export interface WealthDataPoint {
   age: number;
   standardWealth: number;
-  boostedWealth: number;
+  managedWealth: number;
   requiredCapital: number;
 }
 
@@ -42,23 +42,35 @@ export interface CapitalComposition {
   gainsPercent: number;
 }
 
+export interface SolutionModule {
+  hasGap: boolean;
+  savingsLeverAmount: number;
+  lumpSumAmount: number;
+  efficiencyLeverReturn: number;
+  surplusAmount: number;
+  earlyFreedomAge: number;
+  increasedMonthlyBudget: number;
+}
+
 export interface CalculationResults {
   inflationAdjustedMonthlyIncome: number;
   annualTargetIncome: number;
   requiredCapital: number;
   plannedCapital: number;
   plannedCapitalStandard: number;
-  plannedCapitalBoosted: number;
+  plannedCapitalManaged: number;
   additionalGain: number;
   gapPercent: number;
   gapAmount: number;
   freedomAge: number;
   freedomAgeStandard: number;
-  freedomAgeBoosted: number;
+  freedomAgeManaged: number;
+  yearsGained: number;
   freedomScore: number;
   yearsToFreedom: number;
   timeDifference: number;
   capitalComposition: CapitalComposition;
+  solutionModule: SolutionModule;
   narrative: {
     type: "critical" | "moderate" | "on_track" | "basically_there";
     headline: string;
@@ -129,21 +141,21 @@ function generateWealthCurve(
   currentSavings: number,
   monthlySavingsRate: number,
   desiredMonthlyIncome: number,
-  maxAge: number
+  maxAge: number,
+  requiredCapitalFlat: number
 ): WealthDataPoint[] {
   const points: WealthDataPoint[] = [];
   const endAge = Math.min(maxAge + 10, 100);
 
   for (let age = currentAge; age <= endAge; age++) {
     const standardWealth = computeCapitalAtAge(currentAge, age, currentSavings, monthlySavingsRate, STANDARD_RETURN);
-    const boostedWealth = computeCapitalAtAge(currentAge, age, currentSavings, monthlySavingsRate, BOOSTED_RETURN);
-    const requiredCapital = computeRequiredCapitalAtAge(currentAge, age, desiredMonthlyIncome);
+    const managedWealth = computeCapitalAtAge(currentAge, age, currentSavings, monthlySavingsRate, BOOSTED_RETURN);
 
     points.push({
       age,
       standardWealth: Math.round(standardWealth),
-      boostedWealth: Math.round(boostedWealth),
-      requiredCapital: Math.round(requiredCapital),
+      managedWealth: Math.round(managedWealth),
+      requiredCapital: Math.round(requiredCapitalFlat),
     });
   }
   return points;
@@ -168,8 +180,8 @@ function computeBadges(inputs: CalculationInputs, results: Partial<CalculationRe
       id: "smart_investor",
       name: "Smart Investor",
       description: "You're projected to grow your capital beyond the standard rate.",
-      tier: results.plannedCapitalBoosted && results.plannedCapitalStandard && results.plannedCapitalBoosted > results.plannedCapitalStandard * 1.3 ? "gold" : "locked",
-      unlocked: !!(results.plannedCapitalBoosted && results.plannedCapitalStandard && results.plannedCapitalBoosted > results.plannedCapitalStandard * 1.3),
+      tier: results.plannedCapitalManaged && results.plannedCapitalStandard && results.plannedCapitalManaged > results.plannedCapitalStandard * 1.3 ? "gold" : "locked",
+      unlocked: !!(results.plannedCapitalManaged && results.plannedCapitalStandard && results.plannedCapitalManaged > results.plannedCapitalStandard * 1.3),
     },
     {
       id: "time_optimizer",
@@ -223,7 +235,7 @@ function computeBadges(inputs: CalculationInputs, results: Partial<CalculationRe
     {
       id: "diversification_master",
       name: "Diversification Master",
-      description: "Explore boosted returns to unlock this badge.",
+      description: "Explore managed returns to unlock this badge.",
       tier: "locked",
       unlocked: false,
     },
@@ -288,30 +300,31 @@ export function calculateFreedom(inputs: CalculationInputs): CalculationResults 
 
   const plannedCapital = computeCapitalAtAge(age, targetFreedomAge, currentSavings, monthlySavingsRate, annualReturn);
   const plannedCapitalStandard = computeCapitalAtAge(age, targetFreedomAge, currentSavings, monthlySavingsRate, STANDARD_RETURN);
-  const plannedCapitalBoosted = computeCapitalAtAge(age, targetFreedomAge, currentSavings, monthlySavingsRate, BOOSTED_RETURN);
-  const additionalGain = plannedCapitalBoosted - plannedCapitalStandard;
+  const plannedCapitalManaged = computeCapitalAtAge(age, targetFreedomAge, currentSavings, monthlySavingsRate, BOOSTED_RETURN);
+  const additionalGain = plannedCapitalManaged - plannedCapitalStandard;
 
   const gapAmount = Math.max(0, requiredCapital - plannedCapital);
   const gapPercent = requiredCapital > 0 ? Math.max(0, Math.min(100, (gapAmount / requiredCapital) * 100)) : 0;
 
   const freedomAge = findFreedomAge(age, desiredMonthlyIncome, currentSavings, monthlySavingsRate, annualReturn);
   const freedomAgeStandard = findFreedomAge(age, desiredMonthlyIncome, currentSavings, monthlySavingsRate, STANDARD_RETURN);
-  const freedomAgeBoosted = findFreedomAge(age, desiredMonthlyIncome, currentSavings, monthlySavingsRate, BOOSTED_RETURN);
+  const freedomAgeManaged = findFreedomAge(age, desiredMonthlyIncome, currentSavings, monthlySavingsRate, BOOSTED_RETURN);
 
   const yearsToFreedom = Math.max(0, freedomAge - age);
   const timeDifference = freedomAge - targetFreedomAge;
   const freedomScore = Math.round(Math.max(0, Math.min(100, 100 - gapPercent)));
+  const yearsGained = freedomAgeStandard - freedomAgeManaged;
 
   const partialResults = {
     gapPercent,
     freedomAge,
     timeDifference,
     plannedCapitalStandard,
-    plannedCapitalBoosted,
+    plannedCapitalManaged,
   };
 
   const narrative = getNarrative(gapPercent, freedomAge, targetFreedomAge, yearsToFreedom);
-  const wealthCurve = generateWealthCurve(age, currentSavings, monthlySavingsRate, desiredMonthlyIncome, targetFreedomAge);
+  const wealthCurve = generateWealthCurve(age, currentSavings, monthlySavingsRate, desiredMonthlyIncome, targetFreedomAge, requiredCapital);
   const badges = computeBadges(inputs, partialResults);
 
   const returnComparisons: ReturnComparison[] = [
@@ -323,11 +336,11 @@ export function calculateFreedom(inputs: CalculationInputs): CalculationResults 
       timeDifference: freedomAgeStandard - targetFreedomAge,
     },
     {
-      label: "Boosted (11%)",
+      label: "Managed (11%)",
       rate: BOOSTED_RETURN,
-      capitalAtTarget: Math.round(plannedCapitalBoosted),
-      ageReached: freedomAgeBoosted,
-      timeDifference: freedomAgeBoosted - targetFreedomAge,
+      capitalAtTarget: Math.round(plannedCapitalManaged),
+      ageReached: freedomAgeManaged,
+      timeDifference: freedomAgeManaged - targetFreedomAge,
     },
   ];
 
@@ -342,23 +355,77 @@ export function calculateFreedom(inputs: CalculationInputs): CalculationResults 
     gainsPercent: standardCapitalForComposition > 0 ? Math.round((generatedGains / standardCapitalForComposition) * 100) : 0,
   };
 
+  const gapAmountStandard = Math.max(0, requiredCapital - plannedCapitalStandard);
+  let savingsLeverAmount = 0;
+  let lumpSumAmount = 0;
+  let efficiencyLeverReturn = STANDARD_RETURN;
+  let surplusAmount = 0;
+  let earlyFreedomAge = freedomAgeStandard;
+  let increasedMonthlyBudget = desiredMonthlyIncome;
+
+  if (gapAmountStandard > 0) {
+    const months = yearsToTarget * 12;
+    const monthlyReturn = STANDARD_RETURN / 100 / 12;
+    let fvAnnuityFactor = 0;
+    for (let m = 0; m < months; m++) {
+      fvAnnuityFactor += Math.pow(1 + monthlyReturn, months - m - 1);
+    }
+    savingsLeverAmount = fvAnnuityFactor > 0 ? Math.round(gapAmountStandard / fvAnnuityFactor) : 0;
+
+    const compoundFactor = Math.pow(1 + monthlyReturn, months);
+    lumpSumAmount = compoundFactor > 0 ? Math.round(gapAmountStandard / compoundFactor) : 0;
+
+    for (let r = STANDARD_RETURN + 0.5; r <= 15; r += 0.5) {
+      const testCapital = computeCapitalAtAge(age, targetFreedomAge, currentSavings, monthlySavingsRate, r);
+      if (testCapital >= requiredCapital) {
+        efficiencyLeverReturn = r;
+        break;
+      }
+      efficiencyLeverReturn = r;
+    }
+  } else {
+    surplusAmount = Math.round(plannedCapitalStandard - requiredCapital);
+    const surplusIncome = (surplusAmount * SAFE_WITHDRAWAL_RATE) / 12;
+    increasedMonthlyBudget = Math.round(inflationAdjustedMonthlyIncome + surplusIncome);
+    for (let testAge = age + 1; testAge < targetFreedomAge; testAge++) {
+      const cap = computeCapitalAtAge(age, testAge, currentSavings, monthlySavingsRate, STANDARD_RETURN);
+      const req = computeRequiredCapitalAtAge(age, testAge, desiredMonthlyIncome);
+      if (cap >= req) {
+        earlyFreedomAge = testAge;
+        break;
+      }
+    }
+  }
+
+  const solutionModule: SolutionModule = {
+    hasGap: gapAmountStandard > 0,
+    savingsLeverAmount,
+    lumpSumAmount,
+    efficiencyLeverReturn,
+    surplusAmount,
+    earlyFreedomAge,
+    increasedMonthlyBudget,
+  };
+
   return {
     inflationAdjustedMonthlyIncome,
     annualTargetIncome,
     requiredCapital,
     plannedCapital,
     plannedCapitalStandard,
-    plannedCapitalBoosted,
+    plannedCapitalManaged,
     additionalGain,
     gapPercent,
     gapAmount,
     freedomAge,
     freedomAgeStandard,
-    freedomAgeBoosted,
+    freedomAgeManaged,
+    yearsGained,
     freedomScore,
     yearsToFreedom,
     timeDifference,
     capitalComposition,
+    solutionModule,
     narrative,
     wealthCurve,
     returnComparisons,

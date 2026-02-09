@@ -29,11 +29,13 @@ export const leads = pgTable("leads", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   calculationId: varchar("calculation_id").references(() => calculations.id),
   name: text("name").notNull(),
+  email: text("email"),
   whatsapp: text("whatsapp").notNull(),
   country: text("country").notNull(),
   currency: text("currency").notNull(),
   gapPercent: doublePrecision("gap_percent").notNull(),
   freedomScore: integer("freedom_score").notNull(),
+  lifeEvent: text("life_event"),
   referralSource: text("referral_source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

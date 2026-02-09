@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { MessageCircle, Shield, Check, Loader2 } from "lucide-react";
+import { Lock, Shield, Check, Loader2, Mail, Phone, Sparkles } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 
 interface LeadCaptureModalProps {
@@ -35,22 +36,26 @@ export function LeadCaptureModal({
   referralSource,
 }: LeadCaptureModalProps) {
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
+  const [lifeEvent, setLifeEvent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async () => {
-    if (!name.trim() || !whatsapp.trim()) return;
+    if (!name.trim() || !email.trim() || !whatsapp.trim()) return;
     setIsSubmitting(true);
     try {
       await apiRequest("POST", "/api/leads", {
         calculationId,
         name: name.trim(),
+        email: email.trim(),
         whatsapp: whatsapp.trim(),
         country,
         currency,
         gapPercent,
         freedomScore,
+        lifeEvent: lifeEvent.trim() || null,
         referralSource: referralSource || null,
       });
       setIsSubmitted(true);
@@ -66,7 +71,9 @@ export function LeadCaptureModal({
     setTimeout(() => {
       setIsSubmitted(false);
       setName("");
+      setEmail("");
       setWhatsapp("");
+      setLifeEvent("");
     }, 300);
   };
 
@@ -82,14 +89,14 @@ export function LeadCaptureModal({
               exit={{ opacity: 0 }}
             >
               <DialogHeader>
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
-                  <MessageCircle className="w-6 h-6 text-primary" />
+                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                  <Lock className="w-7 h-7 text-primary" />
                 </div>
                 <DialogTitle className="font-serif text-xl text-center">
-                  Get your free expert explanation
+                  Secure Your Results & Unlock Phase 2
                 </DialogTitle>
                 <DialogDescription className="text-center">
-                  An independent, UHNW-trained professional will walk you through your results on WhatsApp. No products, no pressure.
+                  Lock in your Freedom Roadmap and get your Personal Risk Profile analyzed by a UHNW-trained professional. No products, no pressure -- just clarity.
                 </DialogDescription>
               </DialogHeader>
 
@@ -105,7 +112,25 @@ export function LeadCaptureModal({
                   />
                 </div>
                 <div>
-                  <Label htmlFor="lead-whatsapp">WhatsApp number</Label>
+                  <Label htmlFor="lead-email" className="flex items-center gap-1.5">
+                    <Mail className="w-3.5 h-3.5" />
+                    Email address
+                  </Label>
+                  <Input
+                    id="lead-email"
+                    type="email"
+                    placeholder="john@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    data-testid="input-lead-email"
+                  />
+                  <p className="text-[10px] text-muted-foreground mt-1">We'll send your saved roadmap to this email</p>
+                </div>
+                <div>
+                  <Label htmlFor="lead-whatsapp" className="flex items-center gap-1.5">
+                    <Phone className="w-3.5 h-3.5" />
+                    WhatsApp / Phone number
+                  </Label>
                   <Input
                     id="lead-whatsapp"
                     placeholder="+1 234 567 8900"
@@ -115,24 +140,39 @@ export function LeadCaptureModal({
                   />
                 </div>
 
+                <div>
+                  <Label htmlFor="lead-life-event" className="text-xs text-muted-foreground">
+                    What is the one life event we must account for in your plan? (Optional)
+                  </Label>
+                  <Textarea
+                    id="lead-life-event"
+                    placeholder="e.g., Wedding in 2027, inheritance expected, property sale planned..."
+                    value={lifeEvent}
+                    onChange={(e) => setLifeEvent(e.target.value)}
+                    className="resize-none text-sm"
+                    rows={2}
+                    data-testid="input-lead-life-event"
+                  />
+                </div>
+
                 <Button
                   className="w-full"
                   size="lg"
                   onClick={handleSubmit}
-                  disabled={!name.trim() || !whatsapp.trim() || isSubmitting}
+                  disabled={!name.trim() || !email.trim() || !whatsapp.trim() || isSubmitting}
                   data-testid="button-submit-lead"
                 >
                   {isSubmitting ? (
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   ) : (
-                    <MessageCircle className="w-4 h-4 mr-2" />
+                    <Sparkles className="w-4 h-4 mr-2" />
                   )}
-                  {isSubmitting ? "Sending..." : "Connect me with an expert"}
+                  {isSubmitting ? "Securing..." : "Send My Roadmap & Unlock Risk Analysis"}
                 </Button>
 
                 <div className="flex items-center gap-2 justify-center text-xs text-muted-foreground">
                   <Shield className="w-3 h-3" />
-                  <span>Your data is private. We never share it without your consent.</span>
+                  <span>Your data is shared only with our vetted institutional partners.</span>
                 </div>
               </div>
             </motion.div>
@@ -147,10 +187,13 @@ export function LeadCaptureModal({
                 <Check className="w-8 h-8 text-emerald-500" />
               </div>
               <h3 className="font-serif text-xl font-bold mb-2" data-testid="text-lead-success">
-                You're in good hands
+                Your roadmap is secured!
               </h3>
-              <p className="text-muted-foreground mb-6">
-                An expert will reach out to you on WhatsApp within 24 hours. They'll explain your numbers in plain language&mdash;no jargon, no pressure.
+              <p className="text-muted-foreground mb-3">
+                Check your email for your saved Freedom Roadmap. A UHNW-trained expert will reach out within 24 hours to walk you through your Risk Profile.
+              </p>
+              <p className="text-sm text-muted-foreground mb-6">
+                No jargon, no pressure -- just a clear conversation about your strategy.
               </p>
               <Button variant="outline" onClick={handleClose} data-testid="button-close-lead-success">
                 Back to my results
