@@ -6,6 +6,11 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   ArrowRight,
   Shield,
   Eye,
@@ -18,6 +23,7 @@ import {
   Compass,
   Mountain,
   Target,
+  Info,
 } from "lucide-react";
 import { useTheme } from "@/lib/theme-provider";
 import {
@@ -46,10 +52,10 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
 export default function Landing() {
   const [, navigate] = useLocation();
   const { theme, toggleTheme } = useTheme();
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedCurrency, setSelectedCurrency] = useState("USD");
+  const [selectedCountry, setSelectedCountry] = useState("Mauritius");
+  const [selectedCurrency, setSelectedCurrency] = useState("MUR");
   const [desiredIncome, setDesiredIncome] = useState("");
-  const [showCurrencyOverride, setShowCurrencyOverride] = useState(false);
+  const [showCurrencyOverride, setShowCurrencyOverride] = useState(true);
 
   const handleCountrySelect = (country: string) => {
     setSelectedCountry(country);
@@ -167,9 +173,22 @@ export default function Landing() {
                 )}
 
                 <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">
-                    If you could stop working, how much would you need per month?
-                  </label>
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <label className="text-sm text-muted-foreground">
+                      If you could stop working, how much would you need per month?
+                    </label>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className="cursor-help">
+                          <Info className="w-3.5 h-3.5 text-muted-foreground" data-testid="icon-inflation-info" />
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-xs text-xs leading-relaxed">
+                        <p className="font-semibold mb-1">We include inflation in the calculation</p>
+                        <p>Inflation means things get a bit more expensive every year. For example, a coffee that costs {currencySymbol}3 today might cost {currencySymbol}3.65 in 10 years. We automatically account for this so your future income keeps the same purchasing power as today.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
                       {currencySymbol}
@@ -183,6 +202,9 @@ export default function Landing() {
                       data-testid="input-desired-income"
                     />
                   </div>
+                  <p className="text-xs text-muted-foreground mt-1.5">
+                    Inflation will be included in the calculation automatically
+                  </p>
                 </div>
 
                 <Button

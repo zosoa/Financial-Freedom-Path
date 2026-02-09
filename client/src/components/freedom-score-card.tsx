@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Download, Copy, Check, Compass, Rocket, TrendingUp, TreePine, Footprints, Trophy } from "lucide-react";
+import { Download, Copy, Check, Compass, Rocket, TrendingUp, TreePine, Footprints } from "lucide-react";
 import { toPng } from "html-to-image";
 
 interface FreedomScoreCardProps {
@@ -23,8 +23,6 @@ interface FreedomScoreCardProps {
   personality: string;
   subtitle: string;
   monthlySavings: number;
-  badges: number;
-  totalBadges: number;
 }
 
 export function FreedomScoreCard({
@@ -40,8 +38,6 @@ export function FreedomScoreCard({
   personality,
   subtitle,
   monthlySavings,
-  badges,
-  totalBadges,
 }: FreedomScoreCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -140,7 +136,7 @@ export function FreedomScoreCard({
               </p>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 mb-4">
+            <div className="grid grid-cols-2 gap-3 mb-4">
               <div className="text-center">
                 <p className="text-lg font-bold">{freedomAge}</p>
                 <p className="text-[10px] text-white/60">Freedom Age</p>
@@ -148,13 +144,6 @@ export function FreedomScoreCard({
               <div className="text-center">
                 <p className="text-lg font-bold">{targetAge}</p>
                 <p className="text-[10px] text-white/60">Target Age</p>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-1">
-                  <Trophy className="w-3 h-3" />
-                  <p className="text-lg font-bold">{badges}/{totalBadges}</p>
-                </div>
-                <p className="text-[10px] text-white/60">Badges</p>
               </div>
             </div>
           </div>

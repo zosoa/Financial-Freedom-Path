@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useLocation, useSearch } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import {
   Moon,
   Compass,
   Sunset,
+  Sparkles,
 } from "lucide-react";
 import { useTheme } from "@/lib/theme-provider";
 import { SUPPORTED_CURRENCIES } from "@shared/schema";
@@ -42,6 +43,16 @@ const STEPS: StepConfig[] = [
     max: 80,
   },
   {
+    key: "targetFreedomAge",
+    question: "At what age do you dream of being financially free?",
+    subtitle: "When would you love to stop working or when does working become a choice but no longer a necessity? Pick the age that excites you.",
+    icon: Sunset,
+    placeholder: "55",
+    suffix: "years old",
+    min: 25,
+    max: 90,
+  },
+  {
     key: "monthlyIncome",
     question: "What is your current monthly net income?",
     subtitle: "After taxes. Be honest -- this is just for you.",
@@ -65,32 +76,77 @@ const STEPS: StepConfig[] = [
     placeholder: "500",
     isCurrency: true,
   },
-  {
-    key: "targetFreedomAge",
-    question: "At what age do you dream of being financially free?",
-    subtitle: "When would you love to stop working because you have to? Pick the age that excites you.",
-    icon: Sunset,
-    placeholder: "55",
-    suffix: "years old",
-    min: 25,
-    max: 90,
-  },
 ];
 
 type StepData = Record<StepConfig["key"], string>;
+
+function getSavingsComment(savingsRate: number, monthlyIncome: number): { text: string; color: string } | null {
+  if (!monthlyIncome || monthlyIncome <= 0 || isNaN(savingsRate)) return null;
+  const percent = (savingsRate / monthlyIncome) * 100;
+
+  if (percent > 70) {
+    return { text: `That's ${Math.round(percent)}% of your income. Are you sure you'll have enough left for the basics? Be realistic so this plan actually works for you.`, color: "text-red-500 dark:text-red-400" };
+  }
+  if (percent > 50) {
+    return { text: `That's ${Math.round(percent)}% of your income. Are you sure you'll have enough left to pay your bills? Impressive discipline, but be honest with yourself.`, color: "text-amber-500 dark:text-amber-400" };
+  }
+  if (percent >= 30) {
+    return { text: `${Math.round(percent)}% of your income -- that's elite-level discipline! You're playing the long game like a pro.`, color: "text-emerald-500 dark:text-emerald-400" };
+  }
+  if (percent >= 20) {
+    return { text: `${Math.round(percent)}% -- excellent! Financial experts recommend 20%+. You're right in the sweet spot.`, color: "text-emerald-500 dark:text-emerald-400" };
+  }
+  if (percent >= 10) {
+    return { text: `${Math.round(percent)}% is a solid start! Try to work towards 20% over time -- even 1% more each year adds up massively.`, color: "text-blue-500 dark:text-blue-400" };
+  }
+  if (percent >= 5) {
+    return { text: `${Math.round(percent)}% -- a good beginning! The minimum recommended is 5%. Every bit you can add will accelerate your journey.`, color: "text-blue-500 dark:text-blue-400" };
+  }
+  if (percent > 0) {
+    return { text: `${Math.round(percent)}% is a start, but try to aim for at least 5% of your income. Small increases make a huge difference over time.`, color: "text-amber-500 dark:text-amber-400" };
+  }
+  return null;
+}
+
+function getSavingsHelpText(currentSavings: number, currencySymbol: string): { text: string; color: string } | null {
+  if (isNaN(currentSavings)) return null;
+  if (currentSavings <= 0) {
+    return { text: "Starting from zero is perfectly fine! The important thing is that you're starting now. Time is your greatest ally.", color: "text-blue-500 dark:text-blue-400" };
+  }
+  if (currentSavings > 0 && currentSavings < 1000) {
+    return { text: "Every journey starts with a first step. You've already begun -- that puts you ahead of most people.", color: "text-blue-500 dark:text-blue-400" };
+  }
+  if (currentSavings >= 1000 && currentSavings < 10000) {
+    return { text: "You've got a foundation to build on! This head start will make a real difference thanks to compound growth.", color: "text-emerald-500 dark:text-emerald-400" };
+  }
+  if (currentSavings >= 10000 && currentSavings < 100000) {
+    return { text: "Impressive nest egg! You're well ahead of the curve. Compound interest is already working hard for you.", color: "text-emerald-500 dark:text-emerald-400" };
+  }
+  return { text: "Outstanding! With this foundation, your money is already working hard for you. Let's see how far it can take you.", color: "text-emerald-500 dark:text-emerald-400" };
+}
+
+const LOADING_MESSAGES = [
+  "Crunching your numbers...",
+  "Adjusting for inflation...",
+  "Simulating compound growth...",
+  "Calculating your Freedom Age...",
+  "Preparing your results...",
+];
 
 export default function Calculator() {
   const [, navigate] = useLocation();
   const searchString = useSearch();
   const params = new URLSearchParams(searchString);
-  const country = params.get("country") || "United States";
-  const currency = params.get("currency") || "USD";
+  const country = params.get("country") || "Mauritius";
+  const currency = params.get("currency") || "MUR";
   const desiredMonthlyIncome = params.get("desiredIncome") || "3000";
   const referralSource = params.get("ref") || "";
   const { theme, toggleTheme } = useTheme();
 
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [showTransition, setShowTransition] = useState(false);
+  const [transitionMessageIdx, setTransitionMessageIdx] = useState(0);
   const [data, setData] = useState<StepData>({
     age: "",
     monthlyIncome: "",
@@ -116,27 +172,50 @@ export default function Calculator() {
       const age = parseInt(data.age);
       if (val <= age) return false;
     }
+    if (step.key === "monthlySavingsRate" && data.monthlyIncome) {
+      const income = parseFloat(data.monthlyIncome);
+      if (val > income) return false;
+    }
+    if (step.key === "currentSavings") {
+      return true;
+    }
     return true;
-  }, [currentValue, step, data.age]);
+  }, [currentValue, step, data.age, data.monthlyIncome]);
+
+  useEffect(() => {
+    if (!showTransition) return;
+    const interval = setInterval(() => {
+      setTransitionMessageIdx((prev) => {
+        if (prev >= LOADING_MESSAGES.length - 1) {
+          clearInterval(interval);
+          const queryParams = new URLSearchParams({
+            country,
+            currency,
+            age: data.age,
+            monthlyIncome: data.monthlyIncome,
+            desiredMonthlyIncome,
+            currentSavings: data.currentSavings || "0",
+            monthlySavingsRate: data.monthlySavingsRate,
+            targetFreedomAge: data.targetFreedomAge,
+            annualReturn: "7",
+            ...(referralSource ? { ref: referralSource } : {}),
+          });
+          navigate(`/results?${queryParams.toString()}`);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, 700);
+    return () => clearInterval(interval);
+  }, [showTransition, data, country, currency, desiredMonthlyIncome, referralSource, navigate]);
 
   const handleNext = () => {
     if (currentStep < totalSteps - 1) {
       setDirection(1);
       setCurrentStep((p) => p + 1);
     } else {
-      const queryParams = new URLSearchParams({
-        country,
-        currency,
-        age: data.age,
-        monthlyIncome: data.monthlyIncome,
-        desiredMonthlyIncome,
-        currentSavings: data.currentSavings,
-        monthlySavingsRate: data.monthlySavingsRate,
-        targetFreedomAge: data.targetFreedomAge,
-        annualReturn: "7",
-        ...(referralSource ? { ref: referralSource } : {}),
-      });
-      navigate(`/results?${queryParams.toString()}`);
+      setShowTransition(true);
+      setTransitionMessageIdx(0);
     }
   };
 
@@ -160,6 +239,65 @@ export default function Calculator() {
   };
 
   const Icon = step.icon;
+
+  const savingsComment = useMemo(() => {
+    if (step.key === "monthlySavingsRate") {
+      const val = parseFloat(currentValue);
+      const income = parseFloat(data.monthlyIncome);
+      return getSavingsComment(val, income);
+    }
+    return null;
+  }, [step.key, currentValue, data.monthlyIncome]);
+
+  const savingsHelpText = useMemo(() => {
+    if (step.key === "currentSavings") {
+      const val = parseFloat(currentValue);
+      return getSavingsHelpText(val, symbol);
+    }
+    return null;
+  }, [step.key, currentValue, symbol]);
+
+  if (showTransition) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center space-y-8"
+        >
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto"
+          >
+            <Sparkles className="w-8 h-8 text-primary" />
+          </motion.div>
+
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={transitionMessageIdx}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="text-lg font-medium text-muted-foreground"
+            >
+              {LOADING_MESSAGES[transitionMessageIdx]}
+            </motion.p>
+          </AnimatePresence>
+
+          <div className="w-48 h-1.5 bg-muted rounded-full overflow-hidden mx-auto">
+            <motion.div
+              className="h-full bg-primary rounded-full"
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 3.5, ease: "easeInOut" }}
+            />
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -213,27 +351,73 @@ export default function Calculator() {
                 <p className="text-muted-foreground text-sm">{step.subtitle}</p>
               </div>
 
-              <div className="relative">
-                {step.isCurrency && (
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-medium text-lg">
-                    {symbol}
-                  </span>
+              <div className="space-y-2">
+                <div className="relative">
+                  {step.isCurrency && (
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-medium text-lg">
+                      {symbol}
+                    </span>
+                  )}
+                  <Input
+                    type="number"
+                    inputMode="numeric"
+                    placeholder={step.placeholder}
+                    value={currentValue}
+                    onChange={(e) => setData((d) => ({ ...d, [step.key]: e.target.value }))}
+                    onKeyDown={handleKeyDown}
+                    className={`text-center text-2xl h-16 font-medium ${step.isCurrency ? "pl-10" : ""}`}
+                    autoFocus
+                    data-testid={`input-${step.key}`}
+                  />
+                  {step.suffix && currentValue && (
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+                      {step.suffix}
+                    </span>
+                  )}
+                </div>
+
+                {step.key === "currentSavings" && (
+                  <p className="text-xs text-muted-foreground text-center">
+                    If you're not sure, just put 0 -- you can always come back later
+                  </p>
                 )}
-                <Input
-                  type="number"
-                  inputMode="numeric"
-                  placeholder={step.placeholder}
-                  value={currentValue}
-                  onChange={(e) => setData((d) => ({ ...d, [step.key]: e.target.value }))}
-                  onKeyDown={handleKeyDown}
-                  className={`text-center text-2xl h-16 font-medium ${step.isCurrency ? "pl-10" : ""}`}
-                  autoFocus
-                  data-testid={`input-${step.key}`}
-                />
-                {step.suffix && currentValue && (
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                    {step.suffix}
-                  </span>
+
+                {step.key === "monthlySavingsRate" && data.monthlyIncome && currentValue && (
+                  <div className="text-center">
+                    <p className="text-xs text-muted-foreground">
+                      That's {Math.round((parseFloat(currentValue) / parseFloat(data.monthlyIncome)) * 100)}% of your income
+                    </p>
+                  </div>
+                )}
+
+                {savingsComment && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`text-xs text-center ${savingsComment.color}`}
+                  >
+                    {savingsComment.text}
+                  </motion.p>
+                )}
+
+                {savingsHelpText && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`text-xs text-center ${savingsHelpText.color}`}
+                  >
+                    {savingsHelpText.text}
+                  </motion.p>
+                )}
+
+                {step.key === "monthlySavingsRate" && data.monthlyIncome && parseFloat(currentValue) > parseFloat(data.monthlyIncome) && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-xs text-center text-red-500 dark:text-red-400"
+                  >
+                    You can't save more than you earn. Please adjust your amount.
+                  </motion.p>
                 )}
               </div>
 

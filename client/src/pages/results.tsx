@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   ArrowLeft,
   Compass,
   Share2,
@@ -16,13 +21,15 @@ import {
   Sparkles,
   TrendingUp,
   Target,
-  Trophy,
   Rocket,
   TreePine,
   Footprints,
-  Award,
-  Lock,
   Users,
+  Info,
+  PieChart,
+  Lightbulb,
+  Zap,
+  Coins,
 } from "lucide-react";
 import {
   AreaChart,
@@ -30,9 +37,12 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   ResponsiveContainer,
   ReferenceLine,
+  PieChart as RechartsPieChart,
+  Pie,
+  Cell,
 } from "recharts";
 import { useTheme } from "@/lib/theme-provider";
 import {
@@ -47,14 +57,29 @@ import { FreedomScoreCard } from "@/components/freedom-score-card";
 import { apiRequest } from "@/lib/queryClient";
 import { SiWhatsapp, SiFacebook, SiLinkedin, SiX } from "react-icons/si";
 
+function InfoTooltip({ children }: { children: React.ReactNode }) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span className="cursor-help inline-flex ml-1">
+          <Info className="w-3.5 h-3.5 text-muted-foreground" />
+        </span>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="max-w-xs text-xs leading-relaxed">
+        {children}
+      </TooltipContent>
+    </Tooltip>
+  );
+}
+
 export default function Results() {
   const [, navigate] = useLocation();
   const { theme, toggleTheme } = useTheme();
   const searchString = useSearch();
   const params = new URLSearchParams(searchString);
 
-  const country = params.get("country") || "United States";
-  const currency = params.get("currency") || "USD";
+  const country = params.get("country") || "Mauritius";
+  const currency = params.get("currency") || "MUR";
   const referralSource = params.get("ref") || "";
 
   const [annualReturn, setAnnualReturn] = useState(
@@ -65,18 +90,25 @@ export default function Results() {
   const [calculationId, setCalculationId] = useState<string | null>(null);
   const [hasSaved, setHasSaved] = useState(false);
 
-  const inputs: CalculationInputs = {
+  const baseInputs: CalculationInputs = {
     age: parseInt(params.get("age") || "30"),
     monthlyIncome: parseFloat(params.get("monthlyIncome") || "5000"),
     desiredMonthlyIncome: parseFloat(params.get("desiredMonthlyIncome") || "3000"),
     currentSavings: parseFloat(params.get("currentSavings") || "0"),
     monthlySavingsRate: parseFloat(params.get("monthlySavingsRate") || "500"),
     targetFreedomAge: parseInt(params.get("targetFreedomAge") || "55"),
-    annualReturn,
+    annualReturn: 6,
     currency,
   };
 
-  const results = calculateFreedom(inputs);
+  const baseResults = calculateFreedom(baseInputs);
+
+  const sliderInputs: CalculationInputs = { ...baseInputs, annualReturn };
+  const sliderResults = calculateFreedom(sliderInputs);
+
+  const inputs = baseInputs;
+  const results = baseResults;
+
   const currencyInfo = SUPPORTED_CURRENCIES[currency];
 
   const saveCalculation = useCallback(async () => {
@@ -92,11 +124,11 @@ export default function Results() {
         monthlySavingsRate: inputs.monthlySavingsRate,
         targetFreedomAge: inputs.targetFreedomAge,
         expectedLumpSum: 0,
-        annualReturn,
+        annualReturn: 6,
         requiredCapital: results.requiredCapital,
-        plannedCapital: results.plannedCapital,
+        plannedCapital: results.plannedCapitalStandard,
         gapPercent: results.gapPercent,
-        freedomAge: results.freedomAge,
+        freedomAge: results.freedomAgeStandard,
         freedomScore: results.freedomScore,
         referralSource: referralSource || null,
       });
@@ -106,7 +138,7 @@ export default function Results() {
     } catch (e) {
       // silently fail
     }
-  }, [hasSaved, inputs, results, country, currency, annualReturn, referralSource]);
+  }, [hasSaved, inputs, results, country, currency, referralSource]);
 
   useEffect(() => {
     saveCalculation();
@@ -135,28 +167,22 @@ export default function Results() {
 
   const NarrativeIcon = narrativeIcons[results.narrative.type];
 
-  const unlockedBadges = results.badges.filter((b) => b.unlocked);
-  const lockedBadges = results.badges.filter((b) => !b.unlocked);
-  const badgeProgress = Math.round((unlockedBadges.length / results.badges.length) * 100);
-
-  const tierColors: Record<string, string> = {
-    platinum: "bg-violet-100 dark:bg-violet-900/30 border-violet-300 dark:border-violet-700 text-violet-700 dark:text-violet-300",
-    gold: "bg-amber-100 dark:bg-amber-900/30 border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300",
-    silver: "bg-slate-100 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300",
-    bronze: "bg-orange-100 dark:bg-orange-900/30 border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300",
-    locked: "bg-muted/50 border-muted text-muted-foreground opacity-50",
+  const profileBadgeStyles: Record<string, { bg: string; border: string; gradient: string }> = {
+    critical: { bg: "bg-gradient-to-br from-orange-500 to-rose-600", border: "border-orange-400/50", gradient: "from-orange-100 to-rose-100 dark:from-orange-900/30 dark:to-rose-900/30" },
+    moderate: { bg: "bg-gradient-to-br from-amber-500 to-orange-500", border: "border-amber-400/50", gradient: "from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30" },
+    on_track: { bg: "bg-gradient-to-br from-emerald-500 to-teal-500", border: "border-emerald-400/50", gradient: "from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30" },
+    basically_there: { bg: "bg-gradient-to-br from-violet-500 to-blue-500", border: "border-violet-400/50", gradient: "from-violet-100 to-blue-100 dark:from-violet-900/30 dark:to-blue-900/30" },
   };
 
-  const tierIcons: Record<string, typeof Trophy> = {
-    platinum: Sparkles,
-    gold: Trophy,
-    silver: Award,
-    bronze: Award,
-    locked: Lock,
+  const profileBadgeDescriptions: Record<string, string> = {
+    critical: "You've just taken the most important step -- knowing where you stand. Most people never even get here. Your journey has officially begun, and with the right moves, you can dramatically reshape your trajectory.",
+    moderate: "You're building something real. Your foundation is solid, and the path to freedom is clear. With some strategic tweaks to your savings or returns, you can shave years off your timeline. The compound effect is on your side.",
+    on_track: "You're cutting through the jungle of financial complexity with confidence. Your numbers show discipline and vision. A few smart optimizations could launch you even faster toward freedom. Keep blazing!",
+    basically_there: "You've achieved what most only dream about -- your financial trajectory puts freedom within reach right on schedule (or ahead!). Your discipline and planning have paid off brilliantly. Time to think about what freedom means to you.",
   };
 
   const shareUrl = typeof window !== "undefined" ? window.location.origin : "https://thefreedompath.com";
-  const shareText = `I just discovered my Freedom Score: ${results.freedomScore}/100! I could reach financial freedom by age ${results.freedomAge}. Can you beat my score? Try it free:`;
+  const shareText = `I just discovered my Freedom Score: ${results.freedomScore}/100! I could reach financial freedom by age ${results.freedomAgeStandard}. Can you beat my score? Try it free:`;
 
   const handleShare = (platform: string) => {
     const encodedText = encodeURIComponent(shareText);
@@ -175,6 +201,14 @@ export default function Results() {
     if (value >= 1_000) return `${(value / 1_000).toFixed(0)}K`;
     return value.toString();
   };
+
+  const yearsDifference = results.freedomAgeStandard - results.freedomAgeBoosted;
+
+  const pieData = [
+    { name: "Your Contributions", value: results.capitalComposition.totalContributions },
+    { name: "Generated Gains", value: results.capitalComposition.generatedGains },
+  ];
+  const PIE_COLORS = ["#6366f1", "#a78bfa"];
 
   return (
     <div className="min-h-screen bg-background">
@@ -200,15 +234,18 @@ export default function Results() {
           transition={{ duration: 0.6 }}
         >
           <Card className={`p-6 md:p-8 border ${narrativeBgColors[results.narrative.type]}`}>
-            <div className="flex items-start gap-3 mb-4">
-              <div className={`mt-0.5 ${narrativeColors[results.narrative.type]}`}>
-                <NarrativeIcon className="w-6 h-6" />
+            <div className="flex items-start gap-4 mb-4">
+              <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center flex-shrink-0 ${profileBadgeStyles[results.narrative.type].bg} text-white`}>
+                <NarrativeIcon className="w-8 h-8 md:w-10 md:h-10" />
               </div>
               <div className="flex-1">
                 <h1 className={`font-serif text-2xl md:text-3xl font-bold mb-1 ${narrativeColors[results.narrative.type]}`} data-testid="text-narrative-headline">
                   {results.narrative.headline}
                 </h1>
-                <p className="text-sm text-muted-foreground italic">{results.narrative.subtitle}</p>
+                <p className="text-sm text-muted-foreground italic mb-2">{results.narrative.subtitle}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed" data-testid="text-narrative-message">
+                  {profileBadgeDescriptions[results.narrative.type]}
+                </p>
               </div>
               <motion.div
                 initial={{ scale: 0 }}
@@ -223,43 +260,89 @@ export default function Results() {
                   <p className="text-[10px] text-muted-foreground leading-none">score</p>
                 </div>
               </motion.div>
+              <InfoTooltip>
+                <p className="font-semibold mb-1">How is the Freedom Score calculated?</p>
+                <p>Your Freedom Score (0-100) measures how close you are to your financial independence goal at your target age. A score of 100 means you'll have enough capital to cover your desired income without ever touching the principal. The higher the score, the closer you are to full financial freedom.</p>
+              </InfoTooltip>
             </div>
 
-            <div className="bg-background/60 rounded-md p-4 mb-4">
+            <div className="bg-background/60 rounded-md p-4">
               <p className="text-sm" data-testid="text-trajectory-analysis">
                 At age <span className="font-bold">{inputs.targetFreedomAge}</span>, you will have accumulated{" "}
-                <span className="font-bold text-primary">{formatCurrencyFull(results.plannedCapital, currency)}</span>{" "}
-                {results.gapAmount > 0 ? (
+                <span className="font-bold text-primary">{formatCurrencyFull(results.plannedCapitalStandard, currency)}</span>{" "}
+                {results.plannedCapitalStandard < results.requiredCapital ? (
                   <>instead of the <span className="font-bold">{formatCurrencyFull(results.requiredCapital, currency)}</span> needed.</>
                 ) : (
                   <>which exceeds the <span className="font-bold">{formatCurrencyFull(results.requiredCapital, currency)}</span> needed!</>
                 )}
               </p>
-              {results.timeDifference > 0 && (
+              {results.freedomAgeStandard > inputs.targetFreedomAge && (
                 <p className="text-sm mt-1 text-muted-foreground">
-                  Gap: <span className="font-semibold">{formatCurrency(results.gapAmount, currency)}</span> &middot; Target reached at age{" "}
-                  <span className="font-semibold">{results.freedomAge}</span>{" "}
-                  ({results.timeDifference} year{results.timeDifference === 1 ? "" : "s"} later than planned)
+                  Gap: <span className="font-semibold">{formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}</span> &middot; Target reached at age{" "}
+                  <span className="font-semibold">{results.freedomAgeStandard}</span>{" "}
+                  ({results.freedomAgeStandard - inputs.targetFreedomAge} year{results.freedomAgeStandard - inputs.targetFreedomAge === 1 ? "" : "s"} later than planned)
                 </p>
               )}
             </div>
+          </Card>
+        </motion.div>
 
-            <div className={`rounded-md p-3 ${results.gapPercent <= 20 ? "bg-emerald-500/10" : "bg-primary/5"}`}>
-              <p className="text-sm">
-                {results.gapPercent <= 0 ? (
-                  <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                    Excellent news! You're on track to reach your target before age {inputs.targetFreedomAge}! Our recommendations below can help you optimize even further.
-                  </span>
-                ) : results.gapPercent <= 20 ? (
-                  <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                    Great news! Even if the objective isn't reached at {inputs.targetFreedomAge}, you're on an excellent trajectory! Our recommendations below can help you close the gap.
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground font-medium">
-                    The journey matters more than the speed. With the right adjustments, you can significantly accelerate your path to freedom. Explore the scenarios below.
-                  </span>
-                )}
-              </p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="space-y-2"
+        >
+          <div className="flex items-center gap-1.5">
+            <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
+              <Target className="w-4 h-4 text-primary" />
+              Your Target Capital
+            </p>
+            <InfoTooltip>
+              <p className="font-semibold mb-1">What is Target Capital?</p>
+              <p>This is the amount of money you need so that the interest alone covers your monthly expenses -- without ever touching the capital itself. Why not just withdraw from the capital? Because you don't know how long you'll live, and running out of money is the one risk you want to eliminate. With this approach, your money works for you indefinitely.</p>
+            </InfoTooltip>
+          </div>
+          <Card className="p-6">
+            <p className="text-sm text-muted-foreground mb-1">
+              To receive <span className="font-semibold">{formatCurrencyFull(inputs.desiredMonthlyIncome, currency)}</span>/month (inflation-adjusted), you need to build a capital of:
+            </p>
+            <p className="text-3xl md:text-4xl font-bold text-center my-4" data-testid="text-required-capital">
+              {formatCurrencyFull(results.requiredCapital, currency)}
+            </p>
+            <p className="text-xs text-muted-foreground text-center mb-6">
+              Based on a 6% safe withdrawal rate per year (adjusted for 2% annual inflation)
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="bg-muted/50 rounded-md p-4 text-center">
+                <p className="text-xs text-muted-foreground mb-1 flex items-center justify-center gap-1">
+                  Capital at {inputs.targetFreedomAge} (6%)
+                  <InfoTooltip>
+                    <p>This is your projected capital at age {inputs.targetFreedomAge} with a standard 6% annual return -- a conservative estimate typical of a diversified portfolio without active management.</p>
+                  </InfoTooltip>
+                </p>
+                <p className="text-xl font-bold" data-testid="text-capital-standard">
+                  {formatCurrencyFull(results.plannedCapitalStandard, currency)}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Gap: {results.plannedCapitalStandard >= results.requiredCapital ? "None!" : formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}
+                </p>
+              </div>
+              <div className="bg-emerald-500/10 dark:bg-emerald-900/20 rounded-md p-4 text-center">
+                <p className="text-xs text-muted-foreground mb-1 flex items-center justify-center gap-1">
+                  Capital at {inputs.targetFreedomAge} (11%)
+                  <InfoTooltip>
+                    <p>This is your projected capital with active management achieving 11% annual return. This is what happens when a professional optimizes your portfolio with alternative strategies, tax efficiency, and rebalancing.</p>
+                  </InfoTooltip>
+                </p>
+                <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400" data-testid="text-capital-boosted">
+                  {formatCurrencyFull(results.plannedCapitalBoosted, currency)}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Gap: {results.plannedCapitalBoosted >= results.requiredCapital ? "None!" : formatCurrency(results.requiredCapital - results.plannedCapitalBoosted, currency)}
+                </p>
+              </div>
             </div>
           </Card>
         </motion.div>
@@ -268,50 +351,6 @@ export default function Results() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="space-y-2"
-        >
-          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
-            <Target className="w-4 h-4 text-primary" />
-            Your Target Capital
-          </p>
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-1">
-              To receive <span className="font-semibold">{formatCurrencyFull(inputs.desiredMonthlyIncome, currency)}</span>/month, you need to build a capital of:
-            </p>
-            <p className="text-3xl md:text-4xl font-bold text-center my-4" data-testid="text-required-capital">
-              {formatCurrencyFull(results.requiredCapital, currency)}
-            </p>
-            <p className="text-xs text-muted-foreground text-center mb-6">
-              Based on a 6% withdrawal rate per year (adjusted for inflation)
-            </p>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="bg-emerald-500/10 dark:bg-emerald-900/20 rounded-md p-4 text-center">
-                <p className="text-xs text-muted-foreground mb-1">Capital at {inputs.targetFreedomAge} (11%)</p>
-                <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400" data-testid="text-capital-boosted">
-                  {formatCurrencyFull(results.plannedCapitalBoosted, currency)}
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Gap: {results.plannedCapitalBoosted >= results.requiredCapital ? "None!" : formatCurrency(results.requiredCapital - results.plannedCapitalBoosted, currency)}
-                </p>
-              </div>
-              <div className="bg-muted/50 rounded-md p-4 text-center">
-                <p className="text-xs text-muted-foreground mb-1">Capital at {inputs.targetFreedomAge} (6%)</p>
-                <p className="text-xl font-bold" data-testid="text-capital-standard">
-                  {formatCurrencyFull(results.plannedCapitalStandard, currency)}
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Gap: {results.plannedCapitalStandard >= results.requiredCapital ? "None!" : formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}
-                </p>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
           className="space-y-2"
         >
           <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
@@ -324,15 +363,15 @@ export default function Results() {
                 <tr className="border-b">
                   <th className="text-left py-2 text-muted-foreground font-medium">Return</th>
                   <th className="text-right py-2 text-muted-foreground font-medium">Capital at {inputs.targetFreedomAge}</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">Age Reached</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">Time Diff</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">Freedom Age</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">vs Target</th>
                 </tr>
               </thead>
               <tbody>
                 {results.returnComparisons.map((row) => (
                   <tr key={row.label} className="border-b last:border-0">
                     <td className="py-3 font-medium flex items-center gap-2">
-                      <span className={`w-2 h-2 rounded-full ${row.rate === 6 ? "bg-muted-foreground" : "bg-emerald-500"}`} />
+                      <span className={`w-2 h-2 rounded-full ${row.rate === 6 ? "bg-blue-400" : "bg-emerald-500"}`} />
                       {row.label}
                     </td>
                     <td className="py-3 text-right font-semibold">{formatCurrencyFull(row.capitalAtTarget, currency)}</td>
@@ -356,7 +395,7 @@ export default function Results() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="space-y-2"
         >
           <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
@@ -407,7 +446,7 @@ export default function Results() {
                     tickFormatter={formatChartValue}
                     width={50}
                   />
-                  <Tooltip
+                  <RechartsTooltip
                     formatter={(value: number) => [formatCurrencyFull(value, currency), ""]}
                     labelFormatter={(label) => `Age ${label}`}
                     contentStyle={{
@@ -458,7 +497,103 @@ export default function Results() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="space-y-2"
+        >
+          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
+            <PieChart className="w-4 h-4 text-primary" />
+            Composition of Your Capital (at 6%)
+          </p>
+          <Card className="p-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="flex flex-col items-center justify-center">
+                <div className="relative w-48 h-48">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RechartsPieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={55}
+                        outerRadius={85}
+                        dataKey="value"
+                        strokeWidth={2}
+                        stroke="hsl(var(--background))"
+                      >
+                        {pieData.map((_, index) => (
+                          <Cell key={`cell-${index}`} fill={PIE_COLORS[index]} />
+                        ))}
+                      </Pie>
+                    </RechartsPieChart>
+                  </ResponsiveContainer>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider">Capital</p>
+                      <p className="text-lg font-bold">{formatCurrency(results.capitalComposition.totalCapital, currency)}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 mt-3 text-xs">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[0] }} />
+                    Your Contributions
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[1] }} />
+                    Generated Gains
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="rounded-md bg-indigo-50 dark:bg-indigo-900/20 p-4">
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
+                    <Coins className="w-3 h-3" />
+                    Your Contributions
+                  </p>
+                  <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
+                    {formatCurrencyFull(results.capitalComposition.totalContributions, currency)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">{results.capitalComposition.contributionPercent}% of final capital</p>
+                </div>
+                <div className="rounded-md bg-violet-50 dark:bg-violet-900/20 p-4">
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1">
+                    <Zap className="w-3 h-3" />
+                    Generated Gains
+                  </p>
+                  <p className="text-xl font-bold text-violet-600 dark:text-violet-400">
+                    {formatCurrencyFull(results.capitalComposition.generatedGains, currency)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">{results.capitalComposition.gainsPercent}% of final capital</p>
+                </div>
+
+                {results.capitalComposition.gainsPercent > 0 && (
+                  <div className="rounded-md bg-amber-50 dark:bg-amber-900/20 p-3 flex items-start gap-2">
+                    <Lightbulb className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                    <div className="text-xs text-muted-foreground">
+                      <p className="font-medium text-foreground mb-1">The power of compound interest</p>
+                      <p>
+                        The gains generated represent <span className="font-bold text-foreground">{formatCurrencyFull(results.capitalComposition.generatedGains, currency)}</span>, 
+                        or <span className="font-bold text-foreground">{results.capitalComposition.gainsPercent}%</span> of your final capital. 
+                        This is the magic of compound interest working for you!
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-md bg-muted/50 p-4 text-xs text-muted-foreground">
+              This chart shows the composition of your final capital at the moment of your financial freedom. 
+              Thanks to consistent saving and the effect of compound returns, you will have generated a capital of {formatCurrencyFull(results.capitalComposition.totalCapital, currency)}.
+            </div>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <Card className="p-4 text-center">
@@ -491,17 +626,57 @@ export default function Results() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
         >
           <Card className="p-6">
             <div className="flex items-center gap-2 mb-2">
               <Wind className="w-5 h-5 text-primary" />
-              <h3 className="font-semibold text-lg">Market Wind Sensitivity</h3>
+              <h3 className="font-semibold text-lg">How Returns Influence Your Freedom</h3>
             </div>
             <p className="text-sm text-muted-foreground mb-6">
-              Drag the slider to see how different market conditions change your Freedom Age.
+              Here is a <span className="font-semibold text-foreground">sensitivity analysis</span> that shows the impact of average annual returns on your trajectory:
             </p>
+
+            <div className="grid sm:grid-cols-2 gap-4 mb-6">
+              <div className="rounded-md bg-muted/50 p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-3 h-3 rounded-full bg-blue-400" />
+                  <span className="text-xs text-muted-foreground">Standard return: 6%</span>
+                </div>
+                <p className="text-xl font-bold">Freedom at {results.freedomAgeStandard}</p>
+                <p className="text-xs text-muted-foreground">Capital: {formatCurrencyFull(results.plannedCapitalStandard, currency)}</p>
+              </div>
+              <div className="rounded-md bg-emerald-500/10 dark:bg-emerald-900/20 p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-3 h-3 rounded-full bg-emerald-500" />
+                  <span className="text-xs text-muted-foreground">Boosted return: 11%</span>
+                </div>
+                <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">Freedom at {results.freedomAgeBoosted}</p>
+                <p className="text-xs text-muted-foreground">Capital: {formatCurrencyFull(results.plannedCapitalBoosted, currency)}</p>
+              </div>
+            </div>
+
+            {yearsDifference > 0 && (
+              <div className="rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-4 mb-6">
+                <p className="text-sm text-muted-foreground">
+                  Each 1% of additional return can make you gain <span className="font-bold text-foreground">several years</span> towards your objective
+                </p>
+                <div className="mt-3 rounded-md bg-background/80 p-3 text-xs space-y-1.5">
+                  <p className="font-medium text-foreground flex items-center gap-1.5">
+                    <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+                    Concrete example:
+                  </p>
+                  <p className="text-muted-foreground">At 6%, you reach your objective at <span className="font-bold text-foreground">{results.freedomAgeStandard}</span></p>
+                  <p className="text-muted-foreground">At 11% (boosted return), you reach it at <span className="font-bold text-foreground">{results.freedomAgeBoosted}</span></p>
+                  <p className="text-blue-600 dark:text-blue-400 font-semibold">
+                    That's {yearsDifference} year{yearsDifference === 1 ? "" : "s"} gained with 5% additional return!
+                  </p>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-4">
+              <p className="text-xs text-muted-foreground font-medium">Try it yourself -- drag the slider to explore:</p>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-sm text-muted-foreground whitespace-nowrap">Conservative 4%</span>
                 <div className="flex-1">
@@ -525,11 +700,43 @@ export default function Results() {
               <div className="bg-muted/50 rounded-md p-4 text-center">
                 <p className="text-sm text-muted-foreground">
                   At {annualReturn}% annual returns, your Freedom Age is{" "}
-                  <span className="font-bold text-foreground">{results.freedomAge}</span>
-                  {results.freedomAge <= inputs.targetFreedomAge && (
+                  <span className="font-bold text-foreground">{sliderResults.freedomAge}</span>
+                  {sliderResults.freedomAge <= inputs.targetFreedomAge && (
                     <span className="ml-1 text-emerald-500 font-medium"> -- before your target!</span>
                   )}
                 </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Capital at {inputs.targetFreedomAge}: {formatCurrencyFull(sliderResults.plannedCapital, currency)}
+                </p>
+              </div>
+            </div>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="space-y-2"
+        >
+          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
+            <NarrativeIcon className="w-4 h-4 text-primary" />
+            Your Profile Badge
+          </p>
+          <Card className={`p-6 md:p-8 bg-gradient-to-br ${profileBadgeStyles[results.narrative.type].gradient}`}>
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              <div className={`w-24 h-24 rounded-full ${profileBadgeStyles[results.narrative.type].bg} flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                <NarrativeIcon className="w-12 h-12 text-white" />
+              </div>
+              <div className="text-center sm:text-left">
+                <h3 className={`font-serif text-2xl font-bold mb-1 ${narrativeColors[results.narrative.type]}`}>
+                  {results.narrative.personality}
+                </h3>
+                <p className="text-sm text-muted-foreground italic mb-3">{results.narrative.subtitle}</p>
+                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${narrativeBgColors[results.narrative.type]}`}>
+                  <Sparkles className="w-3 h-3" />
+                  Freedom Score: {results.freedomScore}/100
+                </div>
               </div>
             </div>
           </Card>
@@ -539,100 +746,6 @@ export default function Results() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.45 }}
-          className="space-y-2"
-        >
-          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
-            <NarrativeIcon className="w-4 h-4 text-primary" />
-            Your Personality
-          </p>
-          <Card className="p-6 md:p-8">
-            <div className="flex items-start gap-4">
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 ${narrativeBgColors[results.narrative.type]}`}>
-                <NarrativeIcon className={`w-8 h-8 ${narrativeColors[results.narrative.type]}`} />
-              </div>
-              <div>
-                <h3 className={`font-serif text-xl font-bold ${narrativeColors[results.narrative.type]}`}>
-                  {results.narrative.personality}
-                </h3>
-                <p className="text-sm text-muted-foreground italic mb-2">{results.narrative.subtitle}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed" data-testid="text-narrative-message">
-                  {results.narrative.message}
-                </p>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="space-y-2"
-        >
-          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
-            <Trophy className="w-4 h-4 text-primary" />
-            Your Achievement Badges
-          </p>
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-4">
-              Unlock badges by reaching your financial goals
-            </p>
-
-            <div className="flex items-center gap-4 mb-6">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-primary">{unlockedBadges.length}</p>
-                <p className="text-xs text-muted-foreground">Unlocked</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold">{lockedBadges.length}</p>
-                <p className="text-xs text-muted-foreground">To unlock</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-primary">{badgeProgress}%</p>
-                <p className="text-xs text-muted-foreground">Complete</p>
-              </div>
-              <div className="flex-1">
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-primary rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${badgeProgress}%` }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3" data-testid="badges-grid">
-              {results.badges.map((badge) => {
-                const TierIcon = tierIcons[badge.tier];
-                return (
-                  <div
-                    key={badge.id}
-                    className={`rounded-md border p-3 text-center ${tierColors[badge.tier]}`}
-                    data-testid={`badge-${badge.id}`}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-background/60 flex items-center justify-center mx-auto mb-2">
-                      <TierIcon className="w-5 h-5" />
-                    </div>
-                    <p className="text-xs font-semibold leading-tight mb-0.5">{badge.name}</p>
-                    <p className="text-[10px] capitalize">{badge.tier}</p>
-                  </div>
-                );
-              })}
-            </div>
-
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              You're doing well! {lockedBadges.length} more badge{lockedBadges.length === 1 ? "" : "s"} to unlock.
-              Current level: <span className="font-semibold text-primary">{badgeProgress}% Financial Expert</span>
-            </p>
-          </Card>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.55 }}
         >
           <Card className="p-6 text-center">
             <h3 className="font-serif text-xl font-bold mb-2">Share Your Score!</h3>
@@ -687,7 +800,7 @@ export default function Results() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
         >
           <Card className="p-6 md:p-8 bg-primary/5">
             <div className="text-center mb-4">
@@ -721,7 +834,7 @@ export default function Results() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.65 }}
+          transition={{ duration: 0.6, delay: 0.55 }}
           className="flex justify-center"
         >
           <Button
@@ -757,7 +870,7 @@ export default function Results() {
           open={showShareCard}
           onClose={() => setShowShareCard(false)}
           freedomScore={results.freedomScore}
-          freedomAge={results.freedomAge}
+          freedomAge={results.freedomAgeStandard}
           targetAge={inputs.targetFreedomAge}
           gapPercent={results.gapPercent}
           country={country}
@@ -766,8 +879,6 @@ export default function Results() {
           personality={results.narrative.personality}
           subtitle={results.narrative.subtitle}
           monthlySavings={inputs.monthlySavingsRate}
-          badges={unlockedBadges.length}
-          totalBadges={results.badges.length}
         />
       )}
     </div>

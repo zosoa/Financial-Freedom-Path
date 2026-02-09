@@ -1,0 +1,13 @@
+The list of country is not exhaustive ie madagacar for instance you need to recheck, local money is MGA
+Also put default subwriting in the country selection and put Mauritius. This is a clin d’oeil for us because we conceptors live in Mauritius
+In question how much can you save we need a small comment next to it like the percentage and encouragement or recommendation for at least 5%, we need also limits cap and rules because currently I can put higher than what I earn. The comments need to be down to earth and corresponds to different % range. If you go above 50% for instance you can say something like ‘Are you sure you will have enough left to pay your bills?’
+Same for question How much do you have saved or invested today?
+No need for percentage but an encouragement always positive. Up to you to propose the rules and comments also need to write a small comment such as if you are not sure put 0
+
+Instead of this “When would you love to stop working because you have to? Pick the age that excites you.” I am sure this sounds better what do you think? ‘When would you love to stop working or when does working is a choice but no longer a necessity? Pick the age that excites you’
+
+At the end of the question, create a loading or transition page for better UX
+When value is inputted in this question ‘If you could stop working, how much would you need per month?’ underneath state that inflation will be included. Then put an information icon to explain with no jargon what this means provide real life example of something we consume everyday, and this shows up when you put your mouse above it….i don’t know what this is called
+We also need to do the same  against most numbers shown in result, for instance the target capital we need to explain it. IE it is the capital you require to live off just interest without ever touching the capital, why not just withdrawing my spending from the capital? You could, however you don’t know how long you are going to live so to mitigate this uncertainty this is the capital required for you to avoid touching the capital and just live off the interest
+This question should come straight after the how old are question: At what age do you dream of being financially free?
+Ok next point is on number formatting: to make it easier to read put spaces between thousands and millions etc…

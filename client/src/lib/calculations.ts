@@ -34,6 +34,14 @@ export interface Badge {
   unlocked: boolean;
 }
 
+export interface CapitalComposition {
+  totalContributions: number;
+  generatedGains: number;
+  totalCapital: number;
+  contributionPercent: number;
+  gainsPercent: number;
+}
+
 export interface CalculationResults {
   inflationAdjustedMonthlyIncome: number;
   annualTargetIncome: number;
@@ -50,6 +58,7 @@ export interface CalculationResults {
   freedomScore: number;
   yearsToFreedom: number;
   timeDifference: number;
+  capitalComposition: CapitalComposition;
   narrative: {
     type: "critical" | "moderate" | "on_track" | "basically_there";
     headline: string;
@@ -322,6 +331,17 @@ export function calculateFreedom(inputs: CalculationInputs): CalculationResults 
     },
   ];
 
+  const totalContributions = currentSavings + (monthlySavingsRate * yearsToTarget * 12);
+  const standardCapitalForComposition = plannedCapitalStandard;
+  const generatedGains = Math.max(0, standardCapitalForComposition - totalContributions);
+  const capitalComposition: CapitalComposition = {
+    totalContributions: Math.round(totalContributions),
+    generatedGains: Math.round(generatedGains),
+    totalCapital: Math.round(standardCapitalForComposition),
+    contributionPercent: standardCapitalForComposition > 0 ? Math.round((totalContributions / standardCapitalForComposition) * 100) : 100,
+    gainsPercent: standardCapitalForComposition > 0 ? Math.round((generatedGains / standardCapitalForComposition) * 100) : 0,
+  };
+
   return {
     inflationAdjustedMonthlyIncome,
     annualTargetIncome,
@@ -338,6 +358,7 @@ export function calculateFreedom(inputs: CalculationInputs): CalculationResults 
     freedomScore,
     yearsToFreedom,
     timeDifference,
+    capitalComposition,
     narrative,
     wealthCurve,
     returnComparisons,
@@ -345,9 +366,20 @@ export function calculateFreedom(inputs: CalculationInputs): CalculationResults 
   };
 }
 
+function formatNumberWithSpaces(num: number): string {
+  const rounded = Math.round(num);
+  const str = Math.abs(rounded).toString();
+  const parts: string[] = [];
+  for (let i = str.length; i > 0; i -= 3) {
+    parts.unshift(str.slice(Math.max(0, i - 3), i));
+  }
+  const formatted = parts.join(" ");
+  return rounded < 0 ? `-${formatted}` : formatted;
+}
+
 export function formatCurrency(amount: number, currencyCode: string): string {
   const curr = SUPPORTED_CURRENCIES[currencyCode];
-  if (!curr) return `${amount.toLocaleString()}`;
+  if (!curr) return formatNumberWithSpaces(amount);
 
   const absAmount = Math.abs(amount);
   let formatted: string;
@@ -357,7 +389,7 @@ export function formatCurrency(amount: number, currencyCode: string): string {
   } else if (absAmount >= 1_000) {
     formatted = `${curr.symbol}${(absAmount / 1_000).toFixed(0)}K`;
   } else {
-    formatted = `${curr.symbol}${absAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+    formatted = `${curr.symbol}${formatNumberWithSpaces(absAmount)}`;
   }
 
   return amount < 0 ? `-${formatted}` : formatted;
@@ -365,6 +397,6 @@ export function formatCurrency(amount: number, currencyCode: string): string {
 
 export function formatCurrencyFull(amount: number, currencyCode: string): string {
   const curr = SUPPORTED_CURRENCIES[currencyCode];
-  if (!curr) return `${amount.toLocaleString()}`;
-  return `${curr.symbol}${amount.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+  if (!curr) return formatNumberWithSpaces(amount);
+  return `${curr.symbol}${formatNumberWithSpaces(amount)}`;
 }
