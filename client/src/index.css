@@ -2,6 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes wobble {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; filter: blur(6px); }
+  50% { opacity: 0.9; filter: blur(10px); }
+}
+@keyframes dna-glow {
+  0%, 100% { opacity: 0.5; text-shadow: 0 0 8px rgba(100, 160, 255, 0.3); }
+  50% { opacity: 1; text-shadow: 0 0 16px rgba(100, 160, 255, 0.6); }
+}
+@keyframes arrow-fly {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(3px, -3px); }
+}
+@keyframes signal-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.4; }
+}
+@keyframes mesh-drift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+.animate-wobble { animation: wobble 3s ease-in-out infinite; }
+.animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+.animate-dna-glow { animation: dna-glow 2.5s ease-in-out infinite; }
+.animate-arrow-fly { animation: arrow-fly 2s ease-in-out infinite; }
+.animate-signal-pulse { animation: signal-pulse 2s ease-in-out infinite; }
+.animate-mesh-drift { animation: mesh-drift 20s linear infinite; }
+
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);

@@ -29,6 +29,8 @@ import {
   Lightbulb,
   ShieldCheck,
   Sparkles,
+  Scale,
+  Grid3x3,
 } from "lucide-react";
 import { useTheme } from "@/lib/theme-provider";
 import {
@@ -38,6 +40,7 @@ import {
 import screenshot1 from "@assets/image_1770666978155.png";
 import screenshot2 from "@assets/image_1770666992828.png";
 import screenshot3 from "@assets/image_1770667017861.png";
+import teamIllustration from "@assets/teamwork-concept-group-of-people-climbing-a-mountain-company-e_1770670026582.jpg";
 
 const countries = Object.keys(COUNTRY_CURRENCY_MAP).sort();
 
@@ -105,14 +108,20 @@ export default function Landing() {
               Freedom Path
             </span>
           </div>
-          <Button
-            size="icon"
-            variant="ghost"
-            onClick={toggleTheme}
-            data-testid="button-theme-toggle"
-          >
-            {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-          </Button>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/20 bg-primary/5" data-testid="text-sponsor">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Sponsored by</span>
+              <span className="text-xs font-bold tracking-wide text-foreground">BLACKWAVE CAPITAL</span>
+            </div>
+            <Button
+              size="icon"
+              variant="ghost"
+              onClick={toggleTheme}
+              data-testid="button-theme-toggle"
+            >
+              {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -354,74 +363,91 @@ export default function Landing() {
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             {/* Step 1 - Active */}
             <AnimatedSection>
-              <Card className="p-6 h-full relative overflow-visible border-primary/30">
-                <div className="absolute -top-3 left-6">
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
-                    <Sparkles className="w-3 h-3" /> Available Now
-                  </span>
-                </div>
-                <div className="pt-4">
-                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <Map className="w-7 h-7 text-primary" />
+              <div className="group relative h-full">
+                <Card className="p-6 h-full relative overflow-visible border-primary/30 transition-shadow duration-500 group-hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.3)]">
+                  <div className="absolute -top-3 left-6">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
+                      <Sparkles className="w-3 h-3" /> Available Now
+                    </span>
                   </div>
-                  <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 1</div>
-                  <h3 className="font-semibold text-xl mb-2" data-testid="text-step1-title">Your Freedom GPS</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                    Where do you stand today vs where you want to be? Our calculator reveals your exact position on the path to financial freedom in 2 minutes.
-                  </p>
-                  <p className="text-xs font-medium text-primary">
-                    Answer 5 simple questions &rarr; Get your Freedom Score
-                  </p>
+                  <div className="pt-4">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 shadow-inner relative">
+                      <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-glow-pulse" />
+                      <Compass className="w-8 h-8 text-primary animate-wobble relative z-10" />
+                    </div>
+                    <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 1</div>
+                    <h3 className="font-semibold text-xl mb-2" data-testid="text-step1-title">Your Freedom GPS</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                      Where do you stand today vs where you want to be? Our calculator reveals your exact position on the path to financial freedom in 2 minutes.
+                    </p>
+                    <p className="text-xs font-medium text-primary">
+                      Answer 5 simple questions &rarr; Get your Freedom Score
+                    </p>
+                  </div>
+                </Card>
+                <div className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="w-8 h-0.5 bg-gradient-to-r from-primary/60 to-transparent" />
                 </div>
-              </Card>
+              </div>
             </AnimatedSection>
 
             {/* Step 2 - Coming Soon */}
             <AnimatedSection>
-              <Card className="p-6 h-full relative overflow-visible opacity-80">
-                <div className="absolute -top-3 left-6">
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-semibold">
-                    <Lock className="w-3 h-3" /> Coming Soon
-                  </span>
-                </div>
-                <div className="pt-4">
-                  <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-4">
-                    <Dna className="w-7 h-7 text-muted-foreground" />
+              <div className="group relative h-full">
+                <Card className="p-6 h-full relative overflow-visible opacity-85 transition-shadow duration-500 group-hover:shadow-[0_0_24px_-5px_rgba(100,160,255,0.25)]">
+                  <div className="absolute -top-3 left-6">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-400/20 text-xs font-semibold">
+                      <Lock className="w-3 h-3" /> Coming Soon
+                    </span>
                   </div>
-                  <div className="text-xs font-medium text-muted-foreground mb-2 tracking-wide uppercase">Step 2</div>
-                  <h3 className="font-semibold text-xl mb-2 text-muted-foreground" data-testid="text-step2-title">Your Risk DNA</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                    Not all investors are the same. Discover what kind of investor you really are, so your plan fits your personality and comfort level.
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    How much "heat" can your money take? Find out.
-                  </p>
+                  <div className="pt-4">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/15 to-blue-500/5 flex items-center justify-center mb-4 shadow-inner relative">
+                      <div className="absolute inset-0 rounded-2xl bg-blue-400/10 animate-glow-pulse" />
+                      <Dna className="w-8 h-8 text-blue-400/70 animate-dna-glow relative z-10" />
+                    </div>
+                    <div className="text-xs font-medium text-muted-foreground mb-2 tracking-wide uppercase">Step 2</div>
+                    <h3 className="font-semibold text-xl mb-2 text-muted-foreground" data-testid="text-step2-title">Your Risk DNA</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                      Not all investors are the same. Discover what kind of investor you really are, so your plan fits your personality and comfort level.
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      How much "heat" can your money take? Find out.
+                    </p>
+                  </div>
+                </Card>
+                <div className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="w-8 h-0.5 bg-gradient-to-r from-blue-400/40 to-transparent" />
                 </div>
-              </Card>
+              </div>
             </AnimatedSection>
 
             {/* Step 3 - Coming Soon */}
             <AnimatedSection>
-              <Card className="p-6 h-full relative overflow-visible opacity-80">
-                <div className="absolute -top-3 left-6">
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-semibold">
-                    <Lock className="w-3 h-3" /> Coming Soon
-                  </span>
-                </div>
-                <div className="pt-4">
-                  <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-4">
-                    <Target className="w-7 h-7 text-muted-foreground" />
+              <div className="group relative h-full">
+                <Card className="p-6 h-full relative overflow-visible opacity-85 transition-shadow duration-500 group-hover:shadow-[0_0_24px_-5px_rgba(100,160,255,0.25)]">
+                  <div className="absolute -top-3 left-6">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-semibold">
+                      <Lock className="w-3 h-3" /> Coming Soon
+                    </span>
                   </div>
-                  <div className="text-xs font-medium text-muted-foreground mb-2 tracking-wide uppercase">Step 3</div>
-                  <h3 className="font-semibold text-xl mb-2 text-muted-foreground" data-testid="text-step3-title">Your Action Plan</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                    From numbers to action. A concrete, step-by-step roadmap to actually get you to financial freedom&mdash;not theory, real moves you can make.
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Your personalised investment strategy, built for you.
-                  </p>
-                </div>
-              </Card>
+                  <div className="pt-4">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-4 shadow-inner relative">
+                      <Target className="w-8 h-8 text-muted-foreground/70 relative z-10" />
+                      <div className="absolute top-2 right-2 animate-arrow-fly">
+                        <ArrowRight className="w-4 h-4 text-primary/50 -rotate-45" />
+                      </div>
+                    </div>
+                    <div className="text-xs font-medium text-muted-foreground mb-2 tracking-wide uppercase">Step 3</div>
+                    <h3 className="font-semibold text-xl mb-2 text-muted-foreground" data-testid="text-step3-title">Your Action Plan</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                      From numbers to action. A concrete, step-by-step roadmap to actually get you to financial freedom&mdash;not theory, real moves you can make.
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Your personalised investment strategy, built for you.
+                    </p>
+                  </div>
+                </Card>
+              </div>
             </AnimatedSection>
           </div>
         </div>
@@ -443,9 +469,9 @@ export default function Landing() {
 
           <div className="grid md:grid-cols-3 gap-6">
             <AnimatedSection>
-              <Card className="p-6 h-full">
-                <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center mb-4">
-                  <Eye className="w-5 h-5 text-primary" />
+              <Card className="p-6 h-full relative">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/10 to-transparent flex items-center justify-center mb-4 shadow-inner">
+                  <Scale className="w-7 h-7 text-primary drop-shadow-sm" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2">Zero Product Bias</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -455,26 +481,40 @@ export default function Landing() {
             </AnimatedSection>
 
             <AnimatedSection>
-              <Card className="p-6 h-full">
-                <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center mb-4">
-                  <ShieldCheck className="w-5 h-5 text-primary" />
+              <Card className="p-6 h-full relative">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 via-emerald-500/10 to-transparent flex items-center justify-center mb-4 shadow-inner relative">
+                  <Shield className="w-7 h-7 text-emerald-500 drop-shadow-sm" />
+                  <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500/30 flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-signal-pulse" />
+                  </div>
                 </div>
                 <h3 className="font-semibold text-lg mb-2">Your Data, Your Rules</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  No login required. Your numbers are never stored without your permission. We only share your information with selected institutional partners when <span className="font-medium text-foreground">you actively choose</span> to connect with them.
+                  No login required.{" "}
+                  <span className="inline-flex items-center gap-1">
+                    Your numbers are never stored without your permission
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-signal-pulse" />
+                  </span>
+                  {" "}We only share your information with selected institutional partners when <span className="font-medium text-foreground">you actively choose</span> to connect with them.
                 </p>
               </Card>
             </AnimatedSection>
 
             <AnimatedSection>
-              <Card className="p-6 h-full">
-                <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center mb-4">
-                  <TrendingUp className="w-5 h-5 text-primary" />
+              <Card className="p-6 h-full relative overflow-hidden">
+                <div className="absolute inset-0 opacity-[0.03]" style={{
+                  backgroundImage: "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
+                  backgroundSize: "24px 24px",
+                }} />
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 via-blue-500/10 to-transparent flex items-center justify-center mb-4 shadow-inner">
+                    <Grid3x3 className="w-7 h-7 text-blue-500 drop-shadow-sm" />
+                  </div>
+                  <h3 className="font-semibold text-lg mb-2">Institutional-Grade Logic</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Powered by the FINSIM v5 engine with a 2% inflation buffer and 6% Safe Withdrawal Rate&mdash;the same methodology used for ultra-high-net-worth clients.
+                  </p>
                 </div>
-                <h3 className="font-semibold text-lg mb-2">Institutional-Grade Logic</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Powered by the FINSIM v5 engine with a 2% inflation buffer and 6% Safe Withdrawal Rate&mdash;the same methodology used for ultra-high-net-worth clients.
-                </p>
               </Card>
             </AnimatedSection>
           </div>
@@ -609,30 +649,53 @@ export default function Landing() {
 
       {/* Personal note */}
       <section className="py-16 md:py-24 bg-card">
-        <div className="max-w-3xl mx-auto px-4">
+        <div className="max-w-4xl mx-auto px-4">
           <AnimatedSection>
-            <Card className="p-8 md:p-10">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Users className="w-6 h-6 text-primary" />
+            <div className="relative rounded-lg overflow-hidden" style={{
+              backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E\")",
+            }}>
+              <Card className="p-0 border-primary/10 bg-card/80 backdrop-blur-sm">
+                <div className="grid md:grid-cols-5 gap-0">
+                  <div className="md:col-span-3 p-8 md:p-10">
+                    <div className="flex items-start gap-4 mb-6">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Users className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-serif text-2xl font-bold mb-1" data-testid="text-personal-message">A personal note from our team</h3>
+                        <p className="text-xs text-muted-foreground tracking-wide uppercase">The Freedom Path Founders</p>
+                      </div>
+                    </div>
+                    <div className="space-y-4 text-muted-foreground leading-relaxed">
+                      <p>
+                        After years in private banking, we saw that most people are left in the dark about their real financial future. The tools given to everyday savers are either broken, biased, or built to confuse.
+                      </p>
+                      <p>
+                        We built The Freedom Path to change that. We don't want your money&mdash;we want to give you the clarity we usually only provide to our private clients.
+                      </p>
+                      <p className="font-medium text-foreground">
+                        Everyone deserves a clear answer to a simple question: "When can I be free?"
+                      </p>
+                    </div>
+                    <div className="mt-6 pt-4 border-t border-border/50">
+                      <svg viewBox="0 0 200 50" className="w-32 h-8 text-foreground/40" aria-label="Team signature">
+                        <path d="M10 35 Q20 10 35 30 Q45 45 55 25 Q60 15 70 30 Q75 38 80 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        <path d="M90 35 Q100 15 110 30 Q115 38 125 20 Q130 12 140 28 Q145 35 155 25" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                      </svg>
+                      <p className="text-xs text-muted-foreground mt-1 italic">The Freedom Path Team</p>
+                    </div>
+                  </div>
+                  <div className="md:col-span-2 flex items-center justify-center p-6 md:p-4">
+                    <img
+                      src={teamIllustration}
+                      alt="Team climbing together toward financial freedom"
+                      className="w-full max-w-xs md:max-w-none h-auto rounded-lg"
+                      data-testid="img-team-illustration"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-serif text-2xl font-bold mb-1" data-testid="text-personal-message">A personal note from our team</h3>
-                  <p className="text-xs text-muted-foreground tracking-wide uppercase">The Freedom Path Founders</p>
-                </div>
-              </div>
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
-                <p>
-                  After years in private banking, we saw that most people are left in the dark about their real financial future. The tools given to everyday savers are either broken, biased, or built to confuse.
-                </p>
-                <p>
-                  We built The Freedom Path to change that. We don't want your money&mdash;we want to give you the clarity we usually only provide to our private clients.
-                </p>
-                <p className="font-medium text-foreground">
-                  Everyone deserves a clear answer to a simple question: "When can I be free?"
-                </p>
-              </div>
-            </Card>
+              </Card>
+            </div>
           </AnimatedSection>
         </div>
       </section>
@@ -671,6 +734,10 @@ export default function Landing() {
           <div className="flex items-center justify-center gap-2 mb-3">
             <Compass className="w-4 h-4 text-primary" />
             <span className="font-serif text-sm font-medium">Freedom Path: Pro-Investing Decoded</span>
+          </div>
+          <div className="flex items-center justify-center gap-1.5 mb-3">
+            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Sponsored by</span>
+            <span className="text-xs font-bold tracking-wide text-foreground" data-testid="text-sponsor-footer">BLACKWAVE CAPITAL</span>
           </div>
           <p className="text-xs text-muted-foreground">
             Powered by FINSIM v5 &middot; Independent &middot; Free &middot; No products, just directions.
