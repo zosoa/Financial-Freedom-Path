@@ -24,7 +24,6 @@ import {
   Info,
   Map,
   Dna,
-  Briefcase,
   BookOpen,
   BarChart3,
   Lightbulb,
@@ -36,7 +35,9 @@ import {
   COUNTRY_CURRENCY_MAP,
   SUPPORTED_CURRENCIES,
 } from "@shared/schema";
-import resultsPreview from "@assets/results-preview.png";
+import screenshot1 from "@assets/image_1770666978155.png";
+import screenshot2 from "@assets/image_1770666992828.png";
+import screenshot3 from "@assets/image_1770667017861.png";
 
 const countries = Object.keys(COUNTRY_CURRENCY_MAP).sort();
 
@@ -116,7 +117,7 @@ export default function Landing() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24 lg:py-32">
+      <section className="relative py-12 md:py-20 lg:py-28">
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -124,18 +125,13 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-sm text-muted-foreground mb-6" data-testid="badge-credibility">
-              <Shield className="w-3.5 h-3.5 text-primary" />
-              <span>Built by former Private Bankers and UHNW Asset Managers</span>
-            </div>
-
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-6 max-w-4xl mx-auto" data-testid="text-headline">
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-5 max-w-4xl mx-auto" data-testid="text-headline">
               Will your future be a{" "}
               <span className="text-primary">reality</span> or a{" "}
               <span className="text-muted-foreground/60">fantasy</span>?
             </h1>
 
-            <div className="flex items-center justify-center gap-3 md:gap-4 flex-wrap mb-6 text-sm md:text-base text-muted-foreground" data-testid="text-emotional-hook">
+            <div className="flex items-center justify-center gap-3 md:gap-4 flex-wrap mb-5 text-sm md:text-base text-muted-foreground" data-testid="text-emotional-hook">
               <span>Early Retirement</span>
               <span className="text-primary/40">&bull;</span>
               <span>Luxurious Lifestyle</span>
@@ -149,14 +145,8 @@ export default function Landing() {
               <span>Financial Freedom</span>
             </div>
 
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4 leading-relaxed" data-testid="text-subheadline">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed" data-testid="text-subheadline">
               Stop guessing. Do your <span className="font-semibold text-foreground">2-min Reality Check</span> (100% free, no login) and see if your current plan adds up.
-            </p>
-            <p className="text-sm text-muted-foreground max-w-2xl mx-auto mb-4 leading-relaxed">
-              Financial freedom isn't a mystery; it's a math problem.
-            </p>
-            <p className="text-sm text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-              We spent our careers managing wealth for the ultra-rich. Now, we're giving you the exact same logic we used for them&mdash;simplified, no jargon, and 100% free. No products to sell, just a clear path to your life goal.
             </p>
           </motion.div>
 
@@ -263,22 +253,25 @@ export default function Landing() {
             </Card>
           </motion.div>
 
-          {/* Firm Credibility */}
+          {/* Credibility - below CTA */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-10 text-center"
+            className="mt-10 text-center max-w-2xl mx-auto"
           >
-            <p className="text-xs text-muted-foreground mb-4 tracking-wide uppercase">
+            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+              Financial freedom isn't a mystery; it's a math problem. We spent our careers managing wealth for the ultra-rich&mdash;now we're giving you the exact same logic, simplified and 100% free.
+            </p>
+            <p className="text-xs text-muted-foreground mb-3 tracking-wide uppercase">
               Our team brings experience from
             </p>
-            <div className="flex items-center justify-center gap-4 md:gap-8 flex-wrap" data-testid="credibility-logos">
-              {FIRM_NAMES.map((firm) => (
-                <div key={firm} className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-muted/50">
-                  <Briefcase className="w-3.5 h-3.5 text-muted-foreground/60" />
-                  <span className="font-medium text-sm text-muted-foreground">{firm}</span>
-                </div>
+            <div className="flex items-center justify-center gap-1 flex-wrap" data-testid="credibility-logos">
+              {FIRM_NAMES.map((firm, i) => (
+                <span key={firm} className="flex items-center gap-1">
+                  <span className="text-sm font-semibold text-muted-foreground/70 tracking-wide whitespace-nowrap">{firm}</span>
+                  {i < FIRM_NAMES.length - 1 && <span className="text-muted-foreground/30 mx-2 md:mx-4">|</span>}
+                </span>
               ))}
             </div>
           </motion.div>
@@ -312,17 +305,32 @@ export default function Landing() {
                     <span className="text-[10px] text-muted-foreground bg-muted/50 px-3 py-0.5 rounded-full">freedompath.app/results</span>
                   </div>
                 </div>
-                <img
-                  src={resultsPreview}
-                  alt="Freedom Path results dashboard preview showing financial freedom analysis"
-                  className="w-full h-auto"
-                  data-testid="img-results-preview"
-                />
+                <div className="max-h-[500px] overflow-y-auto">
+                  <img
+                    src={screenshot1}
+                    alt="Freedom Score, Target Capital and Return Comparison"
+                    className="w-full h-auto"
+                    data-testid="img-results-preview-1"
+                  />
+                  <img
+                    src={screenshot2}
+                    alt="Capital Evolution Chart and Composition Breakdown"
+                    className="w-full h-auto"
+                    data-testid="img-results-preview-2"
+                  />
+                  <img
+                    src={screenshot3}
+                    alt="Gap Strategies and Sensitivity Analysis"
+                    className="w-full h-auto"
+                    data-testid="img-results-preview-3"
+                  />
+                </div>
               </div>
               <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
-                <div className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-medium shadow-lg">
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-medium shadow-lg">
+                  <Sparkles className="w-3 h-3" />
                   Your personalised results in 2 minutes
-                </div>
+                </span>
               </div>
             </div>
           </AnimatedSection>
