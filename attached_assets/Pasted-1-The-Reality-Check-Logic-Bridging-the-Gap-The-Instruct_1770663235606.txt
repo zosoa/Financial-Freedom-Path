@@ -1,0 +1,41 @@
+1. The "Reality Check" Logic (Bridging the Gap)
+The Instruction: "If a Gap exists (Required Capital > Current Projection), the UI must dynamically display a 'Solution Module' with three toggleable paths. This removes the 'deception' of showing a huge gap without a way out."
+
+Option A: The Savings Lever.
+
+Prompt: "To close this gap, you need to increase your monthly savings by [Dynamic Amount]."
+
+Option B: The Lump Sum 'Catch-up'.
+
+Prompt: "A one-time injection of [Dynamic Amount] today would put you back on track for your target age."
+
+Option C: The Efficiency Lever (The Smart Manager).
+
+Prompt: "By optimizing your strategy for an extra [X]% return, you close the gap without saving another cent. (Reference the Sensitivity Analysis here)."
+
+2. The "Surplus" Logic (The Positive Hook)
+The Instruction: "If the user has a Surplus (Current Projection > Required Capital), change the tone to 'Optimization' rather than 'Rescue'."
+
+The Reward: "You have a surplus of [Amount]. This means you could potentially retire [X] years earlier, at age [New Age]."
+
+The Upsell: "Or, you could maintain your retirement age but increase your monthly spending budget to [New Monthly Amount]."
+
+3. Transitioning to the Risk Assessment (The "How")
+The Instruction: "Directly link the 'Efficiency Lever' to the Risk Assessment. If the user wants to see how to get that extra 2% return, they must 'Unlock their Investor DNA'."
+
+The Text: "Managing your return smartly is a math problem, but it requires knowing your Investment Style. You can't reach a 'Growth Hunter' return with a 'Wealth Guardian' stomach. Let’s calibrate your style."
+
+4. Refining the CTA & Feedback Loop
+To avoid the feeling of a "black box" calculation, use these instructions for the final section of the page:
+
+The "Precision" Pitch:
+
+"This is the big picture. To make this 100% precise, we can factor in your specific life events (weddings, inheritance, property sales) and real spending habits. Your life isn't a straight line; your plan shouldn't be either."
+
+The "Second Opinion" Offer:
+
+"Already have investments? We’ll stress-test your current portfolio for free to see if your actual 'Market Wind' matches your 'Freedom Goal'."
+
+The Comment/Lead Box:
+
+"Add a text input field: 'What is the one life event we must account for in your plan?' (This provides high-value data for the Asset Manager)."
