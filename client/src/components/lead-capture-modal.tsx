@@ -170,9 +170,9 @@ export function LeadCaptureModal({
                   {isSubmitting ? "Securing..." : "Send My Roadmap & Unlock Risk Analysis"}
                 </Button>
 
-                <div className="flex items-center gap-2 justify-center text-xs text-muted-foreground">
-                  <Shield className="w-3 h-3" />
-                  <span>Your data is shared only with our vetted institutional partners.</span>
+                <div className="flex items-start gap-2 justify-center text-xs text-muted-foreground">
+                  <Shield className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
+                  <span>By submitting, you agree to share your details with our selected institutional partners. Your data is <span className="font-medium">only shared when you actively submit this form</span>&mdash;never automatically.</span>
                 </div>
               </div>
             </motion.div>

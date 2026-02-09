@@ -14,22 +14,29 @@ import {
   ArrowRight,
   Shield,
   Eye,
-  Heart,
   TrendingUp,
   Users,
   Lock,
   Sun,
   Moon,
   Compass,
-  Mountain,
   Target,
   Info,
+  Map,
+  Dna,
+  Briefcase,
+  BookOpen,
+  BarChart3,
+  Lightbulb,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 import { useTheme } from "@/lib/theme-provider";
 import {
   COUNTRY_CURRENCY_MAP,
   SUPPORTED_CURRENCIES,
 } from "@shared/schema";
+import resultsPreview from "@assets/results-preview.png";
 
 const countries = Object.keys(COUNTRY_CURRENCY_MAP).sort();
 
@@ -48,6 +55,14 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
     </motion.div>
   );
 }
+
+const FIRM_NAMES = [
+  "BNP Paribas",
+  "Deutsche Bank",
+  "Citi",
+  "Julius Baer",
+  "Afrasia Bank",
+];
 
 export default function Landing() {
   const [, navigate] = useLocation();
@@ -86,7 +101,7 @@ export default function Landing() {
           <div className="flex items-center gap-2">
             <Compass className="w-6 h-6 text-primary" data-testid="icon-logo" />
             <span className="font-serif text-lg font-semibold tracking-tight" data-testid="text-brand">
-              The Freedom Path
+              Freedom Path
             </span>
           </div>
           <Button
@@ -100,6 +115,7 @@ export default function Landing() {
         </div>
       </header>
 
+      {/* Hero Section */}
       <section className="relative py-16 md:py-24 lg:py-32">
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
@@ -114,12 +130,33 @@ export default function Landing() {
             </div>
 
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-6 max-w-4xl mx-auto" data-testid="text-headline">
-              Tired of financial tools that feel like a{" "}
-              <span className="text-primary">math test</span>?
+              Will your future be a{" "}
+              <span className="text-primary">reality</span> or a{" "}
+              <span className="text-muted-foreground/60">fantasy</span>?
             </h1>
 
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed" data-testid="text-subheadline">
-              We spent our careers managing wealth for the ultra-rich. Now, we're giving you the exact same logic we used for them&mdash;simplified, jargon-free, and 100% free. No products to sell, just a clear path to your first goal.
+            <div className="flex items-center justify-center gap-3 md:gap-4 flex-wrap mb-6 text-sm md:text-base text-muted-foreground" data-testid="text-emotional-hook">
+              <span>Early Retirement</span>
+              <span className="text-primary/40">&bull;</span>
+              <span>Luxurious Lifestyle</span>
+              <span className="text-primary/40">&bull;</span>
+              <span>Global Citizen</span>
+              <span className="text-primary/40">&bull;</span>
+              <span>Zero-Money Stress</span>
+              <span className="text-primary/40">&bull;</span>
+              <span>Work by Choice</span>
+              <span className="text-primary/40">&bull;</span>
+              <span>Financial Freedom</span>
+            </div>
+
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4 leading-relaxed" data-testid="text-subheadline">
+              Stop guessing. Do your <span className="font-semibold text-foreground">2-min Reality Check</span> (100% free, no login) and see if your current plan adds up.
+            </p>
+            <p className="text-sm text-muted-foreground max-w-2xl mx-auto mb-4 leading-relaxed">
+              Financial freedom isn't a mystery; it's a math problem.
+            </p>
+            <p className="text-sm text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+              We spent our careers managing wealth for the ultra-rich. Now, we're giving you the exact same logic we used for them&mdash;simplified, no jargon, and 100% free. No products to sell, just a clear path to your life goal.
             </p>
           </motion.div>
 
@@ -217,30 +254,172 @@ export default function Landing() {
                   Show me if it's possible
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
+
+                <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>No login required. Your data stays private.</span>
+                </div>
               </div>
             </Card>
           </motion.div>
 
+          {/* Firm Credibility */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-10 text-center"
           >
-            <p className="text-xs text-muted-foreground mb-3 tracking-wide uppercase">
+            <p className="text-xs text-muted-foreground mb-4 tracking-wide uppercase">
               Our team brings experience from
             </p>
-            <div className="flex items-center justify-center gap-6 md:gap-10 flex-wrap opacity-40" data-testid="credibility-logos">
-              <span className="font-serif text-sm md:text-base font-medium">UBS</span>
-              <span className="font-serif text-sm md:text-base font-medium">Credit Suisse</span>
-              <span className="font-serif text-sm md:text-base font-medium">JP Morgan</span>
-              <span className="font-serif text-sm md:text-base font-medium">Pictet</span>
-              <span className="font-serif text-sm md:text-base font-medium">Lombard Odier</span>
+            <div className="flex items-center justify-center gap-4 md:gap-8 flex-wrap" data-testid="credibility-logos">
+              {FIRM_NAMES.map((firm) => (
+                <div key={firm} className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-muted/50">
+                  <Briefcase className="w-3.5 h-3.5 text-muted-foreground/60" />
+                  <span className="font-medium text-sm text-muted-foreground">{firm}</span>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
       </section>
 
+      {/* Results Preview / Social Proof */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-6xl mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center mb-10">
+              <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4" data-testid="text-section-preview">
+                See what you'll discover
+              </h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">
+                In just 2 minutes, you'll get a personalised financial dashboard that shows exactly where you stand and what's possible.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection>
+            <div className="relative max-w-3xl mx-auto">
+              <div className="relative rounded-lg overflow-hidden border-4 border-foreground/10 shadow-2xl bg-card" data-testid="preview-device-frame">
+                <div className="bg-foreground/5 px-4 py-2 flex items-center gap-2 border-b border-foreground/5">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                  </div>
+                  <div className="flex-1 text-center">
+                    <span className="text-[10px] text-muted-foreground bg-muted/50 px-3 py-0.5 rounded-full">freedompath.app/results</span>
+                  </div>
+                </div>
+                <img
+                  src={resultsPreview}
+                  alt="Freedom Path results dashboard preview showing financial freedom analysis"
+                  className="w-full h-auto"
+                  data-testid="img-results-preview"
+                />
+              </div>
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
+                <div className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-medium shadow-lg">
+                  Your personalised results in 2 minutes
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* 3-Step Journey */}
+      <section className="py-16 md:py-24 bg-card">
+        <div className="max-w-6xl mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center mb-12">
+              <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4" data-testid="text-section-journey">
+                Your Journey to Financial Freedom
+              </h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">
+                Three steps from "Where am I?" to "Here's my plan." We guide you through each one.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+            {/* Step 1 - Active */}
+            <AnimatedSection>
+              <Card className="p-6 h-full relative overflow-visible border-primary/30">
+                <div className="absolute -top-3 left-6">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
+                    <Sparkles className="w-3 h-3" /> Available Now
+                  </span>
+                </div>
+                <div className="pt-4">
+                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <Map className="w-7 h-7 text-primary" />
+                  </div>
+                  <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 1</div>
+                  <h3 className="font-semibold text-xl mb-2" data-testid="text-step1-title">Your Freedom GPS</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                    Where do you stand today vs where you want to be? Our calculator reveals your exact position on the path to financial freedom in 2 minutes.
+                  </p>
+                  <p className="text-xs font-medium text-primary">
+                    Answer 5 simple questions &rarr; Get your Freedom Score
+                  </p>
+                </div>
+              </Card>
+            </AnimatedSection>
+
+            {/* Step 2 - Coming Soon */}
+            <AnimatedSection>
+              <Card className="p-6 h-full relative overflow-visible opacity-80">
+                <div className="absolute -top-3 left-6">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-semibold">
+                    <Lock className="w-3 h-3" /> Coming Soon
+                  </span>
+                </div>
+                <div className="pt-4">
+                  <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-4">
+                    <Dna className="w-7 h-7 text-muted-foreground" />
+                  </div>
+                  <div className="text-xs font-medium text-muted-foreground mb-2 tracking-wide uppercase">Step 2</div>
+                  <h3 className="font-semibold text-xl mb-2 text-muted-foreground" data-testid="text-step2-title">Your Risk DNA</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                    Not all investors are the same. Discover what kind of investor you really are, so your plan fits your personality and comfort level.
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    How much "heat" can your money take? Find out.
+                  </p>
+                </div>
+              </Card>
+            </AnimatedSection>
+
+            {/* Step 3 - Coming Soon */}
+            <AnimatedSection>
+              <Card className="p-6 h-full relative overflow-visible opacity-80">
+                <div className="absolute -top-3 left-6">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-semibold">
+                    <Lock className="w-3 h-3" /> Coming Soon
+                  </span>
+                </div>
+                <div className="pt-4">
+                  <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-4">
+                    <Target className="w-7 h-7 text-muted-foreground" />
+                  </div>
+                  <div className="text-xs font-medium text-muted-foreground mb-2 tracking-wide uppercase">Step 3</div>
+                  <h3 className="font-semibold text-xl mb-2 text-muted-foreground" data-testid="text-step3-title">Your Action Plan</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                    From numbers to action. A concrete, step-by-step roadmap to actually get you to financial freedom&mdash;not theory, real moves you can make.
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Your personalised investment strategy, built for you.
+                  </p>
+                </div>
+              </Card>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
+      {/* Why is this different */}
       <section className="py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4">
           <AnimatedSection>
@@ -270,11 +449,11 @@ export default function Landing() {
             <AnimatedSection>
               <Card className="p-6 h-full">
                 <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center mb-4">
-                  <Lock className="w-5 h-5 text-primary" />
+                  <ShieldCheck className="w-5 h-5 text-primary" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2">Your Data, Your Rules</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  No login required. Your financial journey should be private. We only ask for your contact information if you decide you want expert help interpreting your results.
+                  No login required. Your numbers are never stored without your permission. We only share your information with selected institutional partners when <span className="font-medium text-foreground">you actively choose</span> to connect with them.
                 </p>
               </Card>
             </AnimatedSection>
@@ -294,6 +473,7 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* How it works */}
       <section className="py-16 md:py-24 bg-card">
         <div className="max-w-6xl mx-auto px-4">
           <AnimatedSection>
@@ -302,7 +482,7 @@ export default function Landing() {
                 How it works
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto">
-                Three minutes to clarity. No jargon, no tricks, no selling.
+                Two minutes to clarity. No jargon, no tricks, no selling.
               </p>
             </div>
           </AnimatedSection>
@@ -311,7 +491,7 @@ export default function Landing() {
             <AnimatedSection>
               <div className="text-center">
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Mountain className="w-7 h-7 text-primary" />
+                  <Map className="w-7 h-7 text-primary" />
                 </div>
                 <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 1</div>
                 <h3 className="font-semibold text-lg mb-2">Answer Simple Questions</h3>
@@ -324,7 +504,7 @@ export default function Landing() {
             <AnimatedSection>
               <div className="text-center">
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Target className="w-7 h-7 text-primary" />
+                  <BarChart3 className="w-7 h-7 text-primary" />
                 </div>
                 <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 2</div>
                 <h3 className="font-semibold text-lg mb-2">See Your Freedom Date</h3>
@@ -337,7 +517,7 @@ export default function Landing() {
             <AnimatedSection>
               <div className="text-center">
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Heart className="w-7 h-7 text-primary" />
+                  <Lightbulb className="w-7 h-7 text-primary" />
                 </div>
                 <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 3</div>
                 <h3 className="font-semibold text-lg mb-2">Get Clarity, Not Sales</h3>
@@ -350,7 +530,77 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Coming Soon Teaser */}
       <section className="py-16 md:py-24">
+        <div className="max-w-6xl mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center mb-12">
+              <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4" data-testid="text-section-coming-soon">
+                More tools, more power&mdash;coming soon
+              </h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">
+                We're building the most complete financial freedom toolkit, one feature at a time.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <AnimatedSection>
+              <Card className="p-6 h-full">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-md bg-amber-500/10 flex items-center justify-center">
+                    <BookOpen className="w-5 h-5 text-amber-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">No-Jargon Guides</h3>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Coming Soon</span>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Plain-language guides that explain investing concepts the way a friend would over coffee. No finance degree needed.
+                </p>
+              </Card>
+            </AnimatedSection>
+
+            <AnimatedSection>
+              <Card className="p-6 h-full">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-md bg-blue-500/10 flex items-center justify-center">
+                    <BarChart3 className="w-5 h-5 text-blue-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Market Insights</h3>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Coming Soon</span>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Unique perspectives from professionals who've managed billions. Not news&mdash;real insights that matter to your wallet.
+                </p>
+              </Card>
+            </AnimatedSection>
+
+            <AnimatedSection>
+              <Card className="p-6 h-full">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-md bg-emerald-500/10 flex items-center justify-center">
+                    <Lightbulb className="w-5 h-5 text-emerald-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Smart Tips & Strategies</h3>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Coming Soon</span>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Practical, actionable tips to optimise your savings, reduce taxes, and make your money work harder&mdash;without the complexity.
+                </p>
+              </Card>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
+      {/* Personal note */}
+      <section className="py-16 md:py-24 bg-card">
         <div className="max-w-3xl mx-auto px-4">
           <AnimatedSection>
             <Card className="p-8 md:p-10">
@@ -379,14 +629,15 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-card">
+      {/* Bottom CTA */}
+      <section className="py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <AnimatedSection>
             <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4" data-testid="text-cta-bottom">
               Ready to see your Freedom Date?
             </h2>
             <p className="text-muted-foreground max-w-lg mx-auto mb-8">
-              It takes 3 minutes. It's completely free. And it might just change how you think about your future.
+              It takes 2 minutes. It's completely free. And it might just change how you think about your future.
             </p>
             <Button
               size="lg"
@@ -399,6 +650,10 @@ export default function Landing() {
               Start My Freedom Journey
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
+            <p className="text-xs text-muted-foreground mt-4 flex items-center justify-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Your data is never shared unless you actively choose to connect with a partner.
+            </p>
           </AnimatedSection>
         </div>
       </section>
@@ -407,7 +662,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
             <Compass className="w-4 h-4 text-primary" />
-            <span className="font-serif text-sm font-medium">The Freedom Path</span>
+            <span className="font-serif text-sm font-medium">Freedom Path: Pro-Investing Decoded</span>
           </div>
           <p className="text-xs text-muted-foreground">
             Powered by FINSIM v5 &middot; Independent &middot; Free &middot; No products, just directions.

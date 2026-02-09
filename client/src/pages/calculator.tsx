@@ -258,6 +258,17 @@ export default function Calculator() {
   }, [step.key, currentValue, symbol]);
 
   if (showTransition) {
+    const pathPoints = Array.from({ length: 5 }, (_, i) => ({
+      x: 50 + Math.sin(i * 1.2) * 30,
+      y: 15 + i * 18,
+    }));
+    const pathD = pathPoints.reduce((acc, p, i) => {
+      if (i === 0) return `M ${p.x} ${p.y}`;
+      const prev = pathPoints[i - 1];
+      const cx = (prev.x + p.x) / 2;
+      return `${acc} Q ${prev.x} ${(prev.y + p.y) / 2} ${cx} ${(prev.y + p.y) / 2} T ${p.x} ${p.y}`;
+    }, "");
+
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
         <motion.div
@@ -265,34 +276,85 @@ export default function Calculator() {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center space-y-8"
         >
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto"
-          >
-            <Sparkles className="w-8 h-8 text-primary" />
-          </motion.div>
-
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={transitionMessageIdx}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="text-lg font-medium text-muted-foreground"
-            >
-              {LOADING_MESSAGES[transitionMessageIdx]}
-            </motion.p>
-          </AnimatePresence>
-
-          <div className="w-48 h-1.5 bg-muted rounded-full overflow-hidden mx-auto">
+          <div className="relative w-24 h-24 mx-auto">
+            <svg viewBox="0 0 100 100" className="w-full h-full">
+              <motion.path
+                d={pathD}
+                fill="none"
+                stroke="hsl(var(--primary))"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeDasharray="200"
+                initial={{ strokeDashoffset: 200 }}
+                animate={{ strokeDashoffset: 0 }}
+                transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
+                opacity={0.3}
+              />
+              <motion.path
+                d={pathD}
+                fill="none"
+                stroke="hsl(var(--primary))"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeDasharray="200"
+                initial={{ strokeDashoffset: 200 }}
+                animate={{ strokeDashoffset: 0 }}
+                transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
+              />
+            </svg>
             <motion.div
-              className="h-full bg-primary rounded-full"
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 3.5, ease: "easeInOut" }}
-            />
+              className="absolute top-0 left-1/2 -translate-x-1/2"
+              animate={{
+                y: [0, 72, 0],
+                x: [0, -15, 15, -10, 0],
+              }}
+              transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
+            >
+              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                <Compass className="w-5 h-5 text-primary" />
+              </div>
+            </motion.div>
+            {pathPoints.map((p, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2 h-2 rounded-full bg-primary/30"
+                style={{ left: `${p.x}%`, top: `${p.y}%`, transform: "translate(-50%, -50%)" }}
+                initial={{ scale: 0 }}
+                animate={{ scale: [0, 1, 0.5] }}
+                transition={{ delay: i * 0.5, duration: 1 }}
+              />
+            ))}
+          </div>
+
+          <div>
+            <p className="text-sm text-muted-foreground mb-2">Mapping your path to freedom</p>
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={transitionMessageIdx}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="text-lg font-medium text-foreground"
+              >
+                {LOADING_MESSAGES[transitionMessageIdx]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+
+          <div className="w-56 mx-auto">
+            <div className="flex items-center justify-between text-[10px] text-muted-foreground mb-1.5">
+              <span>Analysing</span>
+              <span>{Math.min(100, Math.round(((transitionMessageIdx + 1) / LOADING_MESSAGES.length) * 100))}%</span>
+            </div>
+            <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-primary rounded-full"
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 3.5, ease: "easeInOut" }}
+              />
+            </div>
           </div>
         </motion.div>
       </div>
@@ -305,7 +367,7 @@ export default function Calculator() {
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
             <Compass className="w-5 h-5 text-primary" />
-            <span className="font-serif text-sm font-semibold">The Freedom Path</span>
+            <span className="font-serif text-sm font-semibold">Freedom Path</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground">

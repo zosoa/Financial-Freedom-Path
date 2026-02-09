@@ -222,7 +222,7 @@ export default function Results() {
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
             <Compass className="w-5 h-5 text-primary" />
-            <span className="font-serif text-sm font-semibold">The Freedom Path</span>
+            <span className="font-serif text-sm font-semibold">Freedom Path</span>
           </div>
           <div className="flex items-center gap-2">
             <Button size="icon" variant="ghost" onClick={toggleTheme} data-testid="button-theme-toggle-results">
@@ -298,8 +298,10 @@ export default function Results() {
               Your Target Capital
             </p>
             <InfoTooltip>
-              <p className="font-semibold mb-1">What is Target Capital?</p>
-              <p>This is the amount of money you need so that the interest alone covers your monthly expenses -- without ever touching the capital itself. Your money works for you indefinitely.</p>
+              <p className="font-semibold mb-1">Why this amount?</p>
+              <p className="mb-2">This is the total pot of money you need so that the interest it earns covers your monthly expenses&mdash;without ever touching the capital itself.</p>
+              <p className="mb-2">Why not just spend the capital directly? Because you don't know how long you'll live. If you draw down the capital, you could outlive your money.</p>
+              <p>By targeting this amount, your money works for you indefinitely&mdash;like a salary that never stops, paid by your own savings.</p>
             </InfoTooltip>
           </div>
           <Card className="p-6">
@@ -309,9 +311,15 @@ export default function Results() {
             <p className="text-3xl md:text-4xl font-bold text-center my-4" data-testid="text-required-capital">
               {formatCurrencyFull(results.requiredCapital, currency)}
             </p>
-            <p className="text-xs text-muted-foreground text-center mb-6">
-              Based on a 6% safe withdrawal rate per year (adjusted for 2% annual inflation)
-            </p>
+            <div className="text-xs text-muted-foreground text-center mb-6 flex items-center justify-center gap-1">
+              <span>Based on a 6% safe withdrawal rate per year (adjusted for 2% annual inflation)</span>
+              <InfoTooltip>
+                <p className="font-semibold mb-1">What is the Safe Withdrawal Rate?</p>
+                <p className="mb-2">Think of it this way: instead of spending down your savings, you build a pot big enough that you only live off the interest it generates&mdash;without ever touching the money itself.</p>
+                <p className="mb-2">Why not just withdraw your spending from the capital? You could, but here's the problem: <span className="font-medium">you don't know how long you're going to live.</span> If you spend your capital, you risk running out of money.</p>
+                <p>At a 6% return with 2% going to inflation, you can safely withdraw 4% each year and your money lasts forever. We use 6% as the headline rate because it includes the inflation cushion.</p>
+              </InfoTooltip>
+            </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="bg-muted/50 rounded-md p-4 text-center">
                 <p className="text-xs text-muted-foreground mb-1 flex items-center justify-center gap-1">
@@ -814,7 +822,7 @@ export default function Results() {
 
         <div className="text-center py-4">
           <p className="text-xs text-muted-foreground">
-            Powered by FINSIM v5 &middot; 2% inflation buffer &middot; 6% Safe Withdrawal Rate &middot; Not financial advice
+            Freedom Path: Pro-Investing Decoded &middot; FINSIM v5 &middot; 2% inflation buffer &middot; 6% Safe Withdrawal Rate &middot; Not financial advice
           </p>
         </div>
       </main>
