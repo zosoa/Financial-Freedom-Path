@@ -105,7 +105,7 @@ export default function Landing() {
           <div className="flex items-center gap-2">
             <Compass className="w-6 h-6 text-primary" data-testid="icon-logo" />
             <span className="font-serif text-lg font-semibold tracking-tight" data-testid="text-brand">
-              Freedom Path
+              Freedom Path: <span className="text-muted-foreground font-normal text-sm">Pro-Investing Decoded</span>
             </span>
           </div>
           <div className="flex items-center gap-3">

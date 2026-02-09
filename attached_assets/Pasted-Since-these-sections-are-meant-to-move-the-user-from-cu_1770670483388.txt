@@ -1,0 +1,34 @@
+Since these sections are meant to move the user from "curious" to "committed," we need to replace the flat, static boxes with depth and motion.
+
+1. Section: "Your Journey to Financial Freedom"
+This section is currently too passive. We want to illustrate a "Loading State" for their future.
+
+The Iconography: Replace the thin line icons with Semi-3D Isometric Icons.
+
+Step 1 (GPS): A 3D compass where the needle actually wobbles.
+
+Step 2 (DNA): A vertical strand that glows. Since it's "Coming Soon," keep it in a "Blueprint Blue" or "frosted" state to entice them.
+
+Step 3 (Action Plan): A 3D target with an arrow mid-flight.
+
+The Interaction (The "Hover" Glow): * When the user hovers over "Step 1," the border should glow with a gradient "runway" light effect that points toward Step 2.
+
+This visually tells them: "You are here, and this is exactly where you are going next."
+
+2. Section: "Why is this different?"
+This is your Manifesto. It needs to look "Institutional Grade"—think Bloomberg or Goldman Sachs style, but accessible.
+
+"Zero Product Bias": Use an illustration of a Balance Scale that is perfectly level. Instead of a flat icon, use a "glass" style scale that reflects the background colors.
+
+"Your Data, Your Rules": This needs to feel secure. Use a Vault Door or a Shield with a digital pulse.
+
+Pro Tip: Add a small "Signal" animation (a tiny green pulsing dot) next to the text "Your numbers are never stored" to give a real-time feeling of security.
+
+"Institutional-Grade Logic": This is where you show the "Engine." Use an abstract Grid or Mesh background behind this specific card. It suggests a complex system working underneath a simple interface.
+
+3. Section: "A Personal Note" (The Founder's Message)
+This is currently a "wall of text." To make it look like a "Private Banking" briefing:
+
+The Signature: Add a handwritten-style SVG signature at the bottom of the note. It makes the "Team" feel human and accountable.
+
+The Background: Put this note on a slightly different texture—perhaps a subtle "Paper" or "Bond" texture—to differentiate it from the digital tools above. It should feel like a letter handed to them in a private office.
