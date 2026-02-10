@@ -786,9 +786,9 @@ export default function Results() {
         {/* 11. Phase 2: Locked Risk Assessment */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}>
           <Card className="p-0 overflow-hidden">
-            <div className="relative">
+            <div className="relative overflow-hidden">
               {/* Blurred Preview */}
-              <div className="p-6 md:p-8 blur-[6px] select-none pointer-events-none" aria-hidden="true">
+              <div className="p-6 md:p-8 blur-[6px] select-none pointer-events-none opacity-50" aria-hidden="true">
                 <div className="grid sm:grid-cols-3 gap-4 mb-4">
                   <div className="rounded-md bg-emerald-100 dark:bg-emerald-900/30 p-4">
                     <p className="text-xs text-muted-foreground mb-1">Risk Tolerance</p>
@@ -814,7 +814,7 @@ export default function Results() {
               </div>
 
               {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/90 to-background flex flex-col items-center justify-center p-6 text-center">
+              <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/95 to-background flex flex-col items-center justify-center p-6 text-center">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <Lock className="w-8 h-8 text-primary" />
                 </div>
