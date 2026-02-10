@@ -6,6 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
@@ -42,6 +51,9 @@ import {
   ArrowUpRight,
   Download,
   MessageSquare,
+  Mail,
+  Loader2,
+  FileText,
 } from "lucide-react";
 import {
   AreaChart,
@@ -102,6 +114,11 @@ export default function Results() {
   const [calculationId, setCalculationId] = useState<string | null>(null);
   const [hasSaved, setHasSaved] = useState(false);
   const [activeSolution, setActiveSolution] = useState<"savings" | "lumpsum" | "efficiency">("savings");
+  const [showSaveReport, setShowSaveReport] = useState(false);
+  const [reportName, setReportName] = useState("");
+  const [reportEmail, setReportEmail] = useState("");
+  const [isSendingReport, setIsSendingReport] = useState(false);
+  const [reportSent, setReportSent] = useState(false);
 
   const baseInputs: CalculationInputs = {
     age: parseInt(params.get("age") || "30"),
@@ -205,6 +222,43 @@ export default function Results() {
       twitter: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
     };
     window.open(urls[platform], "_blank", "noopener,noreferrer");
+  };
+
+  const currencySymbol = SUPPORTED_CURRENCIES[currency]?.symbol || currency;
+
+  const handleSendReport = async () => {
+    if (!reportEmail || !reportName) return;
+    setIsSendingReport(true);
+    try {
+      const res = await apiRequest("POST", "/api/send-report", {
+        email: reportEmail,
+        name: reportName,
+        calculationId,
+        freedomScore: results.freedomScore,
+        freedomAge: results.freedomAgeStandard,
+        targetAge: inputs.targetFreedomAge,
+        gapPercent: results.gapPercent,
+        requiredCapital: results.requiredCapital,
+        plannedCapital: results.plannedCapitalStandard,
+        country,
+        currency,
+        currencySymbol,
+        age: inputs.age,
+        monthlyIncome: inputs.monthlyIncome,
+        desiredMonthlyIncome: inputs.desiredMonthlyIncome,
+        monthlySavingsRate: inputs.monthlySavingsRate,
+        currentSavings: inputs.currentSavings,
+        personality: results.narrative.personality,
+        narrativeType: results.narrative.type,
+      });
+      if (res.ok) {
+        setReportSent(true);
+      }
+    } catch (e) {
+      console.error("Failed to send report:", e);
+    } finally {
+      setIsSendingReport(false);
+    }
   };
 
   const formatChartValue = (value: number) => {
@@ -712,6 +766,23 @@ export default function Results() {
           </Card>
         </motion.div>
 
+        {/* 10b. Save My Report */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.47 }}>
+          <Card className="p-6 text-center bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <FileText className="w-5 h-5 text-primary" />
+              <h3 className="font-serif text-xl font-bold">Save My Report</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
+              Get your full Freedom Report delivered to your inbox -- keep it, revisit it, and track your progress over time.
+            </p>
+            <Button onClick={() => setShowSaveReport(true)} data-testid="button-save-report">
+              <Mail className="w-4 h-4 mr-2" />
+              Email Me My Report
+            </Button>
+          </Card>
+        </motion.div>
+
         {/* 11. Phase 2: Locked Risk Assessment */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}>
           <Card className="p-0 overflow-hidden">
@@ -869,6 +940,85 @@ export default function Results() {
           monthlySavings={inputs.monthlySavingsRate}
         />
       )}
+
+      <Dialog open={showSaveReport} onOpenChange={(open) => { setShowSaveReport(open); if (!open) { setReportSent(false); setReportName(""); setReportEmail(""); } }}>
+        <DialogContent className="max-w-md">
+          <AnimatePresence mode="wait">
+            {!reportSent ? (
+              <motion.div key="report-form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                <DialogHeader>
+                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                    <Mail className="w-7 h-7 text-primary" />
+                  </div>
+                  <DialogTitle className="font-serif text-xl text-center">
+                    Save My Freedom Report
+                  </DialogTitle>
+                  <DialogDescription className="text-center">
+                    We'll send your full report summary to your inbox. No spam, just your data.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 mt-4">
+                  <div>
+                    <Label htmlFor="report-name">Your Name</Label>
+                    <Input
+                      id="report-name"
+                      placeholder="Enter your name"
+                      value={reportName}
+                      onChange={(e) => setReportName(e.target.value)}
+                      data-testid="input-report-name"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="report-email">Email Address</Label>
+                    <Input
+                      id="report-email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={reportEmail}
+                      onChange={(e) => setReportEmail(e.target.value)}
+                      data-testid="input-report-email"
+                    />
+                  </div>
+                  <Button
+                    className="w-full"
+                    onClick={handleSendReport}
+                    disabled={isSendingReport || !reportEmail || !reportName}
+                    data-testid="button-send-report"
+                  >
+                    {isSendingReport ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Mail className="w-4 h-4 mr-2" />
+                        Send My Report
+                      </>
+                    )}
+                  </Button>
+                  <p className="text-[10px] text-muted-foreground text-center">
+                    Your data stays private. We never share your information without your explicit consent.
+                  </p>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div key="report-success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-6">
+                <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="w-8 h-8 text-emerald-600" />
+                </div>
+                <h3 className="font-serif text-xl font-bold mb-2">Report Sent!</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Check your inbox at <span className="font-medium text-foreground">{reportEmail}</span> for your full Freedom Report.
+                </p>
+                <Button variant="outline" onClick={() => setShowSaveReport(false)} data-testid="button-close-report-modal">
+                  Close
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
