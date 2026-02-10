@@ -168,7 +168,7 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
 
   try {
     const { error } = await resend.emails.send({
-      from: "Freedom Path <onboarding@resend.dev>",
+      from: "Freedom Path <hello@finksmart.com>",
       to: data.recipientEmail,
       subject: `Your Freedom Score: ${data.freedomScore}/100 — ${data.personality}`,
       html: htmlContent,
@@ -181,6 +181,113 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
     return true;
   } catch (err) {
     console.error("Email send failed:", err);
+    return false;
+  }
+}
+
+interface LeadConfirmationData {
+  recipientEmail: string;
+  recipientName: string;
+  freedomScore: number;
+  gapPercent: number;
+}
+
+export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Promise<boolean> {
+  const scoreColor = getScoreColor(data.freedomScore);
+  const gapMessage = data.gapPercent <= 0
+    ? "You're already on track or ahead -- that's impressive. Our team will review your profile and share ideas to protect and accelerate what you've built."
+    : `You have a ${Math.round(data.gapPercent)}% gap to close. That's exactly the kind of insight our advisors specialize in -- turning a gap into a clear, actionable strategy.`;
+
+  const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8f5f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 12px; padding: 32px; text-align: center; margin-bottom: 24px;">
+      <h1 style="color: #ffffff; font-size: 24px; margin: 0 0 8px 0; font-weight: 700;">Freedom Path</h1>
+      <p style="color: #94a3b8; font-size: 13px; margin: 0; letter-spacing: 2px; text-transform: uppercase;">Pro-Investing Decoded</p>
+    </div>
+
+    <div style="background: #ffffff; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+      <h2 style="color: #1e293b; font-size: 20px; margin: 0 0 16px 0; font-weight: 700;">
+        You're in, ${data.recipientName}.
+      </h2>
+      <p style="color: #64748b; font-size: 15px; margin: 0 0 20px 0; line-height: 1.7;">
+        Your Freedom Roadmap has been secured and your profile is now flagged for a personal Risk Analysis by one of our UHNW-trained advisors.
+      </p>
+
+      <div style="text-align: center; padding: 20px; background: #faf9f7; border-radius: 10px; margin-bottom: 24px;">
+        <p style="color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 8px 0;">Your Freedom Score</p>
+        <div style="display: inline-block; width: 72px; height: 72px; border-radius: 50%; background: ${scoreColor}20; line-height: 72px; text-align: center;">
+          <span style="font-size: 28px; font-weight: 800; color: ${scoreColor};">${data.freedomScore}</span>
+        </div>
+        <p style="color: #94a3b8; font-size: 12px; margin: 8px 0 0 0;">out of 100</p>
+      </div>
+
+      <p style="color: #64748b; font-size: 14px; margin: 0 0 24px 0; line-height: 1.7;">
+        ${gapMessage}
+      </p>
+
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+        <p style="color: #166534; font-size: 14px; font-weight: 600; margin: 0 0 8px 0;">What happens next?</p>
+        <ol style="color: #15803d; font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;">
+          <li>A UHNW-trained advisor reviews your profile</li>
+          <li>They'll reach out within 24 hours via WhatsApp or email</li>
+          <li>You'll have a no-pressure conversation about your strategy</li>
+        </ol>
+      </div>
+
+      <p style="color: #64748b; font-size: 13px; margin: 0 0 24px 0; line-height: 1.6;">
+        In the meantime, feel free to retake the Freedom Check anytime to experiment with different scenarios -- what if you saved more, or retired earlier?
+      </p>
+
+      <div style="text-align: center;">
+        <a href="https://finksmart.com" style="display: inline-block; background: #d97706; color: #ffffff; text-decoration: none; padding: 12px 32px; border-radius: 8px; font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">
+          Explore More Scenarios
+        </a>
+      </div>
+    </div>
+
+    <div style="text-align: center; padding: 16px;">
+      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 8px 0;">
+        Freedom Path: Pro-Investing Decoded &middot; Sponsored by BLACKWAVE CAPITAL
+      </p>
+      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 8px 0;">
+        BNP Paribas | Deutsche Bank | Citi | Julius Baer | Afrasia Bank
+      </p>
+      <p style="color: #cbd5e1; font-size: 10px; margin: 0; line-height: 1.5;">
+        This email confirms your request for a personal Freedom Roadmap review.
+        Your data is only shared with our selected institutional partners as described when you submitted the form.
+        No financial advice is provided in this email.
+      </p>
+      <p style="color: #cbd5e1; font-size: 10px; margin: 8px 0 0 0;">
+        finksmart.com
+      </p>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  try {
+    const { error } = await resend.emails.send({
+      from: "Freedom Path <hello@finksmart.com>",
+      to: data.recipientEmail,
+      subject: `You're in, ${data.recipientName} — your advisor review is underway`,
+      html: htmlContent,
+    });
+
+    if (error) {
+      console.error("Lead confirmation email error:", error);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Lead confirmation email failed:", err);
     return false;
   }
 }

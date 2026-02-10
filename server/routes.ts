@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { insertCalculationSchema, insertLeadSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { z } from "zod";
-import { sendReportEmail } from "./email";
+import { sendReportEmail, sendLeadConfirmationEmail } from "./email";
 
 const saveReportSchema = z.object({
   email: z.string().email(),
@@ -62,6 +62,16 @@ export async function registerRoutes(
     try {
       const data = insertLeadSchema.parse(req.body);
       const lead = await storage.createLead(data);
+
+      if (data.email && data.name) {
+        sendLeadConfirmationEmail({
+          recipientEmail: data.email,
+          recipientName: data.name,
+          freedomScore: data.freedomScore ?? 0,
+          gapPercent: data.gapPercent ?? 0,
+        }).catch((err) => console.error("Lead confirmation email failed:", err));
+      }
+
       res.json(lead);
     } catch (e) {
       if (e instanceof ZodError) {
