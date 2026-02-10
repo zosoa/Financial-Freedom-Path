@@ -134,6 +134,10 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/25 bg-primary/[0.04] mb-6" data-testid="badge-trust">
+              <span className="text-[11px] font-medium tracking-[0.12em] uppercase text-muted-foreground">Expert-Engineered Financial Model</span>
+            </div>
+
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-5 max-w-4xl mx-auto" data-testid="text-headline">
               Will your future be a{" "}
               <span className="text-primary">reality</span> or a{" "}
