@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useLocation } from "wouter";
+import finksmartIcon from "@assets/finksmart-icon.png";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -103,7 +104,7 @@ export default function Landing() {
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-2">
-            <Compass className="w-6 h-6 text-primary" data-testid="icon-logo" />
+            <img src={finksmartIcon} alt="Finksmart" className="w-7 h-7" data-testid="icon-logo" />
             <span className="font-serif text-lg font-semibold tracking-tight" data-testid="text-brand">
               Freedom Path: <span className="text-muted-foreground font-normal text-sm">Pro-Investing Decoded</span>
             </span>
@@ -736,7 +737,7 @@ export default function Landing() {
       <footer className="py-8 border-t">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
-            <Compass className="w-4 h-4 text-primary" />
+            <img src={finksmartIcon} alt="Finksmart" className="w-5 h-5" />
             <span className="font-serif text-sm font-medium">Freedom Path: Pro-Investing Decoded</span>
           </div>
           <div className="flex items-center justify-center gap-1.5 mb-3">

@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation, useSearch } from "wouter";
+import finksmartIcon from "@assets/finksmart-icon.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +13,6 @@ import {
   Wallet,
   Sun,
   Moon,
-  Compass,
   Sunset,
   Sparkles,
 } from "lucide-react";
@@ -311,7 +311,7 @@ export default function Calculator() {
               transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
             >
               <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                <Compass className="w-5 h-5 text-primary" />
+                <img src={finksmartIcon} alt="" className="w-6 h-6" />
               </div>
             </motion.div>
             {pathPoints.map((p, i) => (
@@ -366,7 +366,7 @@ export default function Calculator() {
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-            <Compass className="w-5 h-5 text-primary" />
+            <img src={finksmartIcon} alt="Finksmart" className="w-6 h-6" />
             <span className="font-serif text-sm font-semibold">Freedom Path</span>
           </div>
           <div className="flex items-center gap-2">

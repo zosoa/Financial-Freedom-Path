@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { useLocation, useSearch } from "wouter";
+import finksmartIcon from "@assets/finksmart-icon.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -17,7 +18,6 @@ import {
 } from "@/components/ui/popover";
 import {
   ArrowLeft,
-  Compass,
   Share2,
   Sun,
   Moon,
@@ -226,7 +226,7 @@ export default function Results() {
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-            <Compass className="w-5 h-5 text-primary" />
+            <img src={finksmartIcon} alt="Finksmart" className="w-6 h-6" />
             <span className="font-serif text-sm font-semibold">Freedom Path</span>
           </div>
           <div className="flex items-center gap-2">
