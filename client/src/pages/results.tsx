@@ -786,35 +786,8 @@ export default function Results() {
         {/* 11. Phase 2: Locked Risk Assessment */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}>
           <Card className="p-0 overflow-hidden">
-            <div className="relative overflow-hidden">
-              {/* Blurred Preview */}
-              <div className="p-6 md:p-8 blur-[6px] select-none pointer-events-none opacity-50" aria-hidden="true">
-                <div className="grid sm:grid-cols-3 gap-4 mb-4">
-                  <div className="rounded-md bg-emerald-100 dark:bg-emerald-900/30 p-4">
-                    <p className="text-xs text-muted-foreground mb-1">Risk Tolerance</p>
-                    <p className="text-xl font-bold text-emerald-600">Growth Hunter</p>
-                    <div className="w-full h-2 bg-emerald-200 rounded-full mt-2"><div className="w-3/4 h-full bg-emerald-500 rounded-full" /></div>
-                  </div>
-                  <div className="rounded-md bg-blue-100 dark:bg-blue-900/30 p-4">
-                    <p className="text-xs text-muted-foreground mb-1">Portfolio Match</p>
-                    <p className="text-xl font-bold text-blue-600">87%</p>
-                    <div className="w-full h-2 bg-blue-200 rounded-full mt-2"><div className="w-[87%] h-full bg-blue-500 rounded-full" /></div>
-                  </div>
-                  <div className="rounded-md bg-violet-100 dark:bg-violet-900/30 p-4">
-                    <p className="text-xs text-muted-foreground mb-1">Crash Resilience</p>
-                    <p className="text-xl font-bold text-violet-600">Strong</p>
-                    <div className="w-full h-2 bg-violet-200 rounded-full mt-2"><div className="w-4/5 h-full bg-violet-500 rounded-full" /></div>
-                  </div>
-                </div>
-                <div className="rounded-md bg-muted p-4">
-                  <div className="h-32 bg-muted/80 rounded flex items-center justify-center">
-                    <span className="text-muted-foreground text-sm">Your personalized investment strategy...</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/95 to-background flex flex-col items-center justify-center p-6 text-center">
+            <div>
+              <div className="flex flex-col items-center justify-center p-8 md:p-10 text-center">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <Lock className="w-8 h-8 text-primary" />
                 </div>
