@@ -6,10 +6,10 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   ArrowRight,
   Shield,
@@ -213,17 +213,17 @@ export default function Landing() {
                     <label className="text-sm text-muted-foreground">
                       If you could stop working, how much would you need per month?
                     </label>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span className="cursor-help">
-                          <Info className="w-3.5 h-3.5 text-muted-foreground" data-testid="icon-inflation-info" />
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="max-w-xs text-xs leading-relaxed">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <button type="button" className="cursor-help touch-manipulation" data-testid="button-inflation-info" aria-label="Inflation information">
+                          <Info className="w-3.5 h-3.5 text-muted-foreground" />
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent side="top" className="max-w-xs text-xs leading-relaxed p-3">
                         <p className="font-semibold mb-1">We include inflation in the calculation</p>
                         <p>Inflation means things get a bit more expensive every year. For example, a coffee that costs {currencySymbol}3 today might cost {currencySymbol}3.65 in 10 years. We automatically account for this so your future income keeps the same purchasing power as today.</p>
-                      </TooltipContent>
-                    </Tooltip>
+                      </PopoverContent>
+                    </Popover>
                   </div>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">

@@ -11,6 +11,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   ArrowLeft,
   Compass,
   Share2,
@@ -66,16 +71,16 @@ import { SiWhatsapp, SiFacebook, SiLinkedin, SiX } from "react-icons/si";
 
 function InfoTooltip({ children }: { children: React.ReactNode }) {
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="cursor-help inline-flex ml-1">
+    <Popover>
+      <PopoverTrigger asChild>
+        <button type="button" className="cursor-help inline-flex ml-1 touch-manipulation" data-testid="button-info-tooltip" aria-label="More information">
           <Info className="w-3.5 h-3.5 text-muted-foreground" />
-        </span>
-      </TooltipTrigger>
-      <TooltipContent side="top" className="max-w-xs text-xs leading-relaxed">
+        </button>
+      </PopoverTrigger>
+      <PopoverContent side="top" className="max-w-xs text-xs leading-relaxed p-3">
         {children}
-      </TooltipContent>
-    </Tooltip>
+      </PopoverContent>
+    </Popover>
   );
 }
 
