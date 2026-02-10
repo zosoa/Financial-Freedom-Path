@@ -748,8 +748,13 @@ export default function Landing() {
             Powered by FINSIM v5 &middot; Independent &middot; Free &middot; No products, just directions.
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            Not financial advice. For educational purposes only.
+            finksmart.com
           </p>
+          <div className="mt-4 pt-3 border-t border-border/40 max-w-xl mx-auto">
+            <p className="text-[10px] text-muted-foreground/70 leading-relaxed">
+              <span className="font-semibold">Disclaimer:</span> This tool is for educational and informational purposes only and does not constitute financial, investment, tax, or legal advice. Past performance does not guarantee future results. All projections are hypothetical and based on simplified assumptions (2% inflation, 6% SWR). Actual results will vary. Consult a qualified financial advisor before making investment decisions. By using this tool, you acknowledge that Finksmart and its sponsors assume no liability for any financial outcomes.
+            </p>
+          </div>
         </div>
       </footer>
     </div>

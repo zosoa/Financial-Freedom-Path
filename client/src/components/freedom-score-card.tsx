@@ -7,7 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Download, Copy, Check, Compass, Rocket, TrendingUp, TreePine, Footprints } from "lucide-react";
+import { Download, Copy, Check, Rocket, TrendingUp, TreePine, Footprints } from "lucide-react";
+import finksmartIcon from "@assets/finksmart-icon.png";
 import { toPng } from "html-to-image";
 
 interface FreedomScoreCardProps {
@@ -85,7 +86,7 @@ export function FreedomScoreCard({
     }
   };
 
-  const shareText = `I'm a "${personality}" with a Freedom Score of ${freedomScore}/100! I could reach financial independence by age ${freedomAge}. Can you beat my score? Try it free at The Freedom Path!`;
+  const shareText = `I'm a "${personality}" with a Freedom Score of ${freedomScore}/100! I could reach financial independence by age ${freedomAge}. Can you beat my score? Try it free at finksmart.com`;
 
   const handleCopyShare = () => {
     navigator.clipboard.writeText(shareText);
@@ -110,7 +111,7 @@ export function FreedomScoreCard({
           <div className="p-6 pb-4">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <Compass className="w-5 h-5 text-white/80" />
+                <img src={finksmartIcon} alt="Finksmart" className="w-5 h-5" />
                 <span className="text-sm font-medium text-white/80">The Freedom Path</span>
               </div>
               <div className="px-2 py-0.5 rounded-full bg-white/20 text-xs font-medium">
@@ -153,7 +154,7 @@ export function FreedomScoreCard({
               Can you beat my score?
             </p>
             <p className="text-xs text-white/60 font-medium">
-              thefreedompath.com
+              finksmart.com
             </p>
           </div>
         </div>

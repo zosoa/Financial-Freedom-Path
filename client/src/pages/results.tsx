@@ -192,7 +192,7 @@ export default function Results() {
     basically_there: "You've achieved what most only dream about -- your financial trajectory puts freedom within reach right on schedule (or ahead!). Your discipline and planning have paid off brilliantly. Time to think about what freedom means to you.",
   };
 
-  const shareUrl = typeof window !== "undefined" ? window.location.origin : "https://thefreedompath.com";
+  const shareUrl = typeof window !== "undefined" ? window.location.origin : "https://finksmart.com";
   const shareText = `I just discovered my Freedom Score: ${results.freedomScore}/100! I could reach financial freedom by age ${results.freedomAgeStandard}. Can you beat my score? Try it free:`;
 
   const handleShare = (platform: string) => {
@@ -825,11 +825,21 @@ export default function Results() {
           </Button>
         </motion.div>
 
-        <div className="text-center py-4">
-          <p className="text-xs text-muted-foreground">
-            Freedom Path: Pro-Investing Decoded &middot; FINSIM v5 &middot; 2% inflation buffer &middot; 6% Safe Withdrawal Rate &middot; Not financial advice
+        <footer className="text-center py-6 mt-4 border-t">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <img src={finksmartIcon} alt="Finksmart" className="w-4 h-4" />
+            <span className="font-serif text-xs font-medium">Freedom Path: Pro-Investing Decoded</span>
+          </div>
+          <p className="text-xs text-muted-foreground mb-1">
+            FINSIM v5 &middot; 2% inflation buffer &middot; 6% Safe Withdrawal Rate
           </p>
-        </div>
+          <p className="text-[10px] text-muted-foreground">finksmart.com</p>
+          <div className="mt-3 pt-3 border-t border-border/40 max-w-xl mx-auto">
+            <p className="text-[10px] text-muted-foreground/70 leading-relaxed">
+              <span className="font-semibold">Disclaimer:</span> This tool is for educational and informational purposes only and does not constitute financial, investment, tax, or legal advice. Past performance does not guarantee future results. All projections are hypothetical and based on simplified assumptions. Consult a qualified financial advisor before making investment decisions.
+            </p>
+          </div>
+        </footer>
       </main>
 
       <LeadCaptureModal
