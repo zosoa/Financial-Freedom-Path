@@ -359,7 +359,9 @@ export default function Results() {
               {results.freedomAgeStandard > inputs.targetFreedomAge && (
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-1">
                   <p className="text-sm text-muted-foreground">
-                    Gap: <span className="font-semibold">{formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}</span> &middot; At this current pace you will reach your goal at age{" "}
+                    Gap: <span className="font-semibold">{formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}</span>
+                    <InfoTooltip><p>The "distance remaining" on your journey; the difference between your current path and your target goal.</p></InfoTooltip>
+                    &middot; At this current pace you will reach your goal at age{" "}
                     <span className="font-semibold">{results.freedomAgeStandard}</span>{" "}
                     ({results.freedomAgeStandard - inputs.targetFreedomAge} year{results.freedomAgeStandard - inputs.targetFreedomAge === 1 ? "" : "s"} later than planned)
                   </p>
@@ -404,7 +406,11 @@ export default function Results() {
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-[10px] font-medium text-primary tracking-wide">
                 <Sparkles className="w-3 h-3" />FinkSmart Pro-Investing Decoded
               </span>
-              <span className="flex items-center gap-1">Based on a 6% safe withdrawal rate per year (adjusted for 2% annual inflation)</span>
+              <span className="flex items-center gap-1">Based on a 6% safe withdrawal rate
+                <InfoTooltip><p>The industry-standard percentage you can spend annually without your total savings running dry.</p></InfoTooltip>
+                per year (adjusted for 2% annual inflation
+                <InfoTooltip><p>We build this in so your money buys as much in 20 years as it does today.</p></InfoTooltip>
+                )</span>
               <InfoTooltip>
                 <p className="font-semibold mb-1">What is the Safe Withdrawal Rate?</p>
                 <p className="mb-2">Think of it this way: instead of spending down your savings, you build a pot big enough that you only live off the interest it generates&mdash;without ever touching the money itself.</p>
@@ -426,12 +432,24 @@ export default function Results() {
               <div className="bg-emerald-500/10 dark:bg-emerald-900/20 rounded-md p-4 text-center">
                 <p className="text-xs text-muted-foreground mb-1 flex items-center justify-center gap-1">
                   Capital at {inputs.targetFreedomAge} (Managed 11%)
-                  <InfoTooltip><p>Your projected capital with professional active management achieving 11% annual return through optimized strategies, tax efficiency, and rebalancing.</p></InfoTooltip>
+                  <InfoTooltip><p>This is an ambitious target. It requires an Institutional-Grade strategy and a high tolerance for temporary market dips.</p></InfoTooltip>
                 </p>
                 <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400" data-testid="text-capital-managed">{formatCurrencyFull(results.plannedCapitalManaged, currency)}</p>
                 <p className="text-xs text-muted-foreground mt-1">
                   Gap: {results.plannedCapitalManaged >= results.requiredCapital ? "None!" : formatCurrency(results.requiredCapital - results.plannedCapitalManaged, currency)}
                 </p>
+                <div className="mt-3 pt-3 border-t border-emerald-200/40 dark:border-emerald-700/40">
+                  <button
+                    onClick={() => document.getElementById("phase2-cta")?.scrollIntoView({ behavior: "smooth" })}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-teal-500 text-teal-600 dark:text-teal-400 text-xs font-semibold bg-transparent transition-colors hover:bg-teal-500/10"
+                    data-testid="button-heat-risk-dna"
+                  >
+                    Can you handle this much "Heat"? Discover Your Risk DNA
+                  </button>
+                  <p className="text-[10px] text-muted-foreground mt-2">
+                    Aiming for returns 5.0% above market average requires an Institutional-Grade strategy.
+                  </p>
+                </div>
               </div>
             </div>
           </Card>
@@ -745,7 +763,10 @@ export default function Results() {
               </div>
             )}
             <div className="space-y-4">
-              <p className="text-xs text-muted-foreground font-medium">Try it yourself -- drag the slider to explore:</p>
+              <p className="text-xs text-muted-foreground font-medium flex items-center gap-1">
+                Try it yourself -- drag the slider to explore:
+                <InfoTooltip><p>This simulates different market scenarios. Higher returns aren't "free" -- they require a portfolio that can handle more "Heat" (volatility).</p></InfoTooltip>
+              </p>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-sm text-muted-foreground whitespace-nowrap">4%</span>
                 <div className="flex-1"><Slider value={[annualReturn]} onValueChange={([val]) => setAnnualReturn(val)} min={4} max={12} step={0.5} data-testid="slider-annual-return" /></div>

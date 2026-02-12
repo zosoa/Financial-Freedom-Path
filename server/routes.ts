@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertCalculationSchema, insertLeadSchema } from "@shared/schema";
+import { insertCalculationSchema, insertLeadSchema, SUPPORTED_CURRENCIES } from "@shared/schema";
 import { ZodError } from "zod";
 import { z } from "zod";
 import { sendReportEmail, sendLeadConfirmationEmail } from "./email";
@@ -66,11 +66,31 @@ export async function registerRoutes(
       const lead = await storage.createLead({ ...data, ipAddress });
 
       if (data.email && data.name) {
+        let calcData: any = {};
+        if (data.calculationId) {
+          const calc = await storage.getCalculation(data.calculationId);
+          if (calc) {
+            const currencyInfo = SUPPORTED_CURRENCIES[calc.currency];
+            calcData = {
+              freedomAge: calc.freedomAge,
+              targetAge: calc.targetFreedomAge,
+              requiredCapital: calc.requiredCapital,
+              plannedCapital: calc.plannedCapital,
+              age: calc.age,
+              currency: calc.currency,
+              currencySymbol: currencyInfo?.symbol || calc.currency,
+              desiredMonthlyIncome: calc.desiredMonthlyIncome,
+              reportUrl: `${req.protocol}://${req.get("host")}/report/${calc.id}`,
+            };
+          }
+        }
+
         sendLeadConfirmationEmail({
           recipientEmail: data.email,
           recipientName: data.name,
           freedomScore: data.freedomScore ?? 0,
           gapPercent: data.gapPercent ?? 0,
+          ...calcData,
         }).catch((err) => console.error("Lead confirmation email failed:", err));
       }
 
@@ -87,6 +107,10 @@ export async function registerRoutes(
   app.post("/api/send-report", async (req, res) => {
     try {
       const data = saveReportSchema.parse(req.body);
+      const reportUrl = data.calculationId
+        ? `${req.protocol}://${req.get("host")}/report/${data.calculationId}`
+        : undefined;
+
       const emailSent = await sendReportEmail({
         recipientEmail: data.email,
         recipientName: data.name,
@@ -106,6 +130,7 @@ export async function registerRoutes(
         currentSavings: data.currentSavings,
         personality: data.personality,
         narrativeType: data.narrativeType,
+        reportUrl,
       });
 
       if (emailSent) {

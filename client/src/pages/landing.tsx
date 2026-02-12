@@ -33,6 +33,7 @@ import iconAnalysis from "@assets/icons/icon-analysis.png";
 import iconSavings from "@assets/icons/icon-savings.png";
 import iconCompound from "@assets/icons/icon-compound.png";
 import iconInstitution from "@assets/icons/icon-institution.png";
+import lifestyleImage from "@assets/Finksmart_Chill_success_woman_1770889957387.png";
 import { useTheme } from "@/lib/theme-provider";
 import {
   COUNTRY_CURRENCY_MAP,
@@ -351,7 +352,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* 3-Step Journey */}
+      {/* 3-Step Journey - 2-Column Split Layout */}
       <section className="py-16 md:py-24 bg-card">
         <div className="max-w-6xl mx-auto px-4">
           <AnimatedSection>
@@ -365,92 +366,104 @@ export default function Landing() {
             </div>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            {/* Step 1 - Active */}
-            <AnimatedSection>
-              <div className="group relative h-full">
-                <Card className="p-6 h-full relative overflow-visible border-primary/30 transition-shadow duration-500 group-hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.3)]">
-                  <div className="absolute -top-3 left-6">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
-                      <Sparkles className="w-3 h-3" /> Available Now
-                    </span>
+          <div className="flex flex-col md:flex-row gap-8 md:gap-12">
+            {/* Left Column - Lifestyle Image (45%) */}
+            <div className="md:w-[45%] flex-shrink-0">
+              <div className="md:sticky md:top-24">
+                <AnimatedSection>
+                  <div className="relative rounded-2xl overflow-hidden shadow-xl">
+                    <img
+                      src={lifestyleImage}
+                      alt="Living your dream lifestyle with financial freedom"
+                      className="w-full h-auto object-cover rounded-2xl"
+                      data-testid="img-journey-lifestyle"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent pointer-events-none rounded-2xl" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/20 pointer-events-none rounded-2xl" />
                   </div>
-                  <div className="pt-4">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 shadow-inner relative">
-                      <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-glow-pulse" />
-                      <img src={iconRoadmap} alt="" className="w-10 h-10 animate-wobble relative z-10" />
-                    </div>
-                    <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 1</div>
-                    <h3 className="font-semibold text-xl mb-2" data-testid="text-step1-title">Your FinkSmart Freedom GPS</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                      Where do you stand today vs where you want to be? Our calculator reveals your exact position on the path to financial freedom in 2 minutes.
-                    </p>
-                    <p className="text-xs font-medium text-primary">
-                      Answer 5 simple questions &rarr; Get your Freedom Score
-                    </p>
-                  </div>
-                </Card>
-                <div className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="w-8 h-0.5 bg-gradient-to-r from-primary/60 to-transparent" />
-                </div>
+                </AnimatedSection>
               </div>
-            </AnimatedSection>
+            </div>
 
-            {/* Step 2 - Coming Soon */}
-            <AnimatedSection>
-              <div className="group relative h-full">
-                <Card className="p-6 h-full relative overflow-visible opacity-85 transition-shadow duration-500 group-hover:shadow-[0_0_24px_-5px_rgba(100,160,255,0.25)]">
-                  <div className="absolute -top-3 left-6">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-400/20 text-xs font-semibold">
-                      <Lock className="w-3 h-3" /> Coming Soon
-                    </span>
-                  </div>
-                  <div className="pt-4">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/15 to-blue-500/5 flex items-center justify-center mb-4 shadow-inner relative">
-                      <div className="absolute inset-0 rounded-2xl bg-blue-400/10 animate-glow-pulse" />
-                      <img src={iconRiskDna} alt="" className="w-10 h-10 animate-dna-glow relative z-10" />
-                    </div>
-                    <div className="text-xs font-medium text-muted-foreground mb-2 tracking-wide uppercase">Step 2</div>
-                    <h3 className="font-semibold text-xl mb-2 text-muted-foreground" data-testid="text-step2-title">Your Risk DNA</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                      Not all investors are the same. Discover what kind of investor you really are, so your plan fits your personality and comfort level.
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      How much "heat" can your money take? Find out.
-                    </p>
-                  </div>
-                </Card>
-                <div className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="w-8 h-0.5 bg-gradient-to-r from-blue-400/40 to-transparent" />
-                </div>
-              </div>
-            </AnimatedSection>
+            {/* Right Column - Journey Cards (55%) */}
+            <div className="md:w-[55%] relative">
+              {/* Connecting Orange Line */}
+              <div className="hidden md:block absolute left-[28px] top-[60px] bottom-[60px] w-[2px] bg-gradient-to-b from-primary/60 via-primary/30 to-primary/10 z-0" />
 
-            {/* Step 3 - Coming Soon */}
-            <AnimatedSection>
-              <div className="group relative h-full">
-                <Card className="p-6 h-full relative overflow-visible opacity-85 transition-shadow duration-500 group-hover:shadow-[0_0_24px_-5px_rgba(100,160,255,0.25)]">
-                  <div className="absolute -top-3 left-6">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-semibold">
-                      <Lock className="w-3 h-3" /> Coming Soon
-                    </span>
-                  </div>
-                  <div className="pt-4">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-4 shadow-inner relative">
-                      <img src={iconGoal} alt="" className="w-10 h-10 relative z-10" />
+              <div className="space-y-6">
+                {/* Step 1 - Freedom GPS */}
+                <AnimatedSection>
+                  <div className="relative flex gap-5 items-start group">
+                    <div className="relative z-10 flex-shrink-0 w-14 h-14 rounded-2xl bg-background shadow-md flex items-center justify-center border border-primary/20">
+                      <img src={iconRoadmap} alt="" className="w-8 h-8" />
                     </div>
-                    <div className="text-xs font-medium text-muted-foreground mb-2 tracking-wide uppercase">Step 3</div>
-                    <h3 className="font-semibold text-xl mb-2 text-muted-foreground" data-testid="text-step3-title">Your Action Plan</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                      From numbers to action. A concrete, step-by-step roadmap to actually get you to financial freedom&mdash;not theory, real moves you can make.
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Your personalised investment strategy, built for you.
-                    </p>
+                    <div className="flex-1 bg-background rounded-xl p-5 shadow-sm border border-border/40">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[10px] font-semibold text-primary uppercase tracking-widest">Step 1</span>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold">
+                          <Sparkles className="w-2.5 h-2.5" /> Available Now
+                        </span>
+                      </div>
+                      <h3 className="font-semibold text-lg mb-1.5" data-testid="text-step1-title">Your FinkSmart Freedom GPS</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-2">
+                        Where do you stand today vs where you want to be? Our calculator reveals your exact position on the path to financial freedom in 2 minutes.
+                      </p>
+                      <p className="text-xs font-medium text-primary">
+                        Answer 5 simple questions &rarr; Get your Freedom Score
+                      </p>
+                    </div>
                   </div>
-                </Card>
+                </AnimatedSection>
+
+                {/* Step 2 - Risk DNA */}
+                <AnimatedSection>
+                  <div className="relative flex gap-5 items-start group">
+                    <div className="relative z-10 flex-shrink-0 w-14 h-14 rounded-2xl bg-background shadow-md flex items-center justify-center border border-blue-400/20">
+                      <img src={iconRiskDna} alt="" className="w-8 h-8" />
+                    </div>
+                    <div className="flex-1 bg-background rounded-xl p-5 shadow-sm border border-border/40 opacity-90">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">Step 2</span>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-400/20 text-[10px] font-semibold">
+                          <Lock className="w-2.5 h-2.5" /> Coming Soon
+                        </span>
+                      </div>
+                      <h3 className="font-semibold text-lg mb-1.5 text-muted-foreground" data-testid="text-step2-title">Your Risk DNA</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-2">
+                        Not all investors are the same. Discover what kind of investor you really are, so your plan fits your personality and comfort level.
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        How much "heat" can your money take? Find out.
+                      </p>
+                    </div>
+                  </div>
+                </AnimatedSection>
+
+                {/* Step 3 - Action Plan */}
+                <AnimatedSection>
+                  <div className="relative flex gap-5 items-start group">
+                    <div className="relative z-10 flex-shrink-0 w-14 h-14 rounded-2xl bg-background shadow-md flex items-center justify-center border border-border/40">
+                      <img src={iconGoal} alt="" className="w-8 h-8" />
+                    </div>
+                    <div className="flex-1 bg-background rounded-xl p-5 shadow-sm border border-border/40 opacity-90">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">Step 3</span>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-[10px] font-semibold">
+                          <Lock className="w-2.5 h-2.5" /> Coming Soon
+                        </span>
+                      </div>
+                      <h3 className="font-semibold text-lg mb-1.5 text-muted-foreground" data-testid="text-step3-title">Your Action Plan</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-2">
+                        From numbers to action. A concrete, step-by-step roadmap to actually get you to financial freedom&mdash;not theory, real moves you can make.
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Your personalised investment strategy, built for you.
+                      </p>
+                    </div>
+                  </div>
+                </AnimatedSection>
               </div>
-            </AnimatedSection>
+            </div>
           </div>
         </div>
       </section>

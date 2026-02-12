@@ -8,6 +8,7 @@ import NotFound from "@/pages/not-found";
 import Landing from "@/pages/landing";
 import Calculator from "@/pages/calculator";
 import Results from "@/pages/results";
+import Report from "@/pages/report";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
       <Route path="/" component={Landing} />
       <Route path="/calculator" component={Calculator} />
       <Route path="/results" component={Results} />
+      <Route path="/report/:id" component={Report} />
       <Route component={NotFound} />
     </Switch>
   );
