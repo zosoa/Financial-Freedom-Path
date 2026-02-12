@@ -13,26 +13,26 @@ import {
 } from "@/components/ui/popover";
 import {
   ArrowRight,
-  Shield,
-  Eye,
-  TrendingUp,
   Users,
   Lock,
   Sun,
   Moon,
-  Compass,
-  Target,
   Info,
-  Map,
-  Dna,
-  BookOpen,
-  BarChart3,
-  Lightbulb,
   ShieldCheck,
   Sparkles,
-  Scale,
-  Grid3x3,
 } from "lucide-react";
+import iconRoadmap from "@assets/icons/icon-roadmap.png";
+import iconRiskDna from "@assets/icons/icon-risk-dna.png";
+import iconGoal from "@assets/icons/icon-goal.png";
+import iconDataPrivacy from "@assets/icons/icon-data-privacy.png";
+import iconSmartLogic from "@assets/icons/icon-smart-logic.png";
+import iconAnalytics from "@assets/icons/icon-analytics.png";
+import iconEducation from "@assets/icons/icon-education.png";
+import iconGrowth from "@assets/icons/icon-growth.png";
+import iconAnalysis from "@assets/icons/icon-analysis.png";
+import iconSavings from "@assets/icons/icon-savings.png";
+import iconCompound from "@assets/icons/icon-compound.png";
+import iconInstitution from "@assets/icons/icon-institution.png";
 import { useTheme } from "@/lib/theme-provider";
 import {
   COUNTRY_CURRENCY_MAP,
@@ -249,16 +249,15 @@ export default function Landing() {
                   </p>
                 </div>
 
-                <Button
-                  className="w-full text-base"
-                  size="lg"
+                <button
+                  className="premium-cta premium-cta-lg w-full"
                   onClick={handleStart}
                   disabled={!selectedCountry}
                   data-testid="button-start-journey"
                 >
                   Show me if it's possible
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
 
                 <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                   <ShieldCheck className="w-3.5 h-3.5" />
@@ -379,7 +378,7 @@ export default function Landing() {
                   <div className="pt-4">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 shadow-inner relative">
                       <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-glow-pulse" />
-                      <Compass className="w-8 h-8 text-primary animate-wobble relative z-10" />
+                      <img src={iconRoadmap} alt="" className="w-10 h-10 animate-wobble relative z-10" />
                     </div>
                     <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 1</div>
                     <h3 className="font-semibold text-xl mb-2" data-testid="text-step1-title">Your FinkSmart Freedom GPS</h3>
@@ -409,7 +408,7 @@ export default function Landing() {
                   <div className="pt-4">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/15 to-blue-500/5 flex items-center justify-center mb-4 shadow-inner relative">
                       <div className="absolute inset-0 rounded-2xl bg-blue-400/10 animate-glow-pulse" />
-                      <Dna className="w-8 h-8 text-blue-400/70 animate-dna-glow relative z-10" />
+                      <img src={iconRiskDna} alt="" className="w-10 h-10 animate-dna-glow relative z-10" />
                     </div>
                     <div className="text-xs font-medium text-muted-foreground mb-2 tracking-wide uppercase">Step 2</div>
                     <h3 className="font-semibold text-xl mb-2 text-muted-foreground" data-testid="text-step2-title">Your Risk DNA</h3>
@@ -438,10 +437,7 @@ export default function Landing() {
                   </div>
                   <div className="pt-4">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-4 shadow-inner relative">
-                      <Target className="w-8 h-8 text-muted-foreground/70 relative z-10" />
-                      <div className="absolute top-2 right-2 animate-arrow-fly">
-                        <ArrowRight className="w-4 h-4 text-primary/50 -rotate-45" />
-                      </div>
+                      <img src={iconGoal} alt="" className="w-10 h-10 relative z-10" />
                     </div>
                     <div className="text-xs font-medium text-muted-foreground mb-2 tracking-wide uppercase">Step 3</div>
                     <h3 className="font-semibold text-xl mb-2 text-muted-foreground" data-testid="text-step3-title">Your Action Plan</h3>
@@ -477,7 +473,7 @@ export default function Landing() {
             <AnimatedSection>
               <Card className="p-6 h-full relative">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/10 to-transparent flex items-center justify-center mb-4 shadow-inner">
-                  <Scale className="w-7 h-7 text-primary drop-shadow-sm" />
+                  <img src={iconAnalysis} alt="" className="w-9 h-9 drop-shadow-sm" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2">Zero Product Bias</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -489,7 +485,7 @@ export default function Landing() {
             <AnimatedSection>
               <Card className="p-6 h-full relative">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 via-emerald-500/10 to-transparent flex items-center justify-center mb-4 shadow-inner relative">
-                  <Shield className="w-7 h-7 text-emerald-500 drop-shadow-sm" />
+                  <img src={iconDataPrivacy} alt="" className="w-9 h-9 drop-shadow-sm" />
                   <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500/30 flex items-center justify-center">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-signal-pulse" />
                   </div>
@@ -514,7 +510,7 @@ export default function Landing() {
                 }} />
                 <div className="relative z-10">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 via-blue-500/10 to-transparent flex items-center justify-center mb-4 shadow-inner">
-                    <Grid3x3 className="w-7 h-7 text-blue-500 drop-shadow-sm" />
+                    <img src={iconSmartLogic} alt="" className="w-9 h-9 drop-shadow-sm" />
                   </div>
                   <h3 className="font-semibold text-lg mb-2">Institutional-Grade Logic</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
@@ -545,7 +541,7 @@ export default function Landing() {
             <AnimatedSection>
               <div className="text-center">
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Map className="w-7 h-7 text-primary" />
+                  <img src={iconRoadmap} alt="" className="w-9 h-9" />
                 </div>
                 <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 1</div>
                 <h3 className="font-semibold text-lg mb-2">Answer Simple Questions</h3>
@@ -558,7 +554,7 @@ export default function Landing() {
             <AnimatedSection>
               <div className="text-center">
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <BarChart3 className="w-7 h-7 text-primary" />
+                  <img src={iconAnalytics} alt="" className="w-9 h-9" />
                 </div>
                 <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 2</div>
                 <h3 className="font-semibold text-lg mb-2">See Your Freedom Date</h3>
@@ -571,7 +567,7 @@ export default function Landing() {
             <AnimatedSection>
               <div className="text-center">
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Lightbulb className="w-7 h-7 text-primary" />
+                  <img src={iconEducation} alt="" className="w-9 h-9" />
                 </div>
                 <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 3</div>
                 <h3 className="font-semibold text-lg mb-2">Get Clarity, Not Sales</h3>
@@ -603,7 +599,7 @@ export default function Landing() {
               <Card className="p-6 h-full">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-md bg-amber-500/10 flex items-center justify-center">
-                    <BookOpen className="w-5 h-5 text-amber-500" />
+                    <img src={iconEducation} alt="" className="w-7 h-7" />
                   </div>
                   <div>
                     <h3 className="font-semibold">No-Jargon Guides</h3>
@@ -620,7 +616,7 @@ export default function Landing() {
               <Card className="p-6 h-full">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-md bg-blue-500/10 flex items-center justify-center">
-                    <BarChart3 className="w-5 h-5 text-blue-500" />
+                    <img src={iconGrowth} alt="" className="w-7 h-7" />
                   </div>
                   <div>
                     <h3 className="font-semibold">Market Insights</h3>
@@ -637,7 +633,7 @@ export default function Landing() {
               <Card className="p-6 h-full">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-md bg-emerald-500/10 flex items-center justify-center">
-                    <Lightbulb className="w-5 h-5 text-emerald-500" />
+                    <img src={iconSmartLogic} alt="" className="w-7 h-7" />
                   </div>
                   <div>
                     <h3 className="font-semibold">Smart Tips & Strategies</h3>
@@ -716,17 +712,16 @@ export default function Landing() {
             <p className="text-muted-foreground max-w-lg mx-auto mb-8">
               It takes 2 minutes. It's completely free. And it might just change how you think about your future.
             </p>
-            <Button
-              size="lg"
-              className="text-base"
+            <button
+              className="premium-cta premium-cta-lg"
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               data-testid="button-cta-bottom"
             >
               Start My Freedom Journey
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+              <ArrowRight className="w-4 h-4" />
+            </button>
             <p className="text-xs text-muted-foreground mt-4 flex items-center justify-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5" />
               Your data is never shared unless you actively choose to connect with a partner.

@@ -28,35 +28,37 @@ import {
 import {
   ArrowLeft,
   ArrowDown,
-  Share2,
   Sun,
   Moon,
   Heart,
   Sparkles,
   TrendingUp,
-  Target,
   Rocket,
   TreePine,
   Footprints,
   Info,
-  PieChart,
   Lightbulb,
   Zap,
   Coins,
   Lock,
-  Shield,
   ChevronRight,
   DollarSign,
-  Gauge,
   Clock,
   ArrowUpRight,
   Download,
-  MessageSquare,
   Mail,
   Loader2,
   FileText,
   RefreshCw,
 } from "lucide-react";
+import iconGoal from "@assets/icons/icon-goal.png";
+import iconGrowth from "@assets/icons/icon-growth.png";
+import iconAnalytics from "@assets/icons/icon-analytics.png";
+import iconCompound from "@assets/icons/icon-compound.png";
+import iconRiskDna from "@assets/icons/icon-risk-dna.png";
+import iconDataPrivacy from "@assets/icons/icon-data-privacy.png";
+import iconRoadmap from "@assets/icons/icon-roadmap.png";
+import iconSmartLogic from "@assets/icons/icon-smart-logic.png";
 import {
   AreaChart,
   Area,
@@ -381,7 +383,7 @@ export default function Results() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="space-y-2">
           <div className="flex items-center gap-1.5">
             <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
-              <Target className="w-4 h-4 text-primary" />
+              <img src={iconGoal} alt="" className="w-5 h-5" />
               Your Target Capital
             </p>
             <InfoTooltip>
@@ -438,7 +440,7 @@ export default function Results() {
         {/* 3. Return Comparison Table */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="space-y-2">
           <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-primary" />
+            <img src={iconGrowth} alt="" className="w-5 h-5" />
             Return Comparison
           </p>
           <Card className="p-6 overflow-x-auto">
@@ -479,7 +481,7 @@ export default function Results() {
         {/* 4. Capital Evolution Chart */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="space-y-2">
           <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
-            <Gauge className="w-4 h-4 text-primary" />
+            <img src={iconAnalytics} alt="" className="w-5 h-5" />
             Capital Evolution
           </p>
           <Card className="p-6">
@@ -533,7 +535,7 @@ export default function Results() {
         {/* 5. Capital Composition Donut */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }} className="space-y-2">
           <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
-            <PieChart className="w-4 h-4 text-primary" />
+            <img src={iconCompound} alt="" className="w-5 h-5" />
             Composition of Your Capital (at 6%)
           </p>
           <Card className="p-6">
@@ -714,7 +716,7 @@ export default function Results() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}>
           <Card className="p-6">
             <div className="flex items-center gap-2 mb-2">
-              <Gauge className="w-5 h-5 text-primary" />
+              <img src={iconSmartLogic} alt="" className="w-6 h-6" />
               <h3 className="font-semibold text-lg">How Returns Influence Your Freedom</h3>
             </div>
             <p className="text-sm text-muted-foreground mb-6">
@@ -835,7 +837,7 @@ export default function Results() {
           <Card className="p-6 md:p-10">
             <div className="flex flex-col items-center justify-center text-center">
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <Lock className="w-8 h-8 text-primary" />
+                <img src={iconRiskDna} alt="" className="w-10 h-10" />
               </div>
               <h3 className="font-serif text-2xl font-bold mb-2" data-testid="text-phase2-title">
                 Phase 2: Stress-Test Your Strategy
@@ -845,14 +847,14 @@ export default function Results() {
               </p>
               <div className="space-y-3 text-left max-w-sm mb-6">
                 <div className="flex items-start gap-3 text-sm">
-                  <Shield className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                  <img src={iconDataPrivacy} alt="" className="w-6 h-6 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-foreground">Bulletproof Your Plan</p>
                     <p className="text-xs text-muted-foreground">Discover if your "dream" crashes during a market downturn.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 text-sm">
-                  <Gauge className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                  <img src={iconRiskDna} alt="" className="w-6 h-6 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-foreground">Your Risk DNA</p>
                     <p className="text-xs text-muted-foreground">Learn exactly how much "heat" your portfolio can take before you lose sleep.</p>
@@ -866,10 +868,10 @@ export default function Results() {
                   </div>
                 </div>
               </div>
-              <Button size="lg" onClick={() => setShowLeadModal(true)} data-testid="button-unlock-phase2">
-                <Lock className="w-4 h-4 mr-2" />
+              <button className="premium-cta premium-cta-lg" onClick={() => setShowLeadModal(true)} data-testid="button-unlock-phase2">
+                <Lock className="w-4 h-4" />
                 Decode my Risk DNA
-              </Button>
+              </button>
             </div>
           </Card>
         </motion.div>
@@ -879,7 +881,7 @@ export default function Results() {
           <div className="grid md:grid-cols-2 gap-4">
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-3">
-                <Target className="w-5 h-5 text-primary" />
+                <img src={iconGoal} alt="" className="w-6 h-6" />
                 <h3 className="font-semibold">Make It 100% Precise</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
@@ -892,7 +894,7 @@ export default function Results() {
             </Card>
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-3">
-                <Shield className="w-5 h-5 text-emerald-500" />
+                <img src={iconDataPrivacy} alt="" className="w-6 h-6" />
                 <h3 className="font-semibold">Already Have Investments?</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">

@@ -7,15 +7,15 @@ import { Input } from "@/components/ui/input";
 import {
   ArrowLeft,
   ArrowRight,
-  User,
-  Banknote,
-  PiggyBank,
-  Wallet,
   Sun,
   Moon,
-  Sunset,
   Sparkles,
 } from "lucide-react";
+import iconRetirement from "@assets/icons/icon-retirement.png";
+import iconWealth from "@assets/icons/icon-wealth.png";
+import iconSavings from "@assets/icons/icon-savings.png";
+import iconGrowth from "@assets/icons/icon-growth.png";
+import iconGlobalView from "@assets/icons/icon-global-view.png";
 import { useTheme } from "@/lib/theme-provider";
 import { SUPPORTED_CURRENCIES } from "@shared/schema";
 
@@ -23,7 +23,7 @@ interface StepConfig {
   key: "age" | "monthlyIncome" | "currentSavings" | "monthlySavingsRate" | "targetFreedomAge";
   question: string;
   subtitle: string;
-  icon: typeof User;
+  iconSrc: string;
   placeholder: string;
   suffix?: string;
   isCurrency?: boolean;
@@ -36,7 +36,7 @@ const STEPS: StepConfig[] = [
     key: "age",
     question: "How old are you?",
     subtitle: "This helps us calculate the time you have to grow your wealth.",
-    icon: User,
+    iconSrc: iconGlobalView,
     placeholder: "35",
     suffix: "years old",
     min: 18,
@@ -46,7 +46,7 @@ const STEPS: StepConfig[] = [
     key: "targetFreedomAge",
     question: "At what age do you dream of being financially free?",
     subtitle: "When would you love to stop working or when does working become a choice but no longer a necessity? Pick the age that excites you.",
-    icon: Sunset,
+    iconSrc: iconRetirement,
     placeholder: "55",
     suffix: "years old",
     min: 25,
@@ -56,7 +56,7 @@ const STEPS: StepConfig[] = [
     key: "monthlyIncome",
     question: "What is your current monthly net income?",
     subtitle: "After taxes. Be honest -- this is just for you.",
-    icon: Banknote,
+    iconSrc: iconWealth,
     placeholder: "5,000",
     isCurrency: true,
   },
@@ -64,7 +64,7 @@ const STEPS: StepConfig[] = [
     key: "currentSavings",
     question: "How much do you have saved or invested so far?",
     subtitle: "Bank accounts, investments, retirement funds -- everything counts.",
-    icon: PiggyBank,
+    iconSrc: iconSavings,
     placeholder: "25,000",
     isCurrency: true,
   },
@@ -72,7 +72,7 @@ const STEPS: StepConfig[] = [
     key: "monthlySavingsRate",
     question: "How much can you save every month?",
     subtitle: "Even a small amount grows dramatically over time. Be realistic.",
-    icon: Wallet,
+    iconSrc: iconGrowth,
     placeholder: "500",
     isCurrency: true,
   },
@@ -238,7 +238,7 @@ export default function Calculator() {
     exit: (d: number) => ({ x: d > 0 ? -80 : 80, opacity: 0 }),
   };
 
-  const Icon = step.icon;
+  const stepIconSrc = step.iconSrc;
 
   const savingsComment = useMemo(() => {
     if (step.key === "monthlySavingsRate") {
@@ -409,7 +409,7 @@ export default function Calculator() {
             >
               <div className="text-center">
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Icon className="w-7 h-7 text-primary" />
+                  <img src={stepIconSrc} alt="" className="w-9 h-9" />
                 </div>
                 <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2" data-testid={`text-question-${step.key}`}>
                   {step.question}
@@ -492,10 +492,17 @@ export default function Calculator() {
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back
                 </Button>
-                <Button className="flex-1" disabled={!isValid} onClick={handleNext} data-testid="button-next">
-                  {currentStep === totalSteps - 1 ? "See My Results" : "Continue"}
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
+                {currentStep === totalSteps - 1 ? (
+                  <button className="premium-cta flex-1" disabled={!isValid} onClick={handleNext} data-testid="button-next">
+                    See My Results
+                    <Sparkles className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <Button className="flex-1" disabled={!isValid} onClick={handleNext} data-testid="button-next">
+                    Continue
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                )}
               </div>
             </motion.div>
           </AnimatePresence>
