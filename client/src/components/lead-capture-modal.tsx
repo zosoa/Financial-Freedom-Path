@@ -23,6 +23,8 @@ interface LeadCaptureModalProps {
   gapPercent: number;
   freedomScore: number;
   referralSource?: string;
+  sessionId?: string;
+  leadStatus?: string;
 }
 
 export function LeadCaptureModal({
@@ -34,6 +36,8 @@ export function LeadCaptureModal({
   gapPercent,
   freedomScore,
   referralSource,
+  sessionId,
+  leadStatus = "risk_dna_started",
 }: LeadCaptureModalProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -48,6 +52,7 @@ export function LeadCaptureModal({
     try {
       await apiRequest("POST", "/api/leads", {
         calculationId,
+        sessionId: sessionId || null,
         name: name.trim(),
         email: email.trim(),
         whatsapp: whatsapp.trim(),
@@ -55,6 +60,7 @@ export function LeadCaptureModal({
         currency,
         gapPercent,
         freedomScore,
+        leadStatus: leadStatus || "risk_dna_started",
         lifeEvent: lifeEvent.trim() || null,
         referralSource: referralSource || null,
       });

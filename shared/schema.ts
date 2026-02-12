@@ -5,6 +5,7 @@ import { z } from "zod";
 
 export const calculations = pgTable("calculations", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: text("session_id"),
   country: text("country").notNull(),
   currency: text("currency").notNull(),
   age: integer("age").notNull(),
@@ -21,12 +22,17 @@ export const calculations = pgTable("calculations", {
   gapPercent: doublePrecision("gap_percent").notNull(),
   freedomAge: integer("freedom_age").notNull(),
   freedomScore: integer("freedom_score").notNull(),
+  solutionSaveMore: doublePrecision("solution_save_more"),
+  solutionLumpSum: doublePrecision("solution_lump_sum"),
+  solutionReturnNeeded: doublePrecision("solution_return_needed"),
+  ipAddress: text("ip_address"),
   referralSource: text("referral_source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const leads = pgTable("leads", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: text("session_id"),
   calculationId: varchar("calculation_id").references(() => calculations.id),
   name: text("name").notNull(),
   email: text("email"),
@@ -35,7 +41,9 @@ export const leads = pgTable("leads", {
   currency: text("currency").notNull(),
   gapPercent: doublePrecision("gap_percent").notNull(),
   freedomScore: integer("freedom_score").notNull(),
+  leadStatus: text("lead_status").default("phase1_complete"),
   lifeEvent: text("life_event"),
+  ipAddress: text("ip_address"),
   referralSource: text("referral_source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { useLocation, useSearch } from "wouter";
 import finksmartIcon from "@assets/finksmart-icon.png";
 import { motion, AnimatePresence } from "framer-motion";
@@ -114,6 +114,13 @@ export default function Results() {
   const [calculationId, setCalculationId] = useState<string | null>(null);
   const [hasSaved, setHasSaved] = useState(false);
   const [activeSolution, setActiveSolution] = useState<"savings" | "lumpsum" | "efficiency">("savings");
+  const sessionId = useMemo(() => {
+    const existing = sessionStorage.getItem("fp_session_id");
+    if (existing) return existing;
+    const id = crypto.randomUUID();
+    sessionStorage.setItem("fp_session_id", id);
+    return id;
+  }, []);
   const [showSaveReport, setShowSaveReport] = useState(false);
   const [reportName, setReportName] = useState("");
   const [reportEmail, setReportEmail] = useState("");
@@ -143,6 +150,7 @@ export default function Results() {
     if (hasSaved) return;
     try {
       const res = await apiRequest("POST", "/api/calculations", {
+        sessionId,
         country,
         currency,
         age: inputs.age,
@@ -158,6 +166,9 @@ export default function Results() {
         gapPercent: results.gapPercent,
         freedomAge: results.freedomAgeStandard,
         freedomScore: results.freedomScore,
+        solutionSaveMore: results.solutionModule.hasGap ? results.solutionModule.savingsLeverAmount : null,
+        solutionLumpSum: results.solutionModule.hasGap ? results.solutionModule.lumpSumAmount : null,
+        solutionReturnNeeded: results.solutionModule.hasGap ? results.solutionModule.efficiencyLeverReturn : null,
         referralSource: referralSource || null,
       });
       const data = await res.json();
@@ -166,7 +177,7 @@ export default function Results() {
     } catch (e) {
       // silently fail
     }
-  }, [hasSaved, inputs, results, country, currency, referralSource]);
+  }, [hasSaved, inputs, results, country, currency, referralSource, sessionId]);
 
   useEffect(() => {
     saveCalculation();
@@ -895,6 +906,8 @@ export default function Results() {
         gapPercent={results.gapPercent}
         freedomScore={results.freedomScore}
         referralSource={referralSource}
+        sessionId={sessionId}
+        leadStatus="risk_dna_started"
       />
 
       {showShareCard && (

@@ -34,8 +34,9 @@ export async function registerRoutes(
 ): Promise<Server> {
   app.post("/api/calculations", async (req, res) => {
     try {
+      const ipAddress = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || null;
       const data = insertCalculationSchema.parse(req.body);
-      const calculation = await storage.createCalculation(data);
+      const calculation = await storage.createCalculation({ ...data, ipAddress });
       res.json(calculation);
     } catch (e) {
       if (e instanceof ZodError) {
@@ -60,8 +61,9 @@ export async function registerRoutes(
 
   app.post("/api/leads", async (req, res) => {
     try {
+      const ipAddress = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || null;
       const data = insertLeadSchema.parse(req.body);
-      const lead = await storage.createLead(data);
+      const lead = await storage.createLead({ ...data, ipAddress });
 
       if (data.email && data.name) {
         sendLeadConfirmationEmail({
