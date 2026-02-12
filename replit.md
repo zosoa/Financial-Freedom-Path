@@ -1,7 +1,7 @@
-# The Freedom Path - Financial GPS
+# FinkSmart: Pro-Investing Decoded - Financial GPS
 
 ## Overview
-A conversion-optimized Financial GPS web application that guides non-savvy salary workers through retirement planning. Uses institutional-grade FINSIM v5 calculation logic (2% inflation, 6% Safe Withdrawal Rate), built by former Private Bankers/UHNW Asset Managers.
+A conversion-optimized Financial GPS web application (FinkSmart brand) that guides non-savvy salary workers through retirement planning. Uses institutional-grade FINSIM v5 calculation logic (2% inflation, 6% Safe Withdrawal Rate), built by former Private Bankers/UHNW Asset Managers. Sponsored by BLACKWAVE CAPITAL.
 
 ## Architecture
 - **Frontend**: React 18 + Vite, Tailwind CSS, Shadcn UI components, Framer Motion animations, Recharts for data visualization
@@ -59,6 +59,16 @@ A conversion-optimized Financial GPS web application that guides non-savvy salar
 - formatCurrencyFull: full number with spaces for detailed display
 
 ## Recent Changes (Feb 2026)
+- FinkSmart branding overhaul: parent brand with "Pro-Investing Decoded" motto across all pages
+- Calculator text: "saved or invested so far", "save every month" wording
+- Gap description: "At this current pace you will reach your goal at age"
+- "Don't Panic" reassuring section before solution tabs
+- Solution tabs redesigned as segmented control with "Lever 1/2/3" labels and brand-colored active state
+- "Show me how to close this" scroll button next to gap display
+- "Retake Assessment & Adjust Goals" escape hatch button at bottom of solutions
+- Phase 2 CTA fix: padding adjusted, button text "Decode my Risk DNA"
+- Session tracking and IP capture for anonymous users
+- Email system with hello@finksmart.com sender (Freedom Report + Lead confirmation templates)
 - Added targetFreedomAge to schema and calculator flow (step 2, right after age)
 - Removed lump sum questions from calculator
 - Removed duplicate desired income question (already on landing)

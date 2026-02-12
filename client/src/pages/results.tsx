@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/popover";
 import {
   ArrowLeft,
+  ArrowDown,
   Share2,
   Sun,
   Moon,
@@ -54,6 +55,7 @@ import {
   Mail,
   Loader2,
   FileText,
+  RefreshCw,
 } from "lucide-react";
 import {
   AreaChart,
@@ -291,8 +293,11 @@ export default function Results() {
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-            <img src={finksmartIcon} alt="Finksmart" className="w-6 h-6" />
-            <span className="font-serif text-sm font-semibold">Freedom Path</span>
+            <img src={finksmartIcon} alt="FinkSmart" className="w-6 h-6" />
+            <div className="flex flex-col leading-none">
+              <span className="font-serif text-sm font-semibold">FinkSmart</span>
+              <span className="text-[9px] text-muted-foreground tracking-wider">Pro-Investing Decoded</span>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <Button size="icon" variant="ghost" onClick={toggleTheme} data-testid="button-theme-toggle-results">
@@ -350,11 +355,23 @@ export default function Results() {
                 )}
               </p>
               {results.freedomAgeStandard > inputs.targetFreedomAge && (
-                <p className="text-sm mt-1 text-muted-foreground">
-                  Gap: <span className="font-semibold">{formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}</span> &middot; Target reached at age{" "}
-                  <span className="font-semibold">{results.freedomAgeStandard}</span>{" "}
-                  ({results.freedomAgeStandard - inputs.targetFreedomAge} year{results.freedomAgeStandard - inputs.targetFreedomAge === 1 ? "" : "s"} later than planned)
-                </p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-1">
+                  <p className="text-sm text-muted-foreground">
+                    Gap: <span className="font-semibold">{formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}</span> &middot; At this current pace you will reach your goal at age{" "}
+                    <span className="font-semibold">{results.freedomAgeStandard}</span>{" "}
+                    ({results.freedomAgeStandard - inputs.targetFreedomAge} year{results.freedomAgeStandard - inputs.targetFreedomAge === 1 ? "" : "s"} later than planned)
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-shrink-0 border-primary/30 text-primary"
+                    onClick={() => document.getElementById("solution-section")?.scrollIntoView({ behavior: "smooth" })}
+                    data-testid="button-show-close-gap"
+                  >
+                    <ArrowDown className="w-3.5 h-3.5 mr-1.5" />
+                    Show me how to close this
+                  </Button>
+                </div>
               )}
             </div>
           </Card>
@@ -381,8 +398,11 @@ export default function Results() {
             <p className="text-3xl md:text-4xl font-bold text-center my-4" data-testid="text-required-capital">
               {formatCurrencyFull(results.requiredCapital, currency)}
             </p>
-            <div className="text-xs text-muted-foreground text-center mb-6 flex items-center justify-center gap-1">
-              <span>Based on a 6% safe withdrawal rate per year (adjusted for 2% annual inflation)</span>
+            <div className="text-xs text-muted-foreground text-center mb-6 flex flex-col items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-[10px] font-medium text-primary tracking-wide">
+                <Sparkles className="w-3 h-3" />FinkSmart Pro-Investing Decoded
+              </span>
+              <span className="flex items-center gap-1">Based on a 6% safe withdrawal rate per year (adjusted for 2% annual inflation)</span>
               <InfoTooltip>
                 <p className="font-semibold mb-1">What is the Safe Withdrawal Rate?</p>
                 <p className="mb-2">Think of it this way: instead of spending down your savings, you build a pot big enough that you only live off the interest it generates&mdash;without ever touching the money itself.</p>
@@ -592,30 +612,36 @@ export default function Results() {
         </motion.div>
 
         {/* 7. Solution Module */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.33 }}>
+        <motion.div id="solution-section" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.33 }}>
           <Card className="p-6 md:p-8">
             {results.solutionModule.hasGap ? (
               <>
-                <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="w-5 h-5 text-amber-500" />
-                  <h3 className="font-semibold text-lg">How to Close the Gap</h3>
+                <div className="rounded-md bg-amber-50 dark:bg-amber-900/15 border border-amber-200/60 dark:border-amber-800/40 p-5 mb-6">
+                  <h3 className="font-serif text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+                    <Lightbulb className="w-5 h-5 text-amber-500" />
+                    Your gap is just a math problem -- and every math problem has a solution.
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Don't let the big numbers intimidate you. Small shifts today create massive changes tomorrow. Explore your "Levers" below to see how you can close this gap.
+                  </p>
                 </div>
-                <p className="text-sm text-muted-foreground mb-6">
-                  You have a gap of <span className="font-bold text-foreground">{formatCurrency(results.gapAmount, currency)}</span>. Here are three ways to bridge it:
+
+                <p className="text-sm text-muted-foreground mb-5">
+                  Your gap: <span className="font-bold text-foreground">{formatCurrency(results.gapAmount, currency)}</span>. Tap a lever to see how to bridge it:
                 </p>
 
-                <div className="flex gap-2 mb-6 flex-wrap">
-                  {(["savings", "lumpsum", "efficiency"] as const).map((key) => (
-                    <Button
+                <div className="inline-flex rounded-md shadow-sm border bg-muted/50 p-1 mb-6 flex-wrap gap-1" data-testid="solution-tabs">
+                  {(["savings", "lumpsum", "efficiency"] as const).map((key, idx) => (
+                    <button
                       key={key}
-                      variant={activeSolution === key ? "default" : "outline"}
                       onClick={() => setActiveSolution(key)}
+                      className={`flex items-center gap-1.5 px-4 py-2.5 rounded-md text-sm font-medium transition-all ${activeSolution === key ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground hover:bg-background"}`}
                       data-testid={`button-solution-${key}`}
                     >
-                      {key === "savings" && <><DollarSign className="w-4 h-4 mr-1.5" />Save More</>}
-                      {key === "lumpsum" && <><ArrowUpRight className="w-4 h-4 mr-1.5" />Lump Sum</>}
-                      {key === "efficiency" && <><TrendingUp className="w-4 h-4 mr-1.5" />Smarter Returns</>}
-                    </Button>
+                      {key === "savings" && <><DollarSign className="w-4 h-4" />Lever {idx + 1}: Save More</>}
+                      {key === "lumpsum" && <><ArrowUpRight className="w-4 h-4" />Lever {idx + 1}: Lump Sum</>}
+                      {key === "efficiency" && <><TrendingUp className="w-4 h-4" />Lever {idx + 1}: Smarter Returns</>}
+                    </button>
                   ))}
                 </div>
 
@@ -647,6 +673,16 @@ export default function Results() {
                     )}
                   </motion.div>
                 </AnimatePresence>
+
+                <div className="mt-6 pt-5 border-t border-border/40">
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Not happy with these numbers? Sometimes a small change in expectations changes everything. Try adjusting your target age or monthly needs.
+                  </p>
+                  <Button variant="outline" onClick={() => navigate("/")} data-testid="button-retake-assessment">
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Retake Assessment & Adjust Goals
+                  </Button>
+                </div>
               </>
             ) : (
               <>
@@ -796,46 +832,44 @@ export default function Results() {
 
         {/* 11. Phase 2: Locked Risk Assessment */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}>
-          <Card className="p-0 overflow-hidden">
-            <div>
-              <div className="flex flex-col items-center justify-center p-8 md:p-10 text-center">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Lock className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="font-serif text-2xl font-bold mb-2" data-testid="text-phase2-title">
-                  Phase 2: Stress-Test Your Strategy
-                </h3>
-                <p className="text-sm text-muted-foreground max-w-md mb-6">
-                  The math is done. Now, let's build the shield. Knowing your gap is step one. Protecting it is step two.
-                </p>
-                <div className="space-y-3 text-left max-w-sm mb-6">
-                  <div className="flex items-start gap-3 text-sm">
-                    <Shield className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="font-medium text-foreground">Bulletproof Your Plan</p>
-                      <p className="text-xs text-muted-foreground">Discover if your "dream" crashes during a market downturn.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 text-sm">
-                    <Gauge className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="font-medium text-foreground">Your Risk DNA</p>
-                      <p className="text-xs text-muted-foreground">Learn exactly how much "heat" your portfolio can take before you lose sleep.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 text-sm">
-                    <ChevronRight className="w-5 h-5 text-violet-500 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="font-medium text-foreground">The Investment Bridge</p>
-                      <p className="text-xs text-muted-foreground">Transition from a "math problem" to a real-world investment strategy.</p>
-                    </div>
-                  </div>
-                </div>
-                <Button size="lg" onClick={() => setShowLeadModal(true)} data-testid="button-unlock-phase2">
-                  <Lock className="w-4 h-4 mr-2" />
-                  Send My Roadmap & Unlock Risk Analysis
-                </Button>
+          <Card className="p-6 md:p-10">
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <Lock className="w-8 h-8 text-primary" />
               </div>
+              <h3 className="font-serif text-2xl font-bold mb-2" data-testid="text-phase2-title">
+                Phase 2: Stress-Test Your Strategy
+              </h3>
+              <p className="text-sm text-muted-foreground max-w-md mb-6">
+                The math is done. Now, let's build the shield. Knowing your gap is step one. Protecting it is step two.
+              </p>
+              <div className="space-y-3 text-left max-w-sm mb-6">
+                <div className="flex items-start gap-3 text-sm">
+                  <Shield className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium text-foreground">Bulletproof Your Plan</p>
+                    <p className="text-xs text-muted-foreground">Discover if your "dream" crashes during a market downturn.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 text-sm">
+                  <Gauge className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium text-foreground">Your Risk DNA</p>
+                    <p className="text-xs text-muted-foreground">Learn exactly how much "heat" your portfolio can take before you lose sleep.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 text-sm">
+                  <ChevronRight className="w-5 h-5 text-violet-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium text-foreground">The Investment Bridge</p>
+                    <p className="text-xs text-muted-foreground">Transition from a "math problem" to a real-world investment strategy.</p>
+                  </div>
+                </div>
+              </div>
+              <Button size="lg" onClick={() => setShowLeadModal(true)} data-testid="button-unlock-phase2">
+                <Lock className="w-4 h-4 mr-2" />
+                Decode my Risk DNA
+              </Button>
             </div>
           </Card>
         </motion.div>
@@ -852,7 +886,7 @@ export default function Results() {
                 This is the big picture. To make this 100% precise, we can factor in your specific life events -- weddings, inheritance, property sales -- and real spending habits. Your life isn't a straight line; your plan shouldn't be either.
               </p>
               <Button variant="outline" onClick={() => setShowLeadModal(true)} data-testid="button-precision-cta">
-                Get My Personalized Blueprint
+                Get my FinkSmart Roadmap
                 <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </Card>
@@ -882,8 +916,8 @@ export default function Results() {
 
         <footer className="text-center py-6 mt-4 border-t">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <img src={finksmartIcon} alt="Finksmart" className="w-4 h-4" />
-            <span className="font-serif text-xs font-medium">Freedom Path: Pro-Investing Decoded</span>
+            <img src={finksmartIcon} alt="FinkSmart" className="w-4 h-4" />
+            <span className="font-serif text-xs font-medium">FinkSmart | Pro-Investing Decoded. All rights reserved.</span>
           </div>
           <p className="text-xs text-muted-foreground mb-1">
             FINSIM v5 &middot; 2% inflation buffer &middot; 6% Safe Withdrawal Rate

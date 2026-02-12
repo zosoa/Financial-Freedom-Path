@@ -104,10 +104,11 @@ export default function Landing() {
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-2">
-            <img src={finksmartIcon} alt="Finksmart" className="w-7 h-7" data-testid="icon-logo" />
-            <span className="font-serif text-lg font-semibold tracking-tight" data-testid="text-brand">
-              Freedom Path: <span className="text-muted-foreground font-normal text-sm">Pro-Investing Decoded</span>
-            </span>
+            <img src={finksmartIcon} alt="FinkSmart" className="w-7 h-7" data-testid="icon-logo" />
+            <div className="flex flex-col leading-none" data-testid="text-brand">
+              <span className="font-serif text-lg font-semibold tracking-tight">FinkSmart</span>
+              <span className="text-[10px] text-muted-foreground tracking-wider">Pro-Investing Decoded</span>
+            </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/20 bg-primary/5" data-testid="text-sponsor">
@@ -381,7 +382,7 @@ export default function Landing() {
                       <Compass className="w-8 h-8 text-primary animate-wobble relative z-10" />
                     </div>
                     <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 1</div>
-                    <h3 className="font-semibold text-xl mb-2" data-testid="text-step1-title">Your Freedom GPS</h3>
+                    <h3 className="font-semibold text-xl mb-2" data-testid="text-step1-title">Your FinkSmart Freedom GPS</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed mb-3">
                       Where do you stand today vs where you want to be? Our calculator reveals your exact position on the path to financial freedom in 2 minutes.
                     </p>
@@ -668,7 +669,7 @@ export default function Landing() {
                       </div>
                       <div>
                         <h3 className="font-serif text-2xl font-bold mb-1" data-testid="text-personal-message">A personal note from our team</h3>
-                        <p className="text-xs text-muted-foreground tracking-wide uppercase">The Freedom Path Founders</p>
+                        <p className="text-xs text-muted-foreground tracking-wide uppercase">The FinkSmart Freedom Path Founders</p>
                       </div>
                     </div>
                     <div className="space-y-4 text-muted-foreground leading-relaxed">
@@ -676,7 +677,7 @@ export default function Landing() {
                         After years in private banking, we saw that most people are left in the dark about their real financial future. The tools given to everyday savers are either broken, biased, or built to confuse.
                       </p>
                       <p>
-                        We built The Freedom Path to change that. We don't want your money&mdash;we want to give you the clarity we usually only provide to our private clients.
+                        We built The FinkSmart Freedom Path to change that. We don't want your money&mdash;we want to give you the clarity we usually only provide to our private clients.
                       </p>
                       <p className="font-medium text-foreground">
                         Everyone deserves a clear answer to a simple question: "When can I be free?"
@@ -687,7 +688,7 @@ export default function Landing() {
                         <path d="M10 35 Q20 10 35 30 Q45 45 55 25 Q60 15 70 30 Q75 38 80 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                         <path d="M90 35 Q100 15 110 30 Q115 38 125 20 Q130 12 140 28 Q145 35 155 25" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                       </svg>
-                      <p className="text-xs text-muted-foreground mt-1 italic">The Freedom Path Team</p>
+                      <p className="text-xs text-muted-foreground mt-1 italic">The FinkSmart Team</p>
                     </div>
                   </div>
                   <div className="md:col-span-2 flex items-center justify-center p-6 md:p-4">
@@ -737,8 +738,8 @@ export default function Landing() {
       <footer className="py-8 border-t">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
-            <img src={finksmartIcon} alt="Finksmart" className="w-5 h-5" />
-            <span className="font-serif text-sm font-medium">Freedom Path: Pro-Investing Decoded</span>
+            <img src={finksmartIcon} alt="FinkSmart" className="w-5 h-5" />
+            <span className="font-serif text-sm font-medium">FinkSmart | Pro-Investing Decoded. All rights reserved.</span>
           </div>
           <div className="flex items-center justify-center gap-1.5 mb-3">
             <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Sponsored by</span>

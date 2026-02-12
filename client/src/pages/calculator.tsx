@@ -62,7 +62,7 @@ const STEPS: StepConfig[] = [
   },
   {
     key: "currentSavings",
-    question: "How much do you have saved or invested today?",
+    question: "How much do you have saved or invested so far?",
     subtitle: "Bank accounts, investments, retirement funds -- everything counts.",
     icon: PiggyBank,
     placeholder: "25,000",
@@ -70,7 +70,7 @@ const STEPS: StepConfig[] = [
   },
   {
     key: "monthlySavingsRate",
-    question: "How much can you save or invest every month?",
+    question: "How much can you save every month?",
     subtitle: "Even a small amount grows dramatically over time. Be realistic.",
     icon: Wallet,
     placeholder: "500",
@@ -327,6 +327,7 @@ export default function Calculator() {
           </div>
 
           <div>
+            <p className="text-[10px] text-muted-foreground/60 tracking-widest uppercase mb-3">FinkSmart &middot; Pro-Investing Decoded</p>
             <p className="text-sm text-muted-foreground mb-2">Mapping your path to freedom</p>
             <AnimatePresence mode="wait">
               <motion.p
@@ -366,8 +367,11 @@ export default function Calculator() {
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-            <img src={finksmartIcon} alt="Finksmart" className="w-6 h-6" />
-            <span className="font-serif text-sm font-semibold">Freedom Path</span>
+            <img src={finksmartIcon} alt="FinkSmart" className="w-6 h-6" />
+            <div className="flex flex-col leading-none">
+              <span className="font-serif text-sm font-semibold">FinkSmart</span>
+              <span className="text-[9px] text-muted-foreground tracking-wider">Pro-Investing Decoded</span>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground">
