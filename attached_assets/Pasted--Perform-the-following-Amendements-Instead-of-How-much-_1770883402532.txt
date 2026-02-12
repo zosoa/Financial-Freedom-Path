@@ -1,0 +1,38 @@
+
+Perform the following Amendements
+Instead of: How much do you have saved or invested today?
+Change to: How much do you have saved or invested so far?
+Instead of: How much can you save or invest every month?
+Change to: How much can you save every month?
+
+Instead of: At age 51, you will have accumulated €263 879 instead of the €975 196 needed.
+Gap: €711K · Target reached at age 78 (27 years later than planned)
+Change to: At age 51, you will have accumulated €263 879 instead of the €975 196 needed.
+Gap: €711K · At this current pace you will reached your goal at age 78 (27 years later than planned)
+
+Consider the following:
+1. The "Don't Panic" Pattern
+Right now, the gap is shown in a red-tinted box, which reinforces the feeling of "danger". You should add a reassuring header immediately before or within the solution section.
+•	Proposed Headline: "Your gap is just a math problem—and every math problem has a solution."
+•	Sub-text: "Don't let the big numbers intimidate you. Small shifts today create massive changes tomorrow. Explore your 'Levers' below to see how we can close this gap together."
+2. Make the Solution Tabs "Pop"
+You mentioned the tabs don't feel clickable. Currently, they look like flat buttons or labels.
+•	Visual Fix: Use a "Segmented Control" style or "Card" style with shadows to make them look like physical buttons.
+•	Active State: The active tab (e.g., "Save More") should have a high-contrast color (like your brand orange) while the others stay grayed out.
+•	Micro-copy: Add "Interactive" cues. Instead of just "Save More," use "Lever 1: Save More."
+3. Repositioning for "Discovery"
+The "How to Close the Gap" section is currently at the very bottom. By the time the user gets there, they have already spent 30 seconds staring at the "Gap" and "Freedom at 100" numbers.
+•	The "Anchor" Strategy: Place a "Quick Fix" button right next to the big Gap number that says "Show me how to close this." When clicked, it should smoothly scroll the page down to the solution section.
+•	The "Savings Lever" Highlight: Ensure the blue "Savings Lever" box is the most visually distinct part of the page. It provides a concrete, monthly number (e.g., Rs 143,767/month) which feels more actionable than a giant lump sum.
+4. Retaking the Assessment
+If the results are truly unrealistic (e.g., retiring at 45 with zero savings), you should offer an "escape hatch" that feels like a strategy shift rather than a failure.
+•	The Suggestion: "Not happy with these numbers? Sometimes a small change in expectations changes everything. Try adjusting your target age or monthly needs."
+•	The Link: A clear "Retake Assessment & Adjust Goals" button at the very bottom of the solution section.
+Fix the Phase 2 preview section. The CTA button at the bottom is currently cut off
+Next: Prompt: "I need to update the site-wide branding to establish FinkSmart as the parent brand and The Freedom Path as the tool. Please implement the following:
+1.	Logo Update: Replace the header branding with FinkSmart. Directly underneath it, add the motto 'Pro-Investing Decoded' in a smaller, elegant font.
+2.	Contextual Branding: Wherever 'The Freedom Path' is mentioned as a title, ensure it is preceded by 'The FinkSmart...' or followed by a 'by FinkSmart' sub-header.
+3.	The Motto Integration: Add the phrase 'Pro-Investing Decoded' to the Loading Screen (where the progress bar is) and as a small 'trust badge' near the investment return calculations on the Results Page.
+4.	Footer: Update the footer to: 'FinkSmart | Pro-Investing Decoded. All rights reserved.'
+5.	CTA Update: Change the Phase 2 registration buttons to say: 'Get my FinkSmart Roadmap' or 'Decode my Risk DNA'."
+Ensure mobile display is ok
