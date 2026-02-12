@@ -1,0 +1,41 @@
+Phase 1: The Database Infrastructure
+Use this prompt first to ensure you have a "Parent-Child" table structure that links math to identities.
+
+Prompt 1 (Database Setup): "I need to structure my Replit database to support a two-phase lead generation funnel. Create/Review two tables:
+
+simulations: Stores anonymous financial inputs (age, income, savings, gap, freedom_age) with a unique session_id.
+
+leads: Stores identified contact info (name, email, phone) linked to the session_id. Ensure that the simulations table populates as soon as Phase 1 is complete, and the leads table populates only after the CTA is clicked, without losing the link to their original results."
+
+Phase 2: The Data Capture Logic
+Use this to ensure the "IDing" happens correctly as the user moves through the site.
+
+Prompt 2 (Linking Logic): "Check the backend routes for the Phase 1 results and Phase 2 registration. When a user submits their email/phone to 'Unlock Risk DNA' or 'Get Report,' the code must:
+
+Grab the existing session_id from the current browser session.
+
+Upsert (update or insert) the user's contact details into the leads table.
+
+Add a lead_status flag (e.g., 'Phase 1 Complete' or 'Risk DNA Started') so I can track how far they got in the funnel."
+
+Phase 3: Partner Export Readiness
+Use this to prepare the data for sale or transfer to asset managers.
+
+Prompt 3 (Extraction & Scoring): "Create a Python script (or an API endpoint) that generates a 'Partner-Ready Lead Dossier' in CSV format. The script should join the leads and simulations tables and include:
+
+Lead Quality Score: Calculate a priority level based on high income or a large 'Gap.'
+
+The Hook: A summary column that says: '[Name] needs to close a [Gap Amount] gap to retire at [Freedom Age].'
+
+Anonymized Stats: A separate function to export a summary of all simulation data (without names/emails) for market trend analysis."
+
+Phase 4: Final Safety & Integrity Audit
+Use this to make sure the "Zero Product Bias" and privacy claims are technically true.
+
+Prompt 4 (Security Audit): "Review the data handling to ensure that:
+
+Identified lead data is stored securely and is only accessible via authorized export.
+
+The transition from anonymous user to identified lead is seamless and does not trigger errors if a user refreshes the page.
+
+Confirm that we can store 'Data without ID' for stats and 'Data with ID' for sellable leads as separate objects."
