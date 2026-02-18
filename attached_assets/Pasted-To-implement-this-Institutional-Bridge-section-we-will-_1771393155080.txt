@@ -1,0 +1,49 @@
+To implement this "Institutional Bridge" section, we will focus on a dark, high-contrast aesthetic that makes the grayscale logos of the banks pop. This validates your "no secrets" claim by showing the professional pedigree immediately after the main hook.
+
+1. The Section Logic & Flow
+Since we are removing cards to avoid design fatigue, we will use a "Vertical Progress Line" with checkmarks (ticks). This visually signals to the user that they are moving through a proven process.
+
+The Messaging:
+
+Where do the pros actually save?
+Stock Markets? Crypto? Real Estate? Funds?
+
+"We spent our careers managing wealth for the ultra-rich—now we're giving you the exact same logic. No secrets, simplified and 100% free."
+
+2. The 3-Step Ticks (Streamlined)
+By using the word "Save" and "Savings," we keep the focus on the user's action.
+
+✓ Step 1: Your Savings Objective. Find the exact date you hit freedom.
+
+✓ Step 2: Your Investment Heat. Measure exactly how much market 'swing' you can handle.
+
+✓ Step 3: Your Personalized Savings Plan. Discover which door to open for action.
+
+3. Replit Implementation Prompt
+This prompt is designed to integrate seamlessly after your current hero section while maintaining your unique branding.
+
+Prompt:
+"Create a new 'Trust & Authority' section immediately following the main hero.
+
+Visual Style: Use a deep charcoal background with 'Brand Teal' highlights. Ensure there is enough padding to separate it from the hero above and the levers section below.
+
+Header: >    * H2: 'Where do the pros actually save?' (Use your brand's primary serif font).
+
+H3: 'Stock Markets? Crypto? Real Estate? Funds?' (Use italics and slightly muted colors).
+
+The 'Manifesto' Paragraph: 'We spent our careers managing wealth for the ultra-rich—now we're giving you the exact same logic. No secrets, simplified and 100% free.'.
+
+Step-by-Step Ticks: >    * Create a vertical list with sleek, brand-orange checkmark icons.
+
+Text: 'Step 1: Your Savings Objective (Finding your Freedom Date)', 'Step 2: Your Investment Heat (Decoding your Risk DNA)', 'Step 3: Your Personalized Savings Plan (Choosing your Action Door)'..
+
+Institutional Logo Bar: Below the steps, add a horizontal scrolling container of grayscale logos for: BNP Paribas, Deutsche Bank, Citi, Julius Baer, and Afrasia Bank..
+
+CTA: A single, centered button with the text: 'Start Step 1: Find My Date'."
+
+4. Why this fits your page
+No Repeat: Your following section uses large card blocks for "The Gap" and "Levers". This section's minimalist tick-list provides a visual "breather" before the user gets into the heavy math.
+
+Authority: The grayscale bank logos act as a "seal of approval" for your institutional logic.
+
+No Jargon: We replaced "Portfolio Optimization" with "Action Door" and "Market Volatility" with "Investment Heat" to keep it fiery and accessible.
