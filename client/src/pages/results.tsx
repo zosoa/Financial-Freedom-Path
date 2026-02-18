@@ -357,24 +357,29 @@ export default function Results() {
                 )}
               </p>
               {results.freedomAgeStandard > inputs.targetFreedomAge && (
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-1">
-                  <p className="text-sm text-muted-foreground">
-                    Gap: <span className="font-semibold">{formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}</span>
-                    <InfoTooltip><p>The "distance remaining" on your journey; the difference between your current path and your target goal.</p></InfoTooltip>
-                    &middot; At this current pace you will reach your goal at age{" "}
-                    <span className="font-semibold">{results.freedomAgeStandard}</span>{" "}
-                    ({results.freedomAgeStandard - inputs.targetFreedomAge} year{results.freedomAgeStandard - inputs.targetFreedomAge === 1 ? "" : "s"} later than planned)
+                <div className="flex flex-col gap-3 mt-3">
+                  <p className="text-base md:text-lg font-bold text-foreground leading-snug">
+                    At this current pace you will reach your goal at age{" "}
+                    <span className="font-bold">{results.freedomAgeStandard}</span>{" "}
+                    <span className="text-red-500 dark:text-red-400 font-bold">
+                      ({results.freedomAgeStandard - inputs.targetFreedomAge} year{results.freedomAgeStandard - inputs.targetFreedomAge === 1 ? "" : "s"} later than planned)
+                    </span>
                   </p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-shrink-0 border-primary/30 text-primary"
-                    onClick={() => document.getElementById("solution-section")?.scrollIntoView({ behavior: "smooth" })}
-                    data-testid="button-show-close-gap"
-                  >
-                    <ArrowDown className="w-3.5 h-3.5 mr-1.5" />
-                    Show me how to close this
-                  </Button>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <p className="text-sm text-muted-foreground">
+                      Gap: <span className="font-semibold">{formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}</span>
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-shrink-0 border-primary/30 text-primary"
+                      onClick={() => document.getElementById("solution-section")?.scrollIntoView({ behavior: "smooth" })}
+                      data-testid="button-show-close-gap"
+                    >
+                      <ArrowDown className="w-3.5 h-3.5 mr-1.5" />
+                      Here are some solutions
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>
@@ -388,12 +393,6 @@ export default function Results() {
               <img src={iconGoal} alt="" className="w-5 h-5" />
               Your Target Capital
             </p>
-            <InfoTooltip>
-              <p className="font-semibold mb-1">Why this amount?</p>
-              <p className="mb-2">This is the total pot of money you need so that the interest it earns covers your monthly expenses&mdash;without ever touching the capital itself.</p>
-              <p className="mb-2">Why not just spend the capital directly? Because you don't know how long you'll live. If you draw down the capital, you could outlive your money.</p>
-              <p>By targeting this amount, your money works for you indefinitely&mdash;like a salary that never stops, paid by your own savings.</p>
-            </InfoTooltip>
           </div>
           <Card className="p-6">
             <p className="text-sm text-muted-foreground mb-1">
@@ -402,21 +401,14 @@ export default function Results() {
             <p className="text-3xl md:text-4xl font-bold text-center my-4" data-testid="text-required-capital">
               {formatCurrencyFull(results.requiredCapital, currency)}
             </p>
+            <p className="text-sm text-muted-foreground text-center max-w-lg mx-auto mt-2 mb-4 leading-relaxed">
+              This is the total capital needed so the interest it generates covers your monthly expenses — without ever touching the principal. By targeting this amount, your money works for you indefinitely, like a salary that never stops.
+            </p>
             <div className="text-xs text-muted-foreground text-center mb-6 flex flex-col items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-[10px] font-medium text-primary tracking-wide">
                 <Sparkles className="w-3 h-3" />FinkSmart Pro-Investing Decoded
               </span>
-              <span className="flex items-center gap-1">Based on a 6% safe withdrawal rate
-                <InfoTooltip><p>The industry-standard percentage you can spend annually without your total savings running dry.</p></InfoTooltip>
-                per year (adjusted for 2% annual inflation
-                <InfoTooltip><p>We build this in so your money buys as much in 20 years as it does today.</p></InfoTooltip>
-                )</span>
-              <InfoTooltip>
-                <p className="font-semibold mb-1">What is the Safe Withdrawal Rate?</p>
-                <p className="mb-2">Think of it this way: instead of spending down your savings, you build a pot big enough that you only live off the interest it generates&mdash;without ever touching the money itself.</p>
-                <p className="mb-2">Why not just withdraw your spending from the capital? You could, but here's the problem: <span className="font-medium">you don't know how long you're going to live.</span> If you spend your capital, you risk running out of money.</p>
-                <p>At a 6% return with 2% going to inflation, you can safely withdraw 4% each year and your money lasts forever. We use 6% as the headline rate because it includes the inflation cushion.</p>
-              </InfoTooltip>
+              <span className="flex items-center gap-1">Based on a 6% safe withdrawal rate per year (adjusted for 2% annual inflation)</span>
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="bg-muted/50 rounded-md p-4 text-center">
@@ -455,184 +447,8 @@ export default function Results() {
           </Card>
         </motion.div>
 
-        {/* 3. Return Comparison Table */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="space-y-2">
-          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
-            <img src={iconGrowth} alt="" className="w-5 h-5" />
-            Return Comparison
-          </p>
-          <Card className="p-6 overflow-x-auto">
-            <table className="w-full text-sm" data-testid="table-return-comparison">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left py-2 text-muted-foreground font-medium">Return</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">Capital at {inputs.targetFreedomAge}</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">Freedom Age</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">vs Target</th>
-                </tr>
-              </thead>
-              <tbody>
-                {results.returnComparisons.map((row) => (
-                  <tr key={row.label} className="border-b last:border-0">
-                    <td className="py-3 font-medium flex items-center gap-2">
-                      <span className={`w-2 h-2 rounded-full ${row.rate === 6 ? "bg-blue-400" : "bg-emerald-500"}`} />
-                      {row.label}
-                    </td>
-                    <td className="py-3 text-right font-semibold">{formatCurrencyFull(row.capitalAtTarget, currency)}</td>
-                    <td className="py-3 text-right">{row.ageReached} yrs</td>
-                    <td className="py-3 text-right">
-                      {row.timeDifference <= 0 ? (
-                        <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                          {Math.abs(row.timeDifference)} yrs early
-                        </span>
-                      ) : (
-                        <span className="text-muted-foreground">+{row.timeDifference} yrs</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Card>
-        </motion.div>
-
-        {/* 4. Capital Evolution Chart */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="space-y-2">
-          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
-            <img src={iconAnalytics} alt="" className="w-5 h-5" />
-            Capital Evolution
-          </p>
-          <Card className="p-6">
-            <div className="flex items-center justify-between gap-4 flex-wrap mb-2">
-              <div className="flex items-center gap-4 text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-1.5 rounded-full bg-emerald-500" />
-                  Managed (11%)
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-1.5 rounded-full bg-blue-400" />
-                  Standard (6%)
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-1.5 rounded-full bg-red-400" />
-                  Required Capital
-                </span>
-              </div>
-            </div>
-            <div className="h-72 md:h-80" data-testid="chart-capital-evolution">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={results.wealthCurve} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="gradManaged" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                    </linearGradient>
-                    <linearGradient id="gradStandard" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#60a5fa" stopOpacity={0.2} />
-                      <stop offset="95%" stopColor="#60a5fa" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
-                  <XAxis dataKey="age" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
-                  <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={formatChartValue} width={50} />
-                  <RechartsTooltip
-                    formatter={(value: number) => [formatCurrencyFull(value, currency), ""]}
-                    labelFormatter={(label) => `Age ${label}`}
-                    contentStyle={{ borderRadius: "8px", border: "1px solid hsl(var(--border))", backgroundColor: "hsl(var(--card))", fontSize: "12px" }}
-                  />
-                  <ReferenceLine x={inputs.targetFreedomAge} stroke="hsl(var(--primary))" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: `Target: ${inputs.targetFreedomAge}`, position: "top", fontSize: 10 }} />
-                  <Area type="monotone" dataKey="requiredCapital" stroke="#f87171" strokeWidth={2} strokeDasharray="6 3" fill="none" name="Required Capital" />
-                  <Area type="monotone" dataKey="managedWealth" stroke="#10b981" strokeWidth={2} fill="url(#gradManaged)" name="Managed (11%)" />
-                  <Area type="monotone" dataKey="standardWealth" stroke="#60a5fa" strokeWidth={2} fill="url(#gradStandard)" name="Standard (6%)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* 5. Capital Composition Donut */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }} className="space-y-2">
-          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
-            <img src={iconCompound} alt="" className="w-5 h-5" />
-            Composition of Your Capital (at 6%)
-          </p>
-          <Card className="p-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="flex flex-col items-center justify-center">
-                <div className="relative w-48 h-48">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RechartsPieChart>
-                      <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} dataKey="value" strokeWidth={2} stroke="hsl(var(--background))">
-                        {pieData.map((_, index) => (
-                          <Cell key={`cell-${index}`} fill={PIE_COLORS[index]} />
-                        ))}
-                      </Pie>
-                    </RechartsPieChart>
-                  </ResponsiveContainer>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-xs text-muted-foreground uppercase tracking-wider">Capital</p>
-                      <p className="text-lg font-bold">{formatCurrency(results.capitalComposition.totalCapital, currency)}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 mt-3 text-xs">
-                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[0] }} />Contributions</span>
-                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[1] }} />Gains</span>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="rounded-md bg-indigo-50 dark:bg-indigo-900/20 p-4">
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><Coins className="w-3 h-3" />Your Contributions</p>
-                  <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{formatCurrencyFull(results.capitalComposition.totalContributions, currency)}</p>
-                  <p className="text-xs text-muted-foreground">{results.capitalComposition.contributionPercent}% of final capital</p>
-                </div>
-                <div className="rounded-md bg-violet-50 dark:bg-violet-900/20 p-4">
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><Zap className="w-3 h-3" />Generated Gains</p>
-                  <p className="text-xl font-bold text-violet-600 dark:text-violet-400">{formatCurrencyFull(results.capitalComposition.generatedGains, currency)}</p>
-                  <p className="text-xs text-muted-foreground">{results.capitalComposition.gainsPercent}% of final capital</p>
-                </div>
-                {results.capitalComposition.gainsPercent > 0 && (
-                  <div className="rounded-md bg-amber-50 dark:bg-amber-900/20 p-3 flex items-start gap-2">
-                    <Lightbulb className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
-                    <div className="text-xs text-muted-foreground">
-                      <p className="font-medium text-foreground mb-1">The power of compound interest</p>
-                      <p>{results.capitalComposition.gainsPercent}% of your capital was generated automatically. This is compound interest working for you.</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* 6. Key Stats Bar */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <Card className="p-4 text-center">
-              <p className="text-xs text-muted-foreground mb-1">Monthly Savings</p>
-              <p className="text-lg font-bold" data-testid="text-monthly-savings">{formatCurrencyFull(inputs.monthlySavingsRate, currency)}</p>
-            </Card>
-            <Card className="p-4 text-center bg-emerald-500/5">
-              <p className="text-xs text-muted-foreground mb-1">Managed Capital</p>
-              <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{formatCurrency(results.plannedCapitalManaged, currency)}</p>
-            </Card>
-            <Card className="p-4 text-center">
-              <p className="text-xs text-muted-foreground mb-1">Standard Capital</p>
-              <p className="text-lg font-bold">{formatCurrency(results.plannedCapitalStandard, currency)}</p>
-            </Card>
-            <Card className="p-4 text-center bg-primary/5">
-              <p className="text-xs text-muted-foreground mb-1">Years Gained</p>
-              <p className="text-lg font-bold text-primary" data-testid="text-years-gained">
-                {yearsDifference > 0 ? `+${yearsDifference}` : yearsDifference} yrs
-              </p>
-              <p className="text-[10px] text-muted-foreground">with managed returns</p>
-            </Card>
-          </div>
-        </motion.div>
-
-        {/* 7. Solution Module */}
-        <motion.div id="solution-section" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.33 }}>
+        {/* 3. Solution Module */}
+        <motion.div id="solution-section" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}>
           <Card className="p-6 md:p-8">
             {results.solutionModule.hasGap ? (
               <>
@@ -730,8 +546,184 @@ export default function Results() {
           </Card>
         </motion.div>
 
-        {/* 8. Sensitivity / Education Section */}
+        {/* 4. Return Comparison Table */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="space-y-2">
+          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
+            <img src={iconGrowth} alt="" className="w-5 h-5" />
+            Return Comparison
+          </p>
+          <Card className="p-6 overflow-x-auto">
+            <table className="w-full text-sm" data-testid="table-return-comparison">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-2 text-muted-foreground font-medium">Return</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">Capital at {inputs.targetFreedomAge}</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">Freedom Age</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">vs Target</th>
+                </tr>
+              </thead>
+              <tbody>
+                {results.returnComparisons.map((row) => (
+                  <tr key={row.label} className="border-b last:border-0">
+                    <td className="py-3 font-medium flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${row.rate === 6 ? "bg-blue-400" : "bg-emerald-500"}`} />
+                      {row.label}
+                    </td>
+                    <td className="py-3 text-right font-semibold">{formatCurrencyFull(row.capitalAtTarget, currency)}</td>
+                    <td className="py-3 text-right">{row.ageReached} yrs</td>
+                    <td className="py-3 text-right">
+                      {row.timeDifference <= 0 ? (
+                        <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                          {Math.abs(row.timeDifference)} yrs early
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground">+{row.timeDifference} yrs</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Card>
+        </motion.div>
+
+        {/* 5. Capital Evolution Chart */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }} className="space-y-2">
+          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
+            <img src={iconAnalytics} alt="" className="w-5 h-5" />
+            Capital Evolution
+          </p>
+          <Card className="p-6">
+            <div className="flex items-center justify-between gap-4 flex-wrap mb-2">
+              <div className="flex items-center gap-4 text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-1.5 rounded-full bg-emerald-500" />
+                  Managed (11%)
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-1.5 rounded-full bg-blue-400" />
+                  Standard (6%)
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-1.5 rounded-full bg-red-400" />
+                  Required Capital
+                </span>
+              </div>
+            </div>
+            <div className="h-72 md:h-80" data-testid="chart-capital-evolution">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={results.wealthCurve} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="gradManaged" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="gradStandard" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#60a5fa" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#60a5fa" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
+                  <XAxis dataKey="age" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+                  <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={formatChartValue} width={50} />
+                  <RechartsTooltip
+                    formatter={(value: number) => [formatCurrencyFull(value, currency), ""]}
+                    labelFormatter={(label) => `Age ${label}`}
+                    contentStyle={{ borderRadius: "8px", border: "1px solid hsl(var(--border))", backgroundColor: "hsl(var(--card))", fontSize: "12px" }}
+                  />
+                  <ReferenceLine x={inputs.targetFreedomAge} stroke="hsl(var(--primary))" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: `Target: ${inputs.targetFreedomAge}`, position: "top", fontSize: 10 }} />
+                  <Area type="monotone" dataKey="requiredCapital" stroke="#f87171" strokeWidth={2} strokeDasharray="6 3" fill="none" name="Required Capital" />
+                  <Area type="monotone" dataKey="managedWealth" stroke="#10b981" strokeWidth={2} fill="url(#gradManaged)" name="Managed (11%)" />
+                  <Area type="monotone" dataKey="standardWealth" stroke="#60a5fa" strokeWidth={2} fill="url(#gradStandard)" name="Standard (6%)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </motion.div>
+
+        {/* 6. Capital Composition Donut */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="space-y-2">
+          <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
+            <img src={iconCompound} alt="" className="w-5 h-5" />
+            Composition of Your Capital (at 6%)
+          </p>
+          <Card className="p-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="flex flex-col items-center justify-center">
+                <div className="relative w-48 h-48">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RechartsPieChart>
+                      <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} dataKey="value" strokeWidth={2} stroke="hsl(var(--background))">
+                        {pieData.map((_, index) => (
+                          <Cell key={`cell-${index}`} fill={PIE_COLORS[index]} />
+                        ))}
+                      </Pie>
+                    </RechartsPieChart>
+                  </ResponsiveContainer>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider">Capital</p>
+                      <p className="text-lg font-bold">{formatCurrency(results.capitalComposition.totalCapital, currency)}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 mt-3 text-xs">
+                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[0] }} />Contributions</span>
+                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[1] }} />Gains</span>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="rounded-md bg-indigo-50 dark:bg-indigo-900/20 p-4">
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><Coins className="w-3 h-3" />Your Contributions</p>
+                  <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{formatCurrencyFull(results.capitalComposition.totalContributions, currency)}</p>
+                  <p className="text-xs text-muted-foreground">{results.capitalComposition.contributionPercent}% of final capital</p>
+                </div>
+                <div className="rounded-md bg-violet-50 dark:bg-violet-900/20 p-4">
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><Zap className="w-3 h-3" />Generated Gains</p>
+                  <p className="text-xl font-bold text-violet-600 dark:text-violet-400">{formatCurrencyFull(results.capitalComposition.generatedGains, currency)}</p>
+                  <p className="text-xs text-muted-foreground">{results.capitalComposition.gainsPercent}% of final capital</p>
+                </div>
+                {results.capitalComposition.gainsPercent > 0 && (
+                  <div className="rounded-md bg-amber-50 dark:bg-amber-900/20 p-3 flex items-start gap-2">
+                    <Lightbulb className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                    <div className="text-xs text-muted-foreground">
+                      <p className="font-medium text-foreground mb-1">The power of compound interest</p>
+                      <p>{results.capitalComposition.gainsPercent}% of your capital was generated automatically. This is compound interest working for you.</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </Card>
+        </motion.div>
+
+        {/* 7. Key Stats Bar */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <Card className="p-4 text-center">
+              <p className="text-xs text-muted-foreground mb-1">Monthly Savings</p>
+              <p className="text-lg font-bold" data-testid="text-monthly-savings">{formatCurrencyFull(inputs.monthlySavingsRate, currency)}</p>
+            </Card>
+            <Card className="p-4 text-center bg-emerald-500/5">
+              <p className="text-xs text-muted-foreground mb-1">Managed Capital</p>
+              <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{formatCurrency(results.plannedCapitalManaged, currency)}</p>
+            </Card>
+            <Card className="p-4 text-center">
+              <p className="text-xs text-muted-foreground mb-1">Standard Capital</p>
+              <p className="text-lg font-bold">{formatCurrency(results.plannedCapitalStandard, currency)}</p>
+            </Card>
+            <Card className="p-4 text-center bg-primary/5">
+              <p className="text-xs text-muted-foreground mb-1">Years Gained</p>
+              <p className="text-lg font-bold text-primary" data-testid="text-years-gained">
+                {yearsDifference > 0 ? `+${yearsDifference}` : yearsDifference} yrs
+              </p>
+              <p className="text-[10px] text-muted-foreground">with managed returns</p>
+            </Card>
+          </div>
+        </motion.div>
+
+        {/* 8. Sensitivity / Education Section */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}>
           <Card className="p-6">
             <div className="flex items-center gap-2 mb-2">
               <img src={iconSmartLogic} alt="" className="w-6 h-6" />
@@ -788,7 +780,7 @@ export default function Results() {
         </motion.div>
 
         {/* 9. Profile Badge */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="space-y-2">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }} className="space-y-2">
           <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
             <NarrativeIcon className="w-4 h-4 text-primary" />
             Your Profile Badge
@@ -811,7 +803,7 @@ export default function Results() {
         </motion.div>
 
         {/* 10. Share Your Score - Icon Only */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}>
           <Card className="p-6 text-center">
             <h3 className="font-serif text-xl font-bold mb-2">Share Your Score</h3>
             <p className="text-sm text-muted-foreground mb-4">Challenge your friends and compare your journeys</p>
@@ -837,7 +829,7 @@ export default function Results() {
         </motion.div>
 
         {/* 10b. Save My Report */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.47 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.52 }}>
           <Card className="p-6 text-center bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
             <div className="flex items-center justify-center gap-2 mb-2">
               <FileText className="w-5 h-5 text-primary" />
@@ -854,7 +846,7 @@ export default function Results() {
         </motion.div>
 
         {/* 11. Phase 2: Locked Risk Assessment */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}>
+        <motion.div id="phase2-cta" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.55 }}>
           <Card className="p-6 md:p-10">
             <div className="flex flex-col items-center justify-center text-center">
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -898,7 +890,7 @@ export default function Results() {
         </motion.div>
 
         {/* 12. Precision Pitch + Second Opinion */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.55 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }}>
           <div className="grid md:grid-cols-2 gap-4">
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-3">
@@ -930,7 +922,7 @@ export default function Results() {
         </motion.div>
 
         {/* 13. Bottom navigation */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }} className="flex justify-center">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.65 }} className="flex justify-center">
           <Button variant="outline" onClick={() => navigate("/")} data-testid="button-start-over">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Start Over

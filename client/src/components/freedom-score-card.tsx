@@ -137,15 +137,19 @@ export function FreedomScoreCard({
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="text-center">
-                <p className="text-lg font-bold">{freedomAge}</p>
-                <p className="text-[10px] text-white/60">Freedom Age</p>
-              </div>
-              <div className="text-center">
-                <p className="text-lg font-bold">{targetAge}</p>
-                <p className="text-[10px] text-white/60">Target Age</p>
-              </div>
+            <div className="text-center mb-4 px-2">
+              <p className="text-sm font-semibold">
+                You will reach freedom at age {freedomAge}
+              </p>
+              {freedomAge > targetAge ? (
+                <p className="text-xs text-white/70 mt-1">
+                  (that's {freedomAge - targetAge} year{freedomAge - targetAge === 1 ? "" : "s"} after your target of {targetAge})
+                </p>
+              ) : (
+                <p className="text-xs text-white/70 mt-1">
+                  {freedomAge === targetAge ? "Right on target!" : `Before your target of ${targetAge}!`}
+                </p>
+              )}
             </div>
           </div>
 
