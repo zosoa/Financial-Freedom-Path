@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation, useSearch } from "wouter";
+import finksmartLogo from "@assets/FinkSmart_logo_orange_1771420950646.png";
 import finksmartIcon from "@assets/finksmart-icon.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -366,12 +367,8 @@ export default function Calculator() {
     <div className="min-h-screen bg-background flex flex-col">
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-            <img src={finksmartIcon} alt="FinkSmart" className="w-6 h-6" />
-            <div className="flex flex-col leading-none">
-              <span className="font-serif text-sm font-semibold">FinkSmart</span>
-              <span className="text-[9px] text-muted-foreground tracking-wider">Pro-Investing Decoded</span>
-            </div>
+          <div className="flex items-center cursor-pointer" onClick={() => navigate("/")}>
+            <img src={finksmartLogo} alt="FinkSmart - Pro-Investing Decoded" className="h-9 w-auto" />
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground">

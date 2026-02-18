@@ -89,9 +89,8 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
 <body style="margin: 0; padding: 0; background-color: #f8f5f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
   <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
     
-    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 12px; padding: 32px; text-align: center; margin-bottom: 24px;">
-      <h1 style="color: #ffffff; font-size: 26px; margin: 0 0 4px 0; font-weight: 800;">FinkSmart</h1>
-      <p style="color: #C05621; font-size: 12px; margin: 0; letter-spacing: 3px; text-transform: uppercase; font-weight: 600;">Pro-Investing Decoded</p>
+    <div style="background: #faf9f7; border-radius: 12px; padding: 28px 32px; text-align: center; margin-bottom: 24px; border: 1px solid #e8e4de;">
+      <img src="https://finksmart.com/finksmart-logo.png" alt="FinkSmart - Pro-Investing Decoded" style="max-width: 200px; height: auto;" />
     </div>
 
     <div style="background: #ffffff; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
@@ -368,9 +367,8 @@ export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Pro
 <body style="margin: 0; padding: 0; background-color: #f8f5f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
   <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
 
-    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 12px; padding: 32px; text-align: center; margin-bottom: 24px;">
-      <h1 style="color: #ffffff; font-size: 26px; margin: 0 0 4px 0; font-weight: 800;">FinkSmart</h1>
-      <p style="color: #C05621; font-size: 12px; margin: 0; letter-spacing: 3px; text-transform: uppercase; font-weight: 600;">Pro-Investing Decoded</p>
+    <div style="background: #faf9f7; border-radius: 12px; padding: 28px 32px; text-align: center; margin-bottom: 24px; border: 1px solid #e8e4de;">
+      <img src="https://finksmart.com/finksmart-logo.png" alt="FinkSmart - Pro-Investing Decoded" style="max-width: 200px; height: auto;" />
     </div>
 
     <div style="background: #ffffff; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">

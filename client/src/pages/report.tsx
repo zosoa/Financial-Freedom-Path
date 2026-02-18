@@ -4,7 +4,7 @@ import { calculateFreedom } from "@/lib/calculations";
 import type { CalculationInputs } from "@/lib/calculations";
 import { SUPPORTED_CURRENCIES } from "@shared/schema";
 import type { Calculation } from "@shared/schema";
-import finksmartIcon from "@assets/finksmart-icon.png";
+import finksmartLogo from "@assets/FinkSmart_logo_orange_1771420950646.png";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 
@@ -102,12 +102,8 @@ export default function Report() {
     <div className="min-h-screen bg-background">
       <header className="border-b bg-background/80 backdrop-blur-md">
         <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <img src={finksmartIcon} alt="FinkSmart" className="w-6 h-6" />
-            <div className="flex flex-col leading-none">
-              <span className="font-bold text-sm">FinkSmart</span>
-              <span className="text-[9px] text-muted-foreground tracking-widest uppercase">Pro-Investing Decoded</span>
-            </div>
+          <div className="flex items-center">
+            <img src={finksmartLogo} alt="FinkSmart - Pro-Investing Decoded" className="h-9 w-auto" />
           </div>
           <span className="text-xs text-muted-foreground">Freedom Report</span>
         </div>

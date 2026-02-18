@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Download, Copy, Check, Rocket, TrendingUp, TreePine, Footprints } from "lucide-react";
-import finksmartIcon from "@assets/finksmart-icon.png";
+import finksmartLogo from "@assets/FinkSmart_logo_orange_1771420950646.png";
 import { toPng } from "html-to-image";
 
 interface FreedomScoreCardProps {
@@ -111,8 +111,7 @@ export function FreedomScoreCard({
           <div className="p-6 pb-4">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <img src={finksmartIcon} alt="Finksmart" className="w-5 h-5" />
-                <span className="text-sm font-medium text-white/80">The Freedom Path</span>
+                <img src={finksmartLogo} alt="FinkSmart" className="h-6 w-auto brightness-0 invert opacity-80" />
               </div>
               <div className="px-2 py-0.5 rounded-full bg-white/20 text-xs font-medium">
                 {personality}

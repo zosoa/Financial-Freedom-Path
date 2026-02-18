@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "wouter";
-import finksmartIcon from "@assets/finksmart-icon.png";
+import finksmartLogo from "@assets/FinkSmart_logo_orange_1771420950646.png";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -163,12 +163,8 @@ export default function Landing() {
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-2">
-            <img src={finksmartIcon} alt="FinkSmart" className="w-7 h-7" data-testid="icon-logo" />
-            <div className="flex flex-col leading-none" data-testid="text-brand">
-              <span className="font-serif text-lg font-semibold tracking-tight">FinkSmart</span>
-              <span className="text-[10px] text-muted-foreground tracking-wider">Pro-Investing Decoded</span>
-            </div>
+          <div className="flex items-center" data-testid="text-brand">
+            <img src={finksmartLogo} alt="FinkSmart - Pro-Investing Decoded" className="h-10 w-auto" data-testid="icon-logo" />
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/20 bg-primary/5" data-testid="text-sponsor">
@@ -860,8 +856,7 @@ export default function Landing() {
       <footer className="py-8 border-t">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
-            <img src={finksmartIcon} alt="FinkSmart" className="w-5 h-5" />
-            <span className="font-serif text-sm font-medium">FinkSmart | Pro-Investing Decoded. All rights reserved.</span>
+            <img src={finksmartLogo} alt="FinkSmart" className="h-8 w-auto" />
           </div>
           <div className="flex items-center justify-center gap-1.5 mb-3">
             <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Sponsored by</span>
