@@ -40,8 +40,10 @@ export async function registerRoutes(
       res.json(calculation);
     } catch (e) {
       if (e instanceof ZodError) {
+        console.error("Calculation validation error:", e.errors);
         res.status(400).json({ error: "Invalid data", details: e.errors });
       } else {
+        console.error("Calculation save error:", e);
         res.status(500).json({ error: "Failed to save calculation" });
       }
     }
@@ -55,6 +57,7 @@ export async function registerRoutes(
       }
       res.json(calculation);
     } catch (e) {
+      console.error("Get calculation error:", e);
       res.status(500).json({ error: "Failed to get calculation" });
     }
   });
@@ -97,8 +100,10 @@ export async function registerRoutes(
       res.json(lead);
     } catch (e) {
       if (e instanceof ZodError) {
+        console.error("Lead validation error:", e.errors);
         res.status(400).json({ error: "Invalid data", details: e.errors });
       } else {
+        console.error("Lead save error:", e);
         res.status(500).json({ error: "Failed to save lead" });
       }
     }
@@ -106,10 +111,24 @@ export async function registerRoutes(
 
   app.post("/api/send-report", async (req, res) => {
     try {
+      const ipAddress = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || null;
       const data = saveReportSchema.parse(req.body);
       const reportUrl = data.calculationId
         ? `${req.protocol}://${req.get("host")}/report/${data.calculationId}`
         : undefined;
+
+      storage.createLead({
+        calculationId: data.calculationId,
+        name: data.name,
+        email: data.email,
+        whatsapp: null,
+        country: data.country,
+        currency: data.currency,
+        gapPercent: data.gapPercent,
+        freedomScore: data.freedomScore,
+        leadStatus: "report_requested",
+        ipAddress,
+      }).catch((err) => console.error("Failed to create lead from report request:", err));
 
       const emailSent = await sendReportEmail({
         recipientEmail: data.email,
@@ -139,6 +158,7 @@ export async function registerRoutes(
         res.status(500).json({ error: "Failed to send email. Please try again." });
       }
     } catch (e) {
+      console.error("Send report error:", e);
       if (e instanceof ZodError) {
         res.status(400).json({ error: "Invalid data", details: e.errors });
       } else {

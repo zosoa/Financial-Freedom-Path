@@ -150,36 +150,40 @@ export default function Results() {
   const inputs = baseInputs;
   const results = baseResults;
 
-  const saveCalculation = useCallback(async () => {
+  const saveCalculation = useCallback(async (retryCount = 0) => {
     if (hasSaved) return;
+    const payload = {
+      sessionId,
+      country,
+      currency,
+      age: inputs.age,
+      monthlyIncome: inputs.monthlyIncome,
+      desiredMonthlyIncome: inputs.desiredMonthlyIncome,
+      currentSavings: inputs.currentSavings,
+      monthlySavingsRate: inputs.monthlySavingsRate,
+      targetFreedomAge: inputs.targetFreedomAge,
+      expectedLumpSum: 0,
+      annualReturn: 6,
+      requiredCapital: results.requiredCapital,
+      plannedCapital: results.plannedCapitalStandard,
+      gapPercent: results.gapPercent,
+      freedomAge: results.freedomAgeStandard,
+      freedomScore: results.freedomScore,
+      solutionSaveMore: results.solutionModule.hasGap ? results.solutionModule.savingsLeverAmount : null,
+      solutionLumpSum: results.solutionModule.hasGap ? results.solutionModule.lumpSumAmount : null,
+      solutionReturnNeeded: results.solutionModule.hasGap ? results.solutionModule.efficiencyLeverReturn : null,
+      referralSource: referralSource || null,
+    };
     try {
-      const res = await apiRequest("POST", "/api/calculations", {
-        sessionId,
-        country,
-        currency,
-        age: inputs.age,
-        monthlyIncome: inputs.monthlyIncome,
-        desiredMonthlyIncome: inputs.desiredMonthlyIncome,
-        currentSavings: inputs.currentSavings,
-        monthlySavingsRate: inputs.monthlySavingsRate,
-        targetFreedomAge: inputs.targetFreedomAge,
-        expectedLumpSum: 0,
-        annualReturn: 6,
-        requiredCapital: results.requiredCapital,
-        plannedCapital: results.plannedCapitalStandard,
-        gapPercent: results.gapPercent,
-        freedomAge: results.freedomAgeStandard,
-        freedomScore: results.freedomScore,
-        solutionSaveMore: results.solutionModule.hasGap ? results.solutionModule.savingsLeverAmount : null,
-        solutionLumpSum: results.solutionModule.hasGap ? results.solutionModule.lumpSumAmount : null,
-        solutionReturnNeeded: results.solutionModule.hasGap ? results.solutionModule.efficiencyLeverReturn : null,
-        referralSource: referralSource || null,
-      });
+      const res = await apiRequest("POST", "/api/calculations", payload);
       const data = await res.json();
       setCalculationId(data.id);
       setHasSaved(true);
     } catch (e) {
-      // silently fail
+      console.error(`Calculation save failed (attempt ${retryCount + 1}):`, e);
+      if (retryCount < 2) {
+        setTimeout(() => saveCalculation(retryCount + 1), 2000 * (retryCount + 1));
+      }
     }
   }, [hasSaved, inputs, results, country, currency, referralSource, sessionId]);
 

@@ -66,7 +66,7 @@ export function LeadCaptureModal({
       });
       setIsSubmitted(true);
     } catch (e) {
-      // silently fail
+      console.error("Lead capture submission failed:", e);
     } finally {
       setIsSubmitting(false);
     }

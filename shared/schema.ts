@@ -36,7 +36,7 @@ export const leads = pgTable("leads", {
   calculationId: varchar("calculation_id").references(() => calculations.id),
   name: text("name").notNull(),
   email: text("email"),
-  whatsapp: text("whatsapp").notNull(),
+  whatsapp: text("whatsapp"),
   country: text("country").notNull(),
   currency: text("currency").notNull(),
   gapPercent: doublePrecision("gap_percent").notNull(),
