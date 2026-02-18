@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLocation } from "wouter";
 import finksmartIcon from "@assets/finksmart-icon.png";
 import { motion, useInView } from "framer-motion";
@@ -46,6 +46,71 @@ import screenshot3 from "@assets/image_1770667017861.png";
 import teamIllustration from "@assets/teamwork-concept-group-of-people-climbing-a-mountain-company-e_1770670026582.jpg";
 
 const countries = Object.keys(COUNTRY_CURRENCY_MAP).sort();
+
+function useCountUp(target: number, duration: number = 1500, shouldStart: boolean = false) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!shouldStart) return;
+    const startTime = performance.now();
+    let rafId: number;
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.round(target * eased));
+      if (progress < 1) rafId = requestAnimationFrame(animate);
+    };
+    rafId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafId);
+  }, [shouldStart, target, duration]);
+  return value;
+}
+
+function LiveImpactBar() {
+  const statsRef = useRef(null);
+  const statsInView = useInView(statsRef, { once: true, margin: "-40px" });
+  const guidedUsers = useCountUp(327, 1500, statsInView);
+  const savingsGap = useCountUp(5680000, 1500, statsInView);
+  const retiringEarly = useCountUp(28, 1500, statsInView);
+
+  const formatGap = (val: number) => {
+    if (val >= 1000000) return `$${(val / 1000000).toFixed(val % 1000000 === 0 ? 0 : 1)}M`;
+    if (val >= 1000) return `$${Math.round(val / 1000)}K`;
+    return `$${val}`;
+  };
+
+  return (
+    <div
+      ref={statsRef}
+      className="border-t border-b border-white/10 py-8 mb-10"
+      data-testid="live-impact-bar"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 text-center">
+        <div className="flex flex-col items-center gap-1" data-testid="stat-guided-users">
+          <span className="font-serif text-3xl md:text-4xl font-bold text-[#C05621]">
+            +{guidedUsers}
+          </span>
+          <span className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium">Guided Users</span>
+        </div>
+        <div className="flex flex-col items-center gap-1" data-testid="stat-savings-gap">
+          <span className="font-serif text-4xl md:text-5xl font-bold text-white">
+            {formatGap(savingsGap)}
+          </span>
+          <span className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium">Savings Gaps to Catch Up</span>
+        </div>
+        <div className="flex flex-col items-center gap-1" data-testid="stat-retiring-early">
+          <span
+            className="font-serif text-3xl md:text-4xl font-bold text-white"
+            style={{ textShadow: "0 0 20px rgba(192, 86, 33, 0.5), 0 0 40px rgba(192, 86, 33, 0.25)" }}
+          >
+            {retiringEarly}%
+          </span>
+          <span className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium">Users Retiring 5y Earlier</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
@@ -298,6 +363,8 @@ export default function Landing() {
               </div>
             </div>
           </AnimatedSection>
+
+          <LiveImpactBar />
 
           <AnimatedSection>
             <div className="mb-12 max-w-2xl mx-auto space-y-5" data-testid="steps-overview">
