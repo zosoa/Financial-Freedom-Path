@@ -20,6 +20,7 @@ import {
   Info,
   ShieldCheck,
   Sparkles,
+  Check,
 } from "lucide-react";
 import iconRoadmap from "@assets/icons/icon-roadmap.png";
 import iconRiskDna from "@assets/icons/icon-risk-dna.png";
@@ -34,10 +35,6 @@ import iconSavings from "@assets/icons/icon-savings.png";
 import iconCompound from "@assets/icons/icon-compound.png";
 import iconInstitution from "@assets/icons/icon-institution.png";
 import lifestyleImage from "@assets/Finksmart_Chill_success_woman_1770889957387.png";
-import logoBnp from "@assets/BNP-Paribus-logo-2_1771393241655.webp";
-import logoCiti from "@assets/CITI_logo_1771393241656.webp";
-import logoJuliusBaer from "@assets/Julius_B_Logo_1771393241657.jpg";
-import logoAfrasia from "@assets/AfrAsia_Bank_Logo_1771393241655.jpg";
 import { useTheme } from "@/lib/theme-provider";
 import {
   COUNTRY_CURRENCY_MAP,
@@ -126,7 +123,7 @@ export default function Landing() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-12 md:py-20 lg:py-28">
+      <section id="hero" className="relative py-12 md:py-20 lg:py-28">
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -291,12 +288,39 @@ export default function Landing() {
               <p className="text-xs text-white/40 uppercase tracking-[0.2em] text-center mb-6 font-medium">
                 Our team cut their teeth at
               </p>
-              <div className="flex items-center justify-center gap-8 md:gap-12 flex-wrap" data-testid="institutional-logos">
-                <img src={logoBnp} alt="BNP Paribas" className="h-7 md:h-9 object-contain grayscale brightness-200 opacity-60" data-testid="logo-bnp" />
-                <span className="text-lg md:text-xl font-bold text-white/50 tracking-wider" data-testid="logo-db">Deutsche Bank</span>
-                <img src={logoCiti} alt="Citi" className="h-7 md:h-9 object-contain grayscale brightness-200 opacity-60" data-testid="logo-citi" />
-                <img src={logoJuliusBaer} alt="Julius Baer" className="h-7 md:h-9 object-contain grayscale brightness-200 opacity-60" data-testid="logo-julius-baer" />
-                <img src={logoAfrasia} alt="AfrAsia Bank" className="h-7 md:h-9 object-contain grayscale brightness-200 opacity-60" data-testid="logo-afrasia" />
+              <div className="flex items-center justify-center gap-4 md:gap-8 flex-wrap" data-testid="institutional-names">
+                {["BNP Paribas", "Deutsche Bank", "Citi", "Julius Baer", "AfrAsia Bank"].map((name, i, arr) => (
+                  <span key={name} className="flex items-center gap-4 md:gap-8">
+                    <span className="text-sm md:text-base font-semibold text-white/45 tracking-wider whitespace-nowrap" data-testid={`firm-${name.toLowerCase().replace(/\s+/g, '-')}`}>{name}</span>
+                    {i < arr.length - 1 && <span className="text-white/20 hidden md:inline">|</span>}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection>
+            <div className="mb-12 max-w-2xl mx-auto space-y-5" data-testid="steps-overview">
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-green-400 mt-0.5 shrink-0" />
+                <p className="text-sm md:text-base text-white/75 leading-relaxed">
+                  <span className="font-semibold text-white/90">Step 1: Your Savings Objective.</span>{" "}
+                  Find the exact date you hit freedom.
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-green-400 mt-0.5 shrink-0" />
+                <p className="text-sm md:text-base text-white/75 leading-relaxed">
+                  <span className="font-semibold text-white/90">Step 2: Your Investment Heat.</span>{" "}
+                  Measure exactly how much market 'swing' you can handle.
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-green-400 mt-0.5 shrink-0" />
+                <p className="text-sm md:text-base text-white/75 leading-relaxed">
+                  <span className="font-semibold text-white/90">Step 3: Your Personalized Savings Plan.</span>{" "}
+                  Discover which door to open for action.
+                </p>
               </div>
             </div>
           </AnimatedSection>
@@ -305,7 +329,7 @@ export default function Landing() {
             <div className="text-center">
               <button
                 className="premium-cta premium-cta-lg"
-                onClick={handleStart}
+                onClick={() => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' })}
                 data-testid="button-start-now"
               >
                 Start Now
