@@ -595,8 +595,8 @@ export default function Landing() {
           <div className="grid md:grid-cols-3 gap-6">
             <AnimatedSection>
               <Card className="p-6 h-full relative">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/10 to-transparent flex items-center justify-center mb-4 shadow-inner">
-                  <img src={iconAnalysis} alt="" className="w-9 h-9 drop-shadow-sm" />
+                <div className="w-14 h-14 flex items-center justify-center mb-4">
+                  <img src={iconAnalysis} alt="" className="w-12 h-12" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2">Zero Product Bias</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -607,8 +607,8 @@ export default function Landing() {
 
             <AnimatedSection>
               <Card className="p-6 h-full relative">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 via-emerald-500/10 to-transparent flex items-center justify-center mb-4 shadow-inner relative">
-                  <img src={iconDataPrivacy} alt="" className="w-9 h-9 drop-shadow-sm" />
+                <div className="w-14 h-14 flex items-center justify-center mb-4 relative">
+                  <img src={iconDataPrivacy} alt="" className="w-12 h-12" />
                   <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500/30 flex items-center justify-center">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-signal-pulse" />
                   </div>
@@ -632,8 +632,8 @@ export default function Landing() {
                   backgroundSize: "24px 24px",
                 }} />
                 <div className="relative z-10">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 via-blue-500/10 to-transparent flex items-center justify-center mb-4 shadow-inner">
-                    <img src={iconSmartLogic} alt="" className="w-9 h-9 drop-shadow-sm" />
+                  <div className="w-14 h-14 flex items-center justify-center mb-4">
+                    <img src={iconSmartLogic} alt="" className="w-12 h-12" />
                   </div>
                   <h3 className="font-semibold text-lg mb-2">Institutional-Grade Logic</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
@@ -663,8 +663,8 @@ export default function Landing() {
           <div className="grid md:grid-cols-3 gap-8">
             <AnimatedSection>
               <div className="text-center">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <img src={iconRoadmap} alt="" className="w-9 h-9" />
+                <div className="w-14 h-14 flex items-center justify-center mx-auto mb-4">
+                  <img src={iconRoadmap} alt="" className="w-12 h-12" />
                 </div>
                 <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 1</div>
                 <h3 className="font-semibold text-lg mb-2">Answer Simple Questions</h3>
@@ -676,8 +676,8 @@ export default function Landing() {
 
             <AnimatedSection>
               <div className="text-center">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <img src={iconAnalytics} alt="" className="w-9 h-9" />
+                <div className="w-14 h-14 flex items-center justify-center mx-auto mb-4">
+                  <img src={iconAnalytics} alt="" className="w-12 h-12" />
                 </div>
                 <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 2</div>
                 <h3 className="font-semibold text-lg mb-2">See Your Freedom Date</h3>
@@ -689,8 +689,8 @@ export default function Landing() {
 
             <AnimatedSection>
               <div className="text-center">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <img src={iconEducation} alt="" className="w-9 h-9" />
+                <div className="w-14 h-14 flex items-center justify-center mx-auto mb-4">
+                  <img src={iconEducation} alt="" className="w-12 h-12" />
                 </div>
                 <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 3</div>
                 <h3 className="font-semibold text-lg mb-2">Get Clarity, Not Sales</h3>
@@ -721,8 +721,8 @@ export default function Landing() {
             <AnimatedSection>
               <Card className="p-6 h-full">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-md bg-amber-500/10 flex items-center justify-center">
-                    <img src={iconEducation} alt="" className="w-7 h-7" />
+                  <div className="w-10 h-10 flex items-center justify-center">
+                    <img src={iconEducation} alt="" className="w-10 h-10" />
                   </div>
                   <div>
                     <h3 className="font-semibold">No-Jargon Guides</h3>
@@ -738,8 +738,8 @@ export default function Landing() {
             <AnimatedSection>
               <Card className="p-6 h-full">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-md bg-blue-500/10 flex items-center justify-center">
-                    <img src={iconGrowth} alt="" className="w-7 h-7" />
+                  <div className="w-10 h-10 flex items-center justify-center">
+                    <img src={iconGrowth} alt="" className="w-10 h-10" />
                   </div>
                   <div>
                     <h3 className="font-semibold">Market Insights</h3>
@@ -755,8 +755,8 @@ export default function Landing() {
             <AnimatedSection>
               <Card className="p-6 h-full">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-md bg-emerald-500/10 flex items-center justify-center">
-                    <img src={iconSmartLogic} alt="" className="w-7 h-7" />
+                  <div className="w-10 h-10 flex items-center justify-center">
+                    <img src={iconSmartLogic} alt="" className="w-10 h-10" />
                   </div>
                   <div>
                     <h3 className="font-semibold">Smart Tips & Strategies</h3>

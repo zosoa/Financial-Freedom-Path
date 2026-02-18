@@ -849,8 +849,8 @@ export default function Results() {
         <motion.div id="phase2-cta" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.55 }}>
           <Card className="p-6 md:p-10">
             <div className="flex flex-col items-center justify-center text-center">
-              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <img src={iconRiskDna} alt="" className="w-10 h-10" />
+              <div className="w-16 h-16 flex items-center justify-center mb-4">
+                <img src={iconRiskDna} alt="" className="w-14 h-14" />
               </div>
               <h3 className="font-serif text-2xl font-bold mb-2" data-testid="text-phase2-title">
                 Phase 2: Stress-Test Your Strategy
