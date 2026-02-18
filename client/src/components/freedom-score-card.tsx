@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Download, Copy, Check, Rocket, TrendingUp, TreePine, Footprints } from "lucide-react";
-import finksmartLogo from "@assets/FinkSmart_logo_orange_1771420950646.png";
+import finksmartLogo from "@assets/FinkSmart_logo_final.png";
 import { toPng } from "html-to-image";
 
 interface FreedomScoreCardProps {

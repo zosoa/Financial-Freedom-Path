@@ -4,7 +4,7 @@ import { calculateFreedom } from "@/lib/calculations";
 import type { CalculationInputs } from "@/lib/calculations";
 import { SUPPORTED_CURRENCIES } from "@shared/schema";
 import type { Calculation } from "@shared/schema";
-import finksmartLogo from "@assets/FinkSmart_logo_orange_1771420950646.png";
+import finksmartLogo from "@assets/FinkSmart_logo_final.png";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 

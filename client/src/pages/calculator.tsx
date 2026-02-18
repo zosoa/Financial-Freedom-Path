@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation, useSearch } from "wouter";
-import finksmartLogo from "@assets/FinkSmart_logo_orange_1771420950646.png";
+import finksmartLogo from "@assets/FinkSmart_logo_final.png";
 import finksmartIcon from "@assets/finksmart-icon.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
