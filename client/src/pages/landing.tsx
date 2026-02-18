@@ -34,6 +34,10 @@ import iconSavings from "@assets/icons/icon-savings.png";
 import iconCompound from "@assets/icons/icon-compound.png";
 import iconInstitution from "@assets/icons/icon-institution.png";
 import lifestyleImage from "@assets/Finksmart_Chill_success_woman_1770889957387.png";
+import logoBnp from "@assets/BNP-Paribus-logo-2_1771393241655.webp";
+import logoCiti from "@assets/CITI_logo_1771393241656.webp";
+import logoJuliusBaer from "@assets/Julius_B_Logo_1771393241657.jpg";
+import logoAfrasia from "@assets/AfrAsia_Bank_Logo_1771393241655.jpg";
 import { useTheme } from "@/lib/theme-provider";
 import {
   COUNTRY_CURRENCY_MAP,
@@ -62,13 +66,6 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
   );
 }
 
-const FIRM_NAMES = [
-  "BNP Paribas",
-  "Deutsche Bank",
-  "Citi",
-  "Julius Baer",
-  "Afrasia Bank",
-];
 
 export default function Landing() {
   const [, navigate] = useLocation();
@@ -268,28 +265,54 @@ export default function Landing() {
             </Card>
           </motion.div>
 
-          {/* Credibility - below CTA */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-10 text-center max-w-2xl mx-auto"
-          >
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              Financial freedom isn't a mystery; it's a math problem. We spent our careers managing wealth for the ultra-rich&mdash;now we're giving you the exact same logic, simplified and 100% free.
-            </p>
-            <p className="text-xs text-muted-foreground mb-3 tracking-wide uppercase">
-              Our team brings experience from
-            </p>
-            <div className="flex items-center justify-center gap-1 flex-wrap" data-testid="credibility-logos">
-              {FIRM_NAMES.map((firm, i) => (
-                <span key={firm} className="flex items-center gap-1">
-                  <span className="text-sm font-semibold text-muted-foreground/70 tracking-wide whitespace-nowrap">{firm}</span>
-                  {i < FIRM_NAMES.length - 1 && <span className="text-muted-foreground/30 mx-2 md:mx-4">|</span>}
-                </span>
-              ))}
+        </div>
+      </section>
+
+      {/* Institutional Bridge - Trust & Authority */}
+      <section className="py-16 md:py-20 bg-[#1a1a1f] text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1f] via-[#1f1f26] to-[#1a1a1f] pointer-events-none" />
+        <div className="max-w-4xl mx-auto px-4 relative z-10">
+          <AnimatedSection>
+            <div className="text-center mb-10">
+              <h2 className="font-serif text-3xl md:text-4xl font-bold mb-3 text-white" data-testid="text-section-institutional">
+                Where do the pros actually save?
+              </h2>
+              <p className="text-lg md:text-xl italic text-white/50 mb-8">
+                Stock Markets? Crypto? Real Estate? Funds?
+              </p>
+              <p className="text-sm md:text-base text-white/70 leading-relaxed max-w-2xl mx-auto">
+                We spent our careers managing wealth for the ultra-rich&mdash;now we're giving you the exact same logic. No secrets, simplified and 100% free.
+              </p>
             </div>
-          </motion.div>
+          </AnimatedSection>
+
+          <AnimatedSection>
+            <div className="mb-10">
+              <p className="text-xs text-white/40 uppercase tracking-[0.2em] text-center mb-6 font-medium">
+                Our team cut their teeth at
+              </p>
+              <div className="flex items-center justify-center gap-8 md:gap-12 flex-wrap" data-testid="institutional-logos">
+                <img src={logoBnp} alt="BNP Paribas" className="h-7 md:h-9 object-contain grayscale brightness-200 opacity-60" data-testid="logo-bnp" />
+                <span className="text-lg md:text-xl font-bold text-white/50 tracking-wider" data-testid="logo-db">Deutsche Bank</span>
+                <img src={logoCiti} alt="Citi" className="h-7 md:h-9 object-contain grayscale brightness-200 opacity-60" data-testid="logo-citi" />
+                <img src={logoJuliusBaer} alt="Julius Baer" className="h-7 md:h-9 object-contain grayscale brightness-200 opacity-60" data-testid="logo-julius-baer" />
+                <img src={logoAfrasia} alt="AfrAsia Bank" className="h-7 md:h-9 object-contain grayscale brightness-200 opacity-60" data-testid="logo-afrasia" />
+              </div>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection>
+            <div className="text-center">
+              <button
+                className="premium-cta premium-cta-lg"
+                onClick={handleStart}
+                data-testid="button-start-now"
+              >
+                Start Now
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
