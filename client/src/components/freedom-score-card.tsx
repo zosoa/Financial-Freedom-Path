@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -40,6 +41,7 @@ export function FreedomScoreCard({
   subtitle,
   monthlySavings,
 }: FreedomScoreCardProps) {
+  const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -61,10 +63,10 @@ export function FreedomScoreCard({
   const Icon = personalityIcons[narrativeType];
 
   const taglines: Record<string, string> = {
-    critical: "The journey of a thousand miles begins with a single step.",
-    moderate: "Building the ladder, one rung at a time.",
-    on_track: "Blazing trails and taking names!",
-    basically_there: "Houston, we have liftoff!",
+    critical: t("freedomCard.exploring"),
+    moderate: t("freedomCard.building"),
+    on_track: t("freedomCard.trailBlazing"),
+    basically_there: t("freedomCard.liftoff"),
   };
 
   const handleDownload = async () => {
@@ -80,13 +82,17 @@ export function FreedomScoreCard({
       link.href = dataUrl;
       link.click();
     } catch (e) {
-      // silently fail
     } finally {
       setIsDownloading(false);
     }
   };
 
-  const shareText = `I'm a "${personality}" with a Freedom Score of ${freedomScore}/100! I could reach financial independence by age ${freedomAge}. Can you beat my score? Try it free at finksmart.com`;
+  const shareText = t("freedomCard.shareText", {
+    personality,
+    score: freedomScore,
+    age: freedomAge,
+    canYouBeat: t("freedomCard.canYouBeat"),
+  });
 
   const handleCopyShare = () => {
     navigator.clipboard.writeText(shareText);
@@ -99,7 +105,7 @@ export function FreedomScoreCard({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="font-serif text-xl text-center">
-            Your Freedom Card
+            {t("freedomCard.title")}
           </DialogTitle>
         </DialogHeader>
 
@@ -127,7 +133,7 @@ export function FreedomScoreCard({
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
-              <p className="text-xs text-white/70 tracking-wider uppercase">Freedom Score</p>
+              <p className="text-xs text-white/70 tracking-wider uppercase">{t("freedomCard.score")}</p>
             </div>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-md p-4 mb-4">
@@ -138,15 +144,15 @@ export function FreedomScoreCard({
 
             <div className="text-center mb-4 px-2">
               <p className="text-sm font-semibold">
-                You will reach freedom at age {freedomAge}
+                {t("freedomCard.freedomAge")}: {freedomAge}
               </p>
               {freedomAge > targetAge ? (
                 <p className="text-xs text-white/70 mt-1">
-                  (that's {freedomAge - targetAge} year{freedomAge - targetAge === 1 ? "" : "s"} after your target of {targetAge})
+                  ({t("freedomCard.afterTarget", { years: freedomAge - targetAge, target: targetAge })})
                 </p>
               ) : (
                 <p className="text-xs text-white/70 mt-1">
-                  {freedomAge === targetAge ? "Right on target!" : `Before your target of ${targetAge}!`}
+                  {freedomAge === targetAge ? t("freedomCard.rightOnTarget") : t("freedomCard.beforeTarget", { target: targetAge })}
                 </p>
               )}
             </div>
@@ -154,7 +160,7 @@ export function FreedomScoreCard({
 
           <div className="bg-black/20 px-6 py-3 flex items-center justify-between">
             <p className="text-xs text-white/50">
-              Can you beat my score?
+              {t("freedomCard.canYouBeat")}
             </p>
             <p className="text-xs text-white/60 font-medium">
               finksmart.com
@@ -171,7 +177,7 @@ export function FreedomScoreCard({
             data-testid="button-download-image"
           >
             <Download className="w-4 h-4 mr-2" />
-            {isDownloading ? "Saving..." : "Download"}
+            {isDownloading ? t("freedomCard.saving") : t("freedomCard.download")}
           </Button>
           <Button
             className="flex-1"
@@ -181,12 +187,12 @@ export function FreedomScoreCard({
             {copied ? (
               <>
                 <Check className="w-4 h-4 mr-2" />
-                Copied!
+                {t("freedomCard.copied")}
               </>
             ) : (
               <>
                 <Copy className="w-4 h-4 mr-2" />
-                Copy to share
+                {t("freedomCard.copyToShare")}
               </>
             )}
           </Button>

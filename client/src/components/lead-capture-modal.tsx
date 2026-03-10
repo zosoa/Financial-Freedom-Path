@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,6 +40,7 @@ export function LeadCaptureModal({
   sessionId,
   leadStatus = "risk_dna_started",
 }: LeadCaptureModalProps) {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
@@ -99,19 +101,19 @@ export function LeadCaptureModal({
                   <Lock className="w-7 h-7 text-primary" />
                 </div>
                 <DialogTitle className="font-serif text-xl text-center">
-                  Secure Your Results & Unlock Phase 2
+                  {t("leadCapture.title")}
                 </DialogTitle>
                 <DialogDescription className="text-center">
-                  Lock in your Freedom Roadmap and get your Personal Risk Profile analyzed by a UHNW-trained professional. No products, no pressure -- just clarity.
+                  {t("leadCapture.subtitle")}
                 </DialogDescription>
               </DialogHeader>
 
               <div className="space-y-4 mt-6">
                 <div>
-                  <Label htmlFor="lead-name">Your name</Label>
+                  <Label htmlFor="lead-name">{t("leadCapture.nameLabel")}</Label>
                   <Input
                     id="lead-name"
-                    placeholder="John"
+                    placeholder={t("leadCapture.namePlaceholder")}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     data-testid="input-lead-name"
@@ -120,26 +122,25 @@ export function LeadCaptureModal({
                 <div>
                   <Label htmlFor="lead-email" className="flex items-center gap-1.5">
                     <Mail className="w-3.5 h-3.5" />
-                    Email address
+                    {t("leadCapture.emailLabel")}
                   </Label>
                   <Input
                     id="lead-email"
                     type="email"
-                    placeholder="john@example.com"
+                    placeholder={t("leadCapture.emailPlaceholder")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     data-testid="input-lead-email"
                   />
-                  <p className="text-[10px] text-muted-foreground mt-1">We'll send your saved roadmap to this email</p>
                 </div>
                 <div>
                   <Label htmlFor="lead-whatsapp" className="flex items-center gap-1.5">
                     <Phone className="w-3.5 h-3.5" />
-                    WhatsApp / Phone number
+                    {t("leadCapture.whatsappLabel")}
                   </Label>
                   <Input
                     id="lead-whatsapp"
-                    placeholder="+1 234 567 8900"
+                    placeholder={t("leadCapture.whatsappPlaceholder")}
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
                     data-testid="input-lead-whatsapp"
@@ -148,11 +149,11 @@ export function LeadCaptureModal({
 
                 <div>
                   <Label htmlFor="lead-life-event" className="text-xs text-muted-foreground">
-                    What is the one life event we must account for in your plan? (Optional)
+                    {t("leadCapture.lifeEventLabel")}
                   </Label>
                   <Textarea
                     id="lead-life-event"
-                    placeholder="e.g., Wedding in 2027, inheritance expected, property sale planned..."
+                    placeholder={t("leadCapture.lifeEventPlaceholder")}
                     value={lifeEvent}
                     onChange={(e) => setLifeEvent(e.target.value)}
                     className="resize-none text-sm"
@@ -173,12 +174,12 @@ export function LeadCaptureModal({
                   ) : (
                     <Sparkles className="w-4 h-4 mr-2" />
                   )}
-                  {isSubmitting ? "Securing..." : "Send My Roadmap & Unlock Risk Analysis"}
+                  {isSubmitting ? "..." : t("leadCapture.submit")}
                 </Button>
 
                 <div className="flex items-start gap-2 justify-center text-xs text-muted-foreground">
                   <Shield className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-                  <span>By submitting, you agree to share your details with our selected institutional partners. Your data is <span className="font-medium">only shared when you actively submit this form</span>&mdash;never automatically.</span>
+                  <span>{t("leadCapture.subtitle")}</span>
                 </div>
               </div>
             </motion.div>
@@ -193,16 +194,13 @@ export function LeadCaptureModal({
                 <Check className="w-8 h-8 text-emerald-500" />
               </div>
               <h3 className="font-serif text-xl font-bold mb-2" data-testid="text-lead-success">
-                Your roadmap is secured!
+                {t("leadCapture.success")}
               </h3>
-              <p className="text-muted-foreground mb-3">
-                Check your email for your saved Freedom Roadmap. A UHNW-trained expert will reach out within 24 hours to walk you through your Risk Profile.
-              </p>
-              <p className="text-sm text-muted-foreground mb-6">
-                No jargon, no pressure -- just a clear conversation about your strategy.
+              <p className="text-muted-foreground mb-6">
+                {t("leadCapture.successSubtitle")}
               </p>
               <Button variant="outline" onClick={handleClose} data-testid="button-close-lead-success">
-                Back to my results
+                {t("leadCapture.close")}
               </Button>
             </motion.div>
           )}

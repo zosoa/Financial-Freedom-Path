@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import finksmartLogo from "@assets/FinkSmart_logo_final.png";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,8 @@ import { useTheme } from "@/lib/theme-provider";
 import {
   COUNTRY_CURRENCY_MAP,
   SUPPORTED_CURRENCIES,
+  COUNTRY_ISO_MAP,
+  EUR_EXCHANGE_RATES,
 } from "@shared/schema";
 import screenshot1 from "@assets/image_1770666978155.png";
 import screenshot2 from "@assets/image_1770666992828.png";
@@ -46,6 +49,34 @@ import screenshot3 from "@assets/image_1770667017861.png";
 import teamIllustration from "@assets/teamwork-concept-group-of-people-climbing-a-mountain-company-e_1770670026582.jpg";
 
 const countries = Object.keys(COUNTRY_CURRENCY_MAP).sort();
+
+function countryToFlag(countryName: string): string {
+  const iso = COUNTRY_ISO_MAP[countryName];
+  if (!iso) return "";
+  return iso
+    .toUpperCase()
+    .split("")
+    .map((char) => String.fromCodePoint(0x1f1e6 + char.charCodeAt(0) - 65))
+    .join("");
+}
+
+function getDefaultPlaceholder(currencyCode: string): string {
+  const rate = EUR_EXCHANGE_RATES[currencyCode] || 1;
+  const rawValue = 1000 * rate;
+  const rounded = Math.round(rawValue / 1000) * 1000;
+  const result = Math.max(1000, rounded);
+  return formatWithSeparators(result.toString());
+}
+
+function formatWithSeparators(value: string): string {
+  const num = value.replace(/[^\d]/g, "");
+  if (!num) return "";
+  return num.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+function parseFormattedNumber(value: string): string {
+  return value.replace(/\s/g, "");
+}
 
 function useCountUp(target: number, duration: number = 1500, shouldStart: boolean = false) {
   const [value, setValue] = useState(0);
@@ -67,6 +98,7 @@ function useCountUp(target: number, duration: number = 1500, shouldStart: boolea
 }
 
 function LiveImpactBar() {
+  const { t } = useTranslation();
   const statsRef = useRef(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-40px" });
   const guidedUsers = useCountUp(327, 1500, statsInView);
@@ -90,13 +122,13 @@ function LiveImpactBar() {
           <span className="font-serif text-3xl md:text-4xl font-bold text-[#C05621]">
             +{guidedUsers}
           </span>
-          <span className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium">Guided Users</span>
+          <span className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium">{t("liveImpact.guidedUsers")}</span>
         </div>
         <div className="flex flex-col items-center gap-1" data-testid="stat-savings-gap">
           <span className="font-serif text-4xl md:text-5xl font-bold text-white">
             {formatGap(savingsGap)}
           </span>
-          <span className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium">Savings Gaps to Catch Up</span>
+          <span className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium">{t("liveImpact.savingsGaps")}</span>
         </div>
         <div className="flex flex-col items-center gap-1" data-testid="stat-retiring-early">
           <span
@@ -105,7 +137,7 @@ function LiveImpactBar() {
           >
             {retiringEarly}%
           </span>
-          <span className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium">Users Retiring 5y Earlier</span>
+          <span className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium">{t("liveImpact.earlyRetirement")}</span>
         </div>
       </div>
     </div>
@@ -131,11 +163,14 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
 
 export default function Landing() {
   const [, navigate] = useLocation();
+  const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const [selectedCountry, setSelectedCountry] = useState("Mauritius");
   const [selectedCurrency, setSelectedCurrency] = useState("MUR");
   const [desiredIncome, setDesiredIncome] = useState("");
   const [showCurrencyOverride, setShowCurrencyOverride] = useState(true);
+
+  const defaultPlaceholder = useMemo(() => getDefaultPlaceholder(selectedCurrency), [selectedCurrency]);
 
   const handleCountrySelect = (country: string) => {
     setSelectedCountry(country);
@@ -144,8 +179,13 @@ export default function Landing() {
     setShowCurrencyOverride(true);
   };
 
+  const handleIncomeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value.replace(/[^\d]/g, "");
+    setDesiredIncome(raw ? formatWithSeparators(raw) : "");
+  };
+
   const handleStart = () => {
-    const income = parseFloat(desiredIncome) || 3000;
+    const income = parseFloat(parseFormattedNumber(desiredIncome)) || parseFloat(parseFormattedNumber(defaultPlaceholder)) || 3000;
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get("ref") || "";
     const params = new URLSearchParams({
@@ -167,9 +207,9 @@ export default function Landing() {
             <img src={finksmartLogo} alt="FinkSmart - Pro-Investing Decoded" className="h-10 w-auto" data-testid="icon-logo" />
           </div>
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/20 bg-primary/5" data-testid="text-sponsor">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Sponsored by</span>
-              <span className="text-xs font-bold tracking-wide text-foreground">BLACKWAVE CAPITAL</span>
+            <div className="hidden sm:flex items-center gap-1.5" data-testid="text-sponsor">
+              <span className="text-[10px] text-muted-foreground/60 uppercase tracking-[0.15em]" style={{ fontFamily: 'Inter, sans-serif' }}>{t("header.sponsoredBy")}</span>
+              <span className="text-[11px] font-semibold tracking-[0.1em] uppercase text-muted-foreground/70" style={{ fontFamily: 'Inter, sans-serif' }}>{t("header.blackwaveCapital")}</span>
             </div>
             <Button
               size="icon"
@@ -192,32 +232,32 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/25 bg-primary/[0.04] mb-6" data-testid="badge-trust">
-              <span className="text-[11px] font-medium tracking-[0.12em] uppercase text-muted-foreground">Expert-Engineered Financial Model</span>
+            <div className="inline-flex flex-col items-center gap-0 mb-6" data-testid="badge-trust">
+              <div className="w-16 h-px bg-foreground/20 mb-2.5" />
+              <span className="text-[11px] font-medium tracking-[0.14em] uppercase text-muted-foreground">{t("badge.trust")}</span>
+              <div className="w-16 h-px bg-foreground/20 mt-2.5" />
             </div>
 
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-5 max-w-4xl mx-auto" data-testid="text-headline">
-              Will your future be a{" "}
-              <span className="text-primary">reality</span> or a{" "}
-              <span className="text-muted-foreground/60">fantasy</span>?
+              {t("hero.headline1")}{" "}
+              <span className="text-primary">{t("hero.reality")}</span> {t("hero.or")}{" "}
+              <span className="text-muted-foreground/60">{t("hero.fantasy")}</span>{t("hero.questionMark")}
             </h1>
 
             <div className="flex items-center justify-center gap-3 md:gap-4 flex-wrap mb-5 text-sm md:text-base text-muted-foreground" data-testid="text-emotional-hook">
-              <span>Early Retirement</span>
+              <span>{t("hero.earlyRetirement")}</span>
               <span className="text-primary/40">&bull;</span>
-              <span>Luxurious Lifestyle</span>
+              <span>{t("hero.luxuriousLifestyle")}</span>
               <span className="text-primary/40">&bull;</span>
-              <span>Global Citizen</span>
-              <span className="text-primary/40">&bull;</span>
-              <span>Zero-Money Stress</span>
-              <span className="text-primary/40">&bull;</span>
-              <span>Work by Choice</span>
-              <span className="text-primary/40">&bull;</span>
-              <span>Financial Freedom</span>
+              <span>{t("hero.zeroMoneyStress")}</span>
             </div>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed" data-testid="text-subheadline">
-              Stop guessing. Do your <span className="font-semibold text-foreground">2-min Reality Check</span> (100% free, no login) and see if your current plan adds up.
+              {t("hero.subheadline", { interpolation: { escapeValue: false } }).split("<bold>").map((part, i) => {
+                if (i === 0) return part;
+                const [bold, rest] = part.split("</bold>");
+                return <span key={i}><span className="font-semibold text-foreground">{bold}</span>{rest}</span>;
+              })}
             </p>
           </motion.div>
 
@@ -230,16 +270,24 @@ export default function Landing() {
               <div className="space-y-5">
                 <div>
                   <label className="text-sm text-muted-foreground mb-2 block">
-                    Where do you live?
+                    {t("inputCard.whereDoYouLive")}
                   </label>
                   <Select value={selectedCountry} onValueChange={handleCountrySelect}>
                     <SelectTrigger data-testid="select-country">
-                      <SelectValue placeholder="Select your country" />
+                      <SelectValue placeholder={t("inputCard.selectCountry")}>
+                        <span className="flex items-center gap-2">
+                          <span className="text-lg leading-none">{countryToFlag(selectedCountry)}</span>
+                          {selectedCountry}
+                        </span>
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {countries.map((country) => (
                         <SelectItem key={country} value={country}>
-                          {country}
+                          <span className="flex items-center gap-2">
+                            <span className="text-lg leading-none">{countryToFlag(country)}</span>
+                            {country}
+                          </span>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -253,7 +301,7 @@ export default function Landing() {
                     transition={{ duration: 0.3 }}
                   >
                     <label className="text-sm text-muted-foreground mb-2 block">
-                      We'll calculate in {SUPPORTED_CURRENCIES[selectedCurrency]?.name}. Prefer a different currency?
+                      {t("inputCard.currencyLabel", { currency: SUPPORTED_CURRENCIES[selectedCurrency]?.name })}
                     </label>
                     <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
                       <SelectTrigger data-testid="select-currency">
@@ -262,7 +310,7 @@ export default function Landing() {
                       <SelectContent>
                         {Object.entries(SUPPORTED_CURRENCIES).map(([code, info]) => (
                           <SelectItem key={code} value={code}>
-                            {info.symbol} {info.name} ({code})
+                            {info.symbol} {code}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -273,7 +321,7 @@ export default function Landing() {
                 <div>
                   <div className="flex items-center gap-1.5 mb-2">
                     <label className="text-sm text-muted-foreground">
-                      If you could stop working, how much would you need per month?
+                      {t("inputCard.incomeQuestion")}
                     </label>
                     <Popover>
                       <PopoverTrigger asChild>
@@ -282,8 +330,8 @@ export default function Landing() {
                         </button>
                       </PopoverTrigger>
                       <PopoverContent side="top" className="max-w-xs text-xs leading-relaxed p-3">
-                        <p className="font-semibold mb-1">We include inflation in the calculation</p>
-                        <p>Inflation means things get a bit more expensive every year. For example, a coffee that costs {currencySymbol}3 today might cost {currencySymbol}3.65 in 10 years. We automatically account for this so your future income keeps the same purchasing power as today.</p>
+                        <p className="font-semibold mb-1">{t("inputCard.inflationTitle")}</p>
+                        <p>{t("inputCard.inflationText", { symbol: currencySymbol })}</p>
                       </PopoverContent>
                     </Popover>
                   </div>
@@ -292,16 +340,17 @@ export default function Landing() {
                       {currencySymbol}
                     </span>
                     <Input
-                      type="number"
-                      placeholder="3,000"
+                      type="text"
+                      inputMode="numeric"
+                      placeholder={defaultPlaceholder}
                       value={desiredIncome}
-                      onChange={(e) => setDesiredIncome(e.target.value)}
+                      onChange={handleIncomeChange}
                       className="pl-10 text-lg"
                       data-testid="input-desired-income"
                     />
                   </div>
                   <p className="text-xs text-muted-foreground mt-1.5">
-                    Inflation will be included in the calculation automatically
+                    {t("inputCard.inflationNote")}
                   </p>
                 </div>
 
@@ -311,13 +360,13 @@ export default function Landing() {
                   disabled={!selectedCountry}
                   data-testid="button-start-journey"
                 >
-                  Show me if it's possible
+                  {t("inputCard.cta")}
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
                 <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>No login required. Your data stays private.</span>
+                  <span>{t("inputCard.privacyNote")}</span>
                 </div>
               </div>
             </Card>
@@ -333,13 +382,13 @@ export default function Landing() {
           <AnimatedSection>
             <div className="text-center mb-10">
               <h2 className="font-serif text-3xl md:text-4xl font-bold mb-3 text-white" data-testid="text-section-institutional">
-                Where do the pros actually save?
+                {t("institutional.title")}
               </h2>
               <p className="text-lg md:text-xl italic text-white/50 mb-8">
-                Stock Markets? Crypto? Real Estate? Funds?
+                {t("institutional.subtitle")}
               </p>
               <p className="text-sm md:text-base text-white/70 leading-relaxed max-w-2xl mx-auto">
-                We spent our careers managing wealth for the ultra-rich&mdash;now we're giving you the exact same logic. No secrets, simplified and 100% free.
+                {t("institutional.description")}
               </p>
             </div>
           </AnimatedSection>
@@ -347,7 +396,7 @@ export default function Landing() {
           <AnimatedSection>
             <div className="mb-10">
               <p className="text-xs text-white/40 uppercase tracking-[0.2em] text-center mb-6 font-medium">
-                Our team cut their teeth at
+                {t("institutional.teamLabel")}
               </p>
               <div className="flex items-center justify-center gap-4 md:gap-8 flex-wrap" data-testid="institutional-names">
                 {["BNP Paribas", "Deutsche Bank", "Citi", "Julius Baer", "AfrAsia Bank"].map((name, i, arr) => (
@@ -367,22 +416,22 @@ export default function Landing() {
               <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-green-400 mt-0.5 shrink-0" />
                 <p className="text-sm md:text-base text-white/75 leading-relaxed">
-                  <span className="font-semibold text-white/90">Step 1: Your Savings Objective.</span>{" "}
-                  Find the exact date you hit freedom.
+                  <span className="font-semibold text-white/90">{t("institutional.step1Label")}</span>{" "}
+                  {t("institutional.step1Text")}
                 </p>
               </div>
               <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-green-400 mt-0.5 shrink-0" />
                 <p className="text-sm md:text-base text-white/75 leading-relaxed">
-                  <span className="font-semibold text-white/90">Step 2: Your Investment Heat.</span>{" "}
-                  Measure exactly how much market 'swing' you can handle.
+                  <span className="font-semibold text-white/90">{t("institutional.step2Label")}</span>{" "}
+                  {t("institutional.step2Text")}
                 </p>
               </div>
               <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-green-400 mt-0.5 shrink-0" />
                 <p className="text-sm md:text-base text-white/75 leading-relaxed">
-                  <span className="font-semibold text-white/90">Step 3: Your Personalized Savings Plan.</span>{" "}
-                  Discover which door to open for action.
+                  <span className="font-semibold text-white/90">{t("institutional.step3Label")}</span>{" "}
+                  {t("institutional.step3Text")}
                 </p>
               </div>
             </div>
@@ -395,7 +444,7 @@ export default function Landing() {
                 onClick={() => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' })}
                 data-testid="button-start-now"
               >
-                Start Now
+                {t("institutional.startNow")}
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -409,10 +458,10 @@ export default function Landing() {
           <AnimatedSection>
             <div className="text-center mb-10">
               <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4" data-testid="text-section-preview">
-                See what you'll discover
+                {t("preview.title")}
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto">
-                In just 2 minutes, you'll get a personalised financial dashboard that shows exactly where you stand and what's possible.
+                {t("preview.subtitle")}
               </p>
             </div>
           </AnimatedSection>
@@ -454,7 +503,7 @@ export default function Landing() {
               <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
                 <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-medium shadow-lg">
                   <Sparkles className="w-3 h-3" />
-                  Your personalised results in 2 minutes
+                  {t("preview.badge")}
                 </span>
               </div>
             </div>
@@ -468,10 +517,10 @@ export default function Landing() {
           <AnimatedSection>
             <div className="text-center mb-12">
               <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4" data-testid="text-section-journey">
-                Your Journey to Financial Freedom
+                {t("journey.title")}
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto">
-                Three steps from "Where am I?" to "Here's my plan." We guide you through each one.
+                {t("journey.subtitle")}
               </p>
             </div>
           </AnimatedSection>
@@ -509,17 +558,17 @@ export default function Landing() {
                     </div>
                     <div className="flex-1 bg-background rounded-xl p-5 shadow-sm border border-border/40">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-[10px] font-semibold text-primary uppercase tracking-widest">Step 1</span>
+                        <span className="text-[10px] font-semibold text-primary uppercase tracking-widest">{t("journey.step1Label")}</span>
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold">
-                          <Sparkles className="w-2.5 h-2.5" /> Available Now
+                          <Sparkles className="w-2.5 h-2.5" /> {t("journey.step1Badge")}
                         </span>
                       </div>
-                      <h3 className="font-semibold text-lg mb-1.5" data-testid="text-step1-title">Your FinkSmart Freedom GPS</h3>
+                      <h3 className="font-semibold text-lg mb-1.5" data-testid="text-step1-title">{t("journey.step1Title")}</h3>
                       <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                        Where do you stand today vs where you want to be? Our calculator reveals your exact position on the path to financial freedom in 2 minutes.
+                        {t("journey.step1Text")}
                       </p>
                       <p className="text-xs font-medium text-primary">
-                        Answer 5 simple questions &rarr; Get your Freedom Score
+                        {t("journey.step1Cta")}
                       </p>
                     </div>
                   </div>
@@ -533,17 +582,17 @@ export default function Landing() {
                     </div>
                     <div className="flex-1 bg-background rounded-xl p-5 shadow-sm border border-border/40 opacity-90">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">Step 2</span>
+                        <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">{t("journey.step2Label")}</span>
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-400/20 text-[10px] font-semibold">
-                          <Lock className="w-2.5 h-2.5" /> Coming Soon
+                          <Lock className="w-2.5 h-2.5" /> {t("journey.step2Badge")}
                         </span>
                       </div>
-                      <h3 className="font-semibold text-lg mb-1.5 text-muted-foreground" data-testid="text-step2-title">Your Risk DNA</h3>
+                      <h3 className="font-semibold text-lg mb-1.5 text-muted-foreground" data-testid="text-step2-title">{t("journey.step2Title")}</h3>
                       <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                        Not all investors are the same. Discover what kind of investor you really are, so your plan fits your personality and comfort level.
+                        {t("journey.step2Text")}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        How much "heat" can your money take? Find out.
+                        {t("journey.step2Cta")}
                       </p>
                     </div>
                   </div>
@@ -557,17 +606,17 @@ export default function Landing() {
                     </div>
                     <div className="flex-1 bg-background rounded-xl p-5 shadow-sm border border-border/40 opacity-90">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">Step 3</span>
+                        <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">{t("journey.step3Label")}</span>
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-[10px] font-semibold">
-                          <Lock className="w-2.5 h-2.5" /> Coming Soon
+                          <Lock className="w-2.5 h-2.5" /> {t("journey.step3Badge")}
                         </span>
                       </div>
-                      <h3 className="font-semibold text-lg mb-1.5 text-muted-foreground" data-testid="text-step3-title">Your Action Plan</h3>
+                      <h3 className="font-semibold text-lg mb-1.5 text-muted-foreground" data-testid="text-step3-title">{t("journey.step3Title")}</h3>
                       <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                        From numbers to action. A concrete, step-by-step roadmap to actually get you to financial freedom&mdash;not theory, real moves you can make.
+                        {t("journey.step3Text")}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Your personalised investment strategy, built for you.
+                        {t("journey.step3Cta")}
                       </p>
                     </div>
                   </div>
@@ -584,10 +633,10 @@ export default function Landing() {
           <AnimatedSection>
             <div className="text-center mb-12">
               <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4" data-testid="text-section-why">
-                Why is this different?
+                {t("whyDifferent.title")}
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto">
-                Most financial tools are built by banks to sell you products. We built this to give you the truth.
+                {t("whyDifferent.subtitle")}
               </p>
             </div>
           </AnimatedSection>
@@ -598,9 +647,9 @@ export default function Landing() {
                 <div className="w-14 h-14 flex items-center justify-center mb-4">
                   <img src={iconAnalysis} alt="" className="w-12 h-12" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2">Zero Product Bias</h3>
+                <h3 className="font-semibold text-lg mb-2">{t("whyDifferent.bias.title")}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  We don't sell insurance, funds, or any financial products. We provide the diagnosis. Independent asset managers provide the cure&mdash;only if you ask.
+                  {t("whyDifferent.bias.text")}
                 </p>
               </Card>
             </AnimatedSection>
@@ -613,14 +662,14 @@ export default function Landing() {
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-signal-pulse" />
                   </div>
                 </div>
-                <h3 className="font-semibold text-lg mb-2">Your Data, Your Rules</h3>
+                <h3 className="font-semibold text-lg mb-2">{t("whyDifferent.data.title")}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  No login required.{" "}
+                  {t("whyDifferent.data.text1")}{" "}
                   <span className="inline-flex items-center gap-1">
-                    Your numbers are never stored without your permission
+                    {t("whyDifferent.data.text2")}
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-signal-pulse" />
                   </span>
-                  {" "}We only share your information with selected institutional partners when <span className="font-medium text-foreground">you actively choose</span> to connect with them.
+                  {" "}{t("whyDifferent.data.text3")} <span className="font-medium text-foreground">{t("whyDifferent.data.text4")}</span> {t("whyDifferent.data.text5")}
                 </p>
               </Card>
             </AnimatedSection>
@@ -635,9 +684,9 @@ export default function Landing() {
                   <div className="w-14 h-14 flex items-center justify-center mb-4">
                     <img src={iconSmartLogic} alt="" className="w-12 h-12" />
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">Institutional-Grade Logic</h3>
+                  <h3 className="font-semibold text-lg mb-2">{t("whyDifferent.logic.title")}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Powered by the FINSIM v5 engine with a 2% inflation buffer and 6% Safe Withdrawal Rate&mdash;the same methodology used for ultra-high-net-worth clients.
+                    {t("whyDifferent.logic.text")}
                   </p>
                 </div>
               </Card>
@@ -652,10 +701,10 @@ export default function Landing() {
           <AnimatedSection>
             <div className="text-center mb-12">
               <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4" data-testid="text-section-how">
-                How it works
+                {t("howItWorks.title")}
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto">
-                Two minutes to clarity. No jargon, no tricks, no selling.
+                {t("howItWorks.subtitle")}
               </p>
             </div>
           </AnimatedSection>
@@ -666,10 +715,10 @@ export default function Landing() {
                 <div className="w-14 h-14 flex items-center justify-center mx-auto mb-4">
                   <img src={iconRoadmap} alt="" className="w-12 h-12" />
                 </div>
-                <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 1</div>
-                <h3 className="font-semibold text-lg mb-2">Answer Simple Questions</h3>
+                <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">{t("howItWorks.step1Label")}</div>
+                <h3 className="font-semibold text-lg mb-2">{t("howItWorks.step1Title")}</h3>
                 <p className="text-sm text-muted-foreground">
-                  We ask one question at a time, in plain language. Your age, income, savings&mdash;that's it.
+                  {t("howItWorks.step1Text")}
                 </p>
               </div>
             </AnimatedSection>
@@ -679,10 +728,10 @@ export default function Landing() {
                 <div className="w-14 h-14 flex items-center justify-center mx-auto mb-4">
                   <img src={iconAnalytics} alt="" className="w-12 h-12" />
                 </div>
-                <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 2</div>
-                <h3 className="font-semibold text-lg mb-2">See Your Freedom Date</h3>
+                <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">{t("howItWorks.step2Label")}</div>
+                <h3 className="font-semibold text-lg mb-2">{t("howItWorks.step2Title")}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Our engine calculates exactly when you could stop working, adjusted for inflation and real-world returns.
+                  {t("howItWorks.step2Text")}
                 </p>
               </div>
             </AnimatedSection>
@@ -692,10 +741,10 @@ export default function Landing() {
                 <div className="w-14 h-14 flex items-center justify-center mx-auto mb-4">
                   <img src={iconEducation} alt="" className="w-12 h-12" />
                 </div>
-                <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">Step 3</div>
-                <h3 className="font-semibold text-lg mb-2">Get Clarity, Not Sales</h3>
+                <div className="text-xs font-medium text-primary mb-2 tracking-wide uppercase">{t("howItWorks.step3Label")}</div>
+                <h3 className="font-semibold text-lg mb-2">{t("howItWorks.step3Title")}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Share your score, explore scenarios, or talk to an independent expert for free. Your choice, always.
+                  {t("howItWorks.step3Text")}
                 </p>
               </div>
             </AnimatedSection>
@@ -709,10 +758,10 @@ export default function Landing() {
           <AnimatedSection>
             <div className="text-center mb-12">
               <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4" data-testid="text-section-coming-soon">
-                More tools, more power&mdash;coming soon
+                {t("comingSoon.title")}
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto">
-                We're building the most complete financial freedom toolkit, one feature at a time.
+                {t("comingSoon.subtitle")}
               </p>
             </div>
           </AnimatedSection>
@@ -725,12 +774,12 @@ export default function Landing() {
                     <img src={iconEducation} alt="" className="w-10 h-10" />
                   </div>
                   <div>
-                    <h3 className="font-semibold">No-Jargon Guides</h3>
-                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Coming Soon</span>
+                    <h3 className="font-semibold">{t("comingSoon.guides.title")}</h3>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("comingSoon.guides.badge")}</span>
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Plain-language guides that explain investing concepts the way a friend would over coffee. No finance degree needed.
+                  {t("comingSoon.guides.text")}
                 </p>
               </Card>
             </AnimatedSection>
@@ -742,12 +791,12 @@ export default function Landing() {
                     <img src={iconGrowth} alt="" className="w-10 h-10" />
                   </div>
                   <div>
-                    <h3 className="font-semibold">Market Insights</h3>
-                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Coming Soon</span>
+                    <h3 className="font-semibold">{t("comingSoon.insights.title")}</h3>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("comingSoon.insights.badge")}</span>
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Unique perspectives from professionals who've managed billions. Not news&mdash;real insights that matter to your wallet.
+                  {t("comingSoon.insights.text")}
                 </p>
               </Card>
             </AnimatedSection>
@@ -759,12 +808,12 @@ export default function Landing() {
                     <img src={iconSmartLogic} alt="" className="w-10 h-10" />
                   </div>
                   <div>
-                    <h3 className="font-semibold">Smart Tips & Strategies</h3>
-                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Coming Soon</span>
+                    <h3 className="font-semibold">{t("comingSoon.tips.title")}</h3>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("comingSoon.tips.badge")}</span>
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Practical, actionable tips to optimise your savings, reduce taxes, and make your money work harder&mdash;without the complexity.
+                  {t("comingSoon.tips.text")}
                 </p>
               </Card>
             </AnimatedSection>
@@ -787,19 +836,19 @@ export default function Landing() {
                         <Users className="w-6 h-6 text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-serif text-2xl font-bold mb-1" data-testid="text-personal-message">A personal note from our team</h3>
-                        <p className="text-xs text-muted-foreground tracking-wide uppercase">The FinkSmart Freedom Path Founders</p>
+                        <h3 className="font-serif text-2xl font-bold mb-1" data-testid="text-personal-message">{t("personalNote.title")}</h3>
+                        <p className="text-xs text-muted-foreground tracking-wide uppercase">{t("personalNote.subtitle")}</p>
                       </div>
                     </div>
                     <div className="space-y-4 text-muted-foreground leading-relaxed">
                       <p>
-                        After years in private banking, we saw that most people are left in the dark about their real financial future. The tools given to everyday savers are either broken, biased, or built to confuse.
+                        {t("personalNote.text1")}
                       </p>
                       <p>
-                        We built The FinkSmart Freedom Path to change that. We don't want your money&mdash;we want to give you the clarity we usually only provide to our private clients.
+                        {t("personalNote.text2")}
                       </p>
                       <p className="font-medium text-foreground">
-                        Everyone deserves a clear answer to a simple question: "When can I be free?"
+                        {t("personalNote.text3")}
                       </p>
                     </div>
                     <div className="mt-6 pt-4 border-t border-border/50">
@@ -807,7 +856,7 @@ export default function Landing() {
                         <path d="M10 35 Q20 10 35 30 Q45 45 55 25 Q60 15 70 30 Q75 38 80 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                         <path d="M90 35 Q100 15 110 30 Q115 38 125 20 Q130 12 140 28 Q145 35 155 25" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                       </svg>
-                      <p className="text-xs text-muted-foreground mt-1 italic">The FinkSmart Team</p>
+                      <p className="text-xs text-muted-foreground mt-1 italic">{t("personalNote.teamSignature")}</p>
                     </div>
                   </div>
                   <div className="md:col-span-2 flex items-center justify-center p-6 md:p-4">
@@ -830,10 +879,10 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 text-center">
           <AnimatedSection>
             <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4" data-testid="text-cta-bottom">
-              Ready to see your Freedom Date?
+              {t("bottomCta.title")}
             </h2>
             <p className="text-muted-foreground max-w-lg mx-auto mb-8">
-              It takes 2 minutes. It's completely free. And it might just change how you think about your future.
+              {t("bottomCta.subtitle")}
             </p>
             <button
               className="premium-cta premium-cta-lg"
@@ -842,12 +891,12 @@ export default function Landing() {
               }}
               data-testid="button-cta-bottom"
             >
-              Start My Freedom Journey
+              {t("bottomCta.button")}
               <ArrowRight className="w-4 h-4" />
             </button>
             <p className="text-xs text-muted-foreground mt-4 flex items-center justify-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5" />
-              Your data is never shared unless you actively choose to connect with a partner.
+              {t("bottomCta.privacy")}
             </p>
           </AnimatedSection>
         </div>
@@ -859,18 +908,18 @@ export default function Landing() {
             <img src={finksmartLogo} alt="FinkSmart" className="h-8 w-auto" />
           </div>
           <div className="flex items-center justify-center gap-1.5 mb-3">
-            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Sponsored by</span>
-            <span className="text-xs font-bold tracking-wide text-foreground" data-testid="text-sponsor-footer">BLACKWAVE CAPITAL</span>
+            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("header.sponsoredBy")}</span>
+            <span className="text-xs font-bold tracking-wide text-foreground" data-testid="text-sponsor-footer">{t("header.blackwaveCapital")}</span>
           </div>
           <p className="text-xs text-muted-foreground">
-            Powered by FINSIM v5 &middot; Independent &middot; Free &middot; No products, just directions.
+            {t("footer.poweredBy")}
           </p>
           <p className="text-xs text-muted-foreground mt-1">
             finksmart.com
           </p>
           <div className="mt-4 pt-3 border-t border-border/40 max-w-xl mx-auto">
             <p className="text-[10px] text-muted-foreground/70 leading-relaxed">
-              <span className="font-semibold">Disclaimer:</span> This tool is for educational and informational purposes only and does not constitute financial, investment, tax, or legal advice. Past performance does not guarantee future results. All projections are hypothetical and based on simplified assumptions (2% inflation, 6% SWR). Actual results will vary. Consult a qualified financial advisor before making investment decisions. By using this tool, you acknowledge that Finksmart and its sponsors assume no liability for any financial outcomes.
+              {t("footer.disclaimer")}
             </p>
           </div>
         </div>

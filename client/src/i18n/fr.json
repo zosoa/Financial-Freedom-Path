@@ -1,0 +1,529 @@
+{
+  "header": {
+    "sponsoredBy": "Sponsorisé par",
+    "blackwaveCapital": "BLACKWAVE CAPITAL"
+  },
+  "badge": {
+    "trust": "Simulateur Financier Exclusif Conçu par des Experts",
+    "financialPlanning": "Planification Financière 2.0"
+  },
+  "hero": {
+    "headline1": "Votre avenir sera-t-il une",
+    "reality": "réalité",
+    "or": "ou un",
+    "fantasy": "fantasme",
+    "questionMark": "?",
+    "earlyRetirement": "Retraite Anticipée",
+    "luxuriousLifestyle": "Style de Vie Idéal",
+    "globalCitizen": "Citoyen du Monde",
+    "zeroMoneyStress": "Sérénité Financière",
+    "workByChoice": "Travailler par Choix",
+    "financialFreedom": "Liberté Financière",
+    "subheadline": "Ce simulateur unique révèle la vérité sur votre plan financier actuel en <bold>2 min</bold> (5 questions). Sans jargon. 100% Gratuit (Sans inscription). Anonyme."
+  },
+  "inputCard": {
+    "whereDoYouLive": "Où vivez-vous ?",
+    "selectCountry": "Sélectionnez votre pays",
+    "currencyLabel": "Nous calculerons en {{currency}}. Vous préférez une autre devise ?",
+    "incomeQuestion": "Si vous pouviez arrêter de travailler, de combien auriez-vous besoin par mois ?",
+    "inflationTitle": "L'inflation est incluse dans le calcul",
+    "inflationText": "L'inflation signifie que les prix augmentent un peu chaque année. Par exemple, un café à {{symbol}}3 aujourd'hui pourrait coûter {{symbol}}3,65 dans 10 ans. Nous intégrons automatiquement cet effet pour que votre revenu futur conserve le même pouvoir d'achat qu'aujourd'hui.",
+    "inflationNote": "L'inflation sera automatiquement prise en compte dans le calcul",
+    "cta": "Montrez-moi si c'est possible",
+    "privacyNote": "Aucune inscription requise. Vos données restent privées."
+  },
+  "institutional": {
+    "title": "Où les professionnels placent-ils vraiment leur argent ?",
+    "subtitle": "Marchés Boursiers ? Crypto ? Immobilier ? Fonds ?",
+    "description": "Nous avons passé nos carrières à gérer le patrimoine des ultra-riches — aujourd'hui, nous vous offrons exactement la même logique. Sans secrets, simplifiée et 100% gratuite.",
+    "teamLabel": "Notre équipe a fait ses armes chez",
+    "step1Label": "Étape 1 : Votre Objectif d'Épargne.",
+    "step1Text": "Trouvez la date exacte à laquelle vous atteignez la liberté.",
+    "step2Label": "Étape 2 : Votre Profil de Risque.",
+    "step2Text": "Mesurez exactement combien de volatilité vous pouvez supporter.",
+    "step3Label": "Étape 3 : Votre Plan d'Épargne Personnalisé.",
+    "step3Text": "Découvrez quelle porte ouvrir pour passer à l'action.",
+    "startNow": "Commencer Maintenant"
+  },
+  "preview": {
+    "title": "Découvrez ce que vous allez apprendre",
+    "subtitle": "En seulement 2 minutes, vous obtiendrez un tableau de bord financier personnalisé qui vous montre exactement où vous en êtes et ce qui est possible.",
+    "badge": "Vos résultats personnalisés en 2 minutes"
+  },
+  "journey": {
+    "title": "Votre Parcours vers la Liberté Financière",
+    "subtitle": "Trois étapes de « Où j'en suis ? » à « Voici mon plan. » Nous vous guidons à chaque étape.",
+    "step1Label": "Étape 1",
+    "step1Badge": "Disponible Maintenant",
+    "step1Title": "Votre GPS Financier FinkSmart",
+    "step1Text": "Où en êtes-vous aujourd'hui par rapport à vos objectifs ? Notre simulateur révèle votre position exacte sur le chemin de la liberté financière en 2 minutes.",
+    "step1Cta": "Répondez à 5 questions simples → Obtenez votre Score de Liberté",
+    "step2Label": "Étape 2",
+    "step2Badge": "Bientôt Disponible",
+    "step2Title": "Votre ADN de Risque",
+    "step2Text": "Chaque investisseur est différent. Découvrez quel type d'investisseur vous êtes vraiment, pour que votre plan corresponde à votre personnalité et votre niveau de confort.",
+    "step2Cta": "Combien de « chaleur » votre argent peut-il supporter ? Découvrez-le.",
+    "step3Label": "Étape 3",
+    "step3Badge": "Bientôt Disponible",
+    "step3Title": "Votre Plan d'Action",
+    "step3Text": "Des chiffres à l'action. Une feuille de route concrète, étape par étape, pour atteindre la liberté financière — pas de théorie, des actions concrètes.",
+    "step3Cta": "Votre stratégie d'investissement personnalisée, conçue pour vous."
+  },
+  "whyDifferent": {
+    "title": "En quoi est-ce différent ?",
+    "subtitle": "La plupart des outils financiers sont créés par les banques pour vous vendre des produits. Nous avons construit celui-ci pour vous donner la vérité.",
+    "bias": {
+      "title": "Zéro Conflit d'Intérêts",
+      "text": "Nous ne vendons ni assurance, ni fonds, ni aucun produit financier. Nous fournissons le diagnostic. Des gestionnaires de patrimoine indépendants fournissent la solution — uniquement si vous le demandez."
+    },
+    "data": {
+      "title": "Vos Données, Vos Règles",
+      "text1": "Aucune inscription requise.",
+      "text2": "Vos chiffres ne sont jamais stockés sans votre permission",
+      "text3": "Nous ne partageons vos informations qu'avec des partenaires institutionnels sélectionnés lorsque",
+      "text4": "vous choisissez activement",
+      "text5": "de les contacter."
+    },
+    "logic": {
+      "title": "Logique de Niveau Institutionnel",
+      "text": "Propulsé par le moteur FINSIM v5 avec un tampon d'inflation de 2 % et un Taux de Retrait Sécurisé de 6 % — la même méthodologie utilisée pour les clients ultra-fortunés."
+    }
+  },
+  "howItWorks": {
+    "title": "Comment ça marche",
+    "subtitle": "Deux minutes pour y voir clair. Sans jargon, sans piège, sans vente.",
+    "step1Label": "Étape 1",
+    "step1Title": "Répondez à des Questions Simples",
+    "step1Text": "Nous posons une question à la fois, en langage clair. Votre âge, vos revenus, votre épargne — c'est tout.",
+    "step2Label": "Étape 2",
+    "step2Title": "Découvrez Votre Date de Liberté",
+    "step2Text": "Notre moteur calcule exactement quand vous pourriez arrêter de travailler, ajusté pour l'inflation et les rendements réels.",
+    "step3Label": "Étape 3",
+    "step3Title": "De la Clarté, Pas du Commerce",
+    "step3Text": "Partagez votre score, explorez des scénarios, ou consultez un expert indépendant gratuitement. Votre choix, toujours."
+  },
+  "comingSoon": {
+    "title": "Plus d'outils, plus de puissance — bientôt disponible",
+    "subtitle": "Nous construisons la boîte à outils de liberté financière la plus complète, une fonctionnalité à la fois.",
+    "guides": {
+      "title": "Guides Sans Jargon",
+      "badge": "Bientôt",
+      "text": "Des guides en langage clair qui expliquent les concepts d'investissement comme un ami le ferait autour d'un café. Aucun diplôme en finance nécessaire."
+    },
+    "insights": {
+      "title": "Veille de Marché",
+      "badge": "Bientôt",
+      "text": "Des perspectives uniques de professionnels qui ont géré des milliards. Pas des actualités — de véritables analyses qui comptent pour votre portefeuille."
+    },
+    "tips": {
+      "title": "Conseils et Stratégies Intelligentes",
+      "badge": "Bientôt",
+      "text": "Des conseils pratiques et concrets pour optimiser votre épargne, réduire vos impôts et faire travailler votre argent plus dur — sans la complexité."
+    }
+  },
+  "personalNote": {
+    "title": "Un mot personnel de notre équipe",
+    "subtitle": "Les Fondateurs de FinkSmart Freedom Path",
+    "text1": "Après des années en banque privée, nous avons constaté que la plupart des gens sont laissés dans l'ignorance quant à leur véritable avenir financier. Les outils donnés aux épargnants ordinaires sont soit défaillants, biaisés, ou conçus pour embrouiller.",
+    "text2": "Nous avons créé FinkSmart Freedom Path pour changer la donne. Nous ne voulons pas votre argent — nous voulons vous donner la clarté que nous réservons habituellement à nos clients privés.",
+    "text3": "Tout le monde mérite une réponse claire à une question simple : « Quand pourrai-je être libre ? »",
+    "teamSignature": "L'équipe FinkSmart"
+  },
+  "bottomCta": {
+    "title": "Prêt(e) à découvrir votre Date de Liberté ?",
+    "subtitle": "Ça prend 2 minutes. C'est totalement gratuit. Et ça pourrait bien changer votre vision de l'avenir.",
+    "button": "Commencer Mon Parcours vers la Liberté",
+    "privacy": "Vos données ne sont jamais partagées sauf si vous choisissez activement de vous connecter à un partenaire."
+  },
+  "footer": {
+    "poweredBy": "Propulsé par FINSIM v5 · Indépendant · Gratuit · Pas de produits, juste des directions.",
+    "disclaimer": "Avertissement : Cet outil est à but éducatif et informatif uniquement et ne constitue pas un conseil financier, d'investissement, fiscal ou juridique. Les performances passées ne garantissent pas les résultats futurs. Toutes les projections sont hypothétiques et basées sur des hypothèses simplifiées (inflation 2 %, TSR 6 %). Les résultats réels varieront. Consultez un conseiller financier qualifié avant de prendre des décisions d'investissement. En utilisant cet outil, vous reconnaissez que Finksmart et ses sponsors déclinent toute responsabilité pour tout résultat financier."
+  },
+  "liveImpact": {
+    "guidedUsers": "Utilisateurs Guidés",
+    "savingsGaps": "Écarts à Combler",
+    "earlyRetirement": "Utilisateurs Prenant 5 ans d'Avance"
+  },
+  "calculator": {
+    "of": "de",
+    "yearsOld": "ans",
+    "back": "Retour",
+    "continue": "Continuer",
+    "seeMyResults": "Voir Mes Résultats",
+    "mappingPath": "Traçons votre chemin vers la liberté",
+    "analysing": "Analyse en cours",
+    "brandTagline": "FinkSmart · Pro-Investing Decoded",
+    "questions": {
+      "age": "Quel âge avez-vous ?",
+      "ageSubtitle": "Cela nous aide à calculer le temps dont vous disposez pour faire fructifier votre patrimoine.",
+      "targetFreedomAge": "À quel âge rêvez-vous d'être financièrement libre ?",
+      "targetFreedomAgeSubtitle": "Quand aimeriez-vous arrêter de travailler ou quand est-ce que travailler deviendrait un choix et non plus une nécessité ? Choisissez l'âge qui vous fait vibrer.",
+      "monthlyIncome": "Quel est votre revenu mensuel net actuel ?",
+      "monthlyIncomeSubtitle": "Après impôts. Soyez honnête — c'est juste pour vous.",
+      "currentSavings": "Combien avez-vous épargné ou investi à ce jour ?",
+      "currentSavingsSubtitle": "Comptes bancaires, placements, fonds de retraite — tout compte.",
+      "monthlySavingsRate": "Combien pouvez-vous épargner chaque mois ?",
+      "monthlySavingsRateSubtitle": "Même un petit montant croît de manière spectaculaire avec le temps. Soyez réaliste."
+    },
+    "savingsHelp": {
+      "zeroStart": "Partir de zéro est parfaitement normal ! L'important c'est que vous commencez maintenant. Le temps est votre meilleur allié.",
+      "firstStep": "Chaque parcours commence par un premier pas. Vous avez déjà commencé — cela vous met en avance sur la plupart des gens.",
+      "foundation": "Vous avez une base sur laquelle construire ! Cet avantage fera une vraie différence grâce à la croissance composée.",
+      "impressive": "Impressionnant ! Vous êtes bien en avance. Les intérêts composés travaillent déjà dur pour vous.",
+      "outstanding": "Exceptionnel ! Avec cette base, votre argent travaille déjà dur pour vous. Voyons jusqu'où il peut vous emmener."
+    },
+    "savingsComments": {
+      "tooHigh": "C'est {{percent}}% de vos revenus. Êtes-vous sûr(e) qu'il vous restera assez pour les dépenses essentielles ? Soyez réaliste pour que ce plan fonctionne vraiment.",
+      "veryHigh": "C'est {{percent}}% de vos revenus. Êtes-vous sûr(e) qu'il vous restera assez pour payer vos factures ? Discipline impressionnante, mais soyez honnête avec vous-même.",
+      "elite": "{{percent}}% de vos revenus — c'est une discipline d'élite ! Vous jouez le long terme comme un pro.",
+      "excellent": "{{percent}}% — excellent ! Les experts financiers recommandent 20 %+. Vous êtes pile dans la zone idéale.",
+      "solid": "{{percent}}% est un bon début ! Essayez de viser 20 % au fil du temps — même 1 % de plus chaque année fait une différence énorme.",
+      "good": "{{percent}}% — un bon début ! Le minimum recommandé est de 5 %. Chaque euro supplémentaire accélérera votre parcours.",
+      "start": "{{percent}}% est un début, mais essayez de viser au moins 5 % de vos revenus. De petites augmentations font une énorme différence avec le temps.",
+      "cantSaveMore": "Vous ne pouvez pas épargner plus que vous ne gagnez. Veuillez ajuster votre montant.",
+      "incomePercent": "C'est {{percent}}% de vos revenus",
+      "unsurePut0": "Si vous n'êtes pas sûr(e), mettez simplement 0 — vous pourrez toujours revenir plus tard"
+    },
+    "loading": {
+      "msg1": "Calcul de vos chiffres en cours...",
+      "msg2": "Ajustement pour l'inflation...",
+      "msg3": "Simulation de la croissance composée...",
+      "msg4": "Calcul de votre Âge de Liberté...",
+      "msg5": "Préparation de vos résultats..."
+    }
+  },
+  "results": {
+    "backToHome": "Retour à l'accueil",
+    "personalities": {
+      "astronaut": {
+        "title": "Vous êtes un Astronaute Financier !",
+        "icon": "🚀"
+      },
+      "trailBlazer": {
+        "title": "Vous êtes un Éclaireur !",
+        "icon": "🏔️"
+      },
+      "baseCamp": {
+        "title": "Vous êtes un Bâtisseur de Camp de Base !",
+        "icon": "🏗️"
+      },
+      "firstSteps": {
+        "title": "Vous êtes un Explorateur des Premiers Pas !",
+        "icon": "🥾"
+      }
+    },
+    "score": "score",
+    "freedomScoreTooltip": "Comment le Score de Liberté est-il calculé ?",
+    "freedomScoreExplanation": "Votre Score de Liberté (0-100) mesure à quel point vous êtes proche de votre objectif d'indépendance financière à l'âge cible. Un score de 100 signifie que vous aurez suffisamment de capital pour couvrir votre revenu souhaité sans jamais toucher au principal.",
+    "targetCapital": "Votre Capital Cible",
+    "targetCapitalTooltip": "Le Capital Cible est le montant total que vous devez avoir accumulé pour vivre de vos placements. Il est calculé à partir de votre revenu mensuel souhaité et du Taux de Retrait Sécurisé de 6 %, ajusté pour l'inflation à 2 % par an.",
+    "toReceive": "Pour recevoir {{amount}}/mois (ajusté pour l'inflation), vous avez besoin de :",
+    "targetCapitalExplanation": "C'est le capital total nécessaire pour que les intérêts générés couvrent vos dépenses mensuelles — sans jamais toucher au principal. En visant ce montant, votre argent travaille pour vous indéfiniment, comme un salaire qui ne s'arrête jamais.",
+    "proInvesting": "FinkSmart Pro-Investing Decoded",
+    "withdrawalRateBasis": "Basé sur un taux de retrait sécurisé de 6 % par an (ajusté pour une inflation annuelle de 2 %)",
+    "capitalAtAgeStandard": "Capital à {{age}} ans (6%)",
+    "capitalAtAgeManaged": "Capital à {{age}} ans (Géré 11%)",
+    "capitalAtAgeStandardTooltip": "Votre capital projeté à {{age}} ans avec un rendement annuel standard de 6 % — une estimation de portefeuille diversifié conservateur.",
+    "capitalAtAgeManagedTooltip": "C'est un objectif ambitieux. Il nécessite une stratégie de niveau institutionnel et une tolérance élevée aux baisses temporaires du marché.",
+    "gapLabel": "Écart :",
+    "gapNone": "Aucun !",
+    "heatRiskDna": "Pouvez-vous supporter autant de « Chaleur » ? Découvrez Votre ADN de Risque",
+    "aboveMarketAverage": "Viser des rendements de {{rate}}% au-dessus de la moyenne du marché nécessite une stratégie de niveau institutionnel.",
+    "withStandard": "Avec un rendement standard de 6 %",
+    "youWillHave": "vous aurez",
+    "atAge": "à l'âge de",
+    "withBoosted": "Avec un rendement optimisé de 11 %",
+    "returnComparison": "Comparaison des Rendements",
+    "scenario": "Scénario",
+    "returnRate": "Rendement",
+    "projectedCapital": "Capital Projeté",
+    "freedomAge": "Âge de Liberté",
+    "standard": "Standard",
+    "boosted": "Optimisé",
+    "yearsEarlier": "{{years}} ans plus tôt",
+    "capitalEvolution": "Évolution du Capital",
+    "age": "Âge",
+    "standardGrowth": "Croissance Standard (6%)",
+    "boostedGrowth": "Croissance Optimisée (11%)",
+    "managed11": "Géré (11%)",
+    "standard6": "Standard (6%)",
+    "requiredCapitalLabel": "Capital Requis",
+    "capitalComposition": "Composition du Capital",
+    "capitalCompositionTitle": "Composition de Votre Capital (à 6%)",
+    "capitalLabel": "Capital",
+    "contributionsLabel": "Apports",
+    "gainsLabel": "Gains",
+    "yourContributions": "Vos Apports",
+    "generatedGains": "Gains Générés",
+    "ofFinalCapital": "{{percent}}% du capital final",
+    "compoundInterestTitle": "La puissance des intérêts composés",
+    "compoundInterestDesc": "{{percent}}% de votre capital a été généré automatiquement. Ce sont les intérêts composés qui travaillent pour vous.",
+    "compoundNote": "C'est la puissance des intérêts composés. Votre argent génère des gains, et ces gains génèrent à leur tour des gains supplémentaires. Plus vous commencez tôt, plus cet effet est spectaculaire.",
+    "keyStats": {
+      "yearsToFreedom": "Années jusqu'à la Liberté",
+      "monthlyGap": "Écart Mensuel",
+      "savingsRate": "Taux d'Épargne",
+      "freedomScore": "Score de Liberté",
+      "monthlySavings": "Épargne Mensuelle",
+      "managedCapital": "Capital Géré",
+      "standardCapital": "Capital Standard",
+      "yearsGained": "Années Gagnées",
+      "withManaged": "avec rendements gérés"
+    },
+    "gap": {
+      "atAge": "À l'âge de {{age}} ans, vous aurez accumulé",
+      "insteadOf": "au lieu des",
+      "needed": "nécessaires.",
+      "exceeds": "ce qui dépasse les",
+      "exceededNeeded": "nécessaires !",
+      "currentPace": "À ce rythme, vous atteindrez votre objectif à l'âge de",
+      "laterThanPlanned": "{{years}} an(s) plus tard que prévu",
+      "label": "Écart :",
+      "onTrack": "Vous êtes en bonne voie ! À {{age}} ans, vous aurez accumulé {{projected}} — soit plus que les {{required}} nécessaires.",
+      "solutions": "Voici quelques solutions",
+      "dontPanic": "Votre écart est simplement un problème de calcul — et chaque problème de calcul a une solution.",
+      "dontPanicText": "Ne vous laissez pas intimider par les grands chiffres. De petits ajustements aujourd'hui créent des changements massifs demain. Explorez vos « Leviers » ci-dessous pour voir comment combler cet écart.",
+      "yourGap": "Votre écart : {{amount}}. Appuyez sur un levier pour voir comment le combler :",
+      "showMeHow": "Montrez-moi comment combler cet écart"
+    },
+    "solutions": {
+      "lever1": "Levier 1 : Épargner Plus",
+      "lever2": "Levier 2 : Apport Unique",
+      "lever3": "Levier 3 : Rendements Plus Intelligents",
+      "savingsLeverTitle": "Le Levier Épargne",
+      "savingsLeverDesc": "Pour combler cet écart, vous devez augmenter votre épargne mensuelle de :",
+      "savingsLeverDetail": "C'est une augmentation de {{amount}} en plus de votre épargne mensuelle actuelle de {{current}}.",
+      "perMonth": "/mois",
+      "lumpSumTitle": "Le Rattrapage par Apport Unique",
+      "lumpSumDesc": "Un apport unique aujourd'hui vous remettrait sur la bonne voie pour votre âge cible :",
+      "lumpSumToday": "aujourd'hui",
+      "lumpSumDetail": "Cela pourrait provenir d'un héritage, d'une vente immobilière, d'une prime ou de tout autre apport exceptionnel.",
+      "smartManagerTitle": "Le Gestionnaire Intelligent",
+      "smartManagerDesc": "En optimisant votre stratégie pour un meilleur rendement, vous comblez l'écart sans épargner un centime de plus :",
+      "annualReturnNeeded": "rendement annuel nécessaire",
+      "smartManagerDetail": "C'est {{rate}}% au-dessus du rendement standard. Consultez l'analyse de sensibilité ci-dessous pour explorer cela.",
+      "notHappy": "Ces chiffres ne vous conviennent pas ? Parfois, un petit changement dans les attentes change tout. Essayez d'ajuster votre âge cible ou vos besoins mensuels.",
+      "saveMore": {
+        "strategy": "Stratégie : Augmentez votre épargne mensuelle de {{amount}} pour atteindre la liberté à {{age}} ans.",
+        "newMonthly": "Nouvelle épargne mensuelle :",
+        "increase": "Augmentation de",
+        "perMonth": "par mois"
+      },
+      "lumpSum": {
+        "strategy": "Stratégie : Un apport unique de {{amount}} aujourd'hui comblerait l'écart en complément de votre épargne mensuelle actuelle.",
+        "oneTime": "Apport unique nécessaire",
+        "equivalent": "Équivalent à"
+      },
+      "optimiseReturns": {
+        "strategy": "Stratégie : En obtenant un rendement annuel de {{rate}} au lieu de 6 %, vous atteindriez votre objectif à temps.",
+        "targetReturn": "Rendement cible :",
+        "vsStandard": "vs 6% standard",
+        "note": "Des rendements plus élevés sont possibles avec une gestion active, mais impliquent un risque plus élevé."
+      }
+    },
+    "surplus": {
+      "title": "Vous Avez un Excédent !",
+      "description": "Vous avez un excédent de {{amount}}. Voici ce que cela signifie pour vous :",
+      "retireEarlier": "Prendre sa Retraite Plus Tôt",
+      "earlierThanPlanned": "C'est {{years}} an(s) plus tôt que prévu !",
+      "increaseBudget": "Ou, Augmentez Votre Budget",
+      "maintainTarget": "Maintenez votre âge cible mais profitez d'un revenu mensuel plus élevé."
+    },
+    "returnTable": {
+      "capitalAtAge": "Capital à {{age}} ans",
+      "vsTarget": "vs Objectif",
+      "yrsEarly": "{{years}} ans d'avance",
+      "yrs": "ans"
+    },
+    "sensitivity": {
+      "title": "Comment les Rendements Influencent Votre Liberté",
+      "subtitle": "Déplacez le curseur pour voir comment différents taux de rendement impactent votre parcours vers la liberté financière.",
+      "sensitivityDesc": "Une <bold>analyse de sensibilité</bold> montrant l'impact des rendements annuels moyens :",
+      "standardLabel": "Standard : 6%",
+      "managedLabel": "Géré : 11%",
+      "freedomAt": "Liberté à {{age}} ans",
+      "capitalAmount": "Capital : {{amount}}",
+      "concreteExample": "Exemple concret :",
+      "at6Percent": "À 6%, vous atteignez la liberté à",
+      "at11Percent": "À 11% (géré), vous l'atteignez à",
+      "yearsGainedProfessional": "C'est {{years}} an(s) gagné(s) avec une gestion professionnelle !",
+      "trySlider": "Essayez vous-même — déplacez le curseur pour explorer :",
+      "sliderTooltip": "Ceci simule différents scénarios de marché. Des rendements plus élevés ne sont pas « gratuits » — ils nécessitent un portefeuille capable de supporter plus de « Chaleur » (volatilité).",
+      "annualReturnAssumption": "Hypothèse de rendement annuel",
+      "atRateFreedomAge": "À {{rate}}%, votre Âge de Liberté est {{age}}",
+      "beforeTarget": "— avant votre objectif !",
+      "capitalAtAgeSlider": "Capital à {{age}} ans : {{amount}}",
+      "annualReturn": "Rendement annuel :",
+      "projectedAt": "Capital projeté à {{age}} ans :",
+      "freedomAgeAt": "Âge de liberté à {{rate}} :",
+      "comparison": "Avec un rendement standard de 6 %, votre capital projeté serait de {{standard}}. Avec un rendement optimisé de 11 %, il serait de {{boosted}} — une différence de {{diff}}.",
+      "yearsGained": "{{years}} années gagnées par rapport au standard"
+    },
+    "badges": {
+      "objectiveReached": "Objectif Atteint",
+      "objectiveReachedDesc": "Votre plan vous permet d'atteindre votre objectif d'indépendance financière !",
+      "smartInvestor": "Investisseur Avisé",
+      "smartInvestorDesc": "Vous êtes projeté(e) à faire croître votre capital au-delà du taux standard.",
+      "timeOptimizer": "Optimiseur de Temps",
+      "timeOptimizerDesc": "Vous pourriez atteindre la liberté avant votre âge cible !",
+      "savingsChampion": "Champion de l'Épargne",
+      "savingsChampionDesc": "Vous épargnez plus de 20% de vos revenus. Discipline exceptionnelle !",
+      "progressiveSaver": "Épargnant Progressif",
+      "progressiveSaverDesc": "Vous avez déjà commencé à construire votre pécule. Bravo !",
+      "earlyStart": "Départ Anticipé",
+      "earlyStartDesc": "Commencer jeune donne aux intérêts composés le temps de faire leur magie !",
+      "ambitiousGrowth": "Croissance Ambitieuse",
+      "ambitiousGrowthDesc": "Votre style de vie cible montre une ambition saine équilibrée avec le réalisme.",
+      "inflationAware": "Conscient de l'Inflation",
+      "inflationAwareDesc": "Vous comprenez que l'argent d'aujourd'hui n'achètera pas la même chose demain.",
+      "sharingExperience": "Expérience Partagée",
+      "sharingExperienceDesc": "Partagez votre score avec des amis pour débloquer ce badge !",
+      "diversificationMaster": "Maître de la Diversification",
+      "diversificationMasterDesc": "Explorez les rendements gérés pour débloquer ce badge."
+    },
+    "profileBadge": "Votre Badge de Profil",
+    "freedomScoreLabel": "Score de Liberté : {{score}}/100",
+    "share": {
+      "title": "Partagez Votre Score",
+      "subtitle": "Défiez vos amis et comparez vos parcours",
+      "downloadCard": "Télécharger Ma Carte de Liberté",
+      "shareText": "Je viens de découvrir mon Score de Liberté : {{score}}/100 ! Je pourrais atteindre la liberté financière à {{age}} ans. Pouvez-vous battre mon score ? Essayez gratuitement :",
+      "whatsapp": "WhatsApp",
+      "facebook": "Facebook",
+      "x": "X",
+      "linkedin": "LinkedIn"
+    },
+    "saveReport": {
+      "title": "Sauvegarder Mon Rapport",
+      "description": "Recevez votre Rapport de Liberté complet dans votre boîte mail — conservez-le, consultez-le et suivez vos progrès dans le temps.",
+      "emailButton": "Envoyez-moi Mon Rapport",
+      "dialogTitle": "Sauvegarder Mon Rapport de Liberté",
+      "dialogDesc": "Nous enverrons le résumé complet de votre rapport dans votre boîte mail. Pas de spam, juste vos données.",
+      "nameLabel": "Votre Nom",
+      "namePlaceholder": "Entrez votre nom",
+      "emailLabel": "Adresse E-mail",
+      "emailPlaceholder": "Entrez votre e-mail",
+      "sending": "Envoi en cours...",
+      "sendButton": "Envoyer Mon Rapport",
+      "privacy": "Vos données restent privées. Nous ne partageons jamais vos informations sans votre consentement explicite.",
+      "successTitle": "Rapport Envoyé !",
+      "successDesc": "Vérifiez votre boîte de réception à {{email}} pour votre Rapport de Liberté complet.",
+      "close": "Fermer"
+    },
+    "emailReport": {
+      "button": "Envoyez-moi Mon Rapport",
+      "sending": "Envoi en cours...",
+      "title": "Recevez Votre Rapport de Liberté",
+      "subtitle": "Nous vous enverrons un rapport PDF détaillé avec votre analyse complète.",
+      "emailLabel": "Adresse e-mail",
+      "emailPlaceholder": "votre@email.com",
+      "send": "Envoyer Mon Rapport",
+      "success": "Votre rapport est en route !",
+      "error": "Échec de l'envoi du rapport. Veuillez réessayer."
+    },
+    "phase2": {
+      "title": "Phase 2 : Stress-Test de Votre Stratégie",
+      "subtitle": "Les calculs sont faits. Maintenant, construisons le bouclier. Connaître votre écart est la première étape. Le protéger est la seconde.",
+      "bulletproof": "Blindez Votre Plan",
+      "bulletproofText": "Découvrez si votre « rêve » s'effondre lors d'un krach boursier.",
+      "riskDna": "Votre ADN de Risque",
+      "riskDnaText": "Apprenez exactement combien de « chaleur » votre portefeuille peut supporter avant de perdre le sommeil.",
+      "investmentBridge": "Le Pont d'Investissement",
+      "investmentBridgeText": "Passez d'un « problème mathématique » à une stratégie d'investissement concrète.",
+      "actionPlan": "Plan d'Action Personnalisé",
+      "actionPlanText": "Recevez une feuille de route sur mesure adaptée à votre profil de risque et vos objectifs.",
+      "cta": "Décoder mon ADN de Risque",
+      "comingSoon": "Bientôt Disponible — Soyez le Premier à y Accéder"
+    },
+    "precision": {
+      "title": "Rendez-le 100% Précis",
+      "text": "Ceci est la vue d'ensemble. Pour le rendre 100% précis, nous pouvons intégrer vos événements de vie spécifiques — mariages, héritages, ventes immobilières — et vos habitudes de dépenses réelles. Votre vie n'est pas une ligne droite ; votre plan ne devrait pas l'être non plus.",
+      "cta": "Obtenir ma Feuille de Route FinkSmart"
+    },
+    "secondOpinion": {
+      "title": "Vous avez déjà des placements ?",
+      "text": "Nous analyserons gratuitement votre portefeuille actuel pour vérifier si vos rendements réels correspondent à votre Objectif de Liberté. Obtenez un avis professionnel à coût zéro.",
+      "cta": "Obtenir Mon Analyse Gratuite de Portefeuille"
+    },
+    "retake": "Reprendre l'Évaluation et Ajuster mes Objectifs",
+    "startOver": "Recommencer",
+    "footerEngine": "FINSIM v5 · Tampon d'inflation 2% · Taux de Retrait Sécurisé 6%",
+    "footerDisclaimer": "Avertissement : Cet outil est à but éducatif et informatif uniquement et ne constitue pas un conseil financier, d'investissement, fiscal ou juridique. Les performances passées ne garantissent pas les résultats futurs. Toutes les projections sont hypothétiques et basées sur des hypothèses simplifiées. Consultez un conseiller financier qualifié avant de prendre des décisions d'investissement."
+  },
+  "report": {
+    "title": "Rapport de Liberté",
+    "freedomScore": "Votre Score de Liberté",
+    "outOf100": "sur 100",
+    "timeline": "Chronologie de la Liberté Financière",
+    "yourAge": "Votre Âge",
+    "targetFreedomAge": "Âge de Liberté Visé",
+    "desiredMonthlyIncome": "Revenu Mensuel Souhaité",
+    "monthlyNetIncome": "Revenu Mensuel Net",
+    "currentSavings": "Épargne Actuelle",
+    "monthlySavingsRate": "Épargne Mensuelle",
+    "requiredCapital": "Capital Requis",
+    "projectedCapital": "Capital Projeté",
+    "freedomAge": "Âge de Liberté",
+    "gap": "Écart",
+    "onTrack": "En bonne voie",
+    "yearsEarly": "{{count}} an(s) d'avance !",
+    "yearsGap": "{{count}} an(s) d'écart à combler",
+    "assumptions": "Hypothèses : Inflation 2% · TSR 6% · Rendement 6%",
+    "disclaimer": "Ce rapport est à but éducatif uniquement. Toutes les projections sont hypothétiques.",
+    "poweredBy": "Propulsé par FinkSmart · finksmart.com",
+    "tryIt": "Essayez — c'est gratuit !",
+    "generateYours": "Calculez votre propre Score de Liberté"
+  },
+  "freedomCard": {
+    "title": "Votre Carte de Liberté",
+    "canYouBeat": "Pouvez-vous battre mon score ?",
+    "download": "Télécharger",
+    "copyToShare": "Copier pour partager",
+    "liftoff": "Houston, on a le décollage !",
+    "trailBlazing": "Sur la bonne voie !",
+    "building": "Construction en cours !",
+    "exploring": "En exploration !",
+    "score": "Score de Liberté",
+    "freedomAge": "Âge de Liberté",
+    "saving": "Enregistrement...",
+    "copied": "Copié !",
+    "shareText": "Je suis un(e) \"{{personality}}\" avec un Score de Liberté de {{score}}/100 ! Je pourrais atteindre l'indépendance financière à {{age}} ans. {{canYouBeat}} Essayez gratuitement sur finksmart.com",
+    "rightOnTarget": "Pile dans l'objectif !",
+    "beforeTarget": "Avant votre objectif de {{target}} ans !",
+    "afterTarget": "{{years}} an(s) après l'objectif de {{target}}"
+  },
+  "leadCapture": {
+    "title": "Sécurisez Vos Résultats et Débloquez la Phase 2",
+    "subtitle": "Verrouillez votre Feuille de Route vers la Liberté et soyez le premier à accéder à l'analyse ADN de Risque dès son lancement.",
+    "nameLabel": "Votre nom",
+    "namePlaceholder": "Prénom Nom",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "votre@email.com",
+    "whatsappLabel": "WhatsApp / Téléphone (optionnel)",
+    "whatsappPlaceholder": "+230 5XXX XXXX",
+    "lifeEventLabel": "Quel est l'événement de vie que nous devons absolument prendre en compte ?",
+    "lifeEventPlaceholder": "Ex : Mariage dans 2 ans, achat immobilier, héritage attendu...",
+    "submit": "Envoyer Ma Feuille de Route et Débloquer l'Analyse de Risque",
+    "success": "Votre feuille de route est sécurisée !",
+    "successSubtitle": "Nous vous contacterons bientôt avec votre plan personnalisé et un accès anticipé à la Phase 2.",
+    "close": "Fermer"
+  },
+  "narratives": {
+    "astronaut": {
+      "title": "Astronaute Financier",
+      "description": "Vous avez déjà atteint l'orbite. Votre discipline financière et votre planification vous ont placé(e) dans une position enviable. À ce rythme, la liberté financière n'est pas un rêve — c'est une certitude mathématique. L'enjeu maintenant est d'optimiser et de protéger ce que vous avez construit."
+    },
+    "trailBlazer": {
+      "title": "Éclaireur",
+      "description": "Vous êtes sur la bonne voie et votre trajectoire est prometteuse. Avec quelques ajustements stratégiques — un peu plus d'épargne, des rendements légèrement optimisés — vous pourriez accélérer significativement votre parcours vers la liberté. Les fondations sont solides, il est temps de construire dessus."
+    },
+    "baseCamp": {
+      "title": "Bâtisseur de Camp de Base",
+      "description": "Vous avez posé les premières pierres, mais il reste du chemin à parcourir. La bonne nouvelle ? En agissant maintenant, chaque euro épargné et chaque pourcentage de rendement supplémentaire travaillent exponentiellement en votre faveur grâce aux intérêts composés. Le moment est venu d'accélérer."
+    },
+    "firstSteps": {
+      "title": "Explorateur des Premiers Pas",
+      "description": "Vous êtes au début de votre parcours financier, et c'est le moment le plus puissant pour agir. Même de petits changements aujourd'hui auront un impact spectaculaire sur des décennies. Le simple fait d'avoir fait ce diagnostic vous place déjà en avance sur la plupart des gens. Chaque jour compte."
+    }
+  }
+}

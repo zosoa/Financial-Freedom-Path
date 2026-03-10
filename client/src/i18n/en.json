@@ -1,0 +1,529 @@
+{
+  "header": {
+    "sponsoredBy": "Sponsored by",
+    "blackwaveCapital": "BLACKWAVE CAPITAL"
+  },
+  "badge": {
+    "trust": "Exclusive Financial Simulator Engineered by Experts",
+    "financialPlanning": "Financial Planning 2.0"
+  },
+  "hero": {
+    "headline1": "Will your future be a",
+    "reality": "reality",
+    "or": "or a",
+    "fantasy": "fantasy",
+    "questionMark": "?",
+    "earlyRetirement": "Early Retirement",
+    "luxuriousLifestyle": "Luxurious Lifestyle",
+    "globalCitizen": "Global Citizen",
+    "zeroMoneyStress": "Zero-Money Stress",
+    "workByChoice": "Work by Choice",
+    "financialFreedom": "Financial Freedom",
+    "subheadline": "Stop guessing. Do your <bold>2-min Reality Check</bold> (100% free, no login) and see if your current plan adds up."
+  },
+  "inputCard": {
+    "whereDoYouLive": "Where do you live?",
+    "selectCountry": "Select your country",
+    "currencyLabel": "We'll calculate in {{currency}}. Prefer a different currency?",
+    "incomeQuestion": "If you could stop working, how much would you need per month?",
+    "inflationTitle": "We include inflation in the calculation",
+    "inflationText": "Inflation means things get a bit more expensive every year. For example, a coffee that costs {{symbol}}3 today might cost {{symbol}}3.65 in 10 years. We automatically account for this so your future income keeps the same purchasing power as today.",
+    "inflationNote": "Inflation will be included in the calculation automatically",
+    "cta": "Show me if it's possible",
+    "privacyNote": "No login required. Your data stays private."
+  },
+  "institutional": {
+    "title": "Where do the pros actually save?",
+    "subtitle": "Stock Markets? Crypto? Real Estate? Funds?",
+    "description": "We spent our careers managing wealth for the ultra-rich — now we're giving you the exact same logic. No secrets, simplified and 100% free.",
+    "teamLabel": "Our team cut their teeth at",
+    "step1Label": "Step 1: Your Savings Objective.",
+    "step1Text": "Find the exact date you hit freedom.",
+    "step2Label": "Step 2: Your Investment Heat.",
+    "step2Text": "Measure exactly how much market 'swing' you can handle.",
+    "step3Label": "Step 3: Your Personalized Savings Plan.",
+    "step3Text": "Discover which door to open for action.",
+    "startNow": "Start Now"
+  },
+  "preview": {
+    "title": "See what you'll discover",
+    "subtitle": "In just 2 minutes, you'll get a personalised financial dashboard that shows exactly where you stand and what's possible.",
+    "badge": "Your personalised results in 2 minutes"
+  },
+  "journey": {
+    "title": "Your Journey to Financial Freedom",
+    "subtitle": "Three steps from \"Where am I?\" to \"Here's my plan.\" We guide you through each one.",
+    "step1Label": "Step 1",
+    "step1Badge": "Available Now",
+    "step1Title": "Your FinkSmart Freedom GPS",
+    "step1Text": "Where do you stand today vs where you want to be? Our calculator reveals your exact position on the path to financial freedom in 2 minutes.",
+    "step1Cta": "Answer 5 simple questions → Get your Freedom Score",
+    "step2Label": "Step 2",
+    "step2Badge": "Coming Soon",
+    "step2Title": "Your Risk DNA",
+    "step2Text": "Not all investors are the same. Discover what kind of investor you really are, so your plan fits your personality and comfort level.",
+    "step2Cta": "How much \"heat\" can your money take? Find out.",
+    "step3Label": "Step 3",
+    "step3Badge": "Coming Soon",
+    "step3Title": "Your Action Plan",
+    "step3Text": "From numbers to action. A concrete, step-by-step roadmap to actually get you to financial freedom — not theory, real moves you can make.",
+    "step3Cta": "Your personalised investment strategy, built for you."
+  },
+  "whyDifferent": {
+    "title": "Why is this different?",
+    "subtitle": "Most financial tools are built by banks to sell you products. We built this to give you the truth.",
+    "bias": {
+      "title": "Zero Product Bias",
+      "text": "We don't sell insurance, funds, or any financial products. We provide the diagnosis. Independent asset managers provide the cure — only if you ask."
+    },
+    "data": {
+      "title": "Your Data, Your Rules",
+      "text1": "No login required.",
+      "text2": "Your numbers are never stored without your permission",
+      "text3": "We only share your information with selected institutional partners when",
+      "text4": "you actively choose",
+      "text5": "to connect with them."
+    },
+    "logic": {
+      "title": "Institutional-Grade Logic",
+      "text": "Powered by the FINSIM v5 engine with a 2% inflation buffer and 6% Safe Withdrawal Rate — the same methodology used for ultra-high-net-worth clients."
+    }
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "Two minutes to clarity. No jargon, no tricks, no selling.",
+    "step1Label": "Step 1",
+    "step1Title": "Answer Simple Questions",
+    "step1Text": "We ask one question at a time, in plain language. Your age, income, savings — that's it.",
+    "step2Label": "Step 2",
+    "step2Title": "See Your Freedom Date",
+    "step2Text": "Our engine calculates exactly when you could stop working, adjusted for inflation and real-world returns.",
+    "step3Label": "Step 3",
+    "step3Title": "Get Clarity, Not Sales",
+    "step3Text": "Share your score, explore scenarios, or talk to an independent expert for free. Your choice, always."
+  },
+  "comingSoon": {
+    "title": "More tools, more power — coming soon",
+    "subtitle": "We're building the most complete financial freedom toolkit, one feature at a time.",
+    "guides": {
+      "title": "No-Jargon Guides",
+      "badge": "Coming Soon",
+      "text": "Plain-language guides that explain investing concepts the way a friend would over coffee. No finance degree needed."
+    },
+    "insights": {
+      "title": "Market Insights",
+      "badge": "Coming Soon",
+      "text": "Unique perspectives from professionals who've managed billions. Not news — real insights that matter to your wallet."
+    },
+    "tips": {
+      "title": "Smart Tips & Strategies",
+      "badge": "Coming Soon",
+      "text": "Practical, actionable tips to optimise your savings, reduce taxes, and make your money work harder — without the complexity."
+    }
+  },
+  "personalNote": {
+    "title": "A personal note from our team",
+    "subtitle": "The FinkSmart Freedom Path Founders",
+    "text1": "After years in private banking, we saw that most people are left in the dark about their real financial future. The tools given to everyday savers are either broken, biased, or built to confuse.",
+    "text2": "We built The FinkSmart Freedom Path to change that. We don't want your money — we want to give you the clarity we usually only provide to our private clients.",
+    "text3": "Everyone deserves a clear answer to a simple question: \"When can I be free?\"",
+    "teamSignature": "The FinkSmart Team"
+  },
+  "bottomCta": {
+    "title": "Ready to see your Freedom Date?",
+    "subtitle": "It takes 2 minutes. It's completely free. And it might just change how you think about your future.",
+    "button": "Start My Freedom Journey",
+    "privacy": "Your data is never shared unless you actively choose to connect with a partner."
+  },
+  "footer": {
+    "poweredBy": "Powered by FINSIM v5 · Independent · Free · No products, just directions.",
+    "disclaimer": "Disclaimer: This tool is for educational and informational purposes only and does not constitute financial, investment, tax, or legal advice. Past performance does not guarantee future results. All projections are hypothetical and based on simplified assumptions (2% inflation, 6% SWR). Actual results will vary. Consult a qualified financial advisor before making investment decisions. By using this tool, you acknowledge that Finksmart and its sponsors assume no liability for any financial outcomes."
+  },
+  "liveImpact": {
+    "guidedUsers": "Guided Users",
+    "savingsGaps": "Savings Gaps to Catch Up",
+    "earlyRetirement": "Users Retiring 5y Earlier"
+  },
+  "calculator": {
+    "of": "of",
+    "yearsOld": "years old",
+    "back": "Back",
+    "continue": "Continue",
+    "seeMyResults": "See My Results",
+    "mappingPath": "Mapping your path to freedom",
+    "analysing": "Analysing",
+    "brandTagline": "FinkSmart · Pro-Investing Decoded",
+    "questions": {
+      "age": "How old are you?",
+      "ageSubtitle": "This helps us calculate the time you have to grow your wealth.",
+      "targetFreedomAge": "At what age do you dream of being financially free?",
+      "targetFreedomAgeSubtitle": "When would you love to stop working or when does working become a choice but no longer a necessity? Pick the age that excites you.",
+      "monthlyIncome": "What is your current monthly net income?",
+      "monthlyIncomeSubtitle": "After taxes. Be honest -- this is just for you.",
+      "currentSavings": "How much do you have saved or invested so far?",
+      "currentSavingsSubtitle": "Bank accounts, investments, retirement funds -- everything counts.",
+      "monthlySavingsRate": "How much can you save every month?",
+      "monthlySavingsRateSubtitle": "Even a small amount grows dramatically over time. Be realistic."
+    },
+    "savingsHelp": {
+      "zeroStart": "Starting from zero is perfectly fine! The important thing is that you're starting now. Time is your greatest ally.",
+      "firstStep": "Every journey starts with a first step. You've already begun -- that puts you ahead of most people.",
+      "foundation": "You've got a foundation to build on! This head start will make a real difference thanks to compound growth.",
+      "impressive": "Impressive nest egg! You're well ahead of the curve. Compound interest is already working hard for you.",
+      "outstanding": "Outstanding! With this foundation, your money is already working hard for you. Let's see how far it can take you."
+    },
+    "savingsComments": {
+      "tooHigh": "That's {{percent}}% of your income. Are you sure you'll have enough left for the basics? Be realistic so this plan actually works for you.",
+      "veryHigh": "That's {{percent}}% of your income. Are you sure you'll have enough left to pay your bills? Impressive discipline, but be honest with yourself.",
+      "elite": "{{percent}}% of your income -- that's elite-level discipline! You're playing the long game like a pro.",
+      "excellent": "{{percent}}% -- excellent! Financial experts recommend 20%+. You're right in the sweet spot.",
+      "solid": "{{percent}}% is a solid start! Try to work towards 20% over time -- even 1% more each year adds up massively.",
+      "good": "{{percent}}% -- a good beginning! The minimum recommended is 5%. Every bit you can add will accelerate your journey.",
+      "start": "{{percent}}% is a start, but try to aim for at least 5% of your income. Small increases make a huge difference over time.",
+      "cantSaveMore": "You can't save more than you earn. Please adjust your amount.",
+      "incomePercent": "That's {{percent}}% of your income",
+      "unsurePut0": "If you're not sure, just put 0 -- you can always come back later"
+    },
+    "loading": {
+      "msg1": "Crunching your numbers...",
+      "msg2": "Adjusting for inflation...",
+      "msg3": "Simulating compound growth...",
+      "msg4": "Calculating your Freedom Age...",
+      "msg5": "Preparing your results..."
+    }
+  },
+  "results": {
+    "backToHome": "Back to home",
+    "personalities": {
+      "astronaut": {
+        "title": "You're a Financial Astronaut!",
+        "icon": "🚀"
+      },
+      "trailBlazer": {
+        "title": "You're a Trail Blazer!",
+        "icon": "🏔️"
+      },
+      "baseCamp": {
+        "title": "You're a Base Camp Builder!",
+        "icon": "🏗️"
+      },
+      "firstSteps": {
+        "title": "You're a First Steps Explorer!",
+        "icon": "🥾"
+      }
+    },
+    "score": "score",
+    "freedomScoreTooltip": "How is the Freedom Score calculated?",
+    "freedomScoreExplanation": "Your Freedom Score (0-100) measures how close you are to your financial independence goal at your target age. A score of 100 means you'll have enough capital to cover your desired income without ever touching the principal.",
+    "targetCapital": "Your Target Capital",
+    "targetCapitalTooltip": "Target Capital is the total amount you need to have accumulated to live off your investments. It's calculated from your desired monthly income and the 6% Safe Withdrawal Rate, adjusted for inflation at 2% per year.",
+    "toReceive": "To receive {{amount}}/month (inflation-adjusted), you need:",
+    "targetCapitalExplanation": "This is the total capital needed so the interest it generates covers your monthly expenses — without ever touching the principal. By targeting this amount, your money works for you indefinitely, like a salary that never stops.",
+    "proInvesting": "FinkSmart Pro-Investing Decoded",
+    "withdrawalRateBasis": "Based on a 6% safe withdrawal rate per year (adjusted for 2% annual inflation)",
+    "capitalAtAgeStandard": "Capital at {{age}} (6%)",
+    "capitalAtAgeManaged": "Capital at {{age}} (Managed 11%)",
+    "capitalAtAgeStandardTooltip": "Your projected capital at age {{age}} with a standard 6% annual return -- a conservative diversified portfolio estimate.",
+    "capitalAtAgeManagedTooltip": "This is an ambitious target. It requires an Institutional-Grade strategy and a high tolerance for temporary market dips.",
+    "gapLabel": "Gap:",
+    "gapNone": "None!",
+    "heatRiskDna": "Can you handle this much \"Heat\"? Discover Your Risk DNA",
+    "aboveMarketAverage": "Aiming for returns {{rate}}% above market average requires an Institutional-Grade strategy.",
+    "withStandard": "With a standard 6% return",
+    "youWillHave": "you will have",
+    "atAge": "at age",
+    "withBoosted": "With a boosted 11% return",
+    "returnComparison": "Return Comparison",
+    "scenario": "Scenario",
+    "returnRate": "Return",
+    "projectedCapital": "Projected Capital",
+    "freedomAge": "Freedom Age",
+    "standard": "Standard",
+    "boosted": "Boosted",
+    "yearsEarlier": "{{years}} years earlier",
+    "capitalEvolution": "Capital Evolution",
+    "age": "Age",
+    "standardGrowth": "Standard Growth (6%)",
+    "boostedGrowth": "Boosted Growth (11%)",
+    "managed11": "Managed (11%)",
+    "standard6": "Standard (6%)",
+    "requiredCapitalLabel": "Required Capital",
+    "capitalComposition": "Capital Composition",
+    "capitalCompositionTitle": "Composition of Your Capital (at 6%)",
+    "capitalLabel": "Capital",
+    "contributionsLabel": "Contributions",
+    "gainsLabel": "Gains",
+    "yourContributions": "Your Contributions",
+    "generatedGains": "Generated Gains",
+    "ofFinalCapital": "{{percent}}% of final capital",
+    "compoundInterestTitle": "The power of compound interest",
+    "compoundInterestDesc": "{{percent}}% of your capital was generated automatically. This is compound interest working for you.",
+    "compoundNote": "This is the power of compound interest. Your money generates gains, and those gains generate further gains. The earlier you start, the more spectacular this effect becomes.",
+    "keyStats": {
+      "yearsToFreedom": "Years to Freedom",
+      "monthlyGap": "Monthly Gap",
+      "savingsRate": "Savings Rate",
+      "freedomScore": "Freedom Score",
+      "monthlySavings": "Monthly Savings",
+      "managedCapital": "Managed Capital",
+      "standardCapital": "Standard Capital",
+      "yearsGained": "Years Gained",
+      "withManaged": "with managed returns"
+    },
+    "gap": {
+      "atAge": "At age {{age}}, you will have accumulated",
+      "insteadOf": "instead of the",
+      "needed": "needed.",
+      "exceeds": "which exceeds the",
+      "exceededNeeded": "needed!",
+      "currentPace": "At this current pace you will reach your goal at age",
+      "laterThanPlanned": "{{years}} year(s) later than planned",
+      "label": "Gap:",
+      "onTrack": "You're on track! At age {{age}}, you will have accumulated {{projected}} — more than the {{required}} needed.",
+      "solutions": "Here are some solutions",
+      "dontPanic": "Your gap is just a math problem -- and every math problem has a solution.",
+      "dontPanicText": "Don't let the big numbers intimidate you. Small shifts today create massive changes tomorrow. Explore your \"Levers\" below to see how you can close this gap.",
+      "yourGap": "Your gap: {{amount}}. Tap a lever to see how to bridge it:",
+      "showMeHow": "Show me how to close this gap"
+    },
+    "solutions": {
+      "lever1": "Lever 1: Save More",
+      "lever2": "Lever 2: Lump Sum",
+      "lever3": "Lever 3: Smarter Returns",
+      "savingsLeverTitle": "The Savings Lever",
+      "savingsLeverDesc": "To close this gap, you need to increase your monthly savings by:",
+      "savingsLeverDetail": "That's an increase of {{amount}} on top of your current {{current}} monthly savings.",
+      "perMonth": "/month",
+      "lumpSumTitle": "The Lump Sum Catch-up",
+      "lumpSumDesc": "A one-time injection today would put you back on track for your target age:",
+      "lumpSumToday": "today",
+      "lumpSumDetail": "This could come from inheritance, property sale, bonus, or any other windfall.",
+      "smartManagerTitle": "The Smart Manager",
+      "smartManagerDesc": "By optimizing your strategy for a better return, you close the gap without saving another cent:",
+      "annualReturnNeeded": "annual return needed",
+      "smartManagerDetail": "That's {{rate}}% above the standard return. See the sensitivity analysis below to explore this.",
+      "notHappy": "Not happy with these numbers? Sometimes a small change in expectations changes everything. Try adjusting your target age or monthly needs.",
+      "saveMore": {
+        "strategy": "Strategy: Increase monthly savings by {{amount}} to reach freedom at age {{age}}.",
+        "newMonthly": "New monthly savings:",
+        "increase": "Increase of",
+        "perMonth": "per month"
+      },
+      "lumpSum": {
+        "strategy": "Strategy: A one-time deposit of {{amount}} today would close the gap alongside your current monthly savings.",
+        "oneTime": "One-time deposit needed",
+        "equivalent": "Equivalent to"
+      },
+      "optimiseReturns": {
+        "strategy": "Strategy: By achieving an annual return of {{rate}} instead of 6%, you'd reach your target on time.",
+        "targetReturn": "Target return:",
+        "vsStandard": "vs 6% standard",
+        "note": "Higher returns are achievable with active management, but come with higher risk."
+      }
+    },
+    "surplus": {
+      "title": "You Have a Surplus!",
+      "description": "You have a surplus of {{amount}}. Here's what this means for you:",
+      "retireEarlier": "Retire Earlier",
+      "earlierThanPlanned": "That's {{years}} year(s) earlier than planned!",
+      "increaseBudget": "Or, Increase Your Budget",
+      "maintainTarget": "Maintain your target age but enjoy a higher monthly income."
+    },
+    "returnTable": {
+      "capitalAtAge": "Capital at {{age}}",
+      "vsTarget": "vs Target",
+      "yrsEarly": "{{years}} yrs early",
+      "yrs": "yrs"
+    },
+    "sensitivity": {
+      "title": "How Returns Influence Your Freedom",
+      "subtitle": "Move the slider to see how different return rates impact your journey to financial freedom.",
+      "sensitivityDesc": "A <bold>sensitivity analysis</bold> showing the impact of average annual returns:",
+      "standardLabel": "Standard: 6%",
+      "managedLabel": "Managed: 11%",
+      "freedomAt": "Freedom at {{age}}",
+      "capitalAmount": "Capital: {{amount}}",
+      "concreteExample": "Concrete example:",
+      "at6Percent": "At 6%, you reach freedom at",
+      "at11Percent": "At 11% (managed), you reach it at",
+      "yearsGainedProfessional": "That's {{years}} year(s) gained with professional management!",
+      "trySlider": "Try it yourself -- drag the slider to explore:",
+      "sliderTooltip": "This simulates different market scenarios. Higher returns aren't \"free\" -- they require a portfolio that can handle more \"Heat\" (volatility).",
+      "annualReturnAssumption": "Annual return assumption",
+      "atRateFreedomAge": "At {{rate}}%, your Freedom Age is {{age}}",
+      "beforeTarget": "-- before your target!",
+      "capitalAtAgeSlider": "Capital at {{age}}: {{amount}}",
+      "annualReturn": "Annual return:",
+      "projectedAt": "Projected capital at age {{age}}:",
+      "freedomAgeAt": "Freedom age at {{rate}}:",
+      "comparison": "With a standard 6% return, your projected capital would be {{standard}}. With a boosted 11% return, it would be {{boosted}} — a difference of {{diff}}.",
+      "yearsGained": "{{years}} years gained vs standard"
+    },
+    "badges": {
+      "objectiveReached": "Objective Reached",
+      "objectiveReachedDesc": "Your plan lets you reach your financial independence goal!",
+      "smartInvestor": "Smart Investor",
+      "smartInvestorDesc": "You're projected to grow your capital beyond the standard rate.",
+      "timeOptimizer": "Time Optimizer",
+      "timeOptimizerDesc": "You could reach freedom earlier than your target age!",
+      "savingsChampion": "Savings Champion",
+      "savingsChampionDesc": "You're saving more than 20% of your income. Outstanding discipline!",
+      "progressiveSaver": "Progressive Saver",
+      "progressiveSaverDesc": "You've already started building your nest egg. Great job!",
+      "earlyStart": "Early Start",
+      "earlyStartDesc": "Starting young gives compound interest time to work its magic!",
+      "ambitiousGrowth": "Ambitious Growth",
+      "ambitiousGrowthDesc": "Your target lifestyle shows healthy ambition balanced with realism.",
+      "inflationAware": "Inflation Aware",
+      "inflationAwareDesc": "You understand that today's money won't buy the same tomorrow.",
+      "sharingExperience": "Sharing Experience",
+      "sharingExperienceDesc": "Share your score with friends to unlock this badge!",
+      "diversificationMaster": "Diversification Master",
+      "diversificationMasterDesc": "Explore managed returns to unlock this badge."
+    },
+    "profileBadge": "Your Profile Badge",
+    "freedomScoreLabel": "Freedom Score: {{score}}/100",
+    "share": {
+      "title": "Share Your Score",
+      "subtitle": "Challenge your friends and compare your journeys",
+      "downloadCard": "Download My Freedom Card",
+      "shareText": "I just discovered my Freedom Score: {{score}}/100! I could reach financial freedom by age {{age}}. Can you beat my score? Try it free:",
+      "whatsapp": "WhatsApp",
+      "facebook": "Facebook",
+      "x": "X",
+      "linkedin": "LinkedIn"
+    },
+    "saveReport": {
+      "title": "Save My Report",
+      "description": "Get your full Freedom Report delivered to your inbox -- keep it, revisit it, and track your progress over time.",
+      "emailButton": "Email Me My Report",
+      "dialogTitle": "Save My Freedom Report",
+      "dialogDesc": "We'll send your full report summary to your inbox. No spam, just your data.",
+      "nameLabel": "Your Name",
+      "namePlaceholder": "Enter your name",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "Enter your email",
+      "sending": "Sending...",
+      "sendButton": "Send My Report",
+      "privacy": "Your data stays private. We never share your information without your explicit consent.",
+      "successTitle": "Report Sent!",
+      "successDesc": "Check your inbox at {{email}} for your full Freedom Report.",
+      "close": "Close"
+    },
+    "emailReport": {
+      "button": "Email Me My Report",
+      "sending": "Sending...",
+      "title": "Get Your Freedom Report",
+      "subtitle": "We'll send you a detailed PDF report with your full analysis.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "your@email.com",
+      "send": "Send My Report",
+      "success": "Your report is on its way!",
+      "error": "Failed to send report. Please try again."
+    },
+    "phase2": {
+      "title": "Phase 2: Stress-Test Your Strategy",
+      "subtitle": "The math is done. Now, let's build the shield. Knowing your gap is step one. Protecting it is step two.",
+      "bulletproof": "Bulletproof Your Plan",
+      "bulletproofText": "Discover if your \"dream\" crashes during a market downturn.",
+      "riskDna": "Your Risk DNA",
+      "riskDnaText": "Learn exactly how much \"heat\" your portfolio can take before you lose sleep.",
+      "investmentBridge": "The Investment Bridge",
+      "investmentBridgeText": "Transition from a \"math problem\" to a real-world investment strategy.",
+      "actionPlan": "Personalised Action Plan",
+      "actionPlanText": "Get a tailored roadmap matched to your risk profile and goals.",
+      "cta": "Decode my Risk DNA",
+      "comingSoon": "Coming Soon — Be the First to Access It"
+    },
+    "precision": {
+      "title": "Make It 100% Precise",
+      "text": "This is the big picture. To make this 100% precise, we can factor in your specific life events -- weddings, inheritance, property sales -- and real spending habits. Your life isn't a straight line; your plan shouldn't be either.",
+      "cta": "Get my FinkSmart Roadmap"
+    },
+    "secondOpinion": {
+      "title": "Already Have Investments?",
+      "text": "We'll stress-test your current portfolio for free to see if your actual returns match your Freedom Goal. Get a professional second opinion at no cost.",
+      "cta": "Get My Free Portfolio Check"
+    },
+    "retake": "Retake Assessment & Adjust Goals",
+    "startOver": "Start Over",
+    "footerEngine": "FINSIM v5 · 2% inflation buffer · 6% Safe Withdrawal Rate",
+    "footerDisclaimer": "Disclaimer: This tool is for educational and informational purposes only and does not constitute financial, investment, tax, or legal advice. Past performance does not guarantee future results. All projections are hypothetical and based on simplified assumptions. Consult a qualified financial advisor before making investment decisions."
+  },
+  "report": {
+    "title": "Freedom Report",
+    "freedomScore": "Your Freedom Score",
+    "outOf100": "out of 100",
+    "timeline": "Financial Freedom Timeline",
+    "yourAge": "Your Age",
+    "targetFreedomAge": "Target Freedom Age",
+    "desiredMonthlyIncome": "Desired Monthly Income",
+    "monthlyNetIncome": "Monthly Net Income",
+    "currentSavings": "Current Savings",
+    "monthlySavingsRate": "Monthly Savings",
+    "requiredCapital": "Required Capital",
+    "projectedCapital": "Projected Capital",
+    "freedomAge": "Freedom Age",
+    "gap": "Gap",
+    "onTrack": "On track",
+    "yearsEarly": "{{count}} year(s) early!",
+    "yearsGap": "{{count}} year(s) gap to close",
+    "assumptions": "Assumptions: Inflation 2% · SWR 6% · Return 6%",
+    "disclaimer": "This report is for educational purposes only. All projections are hypothetical.",
+    "poweredBy": "Powered by FinkSmart · finksmart.com",
+    "tryIt": "Try it — it's free!",
+    "generateYours": "Generate your own Freedom Score"
+  },
+  "freedomCard": {
+    "title": "Your Freedom Card",
+    "canYouBeat": "Can you beat my score?",
+    "download": "Download",
+    "copyToShare": "Copy to share",
+    "liftoff": "Houston, we have liftoff!",
+    "trailBlazing": "Trail blazing!",
+    "building": "Building!",
+    "exploring": "Exploring!",
+    "score": "Freedom Score",
+    "freedomAge": "Freedom Age",
+    "saving": "Saving...",
+    "copied": "Copied!",
+    "shareText": "I'm a \"{{personality}}\" with a Freedom Score of {{score}}/100! I could reach financial independence by age {{age}}. {{canYouBeat}} Try it free at finksmart.com",
+    "rightOnTarget": "Right on target!",
+    "beforeTarget": "Before your target of {{target}}!",
+    "afterTarget": "{{years}} year(s) after target of {{target}}"
+  },
+  "leadCapture": {
+    "title": "Secure Your Results & Unlock Phase 2",
+    "subtitle": "Lock in your Freedom Roadmap and be the first to access Risk DNA analysis when it launches.",
+    "nameLabel": "Your name",
+    "namePlaceholder": "First Last",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "your@email.com",
+    "whatsappLabel": "WhatsApp / Phone number (optional)",
+    "whatsappPlaceholder": "+230 5XXX XXXX",
+    "lifeEventLabel": "What is the one life event we must account for?",
+    "lifeEventPlaceholder": "E.g., Wedding in 2 years, property purchase, expected inheritance...",
+    "submit": "Send My Roadmap & Unlock Risk Analysis",
+    "success": "Your roadmap is secured!",
+    "successSubtitle": "We'll reach out to you shortly with your personalised plan and early access to Phase 2.",
+    "close": "Close"
+  },
+  "narratives": {
+    "astronaut": {
+      "title": "Financial Astronaut",
+      "description": "You've already reached orbit. Your financial discipline and planning have placed you in an enviable position. At this rate, financial freedom isn't a dream — it's a mathematical certainty. The focus now is on optimizing and protecting what you've built."
+    },
+    "trailBlazer": {
+      "title": "Trail Blazer",
+      "description": "You're on the right track and your trajectory is promising. With a few strategic adjustments — a bit more savings, slightly optimized returns — you could significantly accelerate your journey to freedom. The foundations are solid, it's time to build on them."
+    },
+    "baseCamp": {
+      "title": "Base Camp Builder",
+      "description": "You've laid the first stones, but there's still ground to cover. The good news? By acting now, every dollar saved and every percentage point of additional return works exponentially in your favour through compound interest. The time to accelerate is now."
+    },
+    "firstSteps": {
+      "title": "First Steps Explorer",
+      "description": "You're at the beginning of your financial journey, and this is the most powerful moment to act. Even small changes today will have a spectacular impact over decades. Simply having done this assessment already puts you ahead of most people. Every day counts."
+    }
+  }
+}

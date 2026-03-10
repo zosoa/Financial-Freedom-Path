@@ -83,6 +83,14 @@ A conversion-optimized Financial GPS web application (FinkSmart brand) that guid
 - Added inflation tooltip on landing page with educational real-world example
 - Number formatting updated to space separators globally
 - Mauritius set as default country
+- Full i18n system (i18next + react-i18next) with French as default language
+- fr.json (530+ keys) and en.json translation files in client/src/i18n/
+- All pages translated: landing, calculator, results, report, freedom-score-card, lead-capture-modal
+- Server email templates (sendReportEmail, sendLeadConfirmationEmail) fully translated to French
+- Country selector with flag emojis via COUNTRY_ISO_MAP + Unicode regional indicators
+- Currency selector shows "Symbol + Code" format (e.g., "₨ MUR")
+- Smart income placeholder computed from EUR_EXCHANGE_RATES
+- Live space-separated thousands formatting on income input
 
 ## Design Choices
 - Warm amber/coral color palette (HSL 24-30 hue range) for approachable feel

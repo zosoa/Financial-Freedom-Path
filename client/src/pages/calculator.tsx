@@ -1,5 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation, useSearch } from "wouter";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 import finksmartLogo from "@assets/FinkSmart_logo_final.png";
 import finksmartIcon from "@assets/finksmart-icon.png";
 import { motion, AnimatePresence } from "framer-motion";
@@ -32,47 +34,47 @@ interface StepConfig {
   max?: number;
 }
 
-const STEPS: StepConfig[] = [
+const getSteps = (): StepConfig[] => [
   {
     key: "age",
-    question: "How old are you?",
-    subtitle: "This helps us calculate the time you have to grow your wealth.",
+    question: i18n.t("calculator.questions.age"),
+    subtitle: i18n.t("calculator.questions.ageSubtitle"),
     iconSrc: iconGlobalView,
     placeholder: "35",
-    suffix: "years old",
+    suffix: i18n.t("calculator.yearsOld"),
     min: 18,
     max: 80,
   },
   {
     key: "targetFreedomAge",
-    question: "At what age do you dream of being financially free?",
-    subtitle: "When would you love to stop working or when does working become a choice but no longer a necessity? Pick the age that excites you.",
+    question: i18n.t("calculator.questions.targetFreedomAge"),
+    subtitle: i18n.t("calculator.questions.targetFreedomAgeSubtitle"),
     iconSrc: iconRetirement,
     placeholder: "55",
-    suffix: "years old",
+    suffix: i18n.t("calculator.yearsOld"),
     min: 25,
     max: 90,
   },
   {
     key: "monthlyIncome",
-    question: "What is your current monthly net income?",
-    subtitle: "After taxes. Be honest -- this is just for you.",
+    question: i18n.t("calculator.questions.monthlyIncome"),
+    subtitle: i18n.t("calculator.questions.monthlyIncomeSubtitle"),
     iconSrc: iconWealth,
     placeholder: "5,000",
     isCurrency: true,
   },
   {
     key: "currentSavings",
-    question: "How much do you have saved or invested so far?",
-    subtitle: "Bank accounts, investments, retirement funds -- everything counts.",
+    question: i18n.t("calculator.questions.currentSavings"),
+    subtitle: i18n.t("calculator.questions.currentSavingsSubtitle"),
     iconSrc: iconSavings,
     placeholder: "25,000",
     isCurrency: true,
   },
   {
     key: "monthlySavingsRate",
-    question: "How much can you save every month?",
-    subtitle: "Even a small amount grows dramatically over time. Be realistic.",
+    question: i18n.t("calculator.questions.monthlySavingsRate"),
+    subtitle: i18n.t("calculator.questions.monthlySavingsRateSubtitle"),
     iconSrc: iconGrowth,
     placeholder: "500",
     isCurrency: true,
@@ -83,28 +85,28 @@ type StepData = Record<StepConfig["key"], string>;
 
 function getSavingsComment(savingsRate: number, monthlyIncome: number): { text: string; color: string } | null {
   if (!monthlyIncome || monthlyIncome <= 0 || isNaN(savingsRate)) return null;
-  const percent = (savingsRate / monthlyIncome) * 100;
+  const percent = Math.round((savingsRate / monthlyIncome) * 100);
 
   if (percent > 70) {
-    return { text: `That's ${Math.round(percent)}% of your income. Are you sure you'll have enough left for the basics? Be realistic so this plan actually works for you.`, color: "text-red-500 dark:text-red-400" };
+    return { text: i18n.t("calculator.savingsComments.tooHigh", { percent }), color: "text-red-500 dark:text-red-400" };
   }
   if (percent > 50) {
-    return { text: `That's ${Math.round(percent)}% of your income. Are you sure you'll have enough left to pay your bills? Impressive discipline, but be honest with yourself.`, color: "text-amber-500 dark:text-amber-400" };
+    return { text: i18n.t("calculator.savingsComments.veryHigh", { percent }), color: "text-amber-500 dark:text-amber-400" };
   }
   if (percent >= 30) {
-    return { text: `${Math.round(percent)}% of your income -- that's elite-level discipline! You're playing the long game like a pro.`, color: "text-emerald-500 dark:text-emerald-400" };
+    return { text: i18n.t("calculator.savingsComments.elite", { percent }), color: "text-emerald-500 dark:text-emerald-400" };
   }
   if (percent >= 20) {
-    return { text: `${Math.round(percent)}% -- excellent! Financial experts recommend 20%+. You're right in the sweet spot.`, color: "text-emerald-500 dark:text-emerald-400" };
+    return { text: i18n.t("calculator.savingsComments.excellent", { percent }), color: "text-emerald-500 dark:text-emerald-400" };
   }
   if (percent >= 10) {
-    return { text: `${Math.round(percent)}% is a solid start! Try to work towards 20% over time -- even 1% more each year adds up massively.`, color: "text-blue-500 dark:text-blue-400" };
+    return { text: i18n.t("calculator.savingsComments.solid", { percent }), color: "text-blue-500 dark:text-blue-400" };
   }
   if (percent >= 5) {
-    return { text: `${Math.round(percent)}% -- a good beginning! The minimum recommended is 5%. Every bit you can add will accelerate your journey.`, color: "text-blue-500 dark:text-blue-400" };
+    return { text: i18n.t("calculator.savingsComments.good", { percent }), color: "text-blue-500 dark:text-blue-400" };
   }
   if (percent > 0) {
-    return { text: `${Math.round(percent)}% is a start, but try to aim for at least 5% of your income. Small increases make a huge difference over time.`, color: "text-amber-500 dark:text-amber-400" };
+    return { text: i18n.t("calculator.savingsComments.start", { percent }), color: "text-amber-500 dark:text-amber-400" };
   }
   return null;
 }
@@ -112,29 +114,30 @@ function getSavingsComment(savingsRate: number, monthlyIncome: number): { text: 
 function getSavingsHelpText(currentSavings: number, currencySymbol: string): { text: string; color: string } | null {
   if (isNaN(currentSavings)) return null;
   if (currentSavings <= 0) {
-    return { text: "Starting from zero is perfectly fine! The important thing is that you're starting now. Time is your greatest ally.", color: "text-blue-500 dark:text-blue-400" };
+    return { text: i18n.t("calculator.savingsHelp.zeroStart"), color: "text-blue-500 dark:text-blue-400" };
   }
   if (currentSavings > 0 && currentSavings < 1000) {
-    return { text: "Every journey starts with a first step. You've already begun -- that puts you ahead of most people.", color: "text-blue-500 dark:text-blue-400" };
+    return { text: i18n.t("calculator.savingsHelp.firstStep"), color: "text-blue-500 dark:text-blue-400" };
   }
   if (currentSavings >= 1000 && currentSavings < 10000) {
-    return { text: "You've got a foundation to build on! This head start will make a real difference thanks to compound growth.", color: "text-emerald-500 dark:text-emerald-400" };
+    return { text: i18n.t("calculator.savingsHelp.foundation"), color: "text-emerald-500 dark:text-emerald-400" };
   }
   if (currentSavings >= 10000 && currentSavings < 100000) {
-    return { text: "Impressive nest egg! You're well ahead of the curve. Compound interest is already working hard for you.", color: "text-emerald-500 dark:text-emerald-400" };
+    return { text: i18n.t("calculator.savingsHelp.impressive"), color: "text-emerald-500 dark:text-emerald-400" };
   }
-  return { text: "Outstanding! With this foundation, your money is already working hard for you. Let's see how far it can take you.", color: "text-emerald-500 dark:text-emerald-400" };
+  return { text: i18n.t("calculator.savingsHelp.outstanding"), color: "text-emerald-500 dark:text-emerald-400" };
 }
 
-const LOADING_MESSAGES = [
-  "Crunching your numbers...",
-  "Adjusting for inflation...",
-  "Simulating compound growth...",
-  "Calculating your Freedom Age...",
-  "Preparing your results...",
+const getLoadingMessages = () => [
+  i18n.t("calculator.loading.msg1"),
+  i18n.t("calculator.loading.msg2"),
+  i18n.t("calculator.loading.msg3"),
+  i18n.t("calculator.loading.msg4"),
+  i18n.t("calculator.loading.msg5"),
 ];
 
 export default function Calculator() {
+  const { t } = useTranslation();
   const [, navigate] = useLocation();
   const searchString = useSearch();
   const params = new URLSearchParams(searchString);
@@ -159,6 +162,8 @@ export default function Calculator() {
   const currencyInfo = SUPPORTED_CURRENCIES[currency];
   const symbol = currencyInfo?.symbol || "$";
 
+  const STEPS = getSteps();
+  const loadingMessages = getLoadingMessages();
   const totalSteps = STEPS.length;
   const step = STEPS[currentStep];
 
@@ -187,7 +192,7 @@ export default function Calculator() {
     if (!showTransition) return;
     const interval = setInterval(() => {
       setTransitionMessageIdx((prev) => {
-        if (prev >= LOADING_MESSAGES.length - 1) {
+        if (prev >= loadingMessages.length - 1) {
           clearInterval(interval);
           const queryParams = new URLSearchParams({
             country,
@@ -328,8 +333,8 @@ export default function Calculator() {
           </div>
 
           <div>
-            <p className="text-[10px] text-muted-foreground/60 tracking-widest uppercase mb-3">FinkSmart &middot; Pro-Investing Decoded</p>
-            <p className="text-sm text-muted-foreground mb-2">Mapping your path to freedom</p>
+            <p className="text-[10px] text-muted-foreground/60 tracking-widest uppercase mb-3">{t("calculator.brandTagline")}</p>
+            <p className="text-sm text-muted-foreground mb-2">{t("calculator.mappingPath")}</p>
             <AnimatePresence mode="wait">
               <motion.p
                 key={transitionMessageIdx}
@@ -339,15 +344,15 @@ export default function Calculator() {
                 transition={{ duration: 0.3 }}
                 className="text-lg font-medium text-foreground"
               >
-                {LOADING_MESSAGES[transitionMessageIdx]}
+                {loadingMessages[transitionMessageIdx]}
               </motion.p>
             </AnimatePresence>
           </div>
 
           <div className="w-56 mx-auto">
             <div className="flex items-center justify-between text-[10px] text-muted-foreground mb-1.5">
-              <span>Analysing</span>
-              <span>{Math.min(100, Math.round(((transitionMessageIdx + 1) / LOADING_MESSAGES.length) * 100))}%</span>
+              <span>{t("calculator.analysing")}</span>
+              <span>{Math.min(100, Math.round(((transitionMessageIdx + 1) / loadingMessages.length) * 100))}%</span>
             </div>
             <div className="h-1.5 bg-muted rounded-full overflow-hidden">
               <motion.div
@@ -372,7 +377,7 @@ export default function Calculator() {
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground">
-              {currentStep + 1} of {totalSteps}
+              {currentStep + 1} {t("calculator.of")} {totalSteps}
             </span>
             <Button size="icon" variant="ghost" onClick={toggleTheme} data-testid="button-theme-toggle-calc">
               {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
@@ -441,14 +446,14 @@ export default function Calculator() {
 
                 {step.key === "currentSavings" && (
                   <p className="text-xs text-muted-foreground text-center">
-                    If you're not sure, just put 0 -- you can always come back later
+                    {t("calculator.savingsComments.unsurePut0")}
                   </p>
                 )}
 
                 {step.key === "monthlySavingsRate" && data.monthlyIncome && currentValue && (
                   <div className="text-center">
                     <p className="text-xs text-muted-foreground">
-                      That's {Math.round((parseFloat(currentValue) / parseFloat(data.monthlyIncome)) * 100)}% of your income
+                      {t("calculator.savingsComments.incomePercent", { percent: Math.round((parseFloat(currentValue) / parseFloat(data.monthlyIncome)) * 100) })}
                     </p>
                   </div>
                 )}
@@ -479,7 +484,7 @@ export default function Calculator() {
                     animate={{ opacity: 1 }}
                     className="text-xs text-center text-red-500 dark:text-red-400"
                   >
-                    You can't save more than you earn. Please adjust your amount.
+                    {t("calculator.savingsComments.cantSaveMore")}
                   </motion.p>
                 )}
               </div>
@@ -487,16 +492,16 @@ export default function Calculator() {
               <div className="flex gap-3">
                 <Button variant="outline" className="flex-1" onClick={handleBack} data-testid="button-back">
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back
+                  {t("calculator.back")}
                 </Button>
                 {currentStep === totalSteps - 1 ? (
                   <button className="premium-cta flex-1" disabled={!isValid} onClick={handleNext} data-testid="button-next">
-                    See My Results
+                    {t("calculator.seeMyResults")}
                     <Sparkles className="w-4 h-4" />
                   </button>
                 ) : (
                   <Button className="flex-1" disabled={!isValid} onClick={handleNext} data-testid="button-next">
-                    Continue
+                    {t("calculator.continue")}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 )}

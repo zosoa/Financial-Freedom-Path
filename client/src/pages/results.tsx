@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation, useSearch } from "wouter";
 import finksmartLogo from "@assets/FinkSmart_logo_final.png";
 import { motion, AnimatePresence } from "framer-motion";
@@ -101,6 +102,7 @@ function InfoTooltip({ children }: { children: React.ReactNode }) {
 }
 
 export default function Results() {
+  const { t } = useTranslation();
   const [, navigate] = useLocation();
   const { theme, toggleTheme } = useTheme();
   const searchString = useSearch();
@@ -214,6 +216,13 @@ export default function Results() {
 
   const NarrativeIcon = narrativeIcons[results.narrative.type];
 
+  const narrativeTypeToKey: Record<string, string> = {
+    "basically_there": "astronaut",
+    "on_track": "trailBlazer",
+    "moderate": "baseCamp",
+    "critical": "firstSteps",
+  };
+
   const profileBadgeStyles: Record<string, { bg: string; gradient: string }> = {
     critical: { bg: "bg-gradient-to-br from-orange-500 to-rose-600", gradient: "from-orange-100 to-rose-100 dark:from-orange-900/30 dark:to-rose-900/30" },
     moderate: { bg: "bg-gradient-to-br from-amber-500 to-orange-500", gradient: "from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30" },
@@ -221,15 +230,8 @@ export default function Results() {
     basically_there: { bg: "bg-gradient-to-br from-violet-500 to-blue-500", gradient: "from-violet-100 to-blue-100 dark:from-violet-900/30 dark:to-blue-900/30" },
   };
 
-  const profileBadgeDescriptions: Record<string, string> = {
-    critical: "You've just taken the most important step -- knowing where you stand. Most people never even get here. Your journey has officially begun, and with the right moves, you can dramatically reshape your trajectory.",
-    moderate: "You're building something real. Your foundation is solid, and the path to freedom is clear. With some strategic tweaks to your savings or returns, you can shave years off your timeline. The compound effect is on your side.",
-    on_track: "You're cutting through the jungle of financial complexity with confidence. Your numbers show discipline and vision. A few smart optimizations could launch you even faster toward freedom. Keep blazing!",
-    basically_there: "You've achieved what most only dream about -- your financial trajectory puts freedom within reach right on schedule (or ahead!). Your discipline and planning have paid off brilliantly. Time to think about what freedom means to you.",
-  };
-
   const shareUrl = typeof window !== "undefined" ? window.location.origin : "https://finksmart.com";
-  const shareText = `I just discovered my Freedom Score: ${results.freedomScore}/100! I could reach financial freedom by age ${results.freedomAgeStandard}. Can you beat my score? Try it free:`;
+  const shareText = t("results.share.shareText", { score: results.freedomScore, age: results.freedomAgeStandard });
 
   const handleShare = (platform: string) => {
     const encodedText = encodeURIComponent(shareText);
@@ -289,8 +291,8 @@ export default function Results() {
   const yearsDifference = results.yearsGained;
 
   const pieData = [
-    { name: "Your Contributions", value: results.capitalComposition.totalContributions },
-    { name: "Generated Gains", value: results.capitalComposition.generatedGains },
+    { name: t("results.yourContributions"), value: results.capitalComposition.totalContributions },
+    { name: t("results.generatedGains"), value: results.capitalComposition.generatedGains },
   ];
   const PIE_COLORS = ["#6366f1", "#a78bfa"];
 
@@ -320,11 +322,11 @@ export default function Results() {
               </div>
               <div className="flex-1">
                 <h1 className={`font-serif text-2xl md:text-3xl font-bold mb-1 ${narrativeColors[results.narrative.type]}`} data-testid="text-narrative-headline">
-                  {results.narrative.headline}
+                  {t(`results.personalities.${narrativeTypeToKey[results.narrative.type]}.title`)}
                 </h1>
                 <p className="text-sm text-muted-foreground italic mb-2">{results.narrative.subtitle}</p>
                 <p className="text-sm text-muted-foreground leading-relaxed" data-testid="text-narrative-message">
-                  {profileBadgeDescriptions[results.narrative.type]}
+                  {t(`narratives.${narrativeTypeToKey[results.narrative.type]}.description`)}
                 </p>
               </div>
               <motion.div
@@ -337,37 +339,37 @@ export default function Results() {
                   <span className="text-2xl md:text-3xl font-bold text-primary" data-testid="text-freedom-score">
                     {results.freedomScore}
                   </span>
-                  <p className="text-[10px] text-muted-foreground leading-none">score</p>
+                  <p className="text-[10px] text-muted-foreground leading-none">{t("results.score")}</p>
                 </div>
               </motion.div>
               <InfoTooltip>
-                <p className="font-semibold mb-1">How is the Freedom Score calculated?</p>
-                <p>Your Freedom Score (0-100) measures how close you are to your financial independence goal at your target age. A score of 100 means you'll have enough capital to cover your desired income without ever touching the principal.</p>
+                <p className="font-semibold mb-1">{t("results.freedomScoreTooltip")}</p>
+                <p>{t("results.freedomScoreExplanation")}</p>
               </InfoTooltip>
             </div>
 
             <div className="bg-background/60 rounded-md p-4">
               <p className="text-sm" data-testid="text-trajectory-analysis">
-                At age <span className="font-bold">{inputs.targetFreedomAge}</span>, you will have accumulated{" "}
+                {t("results.gap.atAge", { age: inputs.targetFreedomAge })}{" "}
                 <span className="font-bold text-primary">{formatCurrencyFull(results.plannedCapitalStandard, currency)}</span>{" "}
                 {results.plannedCapitalStandard < results.requiredCapital ? (
-                  <>instead of the <span className="font-bold">{formatCurrencyFull(results.requiredCapital, currency)}</span> needed.</>
+                  <>{t("results.gap.insteadOf")} <span className="font-bold">{formatCurrencyFull(results.requiredCapital, currency)}</span> {t("results.gap.needed")}</>
                 ) : (
-                  <>which exceeds the <span className="font-bold">{formatCurrencyFull(results.requiredCapital, currency)}</span> needed!</>
+                  <>{t("results.gap.exceeds")} <span className="font-bold">{formatCurrencyFull(results.requiredCapital, currency)}</span> {t("results.gap.exceededNeeded")}</>
                 )}
               </p>
               {results.freedomAgeStandard > inputs.targetFreedomAge && (
                 <div className="flex flex-col gap-3 mt-3">
                   <p className="text-base md:text-lg font-bold text-foreground leading-snug">
-                    At this current pace you will reach your goal at age{" "}
+                    {t("results.gap.currentPace")}{" "}
                     <span className="font-bold">{results.freedomAgeStandard}</span>{" "}
                     <span className="text-red-500 dark:text-red-400 font-bold">
-                      ({results.freedomAgeStandard - inputs.targetFreedomAge} year{results.freedomAgeStandard - inputs.targetFreedomAge === 1 ? "" : "s"} later than planned)
+                      ({t("results.gap.laterThanPlanned", { years: results.freedomAgeStandard - inputs.targetFreedomAge })})
                     </span>
                   </p>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <p className="text-sm text-muted-foreground">
-                      Gap: <span className="font-semibold">{formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}</span>
+                      {t("results.gap.label")} <span className="font-semibold">{formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}</span>
                     </p>
                     <Button
                       variant="outline"
@@ -377,7 +379,7 @@ export default function Results() {
                       data-testid="button-show-close-gap"
                     >
                       <ArrowDown className="w-3.5 h-3.5 mr-1.5" />
-                      Here are some solutions
+                      {t("results.gap.solutions")}
                     </Button>
                   </div>
                 </div>
@@ -391,44 +393,44 @@ export default function Results() {
           <div className="flex items-center gap-1.5">
             <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
               <img src={iconGoal} alt="" className="w-5 h-5" />
-              Your Target Capital
+              {t("results.targetCapital")}
             </p>
           </div>
           <Card className="p-6">
             <p className="text-sm text-muted-foreground mb-1">
-              To receive <span className="font-semibold">{formatCurrencyFull(inputs.desiredMonthlyIncome, currency)}</span>/month (inflation-adjusted), you need:
+              {t("results.toReceive", { amount: formatCurrencyFull(inputs.desiredMonthlyIncome, currency) })}
             </p>
             <p className="text-3xl md:text-4xl font-bold text-center my-4" data-testid="text-required-capital">
               {formatCurrencyFull(results.requiredCapital, currency)}
             </p>
             <p className="text-sm text-muted-foreground text-center max-w-lg mx-auto mt-2 mb-4 leading-relaxed">
-              This is the total capital needed so the interest it generates covers your monthly expenses — without ever touching the principal. By targeting this amount, your money works for you indefinitely, like a salary that never stops.
+              {t("results.targetCapitalExplanation")}
             </p>
             <div className="text-xs text-muted-foreground text-center mb-6 flex flex-col items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-[10px] font-medium text-primary tracking-wide">
-                <Sparkles className="w-3 h-3" />FinkSmart Pro-Investing Decoded
+                <Sparkles className="w-3 h-3" />{t("results.proInvesting")}
               </span>
-              <span className="flex items-center gap-1">Based on a 6% safe withdrawal rate per year (adjusted for 2% annual inflation)</span>
+              <span className="flex items-center gap-1">{t("results.withdrawalRateBasis")}</span>
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="bg-muted/50 rounded-md p-4 text-center">
                 <p className="text-xs text-muted-foreground mb-1 flex items-center justify-center gap-1">
-                  Capital at {inputs.targetFreedomAge} (6%)
-                  <InfoTooltip><p>Your projected capital at age {inputs.targetFreedomAge} with a standard 6% annual return -- a conservative diversified portfolio estimate.</p></InfoTooltip>
+                  {t("results.capitalAtAgeStandard", { age: inputs.targetFreedomAge })}
+                  <InfoTooltip><p>{t("results.capitalAtAgeStandardTooltip", { age: inputs.targetFreedomAge })}</p></InfoTooltip>
                 </p>
                 <p className="text-xl font-bold" data-testid="text-capital-standard">{formatCurrencyFull(results.plannedCapitalStandard, currency)}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Gap: {results.plannedCapitalStandard >= results.requiredCapital ? "None!" : formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}
+                  {t("results.gapLabel")} {results.plannedCapitalStandard >= results.requiredCapital ? t("results.gapNone") : formatCurrency(results.requiredCapital - results.plannedCapitalStandard, currency)}
                 </p>
               </div>
               <div className="bg-emerald-500/10 dark:bg-emerald-900/20 rounded-md p-4 text-center">
                 <p className="text-xs text-muted-foreground mb-1 flex items-center justify-center gap-1">
-                  Capital at {inputs.targetFreedomAge} (Managed 11%)
-                  <InfoTooltip><p>This is an ambitious target. It requires an Institutional-Grade strategy and a high tolerance for temporary market dips.</p></InfoTooltip>
+                  {t("results.capitalAtAgeManaged", { age: inputs.targetFreedomAge })}
+                  <InfoTooltip><p>{t("results.capitalAtAgeManagedTooltip")}</p></InfoTooltip>
                 </p>
                 <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400" data-testid="text-capital-managed">{formatCurrencyFull(results.plannedCapitalManaged, currency)}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Gap: {results.plannedCapitalManaged >= results.requiredCapital ? "None!" : formatCurrency(results.requiredCapital - results.plannedCapitalManaged, currency)}
+                  {t("results.gapLabel")} {results.plannedCapitalManaged >= results.requiredCapital ? t("results.gapNone") : formatCurrency(results.requiredCapital - results.plannedCapitalManaged, currency)}
                 </p>
                 <div className="mt-3 pt-3 border-t border-emerald-200/40 dark:border-emerald-700/40">
                   <button
@@ -436,10 +438,10 @@ export default function Results() {
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-teal-500 text-teal-600 dark:text-teal-400 text-xs font-semibold bg-transparent transition-colors hover:bg-teal-500/10"
                     data-testid="button-heat-risk-dna"
                   >
-                    Can you handle this much "Heat"? Discover Your Risk DNA
+                    {t("results.heatRiskDna")}
                   </button>
                   <p className="text-[10px] text-muted-foreground mt-2">
-                    Aiming for returns 5.0% above market average requires an Institutional-Grade strategy.
+                    {t("results.aboveMarketAverage", { rate: "5.0" })}
                   </p>
                 </div>
               </div>
@@ -455,15 +457,15 @@ export default function Results() {
                 <div className="rounded-md bg-amber-50 dark:bg-amber-900/15 border border-amber-200/60 dark:border-amber-800/40 p-5 mb-6">
                   <h3 className="font-serif text-lg font-bold text-foreground mb-2 flex items-center gap-2">
                     <Lightbulb className="w-5 h-5 text-amber-500" />
-                    Your gap is just a math problem -- and every math problem has a solution.
+                    {t("results.gap.dontPanic")}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Don't let the big numbers intimidate you. Small shifts today create massive changes tomorrow. Explore your "Levers" below to see how you can close this gap.
+                    {t("results.gap.dontPanicText")}
                   </p>
                 </div>
 
                 <p className="text-sm text-muted-foreground mb-5">
-                  Your gap: <span className="font-bold text-foreground">{formatCurrency(results.gapAmount, currency)}</span>. Tap a lever to see how to bridge it:
+                  {t("results.gap.yourGap", { amount: formatCurrency(results.gapAmount, currency) })}
                 </p>
 
                 <div className="inline-flex rounded-md shadow-sm border bg-muted/50 p-1 mb-6 flex-wrap gap-1" data-testid="solution-tabs">
@@ -474,9 +476,9 @@ export default function Results() {
                       className={`flex items-center gap-1.5 px-4 py-2.5 rounded-md text-sm font-medium transition-all ${activeSolution === key ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:text-foreground hover:bg-background"}`}
                       data-testid={`button-solution-${key}`}
                     >
-                      {key === "savings" && <><DollarSign className="w-4 h-4" />Lever {idx + 1}: Save More</>}
-                      {key === "lumpsum" && <><ArrowUpRight className="w-4 h-4" />Lever {idx + 1}: Lump Sum</>}
-                      {key === "efficiency" && <><TrendingUp className="w-4 h-4" />Lever {idx + 1}: Smarter Returns</>}
+                      {key === "savings" && <><DollarSign className="w-4 h-4" />{t("results.solutions.lever1")}</>}
+                      {key === "lumpsum" && <><ArrowUpRight className="w-4 h-4" />{t("results.solutions.lever2")}</>}
+                      {key === "efficiency" && <><TrendingUp className="w-4 h-4" />{t("results.solutions.lever3")}</>}
                     </button>
                   ))}
                 </div>
@@ -485,26 +487,26 @@ export default function Results() {
                   <motion.div key={activeSolution} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
                     {activeSolution === "savings" && (
                       <div className="rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-5" data-testid="solution-savings">
-                        <h4 className="font-semibold mb-2 flex items-center gap-2"><DollarSign className="w-4 h-4 text-blue-500" />The Savings Lever</h4>
-                        <p className="text-sm text-muted-foreground mb-3">To close this gap, you need to increase your monthly savings by:</p>
-                        <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">{formatCurrencyFull(results.solutionModule.savingsLeverAmount, currency)}<span className="text-base font-normal text-muted-foreground">/month</span></p>
-                        <p className="text-xs text-muted-foreground">That's an increase of {formatCurrencyFull(results.solutionModule.savingsLeverAmount, currency)} on top of your current {formatCurrencyFull(inputs.monthlySavingsRate, currency)} monthly savings.</p>
+                        <h4 className="font-semibold mb-2 flex items-center gap-2"><DollarSign className="w-4 h-4 text-blue-500" />{t("results.solutions.savingsLeverTitle")}</h4>
+                        <p className="text-sm text-muted-foreground mb-3">{t("results.solutions.savingsLeverDesc")}</p>
+                        <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">{formatCurrencyFull(results.solutionModule.savingsLeverAmount, currency)}<span className="text-base font-normal text-muted-foreground">{t("results.solutions.perMonth")}</span></p>
+                        <p className="text-xs text-muted-foreground">{t("results.solutions.savingsLeverDetail", { amount: formatCurrencyFull(results.solutionModule.savingsLeverAmount, currency), current: formatCurrencyFull(inputs.monthlySavingsRate, currency) })}</p>
                       </div>
                     )}
                     {activeSolution === "lumpsum" && (
                       <div className="rounded-md bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 p-5" data-testid="solution-lumpsum">
-                        <h4 className="font-semibold mb-2 flex items-center gap-2"><ArrowUpRight className="w-4 h-4 text-violet-500" />The Lump Sum Catch-up</h4>
-                        <p className="text-sm text-muted-foreground mb-3">A one-time injection today would put you back on track for your target age:</p>
-                        <p className="text-3xl font-bold text-violet-600 dark:text-violet-400 mb-2">{formatCurrencyFull(results.solutionModule.lumpSumAmount, currency)}<span className="text-base font-normal text-muted-foreground"> today</span></p>
-                        <p className="text-xs text-muted-foreground">This could come from inheritance, property sale, bonus, or any other windfall.</p>
+                        <h4 className="font-semibold mb-2 flex items-center gap-2"><ArrowUpRight className="w-4 h-4 text-violet-500" />{t("results.solutions.lumpSumTitle")}</h4>
+                        <p className="text-sm text-muted-foreground mb-3">{t("results.solutions.lumpSumDesc")}</p>
+                        <p className="text-3xl font-bold text-violet-600 dark:text-violet-400 mb-2">{formatCurrencyFull(results.solutionModule.lumpSumAmount, currency)}<span className="text-base font-normal text-muted-foreground"> {t("results.solutions.lumpSumToday")}</span></p>
+                        <p className="text-xs text-muted-foreground">{t("results.solutions.lumpSumDetail")}</p>
                       </div>
                     )}
                     {activeSolution === "efficiency" && (
                       <div className="rounded-md bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 p-5" data-testid="solution-efficiency">
-                        <h4 className="font-semibold mb-2 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-emerald-500" />The Smart Manager</h4>
-                        <p className="text-sm text-muted-foreground mb-3">By optimizing your strategy for a better return, you close the gap without saving another cent:</p>
-                        <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">{results.solutionModule.efficiencyLeverReturn}%<span className="text-base font-normal text-muted-foreground"> annual return needed</span></p>
-                        <p className="text-xs text-muted-foreground">That's {(results.solutionModule.efficiencyLeverReturn - 6).toFixed(1)}% above the standard return. See the sensitivity analysis below to explore this.</p>
+                        <h4 className="font-semibold mb-2 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-emerald-500" />{t("results.solutions.smartManagerTitle")}</h4>
+                        <p className="text-sm text-muted-foreground mb-3">{t("results.solutions.smartManagerDesc")}</p>
+                        <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">{results.solutionModule.efficiencyLeverReturn}%<span className="text-base font-normal text-muted-foreground"> {t("results.solutions.annualReturnNeeded")}</span></p>
+                        <p className="text-xs text-muted-foreground">{t("results.solutions.smartManagerDetail", { rate: (results.solutionModule.efficiencyLeverReturn - 6).toFixed(1) })}</p>
                       </div>
                     )}
                   </motion.div>
@@ -512,11 +514,11 @@ export default function Results() {
 
                 <div className="mt-6 pt-5 border-t border-border/40">
                   <p className="text-sm text-muted-foreground mb-3">
-                    Not happy with these numbers? Sometimes a small change in expectations changes everything. Try adjusting your target age or monthly needs.
+                    {t("results.solutions.notHappy")}
                   </p>
                   <Button variant="outline" onClick={() => navigate("/")} data-testid="button-retake-assessment">
                     <RefreshCw className="w-4 h-4 mr-2" />
-                    Retake Assessment & Adjust Goals
+                    {t("results.retake")}
                   </Button>
                 </div>
               </>
@@ -524,21 +526,21 @@ export default function Results() {
               <>
                 <div className="flex items-center gap-2 mb-2">
                   <Sparkles className="w-5 h-5 text-emerald-500" />
-                  <h3 className="font-semibold text-lg text-emerald-600 dark:text-emerald-400">You Have a Surplus!</h3>
+                  <h3 className="font-semibold text-lg text-emerald-600 dark:text-emerald-400">{t("results.surplus.title")}</h3>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  You have a surplus of <span className="font-bold text-foreground">{formatCurrencyFull(results.solutionModule.surplusAmount, currency)}</span>. Here's what this means for you:
+                  {t("results.surplus.description", { amount: formatCurrencyFull(results.solutionModule.surplusAmount, currency) })}
                 </p>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="rounded-md bg-emerald-50 dark:bg-emerald-900/20 p-4">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><Clock className="w-3 h-3" />Retire Earlier</p>
-                    <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">Age {results.solutionModule.earlyFreedomAge}</p>
-                    <p className="text-xs text-muted-foreground mt-1">That's {inputs.targetFreedomAge - results.solutionModule.earlyFreedomAge} year{inputs.targetFreedomAge - results.solutionModule.earlyFreedomAge === 1 ? "" : "s"} earlier than planned!</p>
+                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><Clock className="w-3 h-3" />{t("results.surplus.retireEarlier")}</p>
+                    <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{t("results.age")} {results.solutionModule.earlyFreedomAge}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{t("results.surplus.earlierThanPlanned", { years: inputs.targetFreedomAge - results.solutionModule.earlyFreedomAge })}</p>
                   </div>
                   <div className="rounded-md bg-blue-50 dark:bg-blue-900/20 p-4">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><DollarSign className="w-3 h-3" />Or, Increase Your Budget</p>
+                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><DollarSign className="w-3 h-3" />{t("results.surplus.increaseBudget")}</p>
                     <p className="text-xl font-bold text-blue-600 dark:text-blue-400">{formatCurrencyFull(results.solutionModule.increasedMonthlyBudget, currency)}/mo</p>
-                    <p className="text-xs text-muted-foreground mt-1">Maintain your target age but enjoy a higher monthly income.</p>
+                    <p className="text-xs text-muted-foreground mt-1">{t("results.surplus.maintainTarget")}</p>
                   </div>
                 </div>
               </>
@@ -550,16 +552,16 @@ export default function Results() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="space-y-2">
           <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
             <img src={iconGrowth} alt="" className="w-5 h-5" />
-            Return Comparison
+            {t("results.returnComparison")}
           </p>
           <Card className="p-6 overflow-x-auto">
             <table className="w-full text-sm" data-testid="table-return-comparison">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-2 text-muted-foreground font-medium">Return</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">Capital at {inputs.targetFreedomAge}</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">Freedom Age</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">vs Target</th>
+                  <th className="text-left py-2 text-muted-foreground font-medium">{t("results.returnRate")}</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">{t("results.returnTable.capitalAtAge", { age: inputs.targetFreedomAge })}</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">{t("results.freedomAge")}</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">{t("results.returnTable.vsTarget")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -570,14 +572,14 @@ export default function Results() {
                       {row.label}
                     </td>
                     <td className="py-3 text-right font-semibold">{formatCurrencyFull(row.capitalAtTarget, currency)}</td>
-                    <td className="py-3 text-right">{row.ageReached} yrs</td>
+                    <td className="py-3 text-right">{row.ageReached} {t("results.returnTable.yrs")}</td>
                     <td className="py-3 text-right">
                       {row.timeDifference <= 0 ? (
                         <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                          {Math.abs(row.timeDifference)} yrs early
+                          {t("results.returnTable.yrsEarly", { years: Math.abs(row.timeDifference) })}
                         </span>
                       ) : (
-                        <span className="text-muted-foreground">+{row.timeDifference} yrs</span>
+                        <span className="text-muted-foreground">+{row.timeDifference} {t("results.returnTable.yrs")}</span>
                       )}
                     </td>
                   </tr>
@@ -591,22 +593,22 @@ export default function Results() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }} className="space-y-2">
           <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
             <img src={iconAnalytics} alt="" className="w-5 h-5" />
-            Capital Evolution
+            {t("results.capitalEvolution")}
           </p>
           <Card className="p-6">
             <div className="flex items-center justify-between gap-4 flex-wrap mb-2">
               <div className="flex items-center gap-4 text-xs">
                 <span className="flex items-center gap-1.5">
                   <span className="w-3 h-1.5 rounded-full bg-emerald-500" />
-                  Managed (11%)
+                  {t("results.managed11")}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <span className="w-3 h-1.5 rounded-full bg-blue-400" />
-                  Standard (6%)
+                  {t("results.standard6")}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <span className="w-3 h-1.5 rounded-full bg-red-400" />
-                  Required Capital
+                  {t("results.requiredCapitalLabel")}
                 </span>
               </div>
             </div>
@@ -628,13 +630,13 @@ export default function Results() {
                   <YAxis tick={{ fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={formatChartValue} width={50} />
                   <RechartsTooltip
                     formatter={(value: number) => [formatCurrencyFull(value, currency), ""]}
-                    labelFormatter={(label) => `Age ${label}`}
+                    labelFormatter={(label) => `${t("results.age")} ${label}`}
                     contentStyle={{ borderRadius: "8px", border: "1px solid hsl(var(--border))", backgroundColor: "hsl(var(--card))", fontSize: "12px" }}
                   />
-                  <ReferenceLine x={inputs.targetFreedomAge} stroke="hsl(var(--primary))" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: `Target: ${inputs.targetFreedomAge}`, position: "top", fontSize: 10 }} />
-                  <Area type="monotone" dataKey="requiredCapital" stroke="#f87171" strokeWidth={2} strokeDasharray="6 3" fill="none" name="Required Capital" />
-                  <Area type="monotone" dataKey="managedWealth" stroke="#10b981" strokeWidth={2} fill="url(#gradManaged)" name="Managed (11%)" />
-                  <Area type="monotone" dataKey="standardWealth" stroke="#60a5fa" strokeWidth={2} fill="url(#gradStandard)" name="Standard (6%)" />
+                  <ReferenceLine x={inputs.targetFreedomAge} stroke="hsl(var(--primary))" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: `${t("results.age")} ${inputs.targetFreedomAge}`, position: "top", fontSize: 10 }} />
+                  <Area type="monotone" dataKey="requiredCapital" stroke="#f87171" strokeWidth={2} strokeDasharray="6 3" fill="none" name={t("results.requiredCapitalLabel")} />
+                  <Area type="monotone" dataKey="managedWealth" stroke="#10b981" strokeWidth={2} fill="url(#gradManaged)" name={t("results.managed11")} />
+                  <Area type="monotone" dataKey="standardWealth" stroke="#60a5fa" strokeWidth={2} fill="url(#gradStandard)" name={t("results.standard6")} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -645,7 +647,7 @@ export default function Results() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="space-y-2">
           <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
             <img src={iconCompound} alt="" className="w-5 h-5" />
-            Composition of Your Capital (at 6%)
+            {t("results.capitalCompositionTitle")}
           </p>
           <Card className="p-6">
             <div className="grid md:grid-cols-2 gap-6">
@@ -662,33 +664,33 @@ export default function Results() {
                   </ResponsiveContainer>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
-                      <p className="text-xs text-muted-foreground uppercase tracking-wider">Capital</p>
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider">{t("results.capitalLabel")}</p>
                       <p className="text-lg font-bold">{formatCurrency(results.capitalComposition.totalCapital, currency)}</p>
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 mt-3 text-xs">
-                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[0] }} />Contributions</span>
-                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[1] }} />Gains</span>
+                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[0] }} />{t("results.contributionsLabel")}</span>
+                  <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ backgroundColor: PIE_COLORS[1] }} />{t("results.gainsLabel")}</span>
                 </div>
               </div>
               <div className="space-y-4">
                 <div className="rounded-md bg-indigo-50 dark:bg-indigo-900/20 p-4">
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><Coins className="w-3 h-3" />Your Contributions</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><Coins className="w-3 h-3" />{t("results.yourContributions")}</p>
                   <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{formatCurrencyFull(results.capitalComposition.totalContributions, currency)}</p>
-                  <p className="text-xs text-muted-foreground">{results.capitalComposition.contributionPercent}% of final capital</p>
+                  <p className="text-xs text-muted-foreground">{t("results.ofFinalCapital", { percent: results.capitalComposition.contributionPercent })}</p>
                 </div>
                 <div className="rounded-md bg-violet-50 dark:bg-violet-900/20 p-4">
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><Zap className="w-3 h-3" />Generated Gains</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-1"><Zap className="w-3 h-3" />{t("results.generatedGains")}</p>
                   <p className="text-xl font-bold text-violet-600 dark:text-violet-400">{formatCurrencyFull(results.capitalComposition.generatedGains, currency)}</p>
-                  <p className="text-xs text-muted-foreground">{results.capitalComposition.gainsPercent}% of final capital</p>
+                  <p className="text-xs text-muted-foreground">{t("results.ofFinalCapital", { percent: results.capitalComposition.gainsPercent })}</p>
                 </div>
                 {results.capitalComposition.gainsPercent > 0 && (
                   <div className="rounded-md bg-amber-50 dark:bg-amber-900/20 p-3 flex items-start gap-2">
                     <Lightbulb className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
                     <div className="text-xs text-muted-foreground">
-                      <p className="font-medium text-foreground mb-1">The power of compound interest</p>
-                      <p>{results.capitalComposition.gainsPercent}% of your capital was generated automatically. This is compound interest working for you.</p>
+                      <p className="font-medium text-foreground mb-1">{t("results.compoundInterestTitle")}</p>
+                      <p>{t("results.compoundInterestDesc", { percent: results.capitalComposition.gainsPercent })}</p>
                     </div>
                   </div>
                 )}
@@ -701,23 +703,23 @@ export default function Results() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <Card className="p-4 text-center">
-              <p className="text-xs text-muted-foreground mb-1">Monthly Savings</p>
+              <p className="text-xs text-muted-foreground mb-1">{t("results.keyStats.monthlySavings")}</p>
               <p className="text-lg font-bold" data-testid="text-monthly-savings">{formatCurrencyFull(inputs.monthlySavingsRate, currency)}</p>
             </Card>
             <Card className="p-4 text-center bg-emerald-500/5">
-              <p className="text-xs text-muted-foreground mb-1">Managed Capital</p>
+              <p className="text-xs text-muted-foreground mb-1">{t("results.keyStats.managedCapital")}</p>
               <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{formatCurrency(results.plannedCapitalManaged, currency)}</p>
             </Card>
             <Card className="p-4 text-center">
-              <p className="text-xs text-muted-foreground mb-1">Standard Capital</p>
+              <p className="text-xs text-muted-foreground mb-1">{t("results.keyStats.standardCapital")}</p>
               <p className="text-lg font-bold">{formatCurrency(results.plannedCapitalStandard, currency)}</p>
             </Card>
             <Card className="p-4 text-center bg-primary/5">
-              <p className="text-xs text-muted-foreground mb-1">Years Gained</p>
+              <p className="text-xs text-muted-foreground mb-1">{t("results.keyStats.yearsGained")}</p>
               <p className="text-lg font-bold text-primary" data-testid="text-years-gained">
-                {yearsDifference > 0 ? `+${yearsDifference}` : yearsDifference} yrs
+                {yearsDifference > 0 ? `+${yearsDifference}` : yearsDifference} {t("results.returnTable.yrs")}
               </p>
-              <p className="text-[10px] text-muted-foreground">with managed returns</p>
+              <p className="text-[10px] text-muted-foreground">{t("results.keyStats.withManaged")}</p>
             </Card>
           </div>
         </motion.div>
@@ -727,37 +729,43 @@ export default function Results() {
           <Card className="p-6">
             <div className="flex items-center gap-2 mb-2">
               <img src={iconSmartLogic} alt="" className="w-6 h-6" />
-              <h3 className="font-semibold text-lg">How Returns Influence Your Freedom</h3>
+              <h3 className="font-semibold text-lg">{t("results.sensitivity.title")}</h3>
             </div>
             <p className="text-sm text-muted-foreground mb-6">
-              A <span className="font-semibold text-foreground">sensitivity analysis</span> showing the impact of average annual returns:
+              {(() => {
+                const raw = t("results.sensitivity.sensitivityDesc");
+                const parts = raw.split(/<bold>|<\/bold>/);
+                return parts.map((part: string, i: number) =>
+                  i === 1 ? <span key={i} className="font-semibold text-foreground">{part}</span> : <span key={i}>{part}</span>
+                );
+              })()}
             </p>
             <div className="grid sm:grid-cols-2 gap-4 mb-6">
               <div className="rounded-md bg-muted/50 p-4">
-                <div className="flex items-center gap-2 mb-2"><span className="w-3 h-3 rounded-full bg-blue-400" /><span className="text-xs text-muted-foreground">Standard: 6%</span></div>
-                <p className="text-xl font-bold">Freedom at {results.freedomAgeStandard}</p>
-                <p className="text-xs text-muted-foreground">Capital: {formatCurrencyFull(results.plannedCapitalStandard, currency)}</p>
+                <div className="flex items-center gap-2 mb-2"><span className="w-3 h-3 rounded-full bg-blue-400" /><span className="text-xs text-muted-foreground">{t("results.sensitivity.standardLabel")}</span></div>
+                <p className="text-xl font-bold">{t("results.sensitivity.freedomAt", { age: results.freedomAgeStandard })}</p>
+                <p className="text-xs text-muted-foreground">{t("results.sensitivity.capitalAmount", { amount: formatCurrencyFull(results.plannedCapitalStandard, currency) })}</p>
               </div>
               <div className="rounded-md bg-emerald-500/10 dark:bg-emerald-900/20 p-4">
-                <div className="flex items-center gap-2 mb-2"><span className="w-3 h-3 rounded-full bg-emerald-500" /><span className="text-xs text-muted-foreground">Managed: 11%</span></div>
-                <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">Freedom at {results.freedomAgeManaged}</p>
-                <p className="text-xs text-muted-foreground">Capital: {formatCurrencyFull(results.plannedCapitalManaged, currency)}</p>
+                <div className="flex items-center gap-2 mb-2"><span className="w-3 h-3 rounded-full bg-emerald-500" /><span className="text-xs text-muted-foreground">{t("results.sensitivity.managedLabel")}</span></div>
+                <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{t("results.sensitivity.freedomAt", { age: results.freedomAgeManaged })}</p>
+                <p className="text-xs text-muted-foreground">{t("results.sensitivity.capitalAmount", { amount: formatCurrencyFull(results.plannedCapitalManaged, currency) })}</p>
               </div>
             </div>
             {yearsDifference > 0 && (
               <div className="rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-4 mb-6">
                 <div className="mt-1 rounded-md bg-background/80 p-3 text-xs space-y-1.5">
-                  <p className="font-medium text-foreground flex items-center gap-1.5"><Lightbulb className="w-3.5 h-3.5 text-amber-500" />Concrete example:</p>
-                  <p className="text-muted-foreground">At 6%, you reach freedom at <span className="font-bold text-foreground">{results.freedomAgeStandard}</span></p>
-                  <p className="text-muted-foreground">At 11% (managed), you reach it at <span className="font-bold text-foreground">{results.freedomAgeManaged}</span></p>
-                  <p className="text-blue-600 dark:text-blue-400 font-semibold">That's {yearsDifference} year{yearsDifference === 1 ? "" : "s"} gained with professional management!</p>
+                  <p className="font-medium text-foreground flex items-center gap-1.5"><Lightbulb className="w-3.5 h-3.5 text-amber-500" />{t("results.sensitivity.concreteExample")}</p>
+                  <p className="text-muted-foreground">{t("results.sensitivity.at6Percent")} <span className="font-bold text-foreground">{results.freedomAgeStandard}</span></p>
+                  <p className="text-muted-foreground">{t("results.sensitivity.at11Percent")} <span className="font-bold text-foreground">{results.freedomAgeManaged}</span></p>
+                  <p className="text-blue-600 dark:text-blue-400 font-semibold">{t("results.sensitivity.yearsGainedProfessional", { years: yearsDifference })}</p>
                 </div>
               </div>
             )}
             <div className="space-y-4">
               <p className="text-xs text-muted-foreground font-medium flex items-center gap-1">
-                Try it yourself -- drag the slider to explore:
-                <InfoTooltip><p>This simulates different market scenarios. Higher returns aren't "free" -- they require a portfolio that can handle more "Heat" (volatility).</p></InfoTooltip>
+                {t("results.sensitivity.trySlider")}
+                <InfoTooltip><p>{t("results.sensitivity.sliderTooltip")}</p></InfoTooltip>
               </p>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-sm text-muted-foreground whitespace-nowrap">4%</span>
@@ -766,14 +774,14 @@ export default function Results() {
               </div>
               <div className="text-center">
                 <span className="text-3xl font-bold text-primary" data-testid="text-slider-return">{annualReturn}%</span>
-                <p className="text-xs text-muted-foreground mt-1">Annual return assumption</p>
+                <p className="text-xs text-muted-foreground mt-1">{t("results.sensitivity.annualReturnAssumption")}</p>
               </div>
               <div className="bg-muted/50 rounded-md p-4 text-center">
                 <p className="text-sm text-muted-foreground">
-                  At {annualReturn}%, your Freedom Age is <span className="font-bold text-foreground">{sliderResults.freedomAge}</span>
-                  {sliderResults.freedomAge <= inputs.targetFreedomAge && <span className="ml-1 text-emerald-500 font-medium"> -- before your target!</span>}
+                  {t("results.sensitivity.atRateFreedomAge", { rate: annualReturn, age: sliderResults.freedomAge })}
+                  {sliderResults.freedomAge <= inputs.targetFreedomAge && <span className="ml-1 text-emerald-500 font-medium"> {t("results.sensitivity.beforeTarget")}</span>}
                 </p>
-                <p className="text-xs text-muted-foreground mt-1">Capital at {inputs.targetFreedomAge}: {formatCurrencyFull(sliderResults.plannedCapital, currency)}</p>
+                <p className="text-xs text-muted-foreground mt-1">{t("results.sensitivity.capitalAtAgeSlider", { age: inputs.targetFreedomAge, amount: formatCurrencyFull(sliderResults.plannedCapital, currency) })}</p>
               </div>
             </div>
           </Card>
@@ -783,7 +791,7 @@ export default function Results() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }} className="space-y-2">
           <p className="text-muted-foreground text-sm font-medium flex items-center gap-2">
             <NarrativeIcon className="w-4 h-4 text-primary" />
-            Your Profile Badge
+            {t("results.profileBadge")}
           </p>
           <Card className={`p-6 md:p-8 bg-gradient-to-br ${profileBadgeStyles[results.narrative.type].gradient}`}>
             <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -791,11 +799,11 @@ export default function Results() {
                 <NarrativeIcon className="w-12 h-12 text-white" />
               </div>
               <div className="text-center sm:text-left">
-                <h3 className={`font-serif text-2xl font-bold mb-1 ${narrativeColors[results.narrative.type]}`}>{results.narrative.personality}</h3>
+                <h3 className={`font-serif text-2xl font-bold mb-1 ${narrativeColors[results.narrative.type]}`}>{t(`results.personalities.${narrativeTypeToKey[results.narrative.type]}.title`)}</h3>
                 <p className="text-sm text-muted-foreground italic mb-3">{results.narrative.subtitle}</p>
                 <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${narrativeBgColors[results.narrative.type]}`}>
                   <Sparkles className="w-3 h-3" />
-                  Freedom Score: {results.freedomScore}/100
+                  {t("results.freedomScoreLabel", { score: results.freedomScore })}
                 </div>
               </div>
             </div>
@@ -805,8 +813,8 @@ export default function Results() {
         {/* 10. Share Your Score - Icon Only */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}>
           <Card className="p-6 text-center">
-            <h3 className="font-serif text-xl font-bold mb-2">Share Your Score</h3>
-            <p className="text-sm text-muted-foreground mb-4">Challenge your friends and compare your journeys</p>
+            <h3 className="font-serif text-xl font-bold mb-2">{t("results.share.title")}</h3>
+            <p className="text-sm text-muted-foreground mb-4">{t("results.share.subtitle")}</p>
             <div className="flex items-center justify-center gap-4 mb-5">
               <Button size="icon" onClick={() => handleShare("whatsapp")} className="bg-[#25D366] hover:bg-[#25D366] text-white rounded-full w-12 h-12" data-testid="button-share-whatsapp">
                 <SiWhatsapp className="w-5 h-5" />
@@ -823,7 +831,7 @@ export default function Results() {
             </div>
             <Button variant="outline" onClick={() => setShowShareCard(true)} data-testid="button-download-card">
               <Download className="w-4 h-4 mr-2" />
-              Download My Freedom Card
+              {t("results.share.downloadCard")}
             </Button>
           </Card>
         </motion.div>
@@ -833,14 +841,14 @@ export default function Results() {
           <Card className="p-6 text-center bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
             <div className="flex items-center justify-center gap-2 mb-2">
               <FileText className="w-5 h-5 text-primary" />
-              <h3 className="font-serif text-xl font-bold">Save My Report</h3>
+              <h3 className="font-serif text-xl font-bold">{t("results.saveReport.title")}</h3>
             </div>
             <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
-              Get your full Freedom Report delivered to your inbox -- keep it, revisit it, and track your progress over time.
+              {t("results.saveReport.description")}
             </p>
             <Button onClick={() => setShowSaveReport(true)} data-testid="button-save-report">
               <Mail className="w-4 h-4 mr-2" />
-              Email Me My Report
+              {t("results.saveReport.emailButton")}
             </Button>
           </Card>
         </motion.div>
@@ -853,37 +861,37 @@ export default function Results() {
                 <img src={iconRiskDna} alt="" className="w-14 h-14" />
               </div>
               <h3 className="font-serif text-2xl font-bold mb-2" data-testid="text-phase2-title">
-                Phase 2: Stress-Test Your Strategy
+                {t("results.phase2.title")}
               </h3>
               <p className="text-sm text-muted-foreground max-w-md mb-6">
-                The math is done. Now, let's build the shield. Knowing your gap is step one. Protecting it is step two.
+                {t("results.phase2.subtitle")}
               </p>
               <div className="space-y-3 text-left max-w-sm mb-6">
                 <div className="flex items-start gap-3 text-sm">
                   <img src={iconDataPrivacy} alt="" className="w-6 h-6 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-foreground">Bulletproof Your Plan</p>
-                    <p className="text-xs text-muted-foreground">Discover if your "dream" crashes during a market downturn.</p>
+                    <p className="font-medium text-foreground">{t("results.phase2.bulletproof")}</p>
+                    <p className="text-xs text-muted-foreground">{t("results.phase2.bulletproofText")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 text-sm">
                   <img src={iconRiskDna} alt="" className="w-6 h-6 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-foreground">Your Risk DNA</p>
-                    <p className="text-xs text-muted-foreground">Learn exactly how much "heat" your portfolio can take before you lose sleep.</p>
+                    <p className="font-medium text-foreground">{t("results.phase2.riskDna")}</p>
+                    <p className="text-xs text-muted-foreground">{t("results.phase2.riskDnaText")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 text-sm">
                   <ChevronRight className="w-5 h-5 text-violet-500 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-foreground">The Investment Bridge</p>
-                    <p className="text-xs text-muted-foreground">Transition from a "math problem" to a real-world investment strategy.</p>
+                    <p className="font-medium text-foreground">{t("results.phase2.investmentBridge")}</p>
+                    <p className="text-xs text-muted-foreground">{t("results.phase2.investmentBridgeText")}</p>
                   </div>
                 </div>
               </div>
               <button className="premium-cta premium-cta-lg" onClick={() => setShowLeadModal(true)} data-testid="button-unlock-phase2">
                 <Lock className="w-4 h-4" />
-                Decode my Risk DNA
+                {t("results.phase2.cta")}
               </button>
             </div>
           </Card>
@@ -895,26 +903,26 @@ export default function Results() {
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-3">
                 <img src={iconGoal} alt="" className="w-6 h-6" />
-                <h3 className="font-semibold">Make It 100% Precise</h3>
+                <h3 className="font-semibold">{t("results.precision.title")}</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                This is the big picture. To make this 100% precise, we can factor in your specific life events -- weddings, inheritance, property sales -- and real spending habits. Your life isn't a straight line; your plan shouldn't be either.
+                {t("results.precision.text")}
               </p>
               <Button variant="outline" onClick={() => setShowLeadModal(true)} data-testid="button-precision-cta">
-                Get my FinkSmart Roadmap
+                {t("results.precision.cta")}
                 <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </Card>
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-3">
                 <img src={iconDataPrivacy} alt="" className="w-6 h-6" />
-                <h3 className="font-semibold">Already Have Investments?</h3>
+                <h3 className="font-semibold">{t("results.secondOpinion.title")}</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                We'll stress-test your current portfolio for free to see if your actual returns match your Freedom Goal. Get a professional second opinion at no cost.
+                {t("results.secondOpinion.text")}
               </p>
               <Button variant="outline" onClick={() => setShowLeadModal(true)} data-testid="button-second-opinion">
-                Get My Free Portfolio Check
+                {t("results.secondOpinion.cta")}
                 <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </Card>
@@ -925,7 +933,7 @@ export default function Results() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.65 }} className="flex justify-center">
           <Button variant="outline" onClick={() => navigate("/")} data-testid="button-start-over">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Start Over
+            {t("results.startOver")}
           </Button>
         </motion.div>
 
@@ -934,12 +942,12 @@ export default function Results() {
             <img src={finksmartLogo} alt="FinkSmart" className="h-7 w-auto" />
           </div>
           <p className="text-xs text-muted-foreground mb-1">
-            FINSIM v5 &middot; 2% inflation buffer &middot; 6% Safe Withdrawal Rate
+            {t("results.footerEngine")}
           </p>
           <p className="text-[10px] text-muted-foreground">finksmart.com</p>
           <div className="mt-3 pt-3 border-t border-border/40 max-w-xl mx-auto">
             <p className="text-[10px] text-muted-foreground/70 leading-relaxed">
-              <span className="font-semibold">Disclaimer:</span> This tool is for educational and informational purposes only and does not constitute financial, investment, tax, or legal advice. Past performance does not guarantee future results. All projections are hypothetical and based on simplified assumptions. Consult a qualified financial advisor before making investment decisions.
+              {t("results.footerDisclaimer")}
             </p>
           </div>
         </footer>
@@ -985,29 +993,29 @@ export default function Results() {
                     <Mail className="w-7 h-7 text-primary" />
                   </div>
                   <DialogTitle className="font-serif text-xl text-center">
-                    Save My Freedom Report
+                    {t("results.saveReport.dialogTitle")}
                   </DialogTitle>
                   <DialogDescription className="text-center">
-                    We'll send your full report summary to your inbox. No spam, just your data.
+                    {t("results.saveReport.dialogDesc")}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 mt-4">
                   <div>
-                    <Label htmlFor="report-name">Your Name</Label>
+                    <Label htmlFor="report-name">{t("results.saveReport.nameLabel")}</Label>
                     <Input
                       id="report-name"
-                      placeholder="Enter your name"
+                      placeholder={t("results.saveReport.namePlaceholder")}
                       value={reportName}
                       onChange={(e) => setReportName(e.target.value)}
                       data-testid="input-report-name"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="report-email">Email Address</Label>
+                    <Label htmlFor="report-email">{t("results.saveReport.emailLabel")}</Label>
                     <Input
                       id="report-email"
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder={t("results.saveReport.emailPlaceholder")}
                       value={reportEmail}
                       onChange={(e) => setReportEmail(e.target.value)}
                       data-testid="input-report-email"
@@ -1022,17 +1030,17 @@ export default function Results() {
                     {isSendingReport ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Sending...
+                        {t("results.saveReport.sending")}
                       </>
                     ) : (
                       <>
                         <Mail className="w-4 h-4 mr-2" />
-                        Send My Report
+                        {t("results.saveReport.sendButton")}
                       </>
                     )}
                   </Button>
                   <p className="text-[10px] text-muted-foreground text-center">
-                    Your data stays private. We never share your information without your explicit consent.
+                    {t("results.saveReport.privacy")}
                   </p>
                 </div>
               </motion.div>
@@ -1041,12 +1049,12 @@ export default function Results() {
                 <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mx-auto mb-4">
                   <TrendingUp className="w-8 h-8 text-emerald-600" />
                 </div>
-                <h3 className="font-serif text-xl font-bold mb-2">Report Sent!</h3>
+                <h3 className="font-serif text-xl font-bold mb-2">{t("results.saveReport.successTitle")}</h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Check your inbox at <span className="font-medium text-foreground">{reportEmail}</span> for your full Freedom Report.
+                  {t("results.saveReport.successDesc", { email: reportEmail })}
                 </p>
                 <Button variant="outline" onClick={() => setShowSaveReport(false)} data-testid="button-close-report-modal">
-                  Close
+                  {t("results.saveReport.close")}
                 </Button>
               </motion.div>
             )}
