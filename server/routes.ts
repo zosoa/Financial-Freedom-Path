@@ -6,6 +6,26 @@ import { ZodError } from "zod";
 import { z } from "zod";
 import { sendReportEmail, sendLeadConfirmationEmail } from "./email";
 
+async function resolveIpLocation(ip: string | null): Promise<string | null> {
+  if (!ip || ip === "::1" || ip === "127.0.0.1" || ip === "::ffff:127.0.0.1") return null;
+  try {
+    const cleanIp = ip.replace(/^::ffff:/, "");
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+    const res = await fetch(`https://freeipapi.com/api/json/${cleanIp}`, {
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data.countryName) return null;
+    const parts = [data.cityName, data.regionName, data.countryName].filter(Boolean);
+    return parts.join(", ") || null;
+  } catch {
+    return null;
+  }
+}
+
 const saveReportSchema = z.object({
   email: z.string().email(),
   name: z.string().min(1),
@@ -36,7 +56,8 @@ export async function registerRoutes(
     try {
       const ipAddress = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || null;
       const data = insertCalculationSchema.parse(req.body);
-      const calculation = await storage.createCalculation({ ...data, ipAddress });
+      const ipLocation = await resolveIpLocation(ipAddress);
+      const calculation = await storage.createCalculation({ ...data, ipAddress, ipLocation });
       res.json(calculation);
     } catch (e) {
       if (e instanceof ZodError) {
@@ -66,7 +87,8 @@ export async function registerRoutes(
     try {
       const ipAddress = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || null;
       const data = insertLeadSchema.parse(req.body);
-      const lead = await storage.createLead({ ...data, ipAddress });
+      const ipLocation = await resolveIpLocation(ipAddress);
+      const lead = await storage.createLead({ ...data, ipAddress, ipLocation });
 
       if (data.email && data.name) {
         let calcData: any = {};
@@ -117,18 +139,21 @@ export async function registerRoutes(
         ? `${req.protocol}://${req.get("host")}/report/${data.calculationId}`
         : undefined;
 
-      storage.createLead({
-        calculationId: data.calculationId,
-        name: data.name,
-        email: data.email,
-        whatsapp: null,
-        country: data.country,
-        currency: data.currency,
-        gapPercent: data.gapPercent,
-        freedomScore: data.freedomScore,
-        leadStatus: "report_requested",
-        ipAddress,
-      }).catch((err) => console.error("Failed to create lead from report request:", err));
+      resolveIpLocation(ipAddress).then((ipLocation) => {
+        storage.createLead({
+          calculationId: data.calculationId,
+          name: data.name,
+          email: data.email,
+          whatsapp: null,
+          country: data.country,
+          currency: data.currency,
+          gapPercent: data.gapPercent,
+          freedomScore: data.freedomScore,
+          leadStatus: "report_requested",
+          ipAddress,
+          ipLocation,
+        }).catch((err) => console.error("Failed to create lead from report request:", err));
+      });
 
       const emailSent = await sendReportEmail({
         recipientEmail: data.email,

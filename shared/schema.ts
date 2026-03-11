@@ -26,6 +26,7 @@ export const calculations = pgTable("calculations", {
   solutionLumpSum: doublePrecision("solution_lump_sum"),
   solutionReturnNeeded: doublePrecision("solution_return_needed"),
   ipAddress: text("ip_address"),
+  ipLocation: text("ip_location"),
   referralSource: text("referral_source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -44,6 +45,7 @@ export const leads = pgTable("leads", {
   leadStatus: text("lead_status").default("phase1_complete"),
   lifeEvent: text("life_event"),
   ipAddress: text("ip_address"),
+  ipLocation: text("ip_location"),
   referralSource: text("referral_source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

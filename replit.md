@@ -68,6 +68,7 @@ A conversion-optimized Financial GPS web application (FinkSmart brand) that guid
 - "Retake Assessment & Adjust Goals" escape hatch button at bottom of solutions
 - Phase 2 CTA fix: padding adjusted, button text "Decode my Risk DNA"
 - Session tracking and IP capture for anonymous users
+- IP geolocation: resolves IP → city/region/country via ip-api.com and stores in `ip_location` column (calculations + leads tables)
 - Email system with hello@finksmart.com sender (Freedom Report + Lead confirmation templates)
 - Added targetFreedomAge to schema and calculator flow (step 2, right after age)
 - Removed lump sum questions from calculator
