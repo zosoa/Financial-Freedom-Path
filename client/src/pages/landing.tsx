@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/popover";
 import {
   ArrowRight,
-  Users,
   Lock,
   Sun,
   Moon,
@@ -46,7 +45,8 @@ import {
 import screenshot1 from "@assets/image_1770666978155.png";
 import screenshot2 from "@assets/image_1770666992828.png";
 import screenshot3 from "@assets/image_1770667017861.png";
-import teamIllustration from "@assets/teamwork-concept-group-of-people-climbing-a-mountain-company-e_1770670026582.jpg";
+import teamPortrait from "@assets/Zosoa_Rasoarahona_Profile_Pic_A.png_1776602986822.jpeg";
+import personalNoteIcon from "@assets/image_1776602854520.png";
 
 const countries = Object.keys(COUNTRY_CURRENCY_MAP).sort();
 
@@ -833,7 +833,12 @@ export default function Landing() {
                   <div className="md:col-span-3 p-8 md:p-10">
                     <div className="flex items-start gap-4 mb-6">
                       <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <Users className="w-6 h-6 text-primary" />
+                        <img
+                          src={personalNoteIcon}
+                          alt=""
+                          aria-hidden="true"
+                          className="w-6 h-6 object-contain"
+                        />
                       </div>
                       <div>
                         <h3 className="font-serif text-2xl font-bold mb-1" data-testid="text-personal-message">{t("personalNote.title")}</h3>
@@ -860,12 +865,14 @@ export default function Landing() {
                     </div>
                   </div>
                   <div className="md:col-span-2 flex items-center justify-center p-6 md:p-4">
-                    <img
-                      src={teamIllustration}
-                      alt="Team climbing together toward financial freedom"
-                      className="w-full max-w-xs md:max-w-none h-auto rounded-lg"
-                      data-testid="img-team-illustration"
-                    />
+                    <div className="w-full max-w-xs md:max-w-none aspect-[4/5] rounded-lg overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 shadow-md">
+                      <img
+                        src={teamPortrait}
+                        alt="Zosoa Rasoarahona, founder of FinkSmart"
+                        className="w-full h-full object-cover object-top"
+                        data-testid="img-team-portrait"
+                      />
+                    </div>
                   </div>
                 </div>
               </Card>
