@@ -45,7 +45,7 @@ import {
 import screenshot1 from "@assets/image_1770666978155.png";
 import screenshot2 from "@assets/image_1770666992828.png";
 import screenshot3 from "@assets/image_1770667017861.png";
-import teamPortrait from "@assets/Zosoa_Rasoarahona_Profile_Pic_A.png_1776602986822.jpeg";
+import teamPortrait from "@assets/Partners_Pictures_RealSmart_1776604047326.jpg";
 import personalNoteIcon from "@assets/image_1776602854520.png";
 
 const countries = Object.keys(COUNTRY_CURRENCY_MAP).sort();
@@ -865,11 +865,11 @@ export default function Landing() {
                     </div>
                   </div>
                   <div className="md:col-span-2 flex items-center justify-center p-6 md:p-4">
-                    <div className="w-full max-w-xs md:max-w-none aspect-[4/5] rounded-lg overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 shadow-md">
+                    <div className="w-full rounded-lg overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 shadow-md">
                       <img
                         src={teamPortrait}
-                        alt="Zosoa Rasoarahona, founder of FinkSmart"
-                        className="w-full h-full object-cover object-top"
+                        alt="The FinkSmart founding team"
+                        className="w-full h-auto object-contain"
                         data-testid="img-team-portrait"
                       />
                     </div>
