@@ -3,30 +3,27 @@ import { useLocation, useSearch } from "wouter";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import finksmartLogo from "@assets/FinkSmart_logo_final.png";
-import finksmartIcon from "@assets/finksmart-icon.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ArrowLeft, ArrowRight, Sun, Moon, Sparkles, Check } from "lucide-react";
 import {
-  ArrowLeft,
-  ArrowRight,
-  Sun,
-  Moon,
-  Sparkles,
-} from "lucide-react";
-import iconRetirement from "@assets/icons/icon-retirement.png";
-import iconWealth from "@assets/icons/icon-wealth.png";
-import iconSavings from "@assets/icons/icon-savings.png";
-import iconGrowth from "@assets/icons/icon-growth.png";
-import iconGlobalView from "@assets/icons/icon-global-view.png";
+  StepAge,
+  StepFreedomAge,
+  StepIncome,
+  StepSavings,
+  StepSavingsRate,
+} from "@/components/illustrations/StepIllustrations";
 import { useTheme } from "@/lib/theme-provider";
 import { SUPPORTED_CURRENCIES } from "@shared/schema";
 
+type StepKey = "age" | "monthlyIncome" | "currentSavings" | "monthlySavingsRate" | "targetFreedomAge";
+
 interface StepConfig {
-  key: "age" | "monthlyIncome" | "currentSavings" | "monthlySavingsRate" | "targetFreedomAge";
+  key: StepKey;
   question: string;
   subtitle: string;
-  iconSrc: string;
+  Illustration: (p: { className?: string }) => JSX.Element;
   placeholder: string;
   suffix?: string;
   isCurrency?: boolean;
@@ -39,7 +36,7 @@ const getSteps = (): StepConfig[] => [
     key: "age",
     question: i18n.t("calculator.questions.age"),
     subtitle: i18n.t("calculator.questions.ageSubtitle"),
-    iconSrc: iconGlobalView,
+    Illustration: StepAge,
     placeholder: "35",
     suffix: i18n.t("calculator.yearsOld"),
     min: 18,
@@ -49,7 +46,7 @@ const getSteps = (): StepConfig[] => [
     key: "targetFreedomAge",
     question: i18n.t("calculator.questions.targetFreedomAge"),
     subtitle: i18n.t("calculator.questions.targetFreedomAgeSubtitle"),
-    iconSrc: iconRetirement,
+    Illustration: StepFreedomAge,
     placeholder: "55",
     suffix: i18n.t("calculator.yearsOld"),
     min: 25,
@@ -59,7 +56,7 @@ const getSteps = (): StepConfig[] => [
     key: "monthlyIncome",
     question: i18n.t("calculator.questions.monthlyIncome"),
     subtitle: i18n.t("calculator.questions.monthlyIncomeSubtitle"),
-    iconSrc: iconWealth,
+    Illustration: StepIncome,
     placeholder: "5,000",
     isCurrency: true,
   },
@@ -67,7 +64,7 @@ const getSteps = (): StepConfig[] => [
     key: "currentSavings",
     question: i18n.t("calculator.questions.currentSavings"),
     subtitle: i18n.t("calculator.questions.currentSavingsSubtitle"),
-    iconSrc: iconSavings,
+    Illustration: StepSavings,
     placeholder: "25,000",
     isCurrency: true,
   },
@@ -75,13 +72,13 @@ const getSteps = (): StepConfig[] => [
     key: "monthlySavingsRate",
     question: i18n.t("calculator.questions.monthlySavingsRate"),
     subtitle: i18n.t("calculator.questions.monthlySavingsRateSubtitle"),
-    iconSrc: iconGrowth,
+    Illustration: StepSavingsRate,
     placeholder: "500",
     isCurrency: true,
   },
 ];
 
-type StepData = Record<StepConfig["key"], string>;
+type StepData = Record<StepKey, string>;
 
 function getSavingsComment(savingsRate: number, monthlyIncome: number): { text: string; color: string } | null {
   if (!monthlyIncome || monthlyIncome <= 0 || isNaN(savingsRate)) return null;
@@ -94,16 +91,16 @@ function getSavingsComment(savingsRate: number, monthlyIncome: number): { text: 
     return { text: i18n.t("calculator.savingsComments.veryHigh", { percent }), color: "text-amber-500 dark:text-amber-400" };
   }
   if (percent >= 30) {
-    return { text: i18n.t("calculator.savingsComments.elite", { percent }), color: "text-emerald-500 dark:text-emerald-400" };
+    return { text: i18n.t("calculator.savingsComments.elite", { percent }), color: "text-emerald-600 dark:text-emerald-400" };
   }
   if (percent >= 20) {
-    return { text: i18n.t("calculator.savingsComments.excellent", { percent }), color: "text-emerald-500 dark:text-emerald-400" };
+    return { text: i18n.t("calculator.savingsComments.excellent", { percent }), color: "text-emerald-600 dark:text-emerald-400" };
   }
   if (percent >= 10) {
-    return { text: i18n.t("calculator.savingsComments.solid", { percent }), color: "text-blue-500 dark:text-blue-400" };
+    return { text: i18n.t("calculator.savingsComments.solid", { percent }), color: "text-sky-600 dark:text-sky-400" };
   }
   if (percent >= 5) {
-    return { text: i18n.t("calculator.savingsComments.good", { percent }), color: "text-blue-500 dark:text-blue-400" };
+    return { text: i18n.t("calculator.savingsComments.good", { percent }), color: "text-sky-600 dark:text-sky-400" };
   }
   if (percent > 0) {
     return { text: i18n.t("calculator.savingsComments.start", { percent }), color: "text-amber-500 dark:text-amber-400" };
@@ -111,21 +108,21 @@ function getSavingsComment(savingsRate: number, monthlyIncome: number): { text: 
   return null;
 }
 
-function getSavingsHelpText(currentSavings: number, currencySymbol: string): { text: string; color: string } | null {
+function getSavingsHelpText(currentSavings: number): { text: string; color: string } | null {
   if (isNaN(currentSavings)) return null;
   if (currentSavings <= 0) {
-    return { text: i18n.t("calculator.savingsHelp.zeroStart"), color: "text-blue-500 dark:text-blue-400" };
+    return { text: i18n.t("calculator.savingsHelp.zeroStart"), color: "text-sky-600 dark:text-sky-400" };
   }
   if (currentSavings > 0 && currentSavings < 1000) {
-    return { text: i18n.t("calculator.savingsHelp.firstStep"), color: "text-blue-500 dark:text-blue-400" };
+    return { text: i18n.t("calculator.savingsHelp.firstStep"), color: "text-sky-600 dark:text-sky-400" };
   }
   if (currentSavings >= 1000 && currentSavings < 10000) {
-    return { text: i18n.t("calculator.savingsHelp.foundation"), color: "text-emerald-500 dark:text-emerald-400" };
+    return { text: i18n.t("calculator.savingsHelp.foundation"), color: "text-emerald-600 dark:text-emerald-400" };
   }
   if (currentSavings >= 10000 && currentSavings < 100000) {
-    return { text: i18n.t("calculator.savingsHelp.impressive"), color: "text-emerald-500 dark:text-emerald-400" };
+    return { text: i18n.t("calculator.savingsHelp.impressive"), color: "text-emerald-600 dark:text-emerald-400" };
   }
-  return { text: i18n.t("calculator.savingsHelp.outstanding"), color: "text-emerald-500 dark:text-emerald-400" };
+  return { text: i18n.t("calculator.savingsHelp.outstanding"), color: "text-emerald-600 dark:text-emerald-400" };
 }
 
 const getLoadingMessages = () => [
@@ -182,9 +179,6 @@ export default function Calculator() {
       const income = parseFloat(data.monthlyIncome);
       if (val > income) return false;
     }
-    if (step.key === "currentSavings") {
-      return true;
-    }
     return true;
   }, [currentValue, step, data.age, data.monthlyIncome]);
 
@@ -213,7 +207,7 @@ export default function Calculator() {
       });
     }, 700);
     return () => clearInterval(interval);
-  }, [showTransition, data, country, currency, desiredMonthlyIncome, referralSource, navigate]);
+  }, [showTransition, data, country, currency, desiredMonthlyIncome, referralSource, navigate, loadingMessages.length]);
 
   const handleNext = () => {
     if (currentStep < totalSteps - 1) {
@@ -244,7 +238,7 @@ export default function Calculator() {
     exit: (d: number) => ({ x: d > 0 ? -80 : 80, opacity: 0 }),
   };
 
-  const stepIconSrc = step.iconSrc;
+  const Illustration = step.Illustration;
 
   const savingsComment = useMemo(() => {
     if (step.key === "monthlySavingsRate") {
@@ -258,108 +252,72 @@ export default function Calculator() {
   const savingsHelpText = useMemo(() => {
     if (step.key === "currentSavings") {
       const val = parseFloat(currentValue);
-      return getSavingsHelpText(val, symbol);
+      return getSavingsHelpText(val);
     }
     return null;
-  }, [step.key, currentValue, symbol]);
+  }, [step.key, currentValue]);
 
+  /* ---------- Transition screen ---------- */
   if (showTransition) {
-    const pathPoints = Array.from({ length: 5 }, (_, i) => ({
-      x: 50 + Math.sin(i * 1.2) * 30,
-      y: 15 + i * 18,
-    }));
-    const pathD = pathPoints.reduce((acc, p, i) => {
-      if (i === 0) return `M ${p.x} ${p.y}`;
-      const prev = pathPoints[i - 1];
-      const cx = (prev.x + p.x) / 2;
-      return `${acc} Q ${prev.x} ${(prev.y + p.y) / 2} ${cx} ${(prev.y + p.y) / 2} T ${p.x} ${p.y}`;
-    }, "");
+    const progressPct = Math.min(100, Math.round(((transitionMessageIdx + 1) / loadingMessages.length) * 100));
 
     return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 relative overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_30%,hsl(38_92%_88%/0.5),transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_30%,hsl(38_92%_30%/0.25),transparent_60%)]" />
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center space-y-8"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center max-w-md"
         >
-          <div className="relative w-24 h-24 mx-auto">
-            <svg viewBox="0 0 100 100" className="w-full h-full">
-              <motion.path
-                d={pathD}
-                fill="none"
-                stroke="hsl(var(--primary))"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeDasharray="200"
-                initial={{ strokeDashoffset: 200 }}
-                animate={{ strokeDashoffset: 0 }}
-                transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
-                opacity={0.3}
-              />
-              <motion.path
-                d={pathD}
-                fill="none"
-                stroke="hsl(var(--primary))"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeDasharray="200"
-                initial={{ strokeDashoffset: 200 }}
-                animate={{ strokeDashoffset: 0 }}
-                transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
-              />
-            </svg>
+          {/* Animated compass */}
+          <div className="relative w-40 h-40 mx-auto mb-8">
             <motion.div
-              className="absolute top-0 left-1/2 -translate-x-1/2"
-              animate={{
-                y: [0, 72, 0],
-                x: [0, -15, 15, -10, 0],
-              }}
-              transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
-            >
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                <img src={finksmartIcon} alt="" className="w-6 h-6" />
-              </div>
-            </motion.div>
-            {pathPoints.map((p, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 rounded-full bg-primary/30"
-                style={{ left: `${p.x}%`, top: `${p.y}%`, transform: "translate(-50%, -50%)" }}
-                initial={{ scale: 0 }}
-                animate={{ scale: [0, 1, 0.5] }}
-                transition={{ delay: i * 0.5, duration: 1 }}
-              />
-            ))}
-          </div>
-
-          <div>
-            <p className="text-[10px] text-muted-foreground/60 tracking-widest uppercase mb-3">{t("calculator.brandTagline")}</p>
-            <p className="text-sm text-muted-foreground mb-2">{t("calculator.mappingPath")}</p>
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={transitionMessageIdx}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="text-lg font-medium text-foreground"
+              className="absolute inset-0 rounded-full bg-primary/15"
+              animate={{ scale: [1, 1.15, 1] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <div className="absolute inset-3 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+              <motion.svg
+                viewBox="0 0 64 64"
+                className="w-24 h-24"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
               >
-                {loadingMessages[transitionMessageIdx]}
-              </motion.p>
-            </AnimatePresence>
+                <circle cx="32" cy="32" r="22" fill="none" stroke="hsl(38 92% 50%)" strokeWidth="2.4" />
+                <path d="M40 22 L34 34 L22 40 L28 28 Z" fill="hsl(38 92% 50%)" />
+                <circle cx="32" cy="32" r="2.5" fill="hsl(222 47% 11%)" />
+              </motion.svg>
+            </div>
           </div>
 
-          <div className="w-56 mx-auto">
-            <div className="flex items-center justify-between text-[10px] text-muted-foreground mb-1.5">
+          <p className="text-[10px] text-muted-foreground tracking-[0.18em] uppercase mb-3 font-semibold">
+            {t("calculator.brandTagline")}
+          </p>
+          <p className="text-sm text-muted-foreground mb-3">{t("calculator.mappingPath")}</p>
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={transitionMessageIdx}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3 }}
+              className="font-serif text-2xl text-foreground mb-8"
+            >
+              {loadingMessages[transitionMessageIdx]}
+            </motion.p>
+          </AnimatePresence>
+
+          <div className="w-full max-w-xs mx-auto">
+            <div className="flex items-center justify-between text-[11px] text-muted-foreground mb-1.5 font-medium">
               <span>{t("calculator.analysing")}</span>
-              <span>{Math.min(100, Math.round(((transitionMessageIdx + 1) / loadingMessages.length) * 100))}%</span>
+              <span>{progressPct}%</span>
             </div>
-            <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+            <div className="h-2 bg-muted rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-primary rounded-full"
+                className="h-full rounded-full bg-gradient-to-r from-mint via-primary to-coral"
                 initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 3.5, ease: "easeInOut" }}
+                animate={{ width: `${progressPct}%` }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
               />
             </div>
           </div>
@@ -368,36 +326,63 @@ export default function Calculator() {
     );
   }
 
+  /* ---------- Step screen ---------- */
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
-        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-          <div className="flex items-center cursor-pointer" onClick={() => navigate("/")}>
-            <img src={finksmartLogo} alt="FinkSmart - Pro-Investing Decoded" className="h-9 w-auto" />
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+        <div className="max-w-3xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+          <button onClick={() => navigate("/")} className="flex items-center" aria-label="FinkSmart">
+            <img src={finksmartLogo} alt="FinkSmart" className="h-9 w-auto" />
+          </button>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-muted-foreground font-medium">
               {currentStep + 1} {t("calculator.of")} {totalSteps}
             </span>
-            <Button size="icon" variant="ghost" onClick={toggleTheme} data-testid="button-theme-toggle-calc">
+            <Button size="icon" variant="ghost" onClick={toggleTheme} data-testid="button-theme-toggle-calc" className="rounded-full">
               {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
             </Button>
           </div>
         </div>
-        <div className="max-w-2xl mx-auto px-4 pb-2">
-          <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-            <motion.div
-              className="h-full bg-primary rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
-              transition={{ duration: 0.4 }}
-            />
+
+        {/* Trail-style progress */}
+        <div className="max-w-3xl mx-auto px-5 pb-4">
+          <div className="flex items-center gap-1.5">
+            {Array.from({ length: totalSteps }).map((_, i) => {
+              const isDone = i < currentStep;
+              const isActive = i === currentStep;
+              return (
+                <div key={i} className="flex items-center flex-1 gap-1.5">
+                  <div
+                    className={[
+                      "w-7 h-7 shrink-0 rounded-full grid place-items-center text-[11px] font-bold transition-all",
+                      isDone && "bg-mint text-white shadow-[0_0_0_3px_hsl(160_84%_39%/0.18)]",
+                      isActive && "bg-primary text-primary-foreground fa-step-active",
+                      !isDone && !isActive && "bg-muted text-muted-foreground",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                  >
+                    {isDone ? <Check className="w-3.5 h-3.5" /> : i + 1}
+                  </div>
+                  {i < totalSteps - 1 && (
+                    <div className="flex-1 h-1 rounded-full bg-muted overflow-hidden">
+                      <motion.div
+                        className="h-full rounded-full bg-mint"
+                        initial={{ width: 0 }}
+                        animate={{ width: isDone ? "100%" : "0%" }}
+                        transition={{ duration: 0.4 }}
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </header>
 
-      <main className="flex-1 flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md">
+      <main className="flex-1 flex items-center justify-center px-5 py-10">
+        <div className="w-full max-w-3xl">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={step.key}
@@ -407,104 +392,134 @@ export default function Calculator() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.3 }}
-              className="space-y-6"
+              className="grid md:grid-cols-[1fr_1.2fr] gap-8 md:gap-12 items-center"
             >
-              <div className="text-center">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <img src={stepIconSrc} alt="" className="w-9 h-9" />
-                </div>
-                <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2" data-testid={`text-question-${step.key}`}>
-                  {step.question}
-                </h2>
-                <p className="text-muted-foreground text-sm">{step.subtitle}</p>
+              {/* Illustration */}
+              <div className="order-2 md:order-1 flex justify-center">
+                <Illustration className="w-full max-w-[300px] fa-float" />
               </div>
 
-              <div className="space-y-2">
-                <div className="relative">
-                  {step.isCurrency && (
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-medium text-lg">
-                      {symbol}
-                    </span>
-                  )}
-                  <Input
-                    type="number"
-                    inputMode="numeric"
-                    placeholder={step.placeholder}
-                    value={currentValue}
-                    onChange={(e) => setData((d) => ({ ...d, [step.key]: e.target.value }))}
-                    onKeyDown={handleKeyDown}
-                    className={`text-center text-2xl h-16 font-medium ${step.isCurrency ? "pl-10" : ""}`}
-                    autoFocus
-                    data-testid={`input-${step.key}`}
-                  />
-                  {step.suffix && currentValue && (
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                      {step.suffix}
-                    </span>
-                  )}
+              {/* Question + input */}
+              <div className="order-1 md:order-2 space-y-5">
+                <div>
+                  <span className="fa-pill fa-pill-amber">
+                    {t("calculator.step")} {currentStep + 1}/{totalSteps}
+                  </span>
+                  <h2
+                    className="fa-display text-3xl md:text-4xl mt-3 text-foreground"
+                    data-testid={`text-question-${step.key}`}
+                  >
+                    {step.question}
+                  </h2>
+                  <p className="text-muted-foreground mt-2 text-base">{step.subtitle}</p>
                 </div>
 
-                {step.key === "currentSavings" && (
-                  <p className="text-xs text-muted-foreground text-center">
-                    {t("calculator.savingsComments.unsurePut0")}
-                  </p>
-                )}
-
-                {step.key === "monthlySavingsRate" && data.monthlyIncome && currentValue && (
-                  <div className="text-center">
-                    <p className="text-xs text-muted-foreground">
-                      {t("calculator.savingsComments.incomePercent", { percent: Math.round((parseFloat(currentValue) / parseFloat(data.monthlyIncome)) * 100) })}
-                    </p>
+                <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                  <div className="relative">
+                    {step.isCurrency && (
+                      <span className="absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground font-semibold text-xl">
+                        {symbol}
+                      </span>
+                    )}
+                    <Input
+                      type="number"
+                      inputMode="numeric"
+                      placeholder={step.placeholder}
+                      value={currentValue}
+                      onChange={(e) => setData((d) => ({ ...d, [step.key]: e.target.value }))}
+                      onKeyDown={handleKeyDown}
+                      className={`text-center text-3xl h-16 font-bold border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 ${
+                        step.isCurrency ? "pl-12" : ""
+                      } ${currentValue ? "text-primary" : ""}`}
+                      autoFocus
+                      data-testid={`input-${step.key}`}
+                    />
+                    {step.suffix && currentValue && (
+                      <span className="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-medium">
+                        {step.suffix}
+                      </span>
+                    )}
                   </div>
-                )}
 
-                {savingsComment && (
-                  <motion.p
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`text-xs text-center ${savingsComment.color}`}
+                  {step.key === "currentSavings" && !savingsHelpText && (
+                    <p className="text-xs text-muted-foreground text-center mt-3">
+                      {t("calculator.savingsComments.unsurePut0")}
+                    </p>
+                  )}
+
+                  {step.key === "monthlySavingsRate" && data.monthlyIncome && currentValue && (
+                    <p className="text-xs text-muted-foreground text-center mt-3">
+                      {t("calculator.savingsComments.incomePercent", {
+                        percent: Math.round((parseFloat(currentValue) / parseFloat(data.monthlyIncome)) * 100),
+                      })}
+                    </p>
+                  )}
+
+                  {savingsComment && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`text-sm font-medium text-center mt-3 ${savingsComment.color}`}
+                    >
+                      {savingsComment.text}
+                    </motion.p>
+                  )}
+
+                  {savingsHelpText && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`text-sm font-medium text-center mt-3 ${savingsHelpText.color}`}
+                    >
+                      {savingsHelpText.text}
+                    </motion.p>
+                  )}
+
+                  {step.key === "monthlySavingsRate" &&
+                    data.monthlyIncome &&
+                    parseFloat(currentValue) > parseFloat(data.monthlyIncome) && (
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-xs text-center text-red-500 dark:text-red-400 mt-3"
+                      >
+                        {t("calculator.savingsComments.cantSaveMore")}
+                      </motion.p>
+                    )}
+                </div>
+
+                <div className="flex gap-3">
+                  <Button
+                    variant="outline"
+                    className="flex-1 h-12 rounded-xl border-border"
+                    onClick={handleBack}
+                    data-testid="button-back"
                   >
-                    {savingsComment.text}
-                  </motion.p>
-                )}
-
-                {savingsHelpText && (
-                  <motion.p
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`text-xs text-center ${savingsHelpText.color}`}
-                  >
-                    {savingsHelpText.text}
-                  </motion.p>
-                )}
-
-                {step.key === "monthlySavingsRate" && data.monthlyIncome && parseFloat(currentValue) > parseFloat(data.monthlyIncome) && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="text-xs text-center text-red-500 dark:text-red-400"
-                  >
-                    {t("calculator.savingsComments.cantSaveMore")}
-                  </motion.p>
-                )}
-              </div>
-
-              <div className="flex gap-3">
-                <Button variant="outline" className="flex-1" onClick={handleBack} data-testid="button-back">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  {t("calculator.back")}
-                </Button>
-                {currentStep === totalSteps - 1 ? (
-                  <button className="premium-cta flex-1" disabled={!isValid} onClick={handleNext} data-testid="button-next">
-                    {t("calculator.seeMyResults")}
-                    <Sparkles className="w-4 h-4" />
-                  </button>
-                ) : (
-                  <Button className="flex-1" disabled={!isValid} onClick={handleNext} data-testid="button-next">
-                    {t("calculator.continue")}
-                    <ArrowRight className="w-4 h-4 ml-2" />
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    {t("calculator.back")}
                   </Button>
-                )}
+                  {currentStep === totalSteps - 1 ? (
+                    <button
+                      className="premium-cta flex-[1.4]"
+                      disabled={!isValid}
+                      onClick={handleNext}
+                      data-testid="button-next"
+                    >
+                      {t("calculator.seeMyResults")}
+                      <Sparkles className="w-4 h-4" />
+                    </button>
+                  ) : (
+                    <Button
+                      className="flex-[1.4] h-12 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/20"
+                      disabled={!isValid}
+                      onClick={handleNext}
+                      data-testid="button-next"
+                    >
+                      {t("calculator.continue")}
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  )}
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>

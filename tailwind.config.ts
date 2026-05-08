@@ -81,6 +81,21 @@ export default {
           busy: "rgb(239 68 68)",
           offline: "rgb(156 163 175)",
         },
+        // Friendly Atlas accent palette
+        mint: {
+          DEFAULT: "hsl(var(--mint) / <alpha-value>)",
+          foreground: "hsl(var(--mint-foreground) / <alpha-value>)",
+        },
+        sky: {
+          DEFAULT: "hsl(var(--sky) / <alpha-value>)",
+          foreground: "hsl(var(--sky-foreground) / <alpha-value>)",
+        },
+        coral: {
+          DEFAULT: "hsl(var(--coral) / <alpha-value>)",
+          foreground: "hsl(var(--coral-foreground) / <alpha-value>)",
+        },
+        cream: "hsl(var(--cream) / <alpha-value>)",
+        ink: "hsl(var(--ink) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-sans)"],
