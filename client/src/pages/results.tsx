@@ -49,8 +49,11 @@ import {
   IconShield,
   IconCompass,
   IconLightbulb,
+  IconPiggy,
 } from "@/components/icons";
 import MountainAscent from "@/components/illustrations/MountainAscent";
+import { CLIMATE_ILLUSTRATIONS } from "@/components/illustrations/Climates";
+import { CLIMATES, type Climate, type ClimateProfile } from "@/lib/risk-scoring";
 import {
   AreaChart,
   Area,
@@ -116,6 +119,12 @@ export default function Results() {
   const currency = params.get("currency") || "MUR";
   const referralSource = params.get("ref") || "";
 
+  /** Risk DNA result, if user has completed Phase 2. */
+  const climateParam = params.get("climate") as Climate | null;
+  const climate: Climate | null =
+    climateParam && CLIMATES[climateParam] ? climateParam : null;
+  const dnaScore = parseInt(params.get("dnaScore") || "0");
+
   const [annualReturn, setAnnualReturn] = useState(parseFloat(params.get("annualReturn") || "7"));
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [showShareCard, setShowShareCard] = useState(false);
@@ -152,6 +161,23 @@ export default function Results() {
 
   const inputs = baseInputs;
   const results = baseResults;
+
+  /** Climate-based projection (only computed if user has Risk DNA result). */
+  const climateProjection = useMemo(() => {
+    if (!climate) return null;
+    const profile = CLIMATES[climate];
+    const r = calculateFreedom({ ...baseInputs, annualReturn: profile.expectedReturn });
+    const glacierR = calculateFreedom({ ...baseInputs, annualReturn: CLIMATES.glacier.expectedReturn });
+    const volcanR = calculateFreedom({ ...baseInputs, annualReturn: CLIMATES.volcan.expectedReturn });
+    return {
+      profile,
+      freedomAge: r.freedomAge,
+      capitalAtTarget: r.plannedCapital,
+      glacierAge: glacierR.freedomAge,
+      volcanAge: volcanR.freedomAge,
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [climate, baseInputs.age, baseInputs.monthlyIncome, baseInputs.desiredMonthlyIncome, baseInputs.currentSavings, baseInputs.monthlySavingsRate, baseInputs.targetFreedomAge]);
 
   const saveCalculation = useCallback(
     async (retryCount = 0) => {
@@ -1157,43 +1183,61 @@ export default function Results() {
           </div>
         </motion.section>
 
-        {/* ============== 12. PHASE 2 RISK DNA ============== */}
+        {/* ============== 12. PHASE 2 — UNIFIED GUIDE or LOCKED CTA ============== */}
         <motion.section
           id="phase2-cta"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.55 }}
         >
-          <div className="fa-card p-6 md:p-10">
-            <div className="flex flex-col items-center text-center">
-              <IconDNA size={84} className="mb-4" />
-              <h3 className="fa-display text-3xl mb-2" data-testid="text-phase2-title">
-                {t("results.phase2.title")}
-              </h3>
-              <p className="text-sm text-muted-foreground max-w-md mb-6">{t("results.phase2.subtitle")}</p>
-              <div className="space-y-3 text-left max-w-sm mb-6">
-                <Phase2Bullet
-                  Icon={IconShield}
-                  title={t("results.phase2.bulletproof")}
-                  text={t("results.phase2.bulletproofText")}
-                />
-                <Phase2Bullet
-                  Icon={IconDNA}
-                  title={t("results.phase2.riskDna")}
-                  text={t("results.phase2.riskDnaText")}
-                />
-                <Phase2Bullet
-                  Icon={IconCompass}
-                  title={t("results.phase2.investmentBridge")}
-                  text={t("results.phase2.investmentBridgeText")}
-                />
+          {climate && climateProjection ? (
+            /* ---------- Unified guide (Phase 1 × Phase 2 results) ---------- */
+            <UnifiedGuide
+              climate={climate}
+              dnaScore={dnaScore}
+              projection={climateProjection}
+              targetAge={inputs.targetFreedomAge}
+              currency={currency}
+              riskDnaUrl={buildRiskDnaUrl(searchString)}
+              t={t}
+            />
+          ) : (
+            /* ---------- Locked CTA → questionnaire ---------- */
+            <div className="fa-card p-6 md:p-10">
+              <div className="flex flex-col items-center text-center">
+                <IconDNA size={84} className="mb-4" />
+                <h3 className="fa-display text-3xl mb-2" data-testid="text-phase2-title">
+                  {t("results.phase2.title")}
+                </h3>
+                <p className="text-sm text-muted-foreground max-w-md mb-6">{t("results.phase2.subtitle")}</p>
+                <div className="space-y-3 text-left max-w-sm mb-6">
+                  <Phase2Bullet
+                    Icon={IconShield}
+                    title={t("results.phase2.bulletproof")}
+                    text={t("results.phase2.bulletproofText")}
+                  />
+                  <Phase2Bullet
+                    Icon={IconDNA}
+                    title={t("results.phase2.riskDna")}
+                    text={t("results.phase2.riskDnaText")}
+                  />
+                  <Phase2Bullet
+                    Icon={IconCompass}
+                    title={t("results.phase2.investmentBridge")}
+                    text={t("results.phase2.investmentBridgeText")}
+                  />
+                </div>
+                <button
+                  className="premium-cta premium-cta-lg"
+                  onClick={() => navigate(buildRiskDnaUrl(searchString))}
+                  data-testid="button-unlock-phase2"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  {t("results.phase2.cta")}
+                </button>
               </div>
-              <button className="premium-cta premium-cta-lg" onClick={() => setShowLeadModal(true)} data-testid="button-unlock-phase2">
-                <Lock className="w-4 h-4" />
-                {t("results.phase2.cta")}
-              </button>
             </div>
-          </div>
+          )}
         </motion.section>
 
         {/* ============== 13. PRECISION + SECOND OPINION ============== */}
@@ -1500,6 +1544,233 @@ function Phase2Bullet({
       <div>
         <p className="font-semibold text-foreground">{title}</p>
         <p className="text-xs text-muted-foreground">{text}</p>
+      </div>
+    </div>
+  );
+}
+
+/** Build the /risk-dna URL preserving every Phase 1 query param. */
+function buildRiskDnaUrl(searchString: string): string {
+  const sp = new URLSearchParams(searchString);
+  // Strip any prior climate/dnaScore so the questionnaire starts clean
+  sp.delete("climate");
+  sp.delete("dnaScore");
+  return `/risk-dna?${sp.toString()}`;
+}
+
+/* ============================================================
+ * UnifiedGuide — Phase 1 × Phase 2 result section.
+ * Shown when `?climate=` is present in the URL (user has completed
+ * the Risk DNA assessment). Replaces the locked Phase 2 CTA.
+ * ============================================================ */
+function UnifiedGuide({
+  climate,
+  dnaScore,
+  projection,
+  targetAge,
+  currency,
+  riskDnaUrl,
+  t,
+}: {
+  climate: Climate;
+  dnaScore: number;
+  projection: {
+    profile: ClimateProfile;
+    freedomAge: number;
+    capitalAtTarget: number;
+    glacierAge: number;
+    volcanAge: number;
+  };
+  targetAge: number;
+  currency: string;
+  riskDnaUrl: string;
+  t: (key: string, opts?: Record<string, unknown>) => string;
+}) {
+  const ClimateIllustration = CLIMATE_ILLUSTRATIONS[climate];
+  const profile = projection.profile;
+  const climateName = t(`riskDna.climate.${climate}.name`);
+  const tagline = t(`riskDna.climate.${climate}.tagline`);
+  const identity = t(`riskDna.climate.${climate}.identity`);
+
+  const yearsAhead = targetAge - projection.freedomAge;
+  const isAhead = yearsAhead > 0;
+  const isOnTime = yearsAhead === 0;
+
+  const allocData = [
+    { name: t("riskDna.guide.allocBonds", { pct: profile.allocation.bonds }), value: profile.allocation.bonds, color: "#0EA5E9" },
+    { name: t("riskDna.guide.allocEquity", { pct: profile.allocation.equity }), value: profile.allocation.equity, color: "#10B981" },
+    { name: t("riskDna.guide.allocAlt", { pct: profile.allocation.alternatives }), value: profile.allocation.alternatives, color: "#F59E0B" },
+  ];
+
+  return (
+    <div className="space-y-5">
+      {/* ─── Hero: climate reveal ─── */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+        className="fa-card fa-surface-cream p-6 md:p-10"
+      >
+        <div className="grid md:grid-cols-[260px_1fr] gap-6 md:gap-10 items-center">
+          <ClimateIllustration className="w-full max-w-[260px] mx-auto fa-float" />
+          <div>
+            <span className="fa-pill fa-pill-amber">
+              <IconDNA size={14} />
+              {t("riskDna.guide.yourClimate")}
+            </span>
+            <h2 className="fa-display text-4xl md:text-5xl mt-3 leading-tight" data-testid="text-climate-name">
+              {climateName}
+            </h2>
+            <p className="text-lg italic text-muted-foreground mt-2">{tagline}</p>
+            <p className="text-base text-foreground/80 mt-4 leading-relaxed">{identity}</p>
+            <div className="mt-5 inline-flex items-center gap-3 px-4 py-2 rounded-full bg-card border border-card-border">
+              <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
+                {t("riskDna.guide.scoreLabel")}
+              </span>
+              <span className="font-serif text-2xl font-bold text-primary">
+                {dnaScore}
+                <span className="text-sm text-muted-foreground font-normal">{t("riskDna.guide.outOf")}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* ─── Real path with profile return ─── */}
+      <SectionHeader Icon={IconCompass} label={t("riskDna.guide.yourRealPath")} />
+      <div className="fa-card p-6 md:p-7">
+        <p className="text-sm font-semibold text-foreground/70 uppercase tracking-wider">
+          {t("riskDna.guide.withProfileTitle", { climate: climateName, ret: profile.expectedReturn })}
+        </p>
+        <p className="font-serif text-3xl md:text-4xl font-bold mt-2 text-primary" data-testid="text-real-freedom-age">
+          {t("riskDna.guide.freedomAt", { age: projection.freedomAge })}
+        </p>
+        {!isOnTime && (
+          <p className={`text-sm mt-1 ${isAhead ? "text-mint font-semibold" : "text-coral font-semibold"}`}>
+            {isAhead
+              ? t("riskDna.guide.yearsAhead", { years: yearsAhead, target: targetAge })
+              : t("riskDna.guide.yearsLate", { years: -yearsAhead, target: targetAge })}
+          </p>
+        )}
+        {/* Comparison row */}
+        <div className="mt-5 pt-5 border-t border-border">
+          <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-3">
+            {t("riskDna.guide.comparison")}
+          </p>
+          <div className="space-y-1.5 text-sm text-muted-foreground">
+            <p>
+              · <span className="text-sky font-semibold">{t("riskDna.guide.ifGlacier", { age: projection.glacierAge })}</span>
+            </p>
+            <p>
+              · <span className="text-coral font-semibold">{t("riskDna.guide.ifVolcan", { age: projection.volcanAge })}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── 3 levers (allocation / cushion / discipline) ─── */}
+      <SectionHeader Icon={IconLightbulb} label={t("riskDna.guide.actionPlan")} />
+      <div className="grid md:grid-cols-3 gap-4">
+        {/* Lever 1: Allocation */}
+        <div className="fa-card p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <IconBars size={32} />
+            <h4 className="font-serif text-lg font-bold">{t("riskDna.guide.leverAllocation")}</h4>
+          </div>
+          <div className="relative w-32 h-32 mx-auto mb-3">
+            <ResponsiveContainer width="100%" height="100%">
+              <RechartsPieChart>
+                <Pie data={allocData} cx="50%" cy="50%" innerRadius={36} outerRadius={56} dataKey="value" strokeWidth={2} stroke="hsl(var(--card))">
+                  {allocData.map((d, i) => (
+                    <Cell key={i} fill={d.color} />
+                  ))}
+                </Pie>
+              </RechartsPieChart>
+            </ResponsiveContainer>
+          </div>
+          <ul className="space-y-1 text-xs">
+            {allocData.map((d) => (
+              <li key={d.name} className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: d.color }} />
+                <span className="text-foreground">{d.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Lever 2: Cushion */}
+        <div className="fa-card p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <IconPiggy size={32} />
+            <h4 className="font-serif text-lg font-bold">{t("riskDna.guide.leverCushion")}</h4>
+          </div>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {t(`riskDna.climate.${climate}.advice1`)}
+          </p>
+        </div>
+
+        {/* Lever 3: Discipline */}
+        <div className="fa-card p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <IconShield size={32} />
+            <h4 className="font-serif text-lg font-bold">{t("riskDna.guide.leverDiscipline")}</h4>
+          </div>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {t(`riskDna.climate.${climate}.advice2`)}
+          </p>
+        </div>
+      </div>
+
+      {/* ─── Cardinal rules ─── */}
+      <SectionHeader Icon={IconShield} label={t("riskDna.guide.cardinalRules")} />
+      <div className="fa-card p-6">
+        <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-4">
+          {t("riskDna.guide.rulesIntro")}
+        </p>
+        <ol className="space-y-3">
+          {[1, 2, 3].map((n) => (
+            <li key={n} className="flex items-start gap-3">
+              <span className="shrink-0 w-7 h-7 rounded-full bg-primary text-primary-foreground grid place-items-center text-sm font-bold">
+                {n}
+              </span>
+              <p className="text-sm md:text-base text-foreground leading-relaxed pt-0.5">
+                {t(`riskDna.climate.${climate}.rule${n}`)}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      {/* ─── Phase 3 lock + retake CTA ─── */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <div className="fa-card p-6">
+          <div className="flex items-center gap-2 mb-2">
+            <Lock className="w-5 h-5 text-primary" />
+            <h4 className="font-serif text-lg font-bold">{t("riskDna.guide.phase3Locked")}</h4>
+          </div>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+            {t("riskDna.guide.phase3Subtitle")}
+          </p>
+          <Button variant="outline" disabled className="rounded-xl">
+            <Lock className="w-4 h-4 mr-2" />
+            {t("riskDna.guide.phase3CTA")}
+          </Button>
+        </div>
+        <div className="fa-card p-6">
+          <div className="flex items-center gap-2 mb-2">
+            <RefreshCw className="w-5 h-5 text-muted-foreground" />
+            <h4 className="font-serif text-lg font-bold">{t("riskDna.guide.redoCta")}</h4>
+          </div>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+            Tu as changé de situation ? Refais l'évaluation pour mettre à jour ton profil.
+          </p>
+          <Button variant="outline" className="rounded-xl" asChild>
+            <a href={riskDnaUrl}>
+              <RefreshCw className="w-4 h-4 mr-2" />
+              {t("riskDna.guide.redoCta")}
+            </a>
+          </Button>
+        </div>
       </div>
     </div>
   );

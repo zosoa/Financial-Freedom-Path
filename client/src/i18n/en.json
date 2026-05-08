@@ -529,5 +529,174 @@
       "title": "First Steps Explorer",
       "description": "You're at the beginning of your financial journey, and this is the most powerful moment to act. Even small changes today will have a spectacular impact over decades. Simply having done this assessment already puts you ahead of most people. Every day counts."
     }
+  },
+  "riskDna": {
+    "brandTagline": "Risk DNA · Climate Profile",
+    "decoding": "Decoding your investor DNA…",
+    "analysing": "Analysing",
+    "decodeMyDna": "Decode my DNA",
+    "dimension": {
+      "capacity": "Capacity",
+      "tolerance": "Tolerance",
+      "experience": "Experience",
+      "emotion": "Motivation"
+    },
+    "loading": {
+      "msg1": "Analysing your financial capacity…",
+      "msg2": "Measuring your emotional tolerance…",
+      "msg3": "Cross-referencing with your experience…",
+      "msg4": "Calibrating your optimal climate…",
+      "msg5": "Your climate is ready."
+    },
+    "q": {
+      "incomeStability": {
+        "question": "Your main income today is more like…",
+        "subtitle": "The more stable your income, the more risk you can afford.",
+        "choices": {
+          "freelance": "Unpredictable — commissions, freelance, gigs, projects",
+          "newSalary": "Stable salary but recent (less than 2 years in role)",
+          "stableSalary": "Stable salary, established (2+ years, secure sector)",
+          "diversified": "Multiple diversified income streams"
+        }
+      },
+      "emergencyCushion": {
+        "question": "If you lost your main income tomorrow, how many months could you last without touching this capital?",
+        "subtitle": "Your safety cushion before any risky investment.",
+        "choices": {
+          "none": "Zero months — it would be immediate",
+          "1to3": "1 to 3 months",
+          "4to6": "4 to 6 months",
+          "7to12": "7 to 12 months",
+          "12plus": "More than 12 months"
+        }
+      },
+      "lossReaction": {
+        "question": "Imagine you have {{amount}} invested in your plan. A bad year hits. Overnight, opening your app, you see {{after}} instead of {{amount}}. Honest first reaction, within 48h?",
+        "subtitle": "No judgement — the truth here is precious.",
+        "choices": {
+          "sellAll": "I sell everything to stop the bleeding",
+          "sellHalf": "I sell half to play it safe",
+          "hold": "I close the app for a month and don't touch a thing",
+          "buyMore": "I think 'discount' and add cash"
+        }
+      },
+      "pathPreference": {
+        "question": "Your goal is to be free at {{targetAge}}. Here are 4 concrete paths to get there. Which one really fits you?",
+        "subtitle": "Each path has a price: years gained vs. pain endured.",
+        "dd": {
+          "label": "At least once, your account will show {{dd}}",
+          "none": "never"
+        },
+        "choices": {
+          "smooth": "You arrive at {{age}}, but your account NEVER drops. Zero stress.",
+          "modest": "You arrive at {{age}}. Once or twice, a measured temporary drop for a few months.",
+          "growth": "You arrive at {{age}}. At least once in the journey, your account will show a major drop for 1-2 years. You must hold.",
+          "aggressive": "You arrive at {{age}}. But at least one major drop for 2-3 years. Many people give up at that point."
+        }
+      },
+      "marketExperience": {
+        "question": "Have you actually lived through a real crisis with your investments?",
+        "subtitle": "What you've experienced matters more than what you've read.",
+        "choices": {
+          "never": "No, I've never invested",
+          "smallStakes": "Yes, on small amounts",
+          "significant": "Yes, on significant amounts",
+          "veteran": "Multiple crises — I held, even bought more"
+        }
+      },
+      "literacyTest": {
+        "question": "True or False: \"If my portfolio drops 20%, I need a 25% gain to break even.\"",
+        "subtitle": "Quick test — no panic, we don't grade.",
+        "choices": {
+          "true": "True",
+          "false": "False",
+          "dontKnow": "I don't know"
+        }
+      },
+      "emotionalDriver": {
+        "question": "Deep down, why does this money really matter to you?",
+        "subtitle": "Your deep driver shapes what suits you.",
+        "choices": {
+          "security": "🛡️ Security — sleep peacefully",
+          "growth": "🌱 Growth — grow patiently",
+          "freedom": "🚀 Max freedom — speed up my freedom date",
+          "bigWins": "🎲 Big wins — aim high, I accept losing"
+        }
+      }
+    },
+    "guide": {
+      "yourClimate": "Your investor climate",
+      "yourSituation": "Your situation today",
+      "tagline": "{{tagline}}",
+      "yourRealPath": "Your real projection",
+      "withProfileTitle": "With your {{climate}} climate ({{ret}}%/yr)",
+      "freedomAt": "You'll be free at {{age}}",
+      "yearsAhead": "that's {{years}} year(s) before your goal of {{target}}",
+      "yearsLate": "that's {{years}} year(s) after your goal of {{target}}",
+      "comparison": "For comparison",
+      "ifGlacier": "If you stayed 'safe' (4% Glacier) → free at {{age}}",
+      "ifVolcan": "If you aimed for Volcan (10%) → free at {{age}}, but absorb -40%",
+      "actionPlan": "Your action plan — 3 concrete levers",
+      "leverAllocation": "Target allocation",
+      "leverCushion": "Cushion",
+      "leverDiscipline": "Discipline",
+      "allocBonds": "{{pct}}% bonds",
+      "allocEquity": "{{pct}}% world equities",
+      "allocAlt": "{{pct}}% alternatives",
+      "cardinalRules": "Your cardinal rules",
+      "phase3Locked": "Phase 3 — Concrete roadmap",
+      "phase3Subtitle": "Your monthly action plan: what to buy, what to sell, when to rebalance.",
+      "phase3CTA": "Coming soon — notify me",
+      "scoreLabel": "Risk DNA Score",
+      "outOf": "/35",
+      "redoCta": "Retake assessment",
+      "rulesIntro": "Calibrated for YOUR profile and YOUR situation"
+    },
+    "climate": {
+      "glacier": {
+        "name": "Glacier",
+        "tagline": "The patience of ice",
+        "identity": "You build slowly but surely. Time is your ally — not performance.",
+        "advice1": "Build a solid emergency cushion before investing.",
+        "advice2": "No need to check your portfolio every week.",
+        "advice3": "Beware 'high return, no risk' products — they don't exist.",
+        "rule1": "Never more than 25% in equities until your cushion is full.",
+        "rule2": "Favour quality bonds and diversified funds.",
+        "rule3": "Increase savings rate before increasing risk."
+      },
+      "tempere": {
+        "name": "Temperate",
+        "tagline": "The balance of seasons",
+        "identity": "You accept measured ups and downs. You know spring follows every winter.",
+        "advice1": "Diversify broadly: regions, currencies, asset classes.",
+        "advice2": "Rebalance 1-2× per year to stay aligned with target.",
+        "advice3": "If a drop ruins your sleep, you went too high — step down.",
+        "rule1": "Don't exceed 50% in equities without a 6-month cushion.",
+        "rule2": "Don't check your portfolio more than once a month.",
+        "rule3": "Invest the same amount each month (DCA), regardless of the market."
+      },
+      "tropical": {
+        "name": "Tropical",
+        "tagline": "The density of the jungle",
+        "identity": "You aim high and absorb hard hits. Volatility is the price of performance.",
+        "advice1": "Invest regularly (monthly DCA) rather than big lumps at bad timing.",
+        "advice2": "A -20% year is normal for your profile — never panic-sell.",
+        "advice3": "Before scaling up risk, secure 6+ months of emergency cushion.",
+        "rule1": "Never short-term money (<5 years) in high-volatility equities.",
+        "rule2": "Keep at least 25% in bonds as a shock absorber.",
+        "rule3": "When markets crash, buy more — never sell."
+      },
+      "volcan": {
+        "name": "Volcano",
+        "tagline": "The energy of fire",
+        "identity": "You chase performance and accept its price. The rule: never panic during eruption.",
+        "advice1": "Never invest money you'll need in the next 5 years.",
+        "advice2": "Your portfolio will drop -40% at least once in your life — prepare for it now.",
+        "advice3": "If drops ruin your sleep, downgrade to Tropical.",
+        "rule1": "Keep 12+ months of cushion — volatility must be absorbed without touching capital.",
+        "rule2": "Max 10% of portfolio on high-risk bets (crypto, leverage, satellites).",
+        "rule3": "Better to earn less than panic and lose everything at the worst moment."
+      }
+    }
   }
 }

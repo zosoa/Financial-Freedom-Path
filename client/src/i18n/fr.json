@@ -529,5 +529,174 @@
       "title": "Explorateur des Premiers Pas",
       "description": "Vous êtes au début de votre parcours financier, et c'est le moment le plus puissant pour agir. Même de petits changements aujourd'hui auront un impact spectaculaire sur des décennies. Le simple fait d'avoir fait ce diagnostic vous place déjà en avance sur la plupart des gens. Chaque jour compte."
     }
+  },
+  "riskDna": {
+    "brandTagline": "Risk DNA · Profil Climat",
+    "decoding": "On décode ton ADN d'investisseur…",
+    "analysing": "Analyse en cours",
+    "decodeMyDna": "Décoder mon ADN",
+    "dimension": {
+      "capacity": "Capacité",
+      "tolerance": "Tolérance",
+      "experience": "Expérience",
+      "emotion": "Motivation"
+    },
+    "loading": {
+      "msg1": "Analyse de ta capacité financière…",
+      "msg2": "Mesure de ta tolérance émotionnelle…",
+      "msg3": "Croisement avec ton expérience…",
+      "msg4": "Calibrage du climat optimal…",
+      "msg5": "Ton climat est prêt."
+    },
+    "q": {
+      "incomeStability": {
+        "question": "Ton revenu principal aujourd'hui, c'est plutôt…",
+        "subtitle": "Plus ton revenu est stable, plus tu peux te permettre de risque.",
+        "choices": {
+          "freelance": "Imprévisible — commissions, freelance, gigs, projets",
+          "newSalary": "Salaire fixe mais récent (moins de 2 ans dans le poste)",
+          "stableSalary": "Salaire fixe et stable (2+ ans, secteur sûr)",
+          "diversified": "Plusieurs sources de revenus diversifiées"
+        }
+      },
+      "emergencyCushion": {
+        "question": "Si tu perdais ton revenu principal demain, combien de mois pourrais-tu tenir sans toucher à ce capital ?",
+        "subtitle": "Ton coussin de sécurité avant tout investissement risqué.",
+        "choices": {
+          "none": "Aucun mois — ce serait immédiat",
+          "1to3": "1 à 3 mois",
+          "4to6": "4 à 6 mois",
+          "7to12": "7 à 12 mois",
+          "12plus": "Plus de 12 mois"
+        }
+      },
+      "lossReaction": {
+        "question": "Imagine que tu as {{amount}} investis dans ton plan. Une mauvaise année arrive. Du jour au lendemain, en ouvrant ton appli, tu vois {{after}} au lieu de {{amount}}. Première réaction honnête, dans les 48 h ?",
+        "subtitle": "Pas de jugement — la vérité ici est précieuse.",
+        "choices": {
+          "sellAll": "Je vends pour ne pas perdre plus",
+          "sellHalf": "Je vends une partie pour me rassurer",
+          "hold": "Je ferme l'appli pendant un mois et je ne touche à rien",
+          "buyMore": "Je me dis « soldes » et j'ajoute du cash"
+        }
+      },
+      "pathPreference": {
+        "question": "Ton objectif est d'être libre à {{targetAge}} ans. Voici 4 chemins concrets pour y arriver. Lequel te ressemble vraiment ?",
+        "subtitle": "Chaque chemin a un prix : temps gagné contre douleur supportée.",
+        "dd": {
+          "label": "Au moins une fois, ton compte affichera {{dd}}",
+          "none": "jamais"
+        },
+        "choices": {
+          "smooth": "Tu arrives à {{age}} ans, mais ton compte ne baisse JAMAIS. Zéro stress.",
+          "modest": "Tu arrives à {{age}} ans. Une ou deux fois, baisse temporaire mesurée pendant quelques mois.",
+          "growth": "Tu arrives à {{age}} ans. Au moins une fois dans le parcours, ton compte affichera une grosse baisse pendant 1-2 ans. Tu dois tenir.",
+          "aggressive": "Tu arrives à {{age}} ans. Mais au moins une baisse majeure pendant 2-3 ans. Beaucoup décrochent à ce moment."
+        }
+      },
+      "marketExperience": {
+        "question": "As-tu déjà vécu une vraie crise sur tes investissements ?",
+        "subtitle": "Ton vécu compte plus que ta théorie.",
+        "choices": {
+          "never": "Non, je n'ai jamais investi",
+          "smallStakes": "Oui, sur de petits montants",
+          "significant": "Oui, sur des montants significatifs",
+          "veteran": "Plusieurs crises — j'ai tenu, voire racheté"
+        }
+      },
+      "literacyTest": {
+        "question": "Vrai ou faux : « Si mon portefeuille baisse de 20 %, il faut un gain de 25 % pour revenir au point de départ. »",
+        "subtitle": "Petit test rapide — pas de panique, on note pas.",
+        "choices": {
+          "true": "Vrai",
+          "false": "Faux",
+          "dontKnow": "Je ne sais pas"
+        }
+      },
+      "emotionalDriver": {
+        "question": "Au fond, pourquoi cet argent compte vraiment pour toi ?",
+        "subtitle": "Ton moteur profond influence ce qui te convient.",
+        "choices": {
+          "security": "🛡️ Sécurité — dormir tranquille",
+          "growth": "🌱 Croissance — fructifier patiemment",
+          "freedom": "🚀 Liberté max — accélérer ma date de freedom",
+          "bigWins": "🎲 Gros gains — viser haut, j'accepte de perdre"
+        }
+      }
+    },
+    "guide": {
+      "yourClimate": "Ton climat d'investisseur",
+      "yourSituation": "Ta situation aujourd'hui",
+      "tagline": "{{tagline}}",
+      "yourRealPath": "Ta vraie projection",
+      "withProfileTitle": "Avec ton climat {{climate}} ({{ret}} %/an)",
+      "freedomAt": "Tu seras libre à {{age}} ans",
+      "yearsAhead": "soit {{years}} an(s) avant ton objectif de {{target}} ans",
+      "yearsLate": "soit {{years}} an(s) après ton objectif de {{target}} ans",
+      "comparison": "Pour comparaison",
+      "ifGlacier": "Si tu restais sur du « safe » (4 % Glacier) → libre à {{age}} ans",
+      "ifVolcan": "Si tu visais Volcan (10 %) → libre à {{age}} ans, mais −40 % à encaisser",
+      "actionPlan": "Ton plan d'action — 3 leviers concrets",
+      "leverAllocation": "Allocation cible",
+      "leverCushion": "Coussin",
+      "leverDiscipline": "Discipline",
+      "allocBonds": "{{pct}} % obligations",
+      "allocEquity": "{{pct}} % actions monde",
+      "allocAlt": "{{pct}} % alternatifs",
+      "cardinalRules": "Tes règles cardinales",
+      "phase3Locked": "Phase 3 — Roadmap concrète",
+      "phase3Subtitle": "Ton plan d'action mois par mois : quoi acheter, quoi vendre, quand rebalancer.",
+      "phase3CTA": "Bientôt disponible — je veux être averti",
+      "scoreLabel": "Score Risk DNA",
+      "outOf": "/35",
+      "redoCta": "Refaire l'évaluation",
+      "rulesIntro": "Calibrées pour TON profil et TA situation"
+    },
+    "climate": {
+      "glacier": {
+        "name": "Glacier",
+        "tagline": "La patience du gel",
+        "identity": "Tu construis lentement mais sûrement. Le temps est ton allié — pas la performance.",
+        "advice1": "Garde d'abord un coussin d'urgence solide avant d'investir.",
+        "advice2": "Pas besoin de regarder ton portefeuille toutes les semaines.",
+        "advice3": "Méfie-toi des produits « gros rendement sans risque » — ça n'existe pas.",
+        "rule1": "Jamais plus de 25 % en actions tant que ton coussin n'est pas plein.",
+        "rule2": "Privilégie les obligations de qualité et les fonds diversifiés.",
+        "rule3": "Augmente ton taux d'épargne avant d'augmenter ton risque."
+      },
+      "tempere": {
+        "name": "Tempéré",
+        "tagline": "L'équilibre des saisons",
+        "identity": "Tu acceptes les hauts et les bas mesurés. Tu sais qu'il y a un printemps après chaque hiver.",
+        "advice1": "Diversifie largement : zones, devises, classes d'actifs.",
+        "advice2": "Rebalance ton portefeuille 1 à 2 fois par an pour rester aligné.",
+        "advice3": "Si une baisse t'empêche de dormir, c'est que tu es monté trop haut — redescends.",
+        "rule1": "Ne dépasse pas 50 % en actions sans avoir un coussin de 6 mois.",
+        "rule2": "Ne regarde pas ton portefeuille plus d'une fois par mois.",
+        "rule3": "Investis le même montant chaque mois (DCA), peu importe le marché."
+      },
+      "tropical": {
+        "name": "Tropical",
+        "tagline": "La densité de la jungle",
+        "identity": "Tu vises haut et tu encaisses fort. La volatilité est le prix de la performance.",
+        "advice1": "Investis régulièrement (mensuel) plutôt qu'en gros coups au mauvais moment.",
+        "advice2": "Une baisse de −20 % en 1 an, c'est normal pour ton profil — ne vends jamais en panique.",
+        "advice3": "Avant de monter en risque, sécurise un coussin de 6 mois minimum.",
+        "rule1": "Jamais d'argent à court terme (< 5 ans) en actions à haute volatilité.",
+        "rule2": "Garde minimum 25 % en obligations comme amortisseur.",
+        "rule3": "En cas de crash, achète davantage — ne vends jamais."
+      },
+      "volcan": {
+        "name": "Volcan",
+        "tagline": "L'énergie du feu",
+        "identity": "Tu chasses la performance, et tu acceptes son prix. La règle : ne jamais paniquer en éruption.",
+        "advice1": "Jamais investir l'argent dont tu auras besoin dans les 5 prochaines années.",
+        "advice2": "Ton portefeuille perdra −40 % au moins une fois dans ta vie — prépare-toi mentalement maintenant.",
+        "advice3": "Si tu perds le sommeil pendant les baisses, redescends en Tropical.",
+        "rule1": "Garde 12 mois de coussin minimum — la volatilité doit pouvoir s'absorber sans toucher au capital.",
+        "rule2": "Maximum 10 % du portefeuille sur des paris très risqués (crypto, leverage, satellites).",
+        "rule3": "Mieux vaut gagner moins que paniquer et tout perdre au pire moment."
+      }
+    }
   }
 }
