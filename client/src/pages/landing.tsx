@@ -46,9 +46,7 @@ import {
   COUNTRY_ISO_MAP,
   EUR_EXCHANGE_RATES,
 } from "@shared/schema";
-import screenshot1 from "@assets/image_1770666978155.png";
-import screenshot2 from "@assets/image_1770666992828.png";
-import screenshot3 from "@assets/image_1770667017861.png";
+import ResultsPreview from "@/components/illustrations/ResultsPreview";
 import teamPortrait from "@assets/Partners_Pictures_RealSmart_1776604047326.jpg";
 
 const countries = Object.keys(COUNTRY_CURRENCY_MAP).sort();
@@ -511,29 +509,8 @@ export default function Landing() {
           </AnimatedSection>
 
           <AnimatedSection>
-            <div className="relative max-w-3xl mx-auto">
-              <div
-                className="relative rounded-3xl overflow-hidden border border-border bg-card shadow-2xl shadow-black/5"
-                data-testid="preview-device-frame"
-              >
-                <div className="bg-muted/40 px-4 py-3 flex items-center gap-2 border-b border-border">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-300" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-300" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-300" />
-                  </div>
-                  <div className="flex-1 text-center">
-                    <span className="text-[11px] text-muted-foreground bg-background px-3 py-1 rounded-full">
-                      finksmart.com/results
-                    </span>
-                  </div>
-                </div>
-                <div className="max-h-[500px] overflow-y-auto">
-                  <img src={screenshot1} alt="" className="w-full h-auto" data-testid="img-results-preview-1" />
-                  <img src={screenshot2} alt="" className="w-full h-auto" data-testid="img-results-preview-2" />
-                  <img src={screenshot3} alt="" className="w-full h-auto" data-testid="img-results-preview-3" />
-                </div>
-              </div>
+            <div className="relative max-w-3xl mx-auto" data-testid="preview-device-frame">
+              <ResultsPreview />
               <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-xs font-bold shadow-lg shadow-primary/30">
                   <Sparkles className="w-3.5 h-3.5" />
