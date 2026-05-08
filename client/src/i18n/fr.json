@@ -146,6 +146,7 @@
   },
   "calculator": {
     "of": "de",
+    "step": "Étape",
     "yearsOld": "ans",
     "back": "Retour",
     "continue": "Continuer",
@@ -284,7 +285,10 @@
       "dontPanic": "Votre écart est simplement un problème de calcul — et chaque problème de calcul a une solution.",
       "dontPanicText": "Ne vous laissez pas intimider par les grands chiffres. De petits ajustements aujourd'hui créent des changements massifs demain. Explorez vos « Leviers » ci-dessous pour voir comment combler cet écart.",
       "yourGap": "Votre écart : {{amount}}. Appuyez sur un levier pour voir comment le combler :",
-      "showMeHow": "Montrez-moi comment combler cet écart"
+      "showMeHow": "Montrez-moi comment combler cet écart",
+      "todayLabel": "aujourd'hui",
+      "freedomMarker": "vous serez libre ici",
+      "targetMarker": "votre objectif"
     },
     "solutions": {
       "lever1": "Levier 1 : Épargner Plus",

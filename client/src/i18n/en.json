@@ -146,6 +146,7 @@
   },
   "calculator": {
     "of": "of",
+    "step": "Step",
     "yearsOld": "years old",
     "back": "Back",
     "continue": "Continue",
@@ -284,7 +285,10 @@
       "dontPanic": "Your gap is just a math problem -- and every math problem has a solution.",
       "dontPanicText": "Don't let the big numbers intimidate you. Small shifts today create massive changes tomorrow. Explore your \"Levers\" below to see how you can close this gap.",
       "yourGap": "Your gap: {{amount}}. Tap a lever to see how to bridge it:",
-      "showMeHow": "Show me how to close this gap"
+      "showMeHow": "Show me how to close this gap",
+      "todayLabel": "today",
+      "freedomMarker": "you'll be free here",
+      "targetMarker": "your goal"
     },
     "solutions": {
       "lever1": "Lever 1: Save More",
