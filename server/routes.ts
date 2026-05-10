@@ -46,6 +46,21 @@ const saveReportSchema = z.object({
   currentSavings: z.number(),
   personality: z.string(),
   narrativeType: z.string(),
+  /* Phase 2 — Risk DNA (optional, included only if user has done it). */
+  climate: z.string().nullable().optional(),
+  climateName: z.string().nullable().optional(),
+  climateReturn: z.number().nullable().optional(),
+  climateAdvice1: z.string().nullable().optional(),
+  climateAdvice2: z.string().nullable().optional(),
+  climateAdvice3: z.string().nullable().optional(),
+  allocBonds: z.number().nullable().optional(),
+  allocEquity: z.number().nullable().optional(),
+  allocAlt: z.number().nullable().optional(),
+  dnaScore: z.number().nullable().optional(),
+  /* Real-world working URLs surfaced in the email body. */
+  reportUrl: z.string().nullable().optional(),
+  retakeUrl: z.string().nullable().optional(),
+  riskDnaUrl: z.string().nullable().optional(),
 });
 
 export async function registerRoutes(
@@ -135,9 +150,13 @@ export async function registerRoutes(
     try {
       const ipAddress = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || null;
       const data = saveReportSchema.parse(req.body);
-      const reportUrl = data.calculationId
-        ? `${req.protocol}://${req.get("host")}/report/${data.calculationId}`
-        : undefined;
+      // Use the client-provided permalink if available — it contains the
+      // full Phase 1 + Phase 2 query string. Fall back to the legacy
+      // /report/:id route otherwise.
+      const reportUrl = data.reportUrl
+        || (data.calculationId
+          ? `${req.protocol}://${req.get("host")}/report/${data.calculationId}`
+          : undefined);
 
       resolveIpLocation(ipAddress).then((ipLocation) => {
         storage.createLead({
@@ -149,7 +168,9 @@ export async function registerRoutes(
           currency: data.currency,
           gapPercent: data.gapPercent,
           freedomScore: data.freedomScore,
-          leadStatus: "report_requested",
+          // Differentiate the lead status: did this user have the DNA result
+          // when they asked for the report?
+          leadStatus: data.climate ? "report_requested_with_dna" : "report_requested",
           ipAddress,
           ipLocation,
         }).catch((err) => console.error("Failed to create lead from report request:", err));
@@ -175,6 +196,18 @@ export async function registerRoutes(
         personality: data.personality,
         narrativeType: data.narrativeType,
         reportUrl,
+        retakeUrl: data.retakeUrl ?? undefined,
+        riskDnaUrl: data.riskDnaUrl ?? undefined,
+        climate: data.climate ?? null,
+        climateName: data.climateName ?? null,
+        climateReturn: data.climateReturn ?? null,
+        climateAdvice1: data.climateAdvice1 ?? null,
+        climateAdvice2: data.climateAdvice2 ?? null,
+        climateAdvice3: data.climateAdvice3 ?? null,
+        allocBonds: data.allocBonds ?? null,
+        allocEquity: data.allocEquity ?? null,
+        allocAlt: data.allocAlt ?? null,
+        dnaScore: data.dnaScore ?? null,
       });
 
       if (emailSent) {

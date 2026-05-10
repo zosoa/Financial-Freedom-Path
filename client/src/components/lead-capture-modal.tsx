@@ -26,8 +26,11 @@ interface LeadCaptureModalProps {
   referralSource?: string;
   sessionId?: string;
   leadStatus?: string;
-  /** Optional callback fired after successful lead capture. */
-  onSuccess?: () => void;
+  /** Optional callback fired after successful lead capture. Receives the captured name/email so the caller can persist them. */
+  onSuccess?: (name: string, email: string) => void;
+  /** Pre-fill values when the user has already submitted a lead earlier. */
+  prefillName?: string;
+  prefillEmail?: string;
 }
 
 export function LeadCaptureModal({
@@ -42,10 +45,12 @@ export function LeadCaptureModal({
   sessionId,
   leadStatus = "risk_dna_started",
   onSuccess,
+  prefillName = "",
+  prefillEmail = "",
 }: LeadCaptureModalProps) {
   const { t } = useTranslation();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(prefillName);
+  const [email, setEmail] = useState(prefillEmail);
   const [whatsapp, setWhatsapp] = useState("");
   const [lifeEvent, setLifeEvent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,12 +59,14 @@ export function LeadCaptureModal({
   const handleSubmit = async () => {
     if (!name.trim() || !email.trim() || !whatsapp.trim()) return;
     setIsSubmitting(true);
+    const capturedName = name.trim();
+    const capturedEmail = email.trim();
     try {
       await apiRequest("POST", "/api/leads", {
         calculationId,
         sessionId: sessionId || null,
-        name: name.trim(),
-        email: email.trim(),
+        name: capturedName,
+        email: capturedEmail,
         whatsapp: whatsapp.trim(),
         country,
         currency,
@@ -73,7 +80,7 @@ export function LeadCaptureModal({
       // Defer the navigation/callback so the success state has a beat
       // to render — feels less abrupt to the user.
       if (onSuccess) {
-        setTimeout(() => onSuccess(), 1200);
+        setTimeout(() => onSuccess(capturedName, capturedEmail), 1200);
       }
     } catch (e) {
       console.error("Lead capture submission failed:", e);
@@ -82,7 +89,7 @@ export function LeadCaptureModal({
       // lead form is not yet a hard gate in V1.
       if (onSuccess) {
         setIsSubmitted(true);
-        setTimeout(() => onSuccess(), 1200);
+        setTimeout(() => onSuccess(capturedName, capturedEmail), 1200);
       }
     } finally {
       setIsSubmitting(false);

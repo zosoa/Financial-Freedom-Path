@@ -21,7 +21,23 @@ export interface ReportEmailData {
   currentSavings: number;
   personality: string;
   narrativeType: string;
+  // Permalink back to the live /results page with all params preserved.
   reportUrl?: string;
+  // CTA URL for retaking the calculator from scratch.
+  retakeUrl?: string;
+  // CTA URL pointing at /risk-dna with all Phase 1 params (when DNA not yet done).
+  riskDnaUrl?: string;
+  // Phase 2 — Risk DNA climate, if the user has completed it.
+  climate?: string | null;
+  climateName?: string | null;
+  climateReturn?: number | null;
+  climateAdvice1?: string | null;
+  climateAdvice2?: string | null;
+  climateAdvice3?: string | null;
+  allocBonds?: number | null;
+  allocEquity?: number | null;
+  allocAlt?: number | null;
+  dnaScore?: number | null;
 }
 
 function formatNumber(num: number): string {
@@ -72,12 +88,72 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
 
   const reportLink = data.reportUrl
     ? `<div style="text-align: center; margin: 24px 0;">
-        <a href="${data.reportUrl}" style="display: inline-block; background: #F59E0B; color: #1E1B14 !important; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 9999px; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">
-          Voir Mon Rapport Interactif Complet
+        <a href="${data.reportUrl}" style="display: inline-block; background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 60%, #F97316 100%); color: #1E1B14 !important; text-decoration: none; padding: 14px 36px; border-radius: 14px; font-size: 14px; font-weight: 700; letter-spacing: 0.3px; box-shadow: 0 8px 24px -8px rgba(245, 158, 11, 0.55);">
+          Voir Mon Rapport Interactif Complet →
         </a>
-        <p style="color: #94a3b8; font-size: 11px; margin: 8px 0 0 0;">Accédez à vos graphiques détaillés, projections et leviers stratégiques à tout moment</p>
+        <p style="color: #94a3b8; font-size: 11px; margin: 8px 0 0 0;">Tes graphiques détaillés, projections et leviers stratégiques à tout moment</p>
       </div>`
     : "";
+
+  // Phase 2 — DNA section (only when the user has completed the Risk DNA).
+  const hasDna = !!data.climate && !!data.climateName;
+  const dnaSection = hasDna ? `
+      <div style="background: linear-gradient(180deg, #FFFBF1 0%, #FEF6E4 100%); border: 1px solid #F5E6C9; border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+        <p style="color: #92400E; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 4px 0; font-weight: 700;">
+          Phase 2 · Risk DNA
+        </p>
+        <p style="font-size: 26px; font-weight: 800; color: #1E293B; margin: 0; line-height: 1.15;">
+          Ton climat : ${data.climateName}
+        </p>
+        <p style="font-size: 13px; color: #64748B; margin: 6px 0 16px 0;">
+          Score Risk DNA : <strong style="color: #D97706;">${data.dnaScore ?? "—"} / 35</strong> &middot; Rendement réaliste : <strong style="color: #D97706;">${data.climateReturn ?? "—"} %/an</strong>
+        </p>
+        <table style="width: 100%; border-collapse: collapse; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #F5E6C9;">
+          <tr>
+            <td style="padding: 12px 14px;">
+              <span style="color: #94a3b8; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Allocation cible</span><br>
+              <span style="color: #1E293B; font-size: 14px; font-weight: 700;">
+                ${data.allocBonds ?? 0}% obligations &middot; ${data.allocEquity ?? 0}% actions &middot; ${data.allocAlt ?? 0}% alternatifs
+              </span>
+            </td>
+          </tr>
+        </table>
+        <p style="color: #92400E; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin: 16px 0 8px 0; font-weight: 700;">
+          Tes 3 conseils prioritaires
+        </p>
+        <ol style="color: #1E293B; font-size: 13.5px; padding-left: 20px; margin: 0; line-height: 1.7;">
+          ${data.climateAdvice1 ? `<li style="margin-bottom: 6px;">${data.climateAdvice1}</li>` : ""}
+          ${data.climateAdvice2 ? `<li style="margin-bottom: 6px;">${data.climateAdvice2}</li>` : ""}
+          ${data.climateAdvice3 ? `<li>${data.climateAdvice3}</li>` : ""}
+        </ol>
+      </div>
+  ` : "";
+
+  // CTA shown when DNA hasn't been done yet — drives users back to the Risk DNA flow.
+  const dnaCta = !hasDna && data.riskDnaUrl ? `
+      <div style="background: #FFFBF1; border: 1px solid #F5E6C9; border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: center;">
+        <p style="color: #92400E; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 6px 0; font-weight: 700;">
+          La suite — Phase 2
+        </p>
+        <p style="color: #1E293B; font-size: 16px; font-weight: 700; margin: 0 0 10px 0;">
+          Décode ton ADN d'investisseur en 7 questions
+        </p>
+        <p style="color: #64748B; font-size: 13px; margin: 0 0 14px 0; line-height: 1.6;">
+          Tu sauras quel rendement réaliste viser, comment allouer ton capital, et 3 règles cardinales calibrées pour ton profil.
+        </p>
+        <a href="${data.riskDnaUrl}" style="display: inline-block; background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 60%, #F97316 100%); color: #1E1B14 !important; text-decoration: none; padding: 12px 28px; border-radius: 14px; font-size: 13px; font-weight: 700;">
+          Décoder mon ADN →
+        </a>
+      </div>
+  ` : "";
+
+  const retakeBtn = data.retakeUrl ? `
+      <div style="text-align: center;">
+        <a href="${data.retakeUrl}" style="display: inline-block; background: #ffffff; color: #92400E !important; text-decoration: none; padding: 12px 28px; border-radius: 14px; font-size: 13px; font-weight: 700; border: 1.5px solid #F5E6C9;">
+          Refaire le test
+        </a>
+      </div>
+  ` : "";
 
   const htmlContent = `
 <!DOCTYPE html>
@@ -229,22 +305,22 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
         </tr>` : ""}
       </table>
 
+      ${dnaSection}
+
       ${reportLink}
 
-      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+      ${dnaCta}
+
+      <div style="background: #FFFBF1; border: 1px solid #F5E6C9; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
         <p style="color: #92400e; font-size: 14px; font-weight: 700; margin: 0 0 8px 0;">Et maintenant ?</p>
         <p style="color: #92400e; font-size: 13px; margin: 0; line-height: 1.6;">
-          Vos chiffres racontent une histoire — mais le vrai pouvoir réside dans l'optimisation de votre stratégie.
-          Nos conseillers formés en gestion UHNW peuvent vous aider à trouver les leviers cachés dans votre plan financier.
-          Visitez <a href="https://finksmart.com" style="color: #D97706; text-decoration: underline; font-weight: 600;">finksmart.com</a> pour refaire le test ou explorer vos options.
+          ${hasDna
+            ? "Tu as ton diagnostic complet : ton score, ton tier, ton climat, ton allocation cible et tes 3 règles cardinales. Garde cet email, partage-le, et reviens régulièrement pour tracker tes progrès."
+            : "Tes chiffres racontent une histoire — mais le vrai pouvoir réside dans le diagnostic complet : décode ton ADN d'investisseur juste au-dessus pour obtenir ton allocation cible et tes 3 conseils personnalisés."}
         </p>
       </div>
 
-      <div style="text-align: center;">
-        <a href="https://finksmart.com" style="display: inline-block; background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 60%, #F97316 100%); color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 9999px; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">
-          Refaire Mon Bilan de Liberté
-        </a>
-      </div>
+      ${retakeBtn}
     </div>
 
     <div style="text-align: center; padding: 16px;">

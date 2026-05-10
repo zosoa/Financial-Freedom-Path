@@ -235,6 +235,48 @@ export default function Results() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /* When the user lands here right after the Risk DNA flow (?climate=…),
+   * scroll past the Phase 1 sections directly to the unified guide so
+   * they see the reveal without having to scroll. Delayed by 600 ms to
+   * let charts and the climate illustration finish painting first. */
+  useEffect(() => {
+    if (!climate) return;
+    const timer = setTimeout(() => {
+      document
+        .getElementById("phase2-cta")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [climate]);
+
+  /* ============== Lead persistence (localStorage) ============== */
+  /** True once the user has handed us their email at least once. */
+  const [leadSubmitted, setLeadSubmitted] = useState<boolean>(() => {
+    try {
+      return typeof window !== "undefined" && localStorage.getItem("fp_lead_submitted") === "true";
+    } catch {
+      return false;
+    }
+  });
+  /** Mark the lead as submitted (called from any successful capture path). */
+  const markLeadSubmitted = (name?: string, email?: string) => {
+    try {
+      localStorage.setItem("fp_lead_submitted", "true");
+      if (name) localStorage.setItem("fp_lead_name", name);
+      if (email) localStorage.setItem("fp_lead_email", email);
+    } catch {
+      /* localStorage unavailable */
+    }
+    setLeadSubmitted(true);
+  };
+  /** Pre-filled values for any new modal we open. */
+  const storedLeadName = (() => {
+    try { return localStorage.getItem("fp_lead_name") || ""; } catch { return ""; }
+  })();
+  const storedLeadEmail = (() => {
+    try { return localStorage.getItem("fp_lead_email") || ""; } catch { return ""; }
+  })();
+
   /* ============== Narrative theming ============== */
   const narrativeChip: Record<string, string> = {
     critical: "fa-pill-coral",
@@ -295,33 +337,78 @@ export default function Results() {
   const handleSendReport = async () => {
     if (!reportEmail || !reportName) return;
     setIsSendingReport(true);
+    // Build a stable permalink that lets the user re-open this exact result
+    // straight from the email (Phase 1 + Phase 2 inputs preserved).
+    const reportPermalink = (() => {
+      if (typeof window === "undefined") return "";
+      return `${window.location.origin}/results?${searchString}`;
+    })();
     try {
-      const res = await apiRequest("POST", "/api/send-report", {
-        email: reportEmail,
-        name: reportName,
-        calculationId,
-        freedomScore: results.freedomScore,
-        freedomAge: results.freedomAgeStandard,
-        targetAge: inputs.targetFreedomAge,
-        gapPercent: results.gapPercent,
-        requiredCapital: results.requiredCapital,
-        plannedCapital: results.plannedCapitalStandard,
-        country,
-        currency,
-        currencySymbol,
-        age: inputs.age,
-        monthlyIncome: inputs.monthlyIncome,
-        desiredMonthlyIncome: inputs.desiredMonthlyIncome,
-        monthlySavingsRate: inputs.monthlySavingsRate,
-        currentSavings: inputs.currentSavings,
-        personality: results.narrative.personality,
-        narrativeType: results.narrative.type,
-      });
-      if (res.ok) {
-        setReportSent(true);
-      }
+      // Fire BOTH the email send AND the lead capture in parallel — every
+      // "save my report" submission is also a lead.
+      await Promise.all([
+        apiRequest("POST", "/api/send-report", {
+          email: reportEmail,
+          name: reportName,
+          calculationId,
+          freedomScore: results.freedomScore,
+          freedomAge: results.freedomAgeStandard,
+          targetAge: inputs.targetFreedomAge,
+          gapPercent: results.gapPercent,
+          requiredCapital: results.requiredCapital,
+          plannedCapital: results.plannedCapitalStandard,
+          country,
+          currency,
+          currencySymbol,
+          age: inputs.age,
+          monthlyIncome: inputs.monthlyIncome,
+          desiredMonthlyIncome: inputs.desiredMonthlyIncome,
+          monthlySavingsRate: inputs.monthlySavingsRate,
+          currentSavings: inputs.currentSavings,
+          personality: results.narrative.personality,
+          narrativeType: results.narrative.type,
+          /* Phase 2 — included only when the user has done the Risk DNA. */
+          climate: climate ?? null,
+          climateName: climate ? t(`riskDna.climate.${climate}.name`) : null,
+          climateReturn: climate ? CLIMATES[climate].expectedReturn : null,
+          climateAdvice1: climate ? t(`riskDna.climate.${climate}.advice1`) : null,
+          climateAdvice2: climate ? t(`riskDna.climate.${climate}.advice2`) : null,
+          climateAdvice3: climate ? t(`riskDna.climate.${climate}.advice3`) : null,
+          allocBonds: climate ? CLIMATES[climate].allocation.bonds : null,
+          allocEquity: climate ? CLIMATES[climate].allocation.equity : null,
+          allocAlt: climate ? CLIMATES[climate].allocation.alternatives : null,
+          dnaScore: climate ? dnaScore : null,
+          /* Working CTAs in the email. */
+          reportUrl: reportPermalink,
+          retakeUrl: typeof window !== "undefined" ? window.location.origin : "https://finksmart.com",
+          riskDnaUrl: typeof window !== "undefined" ? `${window.location.origin}${buildRiskDnaUrl(searchString)}` : null,
+        }).catch((e) => {
+          console.error("send-report failed:", e);
+        }),
+        apiRequest("POST", "/api/leads", {
+          calculationId,
+          sessionId,
+          name: reportName,
+          email: reportEmail,
+          whatsapp: "",
+          country,
+          currency,
+          gapPercent: results.gapPercent,
+          freedomScore: results.freedomScore,
+          leadStatus: climate ? "report_sent_with_dna" : "report_sent",
+          lifeEvent: null,
+          referralSource: referralSource || null,
+        }).catch((e) => {
+          console.error("lead capture (save-report path) failed:", e);
+        }),
+      ]);
+      markLeadSubmitted(reportName, reportEmail);
+      setReportSent(true);
     } catch (e) {
       console.error("Failed to send report:", e);
+      // Even on error, mark lead so the user isn't re-asked unnecessarily
+      markLeadSubmitted(reportName, reportEmail);
+      setReportSent(true);
     } finally {
       setIsSendingReport(false);
     }
@@ -1202,8 +1289,14 @@ export default function Results() {
                 <button
                   className="premium-cta premium-cta-lg"
                   onClick={() => {
-                    setLeadIntent("risk_dna");
-                    setShowLeadModal(true);
+                    // If the user has already given us their contact, skip the
+                    // modal and take them straight to the questionnaire.
+                    if (leadSubmitted) {
+                      navigate(buildRiskDnaUrl(searchString));
+                    } else {
+                      setLeadIntent("risk_dna");
+                      setShowLeadModal(true);
+                    }
                   }}
                   data-testid="button-unlock-phase2"
                 >
@@ -1287,14 +1380,15 @@ export default function Results() {
         referralSource={referralSource}
         sessionId={sessionId}
         leadStatus={leadIntent === "risk_dna" ? "risk_dna_started" : leadIntent ?? "lead"}
-        onSuccess={
-          leadIntent === "risk_dna"
-            ? () => {
-                setShowLeadModal(false);
-                navigate(buildRiskDnaUrl(searchString));
-              }
-            : undefined
-        }
+        prefillName={storedLeadName}
+        prefillEmail={storedLeadEmail}
+        onSuccess={(name, email) => {
+          markLeadSubmitted(name, email);
+          if (leadIntent === "risk_dna") {
+            setShowLeadModal(false);
+            navigate(buildRiskDnaUrl(searchString));
+          }
+        }}
       />
 
       {showShareCard && (
