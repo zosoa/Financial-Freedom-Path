@@ -21,6 +21,7 @@ import {
   Sun,
   Moon,
   Sparkles,
+  Check,
   TrendingUp,
   Rocket,
   TreePine,
@@ -55,6 +56,7 @@ import MountainAscent from "@/components/illustrations/MountainAscent";
 import { CLIMATE_ILLUSTRATIONS } from "@/components/illustrations/Climates";
 import { CLIMATES, type Climate, type ClimateProfile } from "@/lib/risk-scoring";
 import { getScoreContext } from "@/lib/score-context";
+import { getTierForScore, type Tier } from "@/lib/score-tier";
 import {
   AreaChart,
   Area,
@@ -128,6 +130,8 @@ export default function Results() {
 
   const [annualReturn, setAnnualReturn] = useState(parseFloat(params.get("annualReturn") || "7"));
   const [showLeadModal, setShowLeadModal] = useState(false);
+  /** Tracks which CTA opened the lead modal — drives the post-submit redirect. */
+  const [leadIntent, setLeadIntent] = useState<"risk_dna" | "precision" | "second_opinion" | null>(null);
   const [showShareCard, setShowShareCard] = useState(false);
   const [calculationId, setCalculationId] = useState<string | null>(null);
   const [hasSaved, setHasSaved] = useState(false);
@@ -379,7 +383,7 @@ export default function Results() {
                 className={`fa-display text-3xl md:text-4xl mt-3 ${narrativeAccent[results.narrative.type]}`}
                 data-testid="text-narrative-headline"
               >
-                {results.narrative.subtitle}
+                {t(results.narrative.subtitle)}
               </h1>
               <p className="text-base text-muted-foreground mt-3 leading-relaxed" data-testid="text-narrative-message">
                 {t(`narratives.${narrativeTypeToKey[results.narrative.type]}.description`)}
@@ -1105,71 +1109,25 @@ export default function Results() {
           </div>
         </motion.section>
 
-        {/* ============== 9. PROFILE BADGE RECAP ============== */}
+        {/* ============== 9 + 10 — MERGED CARTE DE LIBERTÉ (profile + tier perks + share) ============== */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.45 }}
         >
-          <div className="fa-card p-6 md:p-8 fa-surface-cream">
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <div
-                className={`w-24 h-24 rounded-3xl ${narrativeIconBg[results.narrative.type]} grid place-items-center shadow-xl shadow-black/15`}
-              >
-                <NarrativeIcon className="w-12 h-12 text-white" />
-              </div>
-              <div className="text-center sm:text-left">
-                <h3 className={`fa-display text-2xl ${narrativeAccent[results.narrative.type]}`}>
-                  {t(`results.personalities.${narrativeTypeToKey[results.narrative.type]}.title`)}
-                </h3>
-                <p className="text-sm text-muted-foreground italic mt-1 mb-3">{results.narrative.subtitle}</p>
-                <div className={`fa-pill ${narrativeChip[results.narrative.type]}`}>
-                  <Sparkles className="w-3 h-3" />
-                  {t("results.freedomScoreLabel", { score: results.freedomScore })}
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* ============== 10. SHARE ============== */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-        >
-          <div className="fa-card p-6 text-center">
-            <h3 className="fa-display text-2xl mb-2">{t("results.share.title")}</h3>
-            <p className="text-sm text-muted-foreground mb-5">{t("results.share.subtitle")}</p>
-            <div className="flex items-center justify-center gap-4 mb-5">
-              {[
-                { id: "whatsapp", color: "#25D366", Icon: SiWhatsapp },
-                { id: "facebook", color: "#1877F2", Icon: SiFacebook },
-                { id: "twitter", color: "#000000", Icon: SiX },
-                { id: "linkedin", color: "#0A66C2", Icon: SiLinkedin },
-              ].map(({ id, color, Icon }) => (
-                <Button
-                  key={id}
-                  size="icon"
-                  onClick={() => handleShare(id)}
-                  className="rounded-full w-12 h-12 shadow-md"
-                  style={{ backgroundColor: color }}
-                  data-testid={`button-share-${id}`}
-                >
-                  <Icon className="w-5 h-5 text-white" />
-                </Button>
-              ))}
-            </div>
-            <Button
-              variant="outline"
-              className="rounded-xl"
-              onClick={() => setShowShareCard(true)}
-              data-testid="button-download-card"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              {t("results.share.downloadCard")}
-            </Button>
-          </div>
+          <FreedomCardSection
+            t={t}
+            tier={getTierForScore(results.freedomScore)}
+            narrativeKey={narrativeTypeToKey[results.narrative.type]}
+            narrativeIconBg={narrativeIconBg[results.narrative.type]}
+            narrativeAccent={narrativeAccent[results.narrative.type]}
+            NarrativeIcon={NarrativeIcon}
+            subtitleKey={results.narrative.subtitle}
+            freedomScore={results.freedomScore}
+            climate={climate}
+            onShare={handleShare}
+            onDownload={() => setShowShareCard(true)}
+          />
         </motion.section>
 
         {/* ============== 11. SAVE REPORT ============== */}
@@ -1243,7 +1201,10 @@ export default function Results() {
                 </div>
                 <button
                   className="premium-cta premium-cta-lg"
-                  onClick={() => navigate(buildRiskDnaUrl(searchString))}
+                  onClick={() => {
+                    setLeadIntent("risk_dna");
+                    setShowLeadModal(true);
+                  }}
                   data-testid="button-unlock-phase2"
                 >
                   <Sparkles className="w-4 h-4" />
@@ -1314,7 +1275,10 @@ export default function Results() {
       {/* Lead capture & share dialogs */}
       <LeadCaptureModal
         open={showLeadModal}
-        onClose={() => setShowLeadModal(false)}
+        onClose={() => {
+          setShowLeadModal(false);
+          setLeadIntent(null);
+        }}
         calculationId={calculationId}
         country={country}
         currency={currency}
@@ -1322,7 +1286,15 @@ export default function Results() {
         freedomScore={results.freedomScore}
         referralSource={referralSource}
         sessionId={sessionId}
-        leadStatus="risk_dna_started"
+        leadStatus={leadIntent === "risk_dna" ? "risk_dna_started" : leadIntent ?? "lead"}
+        onSuccess={
+          leadIntent === "risk_dna"
+            ? () => {
+                setShowLeadModal(false);
+                navigate(buildRiskDnaUrl(searchString));
+              }
+            : undefined
+        }
       />
 
       {showShareCard && (
@@ -1337,7 +1309,7 @@ export default function Results() {
           currency={currency}
           narrativeType={results.narrative.type}
           personality={results.narrative.personality}
-          subtitle={results.narrative.subtitle}
+          subtitle={t(results.narrative.subtitle)}
           monthlySavings={inputs.monthlySavingsRate}
         />
       )}
@@ -1607,6 +1579,138 @@ function ScoreContextBadge({
       <span className="text-xs text-muted-foreground italic" data-testid="score-context-tier-text">
         {t(ctx.tierKey)}
       </span>
+    </div>
+  );
+}
+
+/* ============================================================
+ * FreedomCardSection — merged "Profile + Tier perks + Share" block.
+ * Replaces the previous separate Profile Badge and Share sections.
+ * Goal: turn a meaningless number into a clear value proposition.
+ * ============================================================ */
+function FreedomCardSection({
+  t,
+  tier,
+  narrativeKey,
+  narrativeIconBg,
+  narrativeAccent,
+  NarrativeIcon,
+  subtitleKey,
+  freedomScore,
+  climate,
+  onShare,
+  onDownload,
+}: {
+  t: (key: string, opts?: Record<string, unknown>) => string;
+  tier: Tier;
+  narrativeKey: string;
+  narrativeIconBg: string;
+  narrativeAccent: string;
+  NarrativeIcon: React.ComponentType<{ className?: string }>;
+  subtitleKey: string;
+  freedomScore: number;
+  climate: Climate | null;
+  onShare: (platform: string) => void;
+  onDownload: () => void;
+}) {
+  const tierKey = `scoreTier.${tier.id}`;
+  const climateName = climate ? t(`riskDna.climate.${climate}.name`) : null;
+
+  return (
+    <div className="fa-card p-6 md:p-8 fa-surface-cream space-y-6">
+      {/* ─── Header: profile + score ─── */}
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+        <div
+          className={`w-20 h-20 md:w-24 md:h-24 rounded-3xl ${narrativeIconBg} grid place-items-center shadow-xl shadow-black/15 shrink-0`}
+        >
+          <NarrativeIcon className="w-10 h-10 md:w-12 md:h-12 text-white" />
+        </div>
+        <div className="flex-1 text-center sm:text-left">
+          <h3 className={`fa-display text-2xl md:text-3xl ${narrativeAccent}`}>
+            {t(`results.personalities.${narrativeKey}.title`)}
+          </h3>
+          <p className="text-sm text-muted-foreground italic mt-1">
+            {t(subtitleKey)}
+          </p>
+          <div className="flex flex-wrap gap-2 mt-3 justify-center sm:justify-start">
+            <span className={`fa-pill ${tier.accent.bg} ${tier.accent.text} border ${tier.accent.border}`}>
+              <Sparkles className="w-3 h-3" />
+              {t(`${tierKey}.icon`)} {t(`${tierKey}.name`)}
+            </span>
+            <span className="fa-pill fa-pill-amber">
+              <span className="font-bold">{freedomScore}</span>
+              <span className="text-[10px] opacity-70">/100</span>
+            </span>
+            {climateName && (
+              <span className="fa-pill fa-pill-mint">
+                🌍 {climateName}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ─── Tier perks: what the score unlocks ─── */}
+      <div className={`rounded-2xl border ${tier.accent.border} ${tier.accent.bg} p-5`}>
+        <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-1">
+          {t("scoreTier.title")}
+        </p>
+        <p className={`fa-display text-xl ${tier.accent.text}`}>
+          {t(`${tierKey}.icon`)} {t(`${tierKey}.name`)}
+        </p>
+        <p className="text-sm text-muted-foreground italic mt-1 mb-4">
+          {t(`${tierKey}.tagline`)}
+        </p>
+        <p className="text-xs uppercase tracking-wider text-foreground/70 font-semibold mb-2">
+          {t("scoreTier.perksTitle")}
+        </p>
+        <ul className="space-y-2">
+          {[1, 2, 3].map((n) => (
+            <li key={n} className="flex items-start gap-2 text-sm">
+              <span className={`shrink-0 w-5 h-5 rounded-full ${tier.accent.iconBg} grid place-items-center mt-0.5`}>
+                <Check className="w-3 h-3 text-white" />
+              </span>
+              <span className="text-foreground leading-relaxed">{t(`${tierKey}.perk${n}`)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* ─── Share + Download ─── */}
+      <div className="text-center pt-2">
+        <h4 className="fa-display text-xl">{t("freedomCardSection.sectionTitle")}</h4>
+        <p className="text-sm text-muted-foreground mt-1 mb-4">
+          {t("freedomCardSection.sectionSubtitle")}
+        </p>
+        <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
+          {[
+            { id: "whatsapp", color: "#25D366", Icon: SiWhatsapp },
+            { id: "facebook", color: "#1877F2", Icon: SiFacebook },
+            { id: "twitter", color: "#000000", Icon: SiX },
+            { id: "linkedin", color: "#0A66C2", Icon: SiLinkedin },
+          ].map(({ id, color, Icon }) => (
+            <Button
+              key={id}
+              size="icon"
+              onClick={() => onShare(id)}
+              className="rounded-full w-11 h-11 shadow-md"
+              style={{ backgroundColor: color }}
+              data-testid={`button-share-${id}`}
+            >
+              <Icon className="w-4 h-4 text-white" />
+            </Button>
+          ))}
+        </div>
+        <Button
+          variant="outline"
+          className="rounded-xl"
+          onClick={onDownload}
+          data-testid="button-download-card"
+        >
+          <Download className="w-4 h-4 mr-2" />
+          {t("freedomCardSection.downloadCta")}
+        </Button>
+      </div>
     </div>
   );
 }

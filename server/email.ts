@@ -72,7 +72,7 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
 
   const reportLink = data.reportUrl
     ? `<div style="text-align: center; margin: 24px 0;">
-        <a href="${data.reportUrl}" style="display: inline-block; background: #C05621; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 9999px; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">
+        <a href="${data.reportUrl}" style="display: inline-block; background: #F59E0B; color: #1E1B14 !important; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 9999px; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">
           Voir Mon Rapport Interactif Complet
         </a>
         <p style="color: #94a3b8; font-size: 11px; margin: 8px 0 0 0;">Accédez à vos graphiques détaillés, projections et leviers stratégiques à tout moment</p>
@@ -86,21 +86,36 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding: 0; background-color: #f8f5f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+<body style="margin: 0; padding: 0; background-color: #FEF6E4; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
   <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
     
-    <div style="background: #faf9f7; border-radius: 12px; padding: 28px 32px; text-align: center; margin-bottom: 24px; border: 1px solid #e8e4de;">
-      <img src="https://finksmart.com/finksmart-logo.png" alt="FinkSmart - Pro-Investing Decoded" style="max-width: 200px; height: auto;" />
+    <div style="background: #FFFBF1; border-radius: 16px; padding: 28px 32px; text-align: center; margin-bottom: 24px; border: 1px solid #F5E6C9;">
+      <img src="https://finksmart.com/finksmart-logo.png" alt="FinkSmart" style="max-width: 180px; height: auto;" />
+      <!-- Mini hero illustration: sun + mountain (inline SVG, ~600 bytes) -->
+      <svg viewBox="0 0 320 100" width="100%" style="max-width: 320px; margin-top: 12px; display: block; margin-left: auto; margin-right: auto;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="240" cy="35" r="20" fill="#FBBF24"/>
+        <circle cx="240" cy="35" r="28" fill="#FBBF24" opacity="0.25"/>
+        <path d="M0 90 L70 40 L110 65 L160 30 L210 60 L320 90 Z" fill="#FB923C" opacity="0.85"/>
+        <path d="M105 32 L110 28 L114 33 L112 34 L110 31 L107 33 Z" fill="#FFF7ED"/>
+        <path d="M155 28 L160 23 L165 30 L162 32 L160 29 L158 31 Z" fill="#FFF7ED"/>
+        <line x1="160" y1="23" x2="160" y2="14" stroke="#1E293B" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M160 14 L172 17 L160 20 Z" fill="#10B981"/>
+      </svg>
+      <p style="color: #92400E; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 8px 0 0 0; font-weight: 700;">
+        Pro-Investing Decoded
+      </p>
     </div>
 
-    <div style="background: #ffffff; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+    <div style="background: #ffffff; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 4px 20px -8px rgba(15, 23, 42, 0.08); border: 1px solid #F5E6C9;">
+      <h2 style="color: #1E293B; font-size: 24px; margin: 0 0 8px 0; font-weight: 800; line-height: 1.2;">
+        Bonjour ${data.recipientName},
+      </h2>
       <p style="color: #64748b; font-size: 15px; margin: 0 0 24px 0; line-height: 1.6;">
-        Bonjour ${data.recipientName},<br><br>
-        Voici votre Rapport de Liberté personnel — votre analyse complète d'indépendance financière. Conservez cet email comme référence.
+        Voici ton Rapport de Liberté personnel — ton analyse complète d'indépendance financière. Garde cet email comme référence.
       </p>
 
       <!-- Freedom Score Circle -->
-      <div style="text-align: center; padding: 20px; background: #faf9f7; border-radius: 10px; margin-bottom: 24px;">
+      <div style="text-align: center; padding: 20px; background: #FFFBF1; border-radius: 10px; margin-bottom: 24px;">
         <p style="color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 12px 0;">Votre Score de Liberté</p>
         <div style="display: inline-block; width: 90px; height: 90px; border-radius: 50%; background: ${scoreColor}15; border: 3px solid ${scoreColor}; line-height: 90px; text-align: center;">
           <span style="font-size: 36px; font-weight: 800; color: ${scoreColor};">${data.freedomScore}</span>
@@ -150,7 +165,7 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
 
       <!-- Key Numbers -->
       <p style="color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 12px 0; font-weight: 600; text-align: center;">Votre Rapport Complet</p>
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; background: #faf9f7; border-radius: 10px; overflow: hidden;">
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; background: #FFFBF1; border-radius: 10px; overflow: hidden;">
         <tr>
           <td style="padding: 14px 16px; border-bottom: 1px solid #f1f5f9;">
             <span style="color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Votre Âge</span><br>
@@ -221,12 +236,12 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
         <p style="color: #92400e; font-size: 13px; margin: 0; line-height: 1.6;">
           Vos chiffres racontent une histoire — mais le vrai pouvoir réside dans l'optimisation de votre stratégie.
           Nos conseillers formés en gestion UHNW peuvent vous aider à trouver les leviers cachés dans votre plan financier.
-          Visitez <a href="https://finksmart.com" style="color: #C05621; text-decoration: underline; font-weight: 600;">finksmart.com</a> pour refaire le test ou explorer vos options.
+          Visitez <a href="https://finksmart.com" style="color: #D97706; text-decoration: underline; font-weight: 600;">finksmart.com</a> pour refaire le test ou explorer vos options.
         </p>
       </div>
 
       <div style="text-align: center;">
-        <a href="https://finksmart.com" style="display: inline-block; background: linear-gradient(135deg, #C05621, #9C4221, #7B341E); color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 9999px; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">
+        <a href="https://finksmart.com" style="display: inline-block; background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 60%, #F97316 100%); color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 9999px; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">
           Refaire Mon Bilan de Liberté
         </a>
       </div>
@@ -330,7 +345,7 @@ export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Pro
       </div>` : "";
 
   const capitalHtml = (data.requiredCapital && data.plannedCapital && sym) ? `
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; background: #faf9f7; border-radius: 8px; overflow: hidden;">
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; background: #FFFBF1; border-radius: 8px; overflow: hidden;">
         <tr>
           <td style="padding: 12px 16px; border-bottom: 1px solid #f1f5f9;">
             <span style="color: #94a3b8; font-size: 10px; text-transform: uppercase;">Capital Requis</span><br>
@@ -352,7 +367,7 @@ export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Pro
 
   const reportLinkHtml = data.reportUrl ? `
       <div style="text-align: center; margin: 16px 0;">
-        <a href="${data.reportUrl}" style="display: inline-block; background: linear-gradient(135deg, #C05621, #9C4221); color: #ffffff; text-decoration: none; padding: 12px 32px; border-radius: 9999px; font-size: 13px; font-weight: 700;">
+        <a href="${data.reportUrl}" style="display: inline-block; background: linear-gradient(135deg, #FBBF24, #F59E0B); color: #ffffff; text-decoration: none; padding: 12px 32px; border-radius: 9999px; font-size: 13px; font-weight: 700;">
           Voir Mon Rapport Complet
         </a>
       </div>` : "";
@@ -364,22 +379,34 @@ export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Pro
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding: 0; background-color: #f8f5f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+<body style="margin: 0; padding: 0; background-color: #FEF6E4; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
   <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
 
-    <div style="background: #faf9f7; border-radius: 12px; padding: 28px 32px; text-align: center; margin-bottom: 24px; border: 1px solid #e8e4de;">
-      <img src="https://finksmart.com/finksmart-logo.png" alt="FinkSmart - Pro-Investing Decoded" style="max-width: 200px; height: auto;" />
+    <div style="background: #FFFBF1; border-radius: 16px; padding: 28px 32px; text-align: center; margin-bottom: 24px; border: 1px solid #F5E6C9;">
+      <img src="https://finksmart.com/finksmart-logo.png" alt="FinkSmart" style="max-width: 180px; height: auto;" />
+      <svg viewBox="0 0 320 100" width="100%" style="max-width: 320px; margin-top: 12px; display: block; margin-left: auto; margin-right: auto;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="240" cy="35" r="20" fill="#FBBF24"/>
+        <circle cx="240" cy="35" r="28" fill="#FBBF24" opacity="0.25"/>
+        <path d="M0 90 L70 40 L110 65 L160 30 L210 60 L320 90 Z" fill="#FB923C" opacity="0.85"/>
+        <path d="M105 32 L110 28 L114 33 L112 34 L110 31 L107 33 Z" fill="#FFF7ED"/>
+        <path d="M155 28 L160 23 L165 30 L162 32 L160 29 L158 31 Z" fill="#FFF7ED"/>
+        <line x1="160" y1="23" x2="160" y2="14" stroke="#1E293B" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M160 14 L172 17 L160 20 Z" fill="#10B981"/>
+      </svg>
+      <p style="color: #92400E; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 8px 0 0 0; font-weight: 700;">
+        Pro-Investing Decoded
+      </p>
     </div>
 
-    <div style="background: #ffffff; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
-      <h2 style="color: #1e293b; font-size: 20px; margin: 0 0 16px 0; font-weight: 700;">
+    <div style="background: #ffffff; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 4px 20px -8px rgba(15, 23, 42, 0.08); border: 1px solid #F5E6C9;">
+      <h2 style="color: #1E293B; font-size: 24px; margin: 0 0 16px 0; font-weight: 800; line-height: 1.2;">
         Bienvenue ${data.recipientName}.
       </h2>
       <p style="color: #64748b; font-size: 15px; margin: 0 0 20px 0; line-height: 1.7;">
         Votre Feuille de Route vers la Liberté est sécurisée et votre profil est maintenant signalé pour une Analyse de Risque personnelle par l'un de nos conseillers formés en gestion UHNW.
       </p>
 
-      <div style="text-align: center; padding: 20px; background: #faf9f7; border-radius: 10px; margin-bottom: 24px;">
+      <div style="text-align: center; padding: 20px; background: #FFFBF1; border-radius: 10px; margin-bottom: 24px;">
         <p style="color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 8px 0;">Votre Score de Liberté</p>
         <div style="display: inline-block; width: 72px; height: 72px; border-radius: 50%; background: ${scoreColor}15; border: 3px solid ${scoreColor}; line-height: 72px; text-align: center;">
           <span style="font-size: 28px; font-weight: 800; color: ${scoreColor};">${data.freedomScore}</span>
@@ -412,7 +439,7 @@ export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Pro
       </p>
 
       <div style="text-align: center;">
-        <a href="https://finksmart.com" style="display: inline-block; background: linear-gradient(135deg, #C05621, #9C4221, #7B341E); color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 9999px; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">
+        <a href="https://finksmart.com" style="display: inline-block; background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 60%, #F97316 100%); color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 9999px; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">
           Explorer Plus de Scénarios
         </a>
       </div>

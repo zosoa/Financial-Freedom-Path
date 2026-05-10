@@ -253,7 +253,8 @@ function getNarrative(gapPercent: number, freedomAge: number, targetAge: number,
       headline: "You're a Financial Astronaut!",
       message: `Incredible! You're on track to reach financial freedom by age ${freedomAge} -- that's at or before your target of ${targetAge}. Your discipline and planning have paid off brilliantly. You're not just on the path, you're practically at the summit. Keep this trajectory and freedom is yours.`,
       personality: "Astronaut",
-      subtitle: "Your rocket is fueled and ready for liftoff",
+      // i18n key path — translated by the UI via t()
+      subtitle: "narratives.astronaut.subtitle",
     };
   } else if (gapPercent <= 20) {
     return {
@@ -261,7 +262,7 @@ function getNarrative(gapPercent: number, freedomAge: number, targetAge: number,
       headline: "You're a Trail Blazer!",
       message: `You're incredibly close! At your current pace, you'll reach freedom by age ${freedomAge}, just ${diff} year${diff === 1 ? "" : "s"} after your target of ${targetAge}. A small boost to your savings or returns could close the gap entirely. You're cutting through the jungle like a pro.`,
       personality: "Trail Blazer",
-      subtitle: "Cutting through the jungle with style",
+      subtitle: "narratives.trailBlazer.subtitle",
     };
   } else if (gapPercent <= 50) {
     return {
@@ -269,7 +270,7 @@ function getNarrative(gapPercent: number, freedomAge: number, targetAge: number,
       headline: "You're a Base Camp Builder!",
       message: `Solid foundation! You'll reach freedom by age ${freedomAge}, about ${diff} years after your target of ${targetAge}. The tent is pitched and the ladder is being built. With some strategic adjustments to your savings rate, you could shave years off your timeline. Small changes compound into big results.`,
       personality: "Base Camp Builder",
-      subtitle: "The tent is pitched, now build the ladder",
+      subtitle: "narratives.baseCamp.subtitle",
     };
   } else {
     return {
@@ -277,7 +278,7 @@ function getNarrative(gapPercent: number, freedomAge: number, targetAge: number,
       headline: "You're a First Steps Explorer!",
       message: `Every great summit starts with a single step -- and you just took yours! Your projected freedom age is ${freedomAge}, but here's the thing: understanding where you stand is the most powerful move you can make. With the right strategy, you can dramatically change your trajectory. Let's explore how.`,
       personality: "First Steps Explorer",
-      subtitle: "Every summit starts with a single step",
+      subtitle: "narratives.firstSteps.subtitle",
     };
   }
 }

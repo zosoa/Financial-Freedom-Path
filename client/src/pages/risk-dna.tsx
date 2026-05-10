@@ -182,16 +182,21 @@ export default function RiskDNA() {
     }
     if (question.key === "pathPreference") {
       // Q4: each choice surfaces a real computed age + downside
-      const map: Record<string, { age: number; drawdown: string }> = {
-        smooth: { age: ageSmooth, drawdown: t("riskDna.q.pathPreference.dd.none") },
-        modest: { age: ageModest, drawdown: "−10%" },
-        growth: { age: ageGrowth, drawdown: "−25%" },
-        aggressive: { age: ageAggressive, drawdown: "−45%" },
+      // When freedom isn't reachable in our search range (returns 100),
+      // we substitute a soft "very far" label so users still see the diff.
+      const fmtAge = (a: number) => (a >= 95 ? t("riskDna.q.pathPreference.unreachable") : `${a}`);
+      const map: Record<string, { age: string; isNoneDrawdown: boolean; drawdown: string }> = {
+        smooth: { age: fmtAge(ageSmooth), isNoneDrawdown: true, drawdown: "" },
+        modest: { age: fmtAge(ageModest), isNoneDrawdown: false, drawdown: "−10%" },
+        growth: { age: fmtAge(ageGrowth), isNoneDrawdown: false, drawdown: "−25%" },
+        aggressive: { age: fmtAge(ageAggressive), isNoneDrawdown: false, drawdown: "−45%" },
       };
       const data = map[choiceId];
       return {
         label: t(`riskDna.q.pathPreference.choices.${choiceId}`, { age: data.age }),
-        helper: t("riskDna.q.pathPreference.dd.label", { dd: data.drawdown }),
+        helper: data.isNoneDrawdown
+          ? t("riskDna.q.pathPreference.dd.none")
+          : t("riskDna.q.pathPreference.dd.label", { dd: data.drawdown }),
       };
     }
     return { label: t(`riskDna.q.${question.key}.choices.${choiceId}`) };

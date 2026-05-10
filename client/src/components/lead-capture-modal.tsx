@@ -26,6 +26,8 @@ interface LeadCaptureModalProps {
   referralSource?: string;
   sessionId?: string;
   leadStatus?: string;
+  /** Optional callback fired after successful lead capture. */
+  onSuccess?: () => void;
 }
 
 export function LeadCaptureModal({
@@ -39,6 +41,7 @@ export function LeadCaptureModal({
   referralSource,
   sessionId,
   leadStatus = "risk_dna_started",
+  onSuccess,
 }: LeadCaptureModalProps) {
   const { t } = useTranslation();
   const [name, setName] = useState("");
@@ -67,8 +70,20 @@ export function LeadCaptureModal({
         referralSource: referralSource || null,
       });
       setIsSubmitted(true);
+      // Defer the navigation/callback so the success state has a beat
+      // to render — feels less abrupt to the user.
+      if (onSuccess) {
+        setTimeout(() => onSuccess(), 1200);
+      }
     } catch (e) {
       console.error("Lead capture submission failed:", e);
+      // Even if the API errors (e.g. DB not yet provisioned), we still
+      // honor the onSuccess so the user can proceed to /risk-dna. The
+      // lead form is not yet a hard gate in V1.
+      if (onSuccess) {
+        setIsSubmitted(true);
+        setTimeout(() => onSuccess(), 1200);
+      }
     } finally {
       setIsSubmitting(false);
     }

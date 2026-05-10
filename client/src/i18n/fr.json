@@ -515,19 +515,23 @@
   "narratives": {
     "astronaut": {
       "title": "Astronaute Financier",
-      "description": "Vous avez déjà atteint l'orbite. Votre discipline financière et votre planification vous ont placé(e) dans une position enviable. À ce rythme, la liberté financière n'est pas un rêve — c'est une certitude mathématique. L'enjeu maintenant est d'optimiser et de protéger ce que vous avez construit."
+      "subtitle": "Tu es déjà en orbite — ta liberté est une certitude mathématique.",
+      "description": "Tu as déjà atteint le sommet. Ta discipline et ta planification t'ont placé(e) dans une position enviable : à ce rythme, la liberté financière n'est pas un rêve, c'est une certitude. L'enjeu maintenant : optimiser ton allocation et protéger ce que tu as construit."
     },
     "trailBlazer": {
       "title": "Éclaireur",
-      "description": "Vous êtes sur la bonne voie et votre trajectoire est prometteuse. Avec quelques ajustements stratégiques — un peu plus d'épargne, des rendements légèrement optimisés — vous pourriez accélérer significativement votre parcours vers la liberté. Les fondations sont solides, il est temps de construire dessus."
+      "subtitle": "Tu es sur la bonne voie — quelques ajustements peuvent te faire gagner des années.",
+      "description": "Tu es solidement sur la bonne voie. Quelques ajustements ciblés — un peu plus d'épargne, un meilleur rendement — peuvent réduire l'écart restant et même te faire arriver avant l'objectif. Les fondations sont là, il est temps de construire dessus."
     },
     "baseCamp": {
       "title": "Bâtisseur de Camp de Base",
-      "description": "Vous avez posé les premières pierres, mais il reste du chemin à parcourir. La bonne nouvelle ? En agissant maintenant, chaque euro épargné et chaque pourcentage de rendement supplémentaire travaillent exponentiellement en votre faveur grâce aux intérêts composés. Le moment est venu d'accélérer."
+      "subtitle": "Les fondations sont posées — il faut maintenant accélérer le rythme.",
+      "description": "Tu as posé les premières pierres, mais le chemin reste long. La bonne nouvelle : en agissant maintenant, chaque euro épargné et chaque % de rendement gagné travaillent exponentiellement en ta faveur (intérêts composés). Le moment d'accélérer, c'est aujourd'hui."
     },
     "firstSteps": {
       "title": "Explorateur des Premiers Pas",
-      "description": "Vous êtes au début de votre parcours financier, et c'est le moment le plus puissant pour agir. Même de petits changements aujourd'hui auront un impact spectaculaire sur des décennies. Le simple fait d'avoir fait ce diagnostic vous place déjà en avance sur la plupart des gens. Chaque jour compte."
+      "subtitle": "Faire ce diagnostic est déjà la meilleure décision financière de ton année.",
+      "description": "Tu es au début de ton parcours financier — et c'est le moment le plus puissant pour agir. Même de petits changements aujourd'hui auront un impact spectaculaire sur des décennies. Le simple fait d'avoir fait ce diagnostic te place déjà en avance sur la plupart. Chaque jour compte."
     }
   },
   "scoreContext": {
@@ -543,6 +547,50 @@
       "average": "🌱 Dans la moyenne — quelques ajustements peuvent vraiment t'avancer",
       "lagging": "🧭 Le simple fait d'avoir fait ce diagnostic te place déjà en avance sur la plupart"
     }
+  },
+  "scoreTier": {
+    "title": "Ton score t'ouvre l'accès au tier",
+    "perksTitle": "Ce qui s'active pour toi",
+    "elite": {
+      "name": "Cercle Élite",
+      "icon": "🏆",
+      "tagline": "Top 10% de la communauté FinkSmart",
+      "perk1": "Accès aux workshops privés mensuels avec d'anciens banquiers privés",
+      "perk2": "Intros prioritaires aux gestionnaires de patrimoine partenaires",
+      "perk3": "Contenus avancés : optimisation fiscale, structures internationales"
+    },
+    "pioneers": {
+      "name": "Pionniers",
+      "icon": "🎯",
+      "tagline": "Tu as les clés, il te reste à accélérer",
+      "perk1": "Insights mensuels personnalisés (taux d'épargne, allocation, rendement)",
+      "perk2": "Guides intermédiaires : indices, ETF, immobilier locatif",
+      "perk3": "Support prioritaire et intro à un gestionnaire si tu le souhaites"
+    },
+    "builders": {
+      "name": "Bâtisseurs",
+      "icon": "🌱",
+      "tagline": "Bonnes bases — il faut maintenant structurer",
+      "perk1": "Track éducatif sur 12 semaines : un concept = un email court",
+      "perk2": "Plan de progression personnalisé avec jalons mesurables",
+      "perk3": "Outils gratuits : mini-budget, simulateur DCA, suivi mensuel"
+    },
+    "explorers": {
+      "name": "Explorateurs",
+      "icon": "🧭",
+      "tagline": "Le bon point de départ commence par savoir où tu en es",
+      "perk1": "Kit débutant : 5 fondamentaux à maîtriser avant tout",
+      "perk2": "Micro-leçons hebdomadaires (5 min) pour progresser sans douleur",
+      "perk3": "Accountability nudges : on te rappelle de passer à l'action"
+    }
+  },
+  "freedomCardSection": {
+    "sectionTitle": "Ta Carte de Liberté",
+    "sectionSubtitle": "Ton tier · Ton score · Ton climat — partage-le ou télécharge-le",
+    "shareCta": "Partager ma carte",
+    "downloadCta": "Télécharger en image",
+    "challengeFriends": "Défie tes amis",
+    "shareTextWithClimate": "Mon climat d'investisseur est {{climate}}. Mon Score de Liberté : {{score}}/100. Quel est le tien ?"
   },
   "riskDna": {
     "brandTagline": "Risk DNA · Profil Climat",
@@ -595,17 +643,18 @@
         }
       },
       "pathPreference": {
-        "question": "Ton objectif est d'être libre à {{targetAge}} ans. Voici 4 chemins concrets pour y arriver. Lequel te ressemble vraiment ?",
-        "subtitle": "Chaque chemin a un prix : temps gagné contre douleur supportée.",
+        "question": "Quel chemin vers {{targetAge}} ans te ressemble ?",
+        "subtitle": "Plus de gain = plus de stress à supporter.",
         "dd": {
-          "label": "Au moins une fois, ton compte affichera {{dd}}",
-          "none": "jamais"
+          "label": "Baisse max : {{dd}}",
+          "none": "Aucune baisse, aucun stress"
         },
+        "unreachable": "Très loin",
         "choices": {
-          "smooth": "Tu arrives à {{age}} ans, mais ton compte ne baisse JAMAIS. Zéro stress.",
-          "modest": "Tu arrives à {{age}} ans. Une ou deux fois, baisse temporaire mesurée pendant quelques mois.",
-          "growth": "Tu arrives à {{age}} ans. Au moins une fois dans le parcours, ton compte affichera une grosse baisse pendant 1-2 ans. Tu dois tenir.",
-          "aggressive": "Tu arrives à {{age}} ans. Mais au moins une baisse majeure pendant 2-3 ans. Beaucoup décrochent à ce moment."
+          "smooth": "Lent et tranquille → libre à {{age}}",
+          "modest": "Modéré → libre à {{age}}",
+          "growth": "Dynamique → libre à {{age}}, une grosse baisse à tenir",
+          "aggressive": "Offensif → libre à {{age}}, baisse majeure à encaisser"
         }
       },
       "marketExperience": {

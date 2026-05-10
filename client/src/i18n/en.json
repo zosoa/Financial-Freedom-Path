@@ -515,19 +515,23 @@
   "narratives": {
     "astronaut": {
       "title": "Financial Astronaut",
-      "description": "You've already reached orbit. Your financial discipline and planning have placed you in an enviable position. At this rate, financial freedom isn't a dream — it's a mathematical certainty. The focus now is on optimizing and protecting what you've built."
+      "subtitle": "You've reached orbit — your freedom is a mathematical certainty.",
+      "description": "You've already reached orbit. Your discipline and planning have placed you in an enviable position: at this rate, financial freedom isn't a dream — it's a mathematical certainty. The focus now: optimize your allocation and protect what you've built."
     },
     "trailBlazer": {
       "title": "Trail Blazer",
-      "description": "You're on the right track and your trajectory is promising. With a few strategic adjustments — a bit more savings, slightly optimized returns — you could significantly accelerate your journey to freedom. The foundations are solid, it's time to build on them."
+      "subtitle": "You're on the right track — small adjustments could buy you years.",
+      "description": "You're solidly on the right track. A few targeted adjustments — a bit more savings, slightly better returns — could close the remaining gap and even get you there before your goal. The foundation is here, time to build on it."
     },
     "baseCamp": {
       "title": "Base Camp Builder",
-      "description": "You've laid the first stones, but there's still ground to cover. The good news? By acting now, every dollar saved and every percentage point of additional return works exponentially in your favour through compound interest. The time to accelerate is now."
+      "subtitle": "Foundations are laid — now it's time to accelerate the pace.",
+      "description": "You've laid the first stones, but the road remains. The good news: by acting now, every dollar saved and every % of return work exponentially in your favour (compound interest). The moment to accelerate is today."
     },
     "firstSteps": {
       "title": "First Steps Explorer",
-      "description": "You're at the beginning of your financial journey, and this is the most powerful moment to act. Even small changes today will have a spectacular impact over decades. Simply having done this assessment already puts you ahead of most people. Every day counts."
+      "subtitle": "Doing this assessment is already the best financial move of your year.",
+      "description": "You're at the beginning of your financial journey — and this is the most powerful moment to act. Even small changes today will have a spectacular impact over decades. Simply doing this assessment already puts you ahead of most people. Every day counts."
     }
   },
   "scoreContext": {
@@ -543,6 +547,50 @@
       "average": "🌱 Around the average — small adjustments could really move the needle",
       "lagging": "🧭 Simply doing this assessment already puts you ahead of most"
     }
+  },
+  "scoreTier": {
+    "title": "Your score unlocks your tier",
+    "perksTitle": "What this activates for you",
+    "elite": {
+      "name": "Elite Circle",
+      "icon": "🏆",
+      "tagline": "Top 10% of the FinkSmart community",
+      "perk1": "Access to private monthly workshops with former private bankers",
+      "perk2": "Priority intros to wealth manager partners",
+      "perk3": "Advanced content: tax optimisation, international structures"
+    },
+    "pioneers": {
+      "name": "Pioneers",
+      "icon": "🎯",
+      "tagline": "You have the keys, now it's time to accelerate",
+      "perk1": "Personalised monthly insights (savings rate, allocation, returns)",
+      "perk2": "Intermediate guides: indexes, ETFs, rental property",
+      "perk3": "Priority support and a wealth manager intro if you want one"
+    },
+    "builders": {
+      "name": "Builders",
+      "icon": "🌱",
+      "tagline": "Good foundations — now structure for the climb",
+      "perk1": "12-week educational track: one concept = one short email",
+      "perk2": "Personalised progress plan with measurable milestones",
+      "perk3": "Free tools: mini-budget, DCA simulator, monthly tracker"
+    },
+    "explorers": {
+      "name": "Explorers",
+      "icon": "🧭",
+      "tagline": "The right start begins with knowing where you stand",
+      "perk1": "Beginner kit: 5 fundamentals to master before anything else",
+      "perk2": "Weekly micro-lessons (5 min) to make progress painlessly",
+      "perk3": "Accountability nudges: we remind you to take action"
+    }
+  },
+  "freedomCardSection": {
+    "sectionTitle": "Your Freedom Card",
+    "sectionSubtitle": "Your tier · Your score · Your climate — share or download",
+    "shareCta": "Share my card",
+    "downloadCta": "Download as image",
+    "challengeFriends": "Challenge your friends",
+    "shareTextWithClimate": "My investor climate is {{climate}}. My Freedom Score: {{score}}/100. What's yours?"
   },
   "riskDna": {
     "brandTagline": "Risk DNA · Climate Profile",
@@ -595,17 +643,18 @@
         }
       },
       "pathPreference": {
-        "question": "Your goal is to be free at {{targetAge}}. Here are 4 concrete paths to get there. Which one really fits you?",
-        "subtitle": "Each path has a price: years gained vs. pain endured.",
+        "question": "Which path to {{targetAge}} fits you?",
+        "subtitle": "More gain = more stress to absorb.",
         "dd": {
-          "label": "At least once, your account will show {{dd}}",
-          "none": "never"
+          "label": "Max drop: {{dd}}",
+          "none": "No drop, zero stress"
         },
+        "unreachable": "Very far away",
         "choices": {
-          "smooth": "You arrive at {{age}}, but your account NEVER drops. Zero stress.",
-          "modest": "You arrive at {{age}}. Once or twice, a measured temporary drop for a few months.",
-          "growth": "You arrive at {{age}}. At least once in the journey, your account will show a major drop for 1-2 years. You must hold.",
-          "aggressive": "You arrive at {{age}}. But at least one major drop for 2-3 years. Many people give up at that point."
+          "smooth": "Slow & steady → free at {{age}}",
+          "modest": "Moderate → free at {{age}}",
+          "growth": "Dynamic → free at {{age}}, one big drop to hold",
+          "aggressive": "Aggressive → free at {{age}}, major drop to absorb"
         }
       },
       "marketExperience": {
