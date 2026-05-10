@@ -27,6 +27,8 @@ export interface ReportEmailData {
   retakeUrl?: string;
   // CTA URL pointing at /risk-dna with all Phase 1 params (when DNA not yet done).
   riskDnaUrl?: string;
+  // GDPR — one-click unsubscribe / data-deletion link.
+  unsubscribeUrl?: string;
   // Phase 2 — Risk DNA climate, if the user has completed it.
   climate?: string | null;
   climateName?: string | null;
@@ -335,6 +337,10 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
       <p style="color: #cbd5e1; font-size: 10px; margin: 8px 0 0 0;">
         finksmart.com
       </p>
+      ${data.unsubscribeUrl ? `<p style="color: #cbd5e1; font-size: 10px; margin: 12px 0 0 0;">
+        Tu reçois cet email parce que tu as fait le test sur finksmart.com.
+        <a href="${data.unsubscribeUrl}" style="color: #94a3b8; text-decoration: underline;">Me désinscrire et supprimer mes données</a>
+      </p>` : ""}
     </div>
   </div>
 </body>
@@ -374,6 +380,7 @@ export interface LeadConfirmationData {
   desiredMonthlyIncome?: number;
   personality?: string;
   reportUrl?: string;
+  unsubscribeUrl?: string;
 }
 
 export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Promise<boolean> {
@@ -536,13 +543,16 @@ export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Pro
       <p style="color: #cbd5e1; font-size: 10px; margin: 8px 0 0 0;">
         finksmart.com
       </p>
+      ${data.unsubscribeUrl ? `<p style="color: #cbd5e1; font-size: 10px; margin: 12px 0 0 0;">
+        <a href="${data.unsubscribeUrl}" style="color: #94a3b8; text-decoration: underline;">Me désinscrire et supprimer mes données</a>
+      </p>` : ""}
     </div>
   </div>
 </body>
 </html>`;
 
   try {
-    const subjectAge = hasFreedomAge 
+    const subjectAge = hasFreedomAge
       ? ` | Target ${data.targetAge} vs Projected ${data.freedomAge}` 
       : "";
     const { error } = await resend.emails.send({

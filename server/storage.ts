@@ -16,6 +16,10 @@ export interface IStorage {
   createLead(data: InsertLead): Promise<Lead>;
   getLead(id: string): Promise<Lead | undefined>;
   getRecentLeads(limit?: number): Promise<Lead[]>;
+  /** GDPR — hard-delete a lead by id. Returns true if a row was removed. */
+  deleteLead(id: string): Promise<boolean>;
+  /** GDPR — hard-delete every lead matching an email (case-insensitive). */
+  deleteLeadsByEmail(email: string): Promise<number>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -65,6 +69,23 @@ export class DatabaseStorage implements IStorage {
       .from(leads)
       .orderBy(desc(leads.createdAt))
       .limit(limit);
+  }
+
+  async deleteLead(id: string): Promise<boolean> {
+    const deleted = await db
+      .delete(leads)
+      .where(eq(leads.id, id))
+      .returning({ id: leads.id });
+    return deleted.length > 0;
+  }
+
+  async deleteLeadsByEmail(email: string): Promise<number> {
+    const norm = email.trim().toLowerCase();
+    const deleted = await db
+      .delete(leads)
+      .where(eq(leads.email, norm))
+      .returning({ id: leads.id });
+    return deleted.length;
   }
 }
 

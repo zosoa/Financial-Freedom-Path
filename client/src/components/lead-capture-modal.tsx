@@ -53,6 +53,8 @@ export function LeadCaptureModal({
   const [email, setEmail] = useState(prefillEmail);
   const [whatsapp, setWhatsapp] = useState("");
   const [lifeEvent, setLifeEvent] = useState("");
+  /** GDPR — explicit opt-in. Submission is gated on this. */
+  const [consent, setConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -104,6 +106,7 @@ export function LeadCaptureModal({
       setEmail("");
       setWhatsapp("");
       setLifeEvent("");
+      setConsent(false);
     }, 300);
   };
 
@@ -184,11 +187,24 @@ export function LeadCaptureModal({
                   />
                 </div>
 
+                <label className="flex items-start gap-2 text-xs text-muted-foreground cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-border accent-primary cursor-pointer"
+                    data-testid="checkbox-lead-consent"
+                  />
+                  <span className="leading-snug">
+                    {t("leadCapture.consent")}
+                  </span>
+                </label>
+
                 <Button
                   className="w-full"
                   size="lg"
                   onClick={handleSubmit}
-                  disabled={!name.trim() || !email.trim() || !whatsapp.trim() || isSubmitting}
+                  disabled={!name.trim() || !email.trim() || !whatsapp.trim() || !consent || isSubmitting}
                   data-testid="button-submit-lead"
                 >
                   {isSubmitting ? (

@@ -510,7 +510,8 @@
     "submit": "Send My Roadmap & Unlock Risk Analysis",
     "success": "Your roadmap is secured!",
     "successSubtitle": "We'll reach out to you shortly with your personalised plan and early access to Phase 2.",
-    "close": "Close"
+    "close": "Close",
+    "consent": "I agree that FinkSmart may keep this information to contact me. I can unsubscribe anytime via the link in every email."
   },
   "narratives": {
     "astronaut": {

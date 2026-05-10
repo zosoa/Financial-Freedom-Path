@@ -35,9 +35,23 @@ const NARRATIVE_KEY_MAP: Record<string, string> = {
 export default function Report() {
   const { t } = useTranslation();
   const params = useParams<{ id: string }>();
+  // Token-gated read: pulled from the URL query string (?token=…), set by
+  // the email link generator. Without it, the API returns 404.
+  const token = (() => {
+    if (typeof window === "undefined") return "";
+    return new URLSearchParams(window.location.search).get("token") || "";
+  })();
 
   const { data: calc, isLoading, error } = useQuery<Calculation>({
-    queryKey: ["/api/calculations", params.id],
+    queryKey: ["/api/calculations", params.id, token],
+    queryFn: async () => {
+      const res = await fetch(`/api/calculations/${params.id}?token=${encodeURIComponent(token)}`, {
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("not found");
+      return res.json();
+    },
+    enabled: Boolean(params.id && token),
   });
 
   if (isLoading) {

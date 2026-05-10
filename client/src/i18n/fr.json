@@ -510,7 +510,8 @@
     "submit": "Envoyer Ma Feuille de Route et Débloquer l'Analyse de Risque",
     "success": "Votre feuille de route est sécurisée !",
     "successSubtitle": "Nous vous contacterons bientôt avec votre plan personnalisé et un accès anticipé à la Phase 2.",
-    "close": "Fermer"
+    "close": "Fermer",
+    "consent": "J'accepte que FinkSmart conserve ces informations pour me recontacter. Je peux me désinscrire à tout moment via le lien dans chaque email."
   },
   "narratives": {
     "astronaut": {
