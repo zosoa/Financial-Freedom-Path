@@ -530,6 +530,20 @@
       "description": "You're at the beginning of your financial journey, and this is the most powerful moment to act. Even small changes today will have a spectacular impact over decades. Simply having done this assessment already puts you ahead of most people. Every day counts."
     }
   },
+  "scoreContext": {
+    "yearsAhead": "{{years}} years before legal retirement age ({{country}}: {{age}})",
+    "yearsLate": "{{years}} years after legal retirement age ({{country}}: {{age}})",
+    "onTime": "Right at legal retirement age ({{country}}: {{age}})",
+    "topPercent": "Top {{p}}%",
+    "averagePeer": "At the average",
+    "below": "Below average — but doing this assessment puts you ahead already",
+    "tier": {
+      "elite": "🚀 Elite profile — few people reach this level of preparation",
+      "ahead": "🎯 Ahead of your peer group",
+      "average": "🌱 Around the average — small adjustments could really move the needle",
+      "lagging": "🧭 Simply doing this assessment already puts you ahead of most"
+    }
+  },
   "riskDna": {
     "brandTagline": "Risk DNA · Climate Profile",
     "decoding": "Decoding your investor DNA…",

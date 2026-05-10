@@ -57,6 +57,16 @@ export default function ResultsPreview({ className }: Props) {
             </div>
           </div>
 
+          {/* Score context micro-row */}
+          <div className="flex flex-wrap gap-1.5 items-center text-[10px]">
+            <span className="px-2 py-0.5 rounded-full bg-mint/15 text-emerald-700 dark:text-emerald-300 font-semibold">
+              8 ans avant la retraite (60 ans)
+            </span>
+            <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 font-semibold">
+              Top 12 %
+            </span>
+          </div>
+
           {/* 2 — Mountain ascent */}
           <div className="rounded-2xl bg-card border border-card-border p-3 md:p-4">
             <MountainAscent

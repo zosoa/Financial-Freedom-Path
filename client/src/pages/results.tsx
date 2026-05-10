@@ -54,6 +54,7 @@ import {
 import MountainAscent from "@/components/illustrations/MountainAscent";
 import { CLIMATE_ILLUSTRATIONS } from "@/components/illustrations/Climates";
 import { CLIMATES, type Climate, type ClimateProfile } from "@/lib/risk-scoring";
+import { getScoreContext } from "@/lib/score-context";
 import {
   AreaChart,
   Area,
@@ -161,6 +162,12 @@ export default function Results() {
 
   const inputs = baseInputs;
   const results = baseResults;
+
+  /** Peer-comparison context for the freedom score (country-aware). */
+  const scoreCtx = useMemo(
+    () => getScoreContext(results.freedomScore, results.freedomAgeStandard, country),
+    [results.freedomScore, results.freedomAgeStandard, country]
+  );
 
   /** Climate-based projection (only computed if user has Risk DNA result). */
   const climateProjection = useMemo(() => {
@@ -414,6 +421,13 @@ export default function Results() {
                 tone="mint"
               />
             </div>
+
+            {/* Score context — peer benchmark + retirement age comparison */}
+            <ScoreContextBadge
+              ctx={scoreCtx}
+              country={country}
+              t={t}
+            />
           </div>
 
           {/* Gap callout */}
@@ -1545,6 +1559,54 @@ function Phase2Bullet({
         <p className="font-semibold text-foreground">{title}</p>
         <p className="text-xs text-muted-foreground">{text}</p>
       </div>
+    </div>
+  );
+}
+
+/* Peer-comparison badge that anchors the Freedom Score in something
+ * concrete (years before legal retirement) and a tier callout. */
+function ScoreContextBadge({
+  ctx,
+  country,
+  t,
+}: {
+  ctx: ReturnType<typeof getScoreContext>;
+  country: string;
+  t: (key: string, opts?: Record<string, unknown>) => string;
+}) {
+  const ahead = ctx.yearsBeforeRetirement;
+  let mainLine: string;
+  let toneClass: string;
+  if (ahead > 0) {
+    mainLine = t("scoreContext.yearsAhead", {
+      years: ahead,
+      country,
+      age: ctx.retirementAge,
+    });
+    toneClass = "fa-pill-mint";
+  } else if (ahead === 0) {
+    mainLine = t("scoreContext.onTime", { country, age: ctx.retirementAge });
+    toneClass = "fa-pill-amber";
+  } else {
+    mainLine = t("scoreContext.yearsLate", {
+      years: -ahead,
+      country,
+      age: ctx.retirementAge,
+    });
+    toneClass = "fa-pill-coral";
+  }
+
+  return (
+    <div className="mt-5 flex flex-col sm:flex-row gap-2 items-start sm:items-center justify-center text-center sm:text-left">
+      <span className={`fa-pill ${toneClass}`} data-testid="score-context-main">
+        {mainLine}
+      </span>
+      <span className="fa-pill fa-pill-amber" data-testid="score-context-tier">
+        {t("scoreContext.topPercent", { p: ctx.approxPercentile })}
+      </span>
+      <span className="text-xs text-muted-foreground italic" data-testid="score-context-tier-text">
+        {t(ctx.tierKey)}
+      </span>
     </div>
   );
 }

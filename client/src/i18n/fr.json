@@ -530,6 +530,20 @@
       "description": "Vous êtes au début de votre parcours financier, et c'est le moment le plus puissant pour agir. Même de petits changements aujourd'hui auront un impact spectaculaire sur des décennies. Le simple fait d'avoir fait ce diagnostic vous place déjà en avance sur la plupart des gens. Chaque jour compte."
     }
   },
+  "scoreContext": {
+    "yearsAhead": "{{years}} ans avant l'âge légal de retraite ({{country}} : {{age}} ans)",
+    "yearsLate": "{{years}} ans après l'âge légal de retraite ({{country}} : {{age}} ans)",
+    "onTime": "Pile à l'âge légal de retraite ({{country}} : {{age}} ans)",
+    "topPercent": "Top {{p}} %",
+    "averagePeer": "Au niveau de la moyenne",
+    "below": "Sous la moyenne — mais le diagnostic te place déjà en avance",
+    "tier": {
+      "elite": "🚀 Profil élite — peu de gens atteignent ce niveau de préparation",
+      "ahead": "🎯 En avance sur ton groupe d'âge",
+      "average": "🌱 Dans la moyenne — quelques ajustements peuvent vraiment t'avancer",
+      "lagging": "🧭 Le simple fait d'avoir fait ce diagnostic te place déjà en avance sur la plupart"
+    }
+  },
   "riskDna": {
     "brandTagline": "Risk DNA · Profil Climat",
     "decoding": "On décode ton ADN d'investisseur…",
