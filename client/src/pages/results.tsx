@@ -51,6 +51,7 @@ import {
   IconCompass,
   IconLightbulb,
   IconPiggy,
+  IconDiploma,
 } from "@/components/icons";
 import MountainAscent from "@/components/illustrations/MountainAscent";
 import { CLIMATE_ILLUSTRATIONS } from "@/components/illustrations/Climates";
@@ -1261,82 +1262,100 @@ export default function Results() {
               riskDnaUrl={buildRiskDnaUrl(searchString)}
               t={t}
             />
-          ) : (
-            /* ---------- Locked CTA → questionnaire ---------- */
-            <div className="fa-card p-6 md:p-10">
-              <div className="flex flex-col items-center text-center">
-                <IconDNA size={84} className="mb-4" />
-                <h3 className="fa-display text-3xl mb-2" data-testid="text-phase2-title">
-                  {t("results.phase2.title")}
-                </h3>
-                <p className="text-sm text-muted-foreground max-w-md mb-6">{t("results.phase2.subtitle")}</p>
-                <div className="space-y-3 text-left max-w-sm mb-6">
-                  <Phase2Bullet
-                    Icon={IconShield}
-                    title={t("results.phase2.bulletproof")}
-                    text={t("results.phase2.bulletproofText")}
-                  />
-                  <Phase2Bullet
-                    Icon={IconDNA}
-                    title={t("results.phase2.riskDna")}
-                    text={t("results.phase2.riskDnaText")}
-                  />
-                  <Phase2Bullet
-                    Icon={IconCompass}
-                    title={t("results.phase2.investmentBridge")}
-                    text={t("results.phase2.investmentBridgeText")}
-                  />
-                </div>
-                <button
-                  className="premium-cta premium-cta-lg"
-                  onClick={() => {
-                    // If the user has already given us their contact, skip the
-                    // modal and take them straight to the questionnaire.
-                    if (leadSubmitted) {
-                      navigate(buildRiskDnaUrl(searchString));
-                    } else {
-                      setLeadIntent("risk_dna");
-                      setShowLeadModal(true);
-                    }
-                  }}
-                  data-testid="button-unlock-phase2"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  {t("results.phase2.cta")}
-                </button>
-              </div>
-            </div>
-          )}
+          ) : null}
         </motion.section>
 
-        {/* ============== 13. PRECISION + SECOND OPINION ============== */}
+        {/* ============== 13. NEXT STEPS — triptyque (always shown) ============== */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
+          className="space-y-4"
         >
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="fa-card p-6">
-              <div className="flex items-center gap-3 mb-3">
-                <IconTarget size={36} />
-                <h3 className="font-serif text-lg font-bold">{t("results.precision.title")}</h3>
+          <SectionHeader Icon={IconCompass} label={t("results.nextSteps.label")} />
+
+          {/* Bloc 1 — only shown when Risk DNA not yet done */}
+          {!climate && (
+            <div className="fa-card fa-surface-cream p-6 md:p-8">
+              <div className="flex items-start gap-4">
+                <div className="shrink-0 w-12 h-12 rounded-2xl bg-primary/15 grid place-items-center">
+                  <IconDNA size={32} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className="fa-pill fa-pill-amber">{t("results.nextSteps.bloc1Tag")}</span>
+                  <h3 className="fa-display text-2xl md:text-3xl mt-2" data-testid="text-bloc1-title">
+                    {t("results.nextSteps.bloc1Title")}
+                  </h3>
+                  <p className="text-sm md:text-base text-muted-foreground mt-2 leading-relaxed">
+                    {t("results.nextSteps.bloc1Text", { age: results.freedomAgeStandard })}
+                  </p>
+                  <div className="mt-4">
+                    <button
+                      className="premium-cta"
+                      onClick={() => {
+                        if (leadSubmitted) {
+                          navigate(buildRiskDnaUrl(searchString));
+                        } else {
+                          setLeadIntent("risk_dna");
+                          setShowLeadModal(true);
+                        }
+                      }}
+                      data-testid="button-bloc1-cta"
+                    >
+                      <Sparkles className="w-4 h-4" />
+                      {t("results.nextSteps.bloc1Cta")}
+                    </button>
+                  </div>
+                </div>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{t("results.precision.text")}</p>
-              <Button variant="outline" className="rounded-xl" onClick={() => setShowLeadModal(true)} data-testid="button-precision-cta">
-                {t("results.precision.cta")}
-                <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
             </div>
-            <div className="fa-card p-6">
-              <div className="flex items-center gap-3 mb-3">
-                <IconShield size={36} />
-                <h3 className="font-serif text-lg font-bold">{t("results.secondOpinion.title")}</h3>
+          )}
+
+          {/* Bloc 2 — always shown (more prominent when DNA done) */}
+          <div className="fa-card p-6 md:p-8">
+            <div className="flex items-start gap-4">
+              <div className="shrink-0 w-12 h-12 rounded-2xl bg-mint/15 grid place-items-center">
+                <IconShield size={32} />
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{t("results.secondOpinion.text")}</p>
-              <Button variant="outline" className="rounded-xl" onClick={() => setShowLeadModal(true)} data-testid="button-second-opinion">
-                {t("results.secondOpinion.cta")}
-                <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
+              <div className="flex-1 min-w-0">
+                <span className="fa-pill fa-pill-mint">{t("results.nextSteps.bloc2Tag")}</span>
+                <h3 className="fa-display text-xl md:text-2xl mt-2">
+                  {t("results.nextSteps.bloc2Title")}
+                </h3>
+                <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                  {t("results.nextSteps.bloc2Text")}
+                </p>
+                <div className="mt-4">
+                  <Button variant="outline" disabled className="rounded-xl" data-testid="button-bloc2-cta">
+                    <Lock className="w-4 h-4 mr-2" />
+                    {t("results.nextSteps.bloc2CtaLocked")}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bloc 3 — always shown */}
+          <div className="fa-card p-6 md:p-8">
+            <div className="flex items-start gap-4">
+              <div className="shrink-0 w-12 h-12 rounded-2xl bg-sky/15 grid place-items-center">
+                <IconDiploma size={32} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <span className="fa-pill fa-pill-sky">{t("results.nextSteps.bloc3Tag")}</span>
+                <h3 className="fa-display text-xl md:text-2xl mt-2">
+                  {t("results.nextSteps.bloc3Title")}
+                </h3>
+                <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                  {t("results.nextSteps.bloc3Text")}
+                </p>
+                <div className="mt-4">
+                  <Button variant="outline" disabled className="rounded-xl" data-testid="button-bloc3-cta">
+                    <Lock className="w-4 h-4 mr-2" />
+                    {t("results.nextSteps.bloc3Cta")}
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </motion.section>
