@@ -54,6 +54,7 @@ import {
 } from "@/components/icons";
 import MountainAscent from "@/components/illustrations/MountainAscent";
 import { CLIMATE_ILLUSTRATIONS } from "@/components/illustrations/Climates";
+import { JointVentureFooter } from "@/components/illustrations/JointVenture";
 import { CLIMATES, type Climate, type ClimateProfile } from "@/lib/risk-scoring";
 import { getScoreContext } from "@/lib/score-context";
 import { getTierForScore, type Tier } from "@/lib/score-tier";
@@ -1353,13 +1354,19 @@ export default function Results() {
           </Button>
         </motion.div>
 
-        <footer className="text-center py-8 mt-2 border-t border-border">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <img src={finksmartLogo} alt="FinkSmart" className="h-7 w-auto" />
+        <footer className="text-center py-10 mt-2 border-t border-border">
+          <div className="flex items-center justify-center mb-5">
+            <img src={finksmartLogo} alt="FinkSmart" className="h-8 w-auto" />
+          </div>
+          <div className="mb-5">
+            <JointVentureFooter />
           </div>
           <p className="text-xs text-muted-foreground mb-1">{t("results.footerEngine")}</p>
           <p className="text-[10px] text-muted-foreground">finksmart.com</p>
-          <div className="mt-3 pt-3 border-t border-border max-w-xl mx-auto">
+          <div className="mt-5 pt-4 border-t border-border max-w-2xl mx-auto space-y-2">
+            <p className="text-[11px] text-foreground/70 font-semibold leading-relaxed">
+              {t("disclaimer.short")}
+            </p>
             <p className="text-[10px] text-muted-foreground/70 leading-relaxed">{t("results.footerDisclaimer")}</p>
           </div>
         </footer>

@@ -47,6 +47,7 @@ import {
   EUR_EXCHANGE_RATES,
 } from "@shared/schema";
 import ResultsPreview from "@/components/illustrations/ResultsPreview";
+import { RealSmartLogo, GeliosLogo, JointVentureFooter } from "@/components/illustrations/JointVenture";
 import teamPortrait from "@assets/Partners_Pictures_RealSmart_1776604047326.jpg";
 
 const countries = Object.keys(COUNTRY_CURRENCY_MAP).sort();
@@ -202,12 +203,11 @@ export default function Landing() {
             <img src={finksmartLogo} alt="FinkSmart" className="h-10 w-auto" data-testid="icon-logo" />
           </div>
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2" data-testid="text-sponsor">
-              <span className="text-[10px] text-muted-foreground/70 uppercase tracking-[0.18em] font-semibold">
-                {t("header.sponsoredBy")}
-              </span>
-              <span className="text-[11px] font-bold tracking-[0.1em] uppercase text-foreground/80">
-                {t("header.blackwaveCapital")}
+            <div className="hidden sm:flex items-center gap-1.5" data-testid="text-jv-byline">
+              <RealSmartLogo className="w-5 h-5" />
+              <GeliosLogo className="w-6 h-4 ml-0.5" />
+              <span className="text-[10px] text-muted-foreground/70 uppercase tracking-[0.18em] font-semibold ml-1">
+                {t("header.jvByline")}
               </span>
             </div>
             <Button
@@ -434,22 +434,6 @@ export default function Landing() {
               <p className="text-base text-muted-foreground mt-4 leading-relaxed">
                 {t("institutional.description")}
               </p>
-            </div>
-          </AnimatedSection>
-
-          <AnimatedSection>
-            <div className="flex items-center justify-center gap-x-8 gap-y-3 flex-wrap mb-10" data-testid="institutional-names">
-              {["BNP Paribas", "Deutsche Bank", "Citi", "Julius Baer", "AfrAsia Bank"].map((name, i, arr) => (
-                <span key={name} className="flex items-center gap-x-8">
-                  <span
-                    className="text-sm md:text-base font-semibold text-muted-foreground tracking-wider"
-                    data-testid={`firm-${name.toLowerCase().replace(/\s+/g, "-")}`}
-                  >
-                    {name}
-                  </span>
-                  {i < arr.length - 1 && <span className="text-muted-foreground/40 hidden md:inline">·</span>}
-                </span>
-              ))}
             </div>
           </AnimatedSection>
 
@@ -874,22 +858,20 @@ export default function Landing() {
       </section>
 
       {/* ============== FOOTER ============== */}
-      <footer className="py-10 border-t border-border">
+      <footer className="py-12 border-t border-border">
         <div className="max-w-6xl mx-auto px-5 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <img src={finksmartLogo} alt="FinkSmart" className="h-8 w-auto" />
+          <div className="flex items-center justify-center mb-6">
+            <img src={finksmartLogo} alt="FinkSmart" className="h-9 w-auto" />
           </div>
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">
-              {t("header.sponsoredBy")}
-            </span>
-            <span className="text-xs font-bold tracking-wide text-foreground" data-testid="text-sponsor-footer">
-              {t("header.blackwaveCapital")}
-            </span>
+          <div className="mb-6">
+            <JointVentureFooter tagline={t("jv.tagline")} />
           </div>
           <p className="text-xs text-muted-foreground">{t("footer.poweredBy")}</p>
           <p className="text-xs text-muted-foreground mt-1">finksmart.com</p>
-          <div className="mt-4 pt-3 border-t border-border max-w-xl mx-auto">
+          <div className="mt-6 pt-4 border-t border-border max-w-2xl mx-auto space-y-2">
+            <p className="text-[11px] text-foreground/70 font-semibold leading-relaxed">
+              {t("disclaimer.short")}
+            </p>
             <p className="text-[10px] text-muted-foreground/70 leading-relaxed">{t("footer.disclaimer")}</p>
           </div>
         </div>

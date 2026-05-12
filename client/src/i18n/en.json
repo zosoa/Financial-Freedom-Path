@@ -1,7 +1,16 @@
 {
   "header": {
-    "sponsoredBy": "Sponsored by",
-    "blackwaveCapital": "BLACKWAVE CAPITAL"
+    "jvByline": "RealSmart × Gelios"
+  },
+  "jv": {
+    "label": "A joint venture between",
+    "realsmartRegion": "EU",
+    "geliosRegion": "Mauritius",
+    "tagline": "Our job: give you the tools. Investment decisions stay yours, alongside licensed specialists in your jurisdiction."
+  },
+  "disclaimer": {
+    "short": "FinkSmart is an educational financial diagnostic tool. We do not provide investment advice.",
+    "long": "FinkSmart is an educational financial diagnostic tool. We do not provide investment advice. Projections and orientations are educational tools based on simplified assumptions. Any investment decision must be made with a licensed professional. Any referral happens only with your explicit consent."
   },
   "badge": {
     "trust": "Exclusive Financial Simulator Engineered by Experts",
@@ -33,10 +42,10 @@
     "privacyNote": "No login required. Your data stays private."
   },
   "institutional": {
-    "title": "Where do the pros actually save?",
-    "subtitle": "Stock Markets? Crypto? Real Estate? Funds?",
-    "description": "We spent our careers managing wealth for the ultra-rich — now we're giving you the exact same logic. No secrets, simplified and 100% free.",
-    "teamLabel": "Our team cut their teeth at",
+    "title": "Why FinkSmart?",
+    "subtitle": "Two fintechs. One promise.",
+    "description": "A joint venture between RealSmart Group (Europe) and Gelios Investment and Partners Ltd (Mauritius). Our mission: give you the same diagnostic discipline used by pros — for free, in plain language, with nothing to sell you.",
+    "teamLabel": "Our approach",
     "step1Label": "Step 1: Your Savings Objective.",
     "step1Text": "Find the exact date you hit freedom.",
     "step2Label": "Step 2: Your Investment Heat.",
@@ -511,7 +520,13 @@
     "success": "Your roadmap is secured!",
     "successSubtitle": "We'll reach out to you shortly with your personalised plan and early access to Phase 2.",
     "close": "Close",
-    "consent": "I agree that FinkSmart may keep this information to contact me. I can unsubscribe anytime via the link in every email."
+    "consent": "I agree that FinkSmart may keep this information to contact me. I can unsubscribe anytime via the link in every email.",
+    "whatHappensNext": {
+      "title": "What happens next",
+      "b1": "We keep your info so we can reach back out.",
+      "b2": "No sharing without your explicit \"yes\".",
+      "b3": "If you opt-in to a referral: only with licensed partners in your jurisdiction (FSC Mauritius, AMF Europe, FSCA South Africa, etc.)."
+    }
   },
   "narratives": {
     "astronaut": {

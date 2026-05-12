@@ -1,7 +1,7 @@
 # FinkSmart: Pro-Investing Decoded - Financial GPS
 
 ## Overview
-A conversion-optimized Financial GPS web application (FinkSmart brand) that guides non-savvy salary workers through retirement planning. Uses institutional-grade FINSIM v5 calculation logic (2% inflation, 6% Safe Withdrawal Rate), built by former Private Bankers/UHNW Asset Managers. Sponsored by BLACKWAVE CAPITAL.
+A conversion-optimized Financial GPS web application (FinkSmart brand) that guides non-savvy salary workers through retirement planning. Uses institutional-grade FINSIM v5 calculation logic (2% inflation, 6% Safe Withdrawal Rate). FinkSmart is a joint venture between RealSmart Group (fintech, Europe) and Gelios Investment and Partners Ltd (fintech, Mauritius). FinkSmart provides educational diagnostic tools only — not investment advice. Any referral to licensed asset/fund managers or brokers happens with the user's explicit consent.
 
 ## Architecture
 - **Frontend**: React 18 + Vite, Tailwind CSS, Shadcn UI components, Framer Motion animations, Recharts for data visualization

@@ -326,13 +326,21 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
     </div>
 
     <div style="text-align: center; padding: 16px;">
-      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 8px 0;">
-        FinkSmart : Pro-Investing Decoded &middot; Sponsorisé par BLACKWAVE CAPITAL
+      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 6px 0; letter-spacing: 0.5px; text-transform: uppercase;">
+        Une joint-venture entre
       </p>
-      <p style="color: #cbd5e1; font-size: 10px; margin: 0; line-height: 1.5;">
-        Ce rapport est à but éducatif uniquement et ne constitue pas un conseil financier.
-        Toutes les projections sont hypothétiques, basées sur des hypothèses simplifiées (inflation 2 %, TSR 6 %).
-        Les performances passées ne garantissent pas les résultats futurs. Consultez un conseiller qualifié avant toute décision d'investissement.
+      <p style="color: #1E293B; font-size: 13px; font-weight: 700; margin: 0 0 12px 0;">
+        RealSmart Group <span style="color: #94a3b8; font-weight: 400;">· EU</span>
+        &nbsp; × &nbsp;
+        Gelios Investment and Partners Ltd <span style="color: #94a3b8; font-weight: 400;">· Maurice</span>
+      </p>
+      <p style="color: #1E293B; font-size: 11px; font-weight: 700; margin: 16px 0 6px 0;">
+        FinkSmart est un outil de diagnostic financier éducatif.
+      </p>
+      <p style="color: #94a3b8; font-size: 10px; margin: 0 0 8px 0; line-height: 1.5;">
+        Nous ne fournissons aucun conseil en investissement. Toutes les projections sont des
+        hypothèses pédagogiques (inflation 2 %, TSR 6 %). Toute décision d'investissement doit
+        être prise avec un professionnel agréé dans votre juridiction.
       </p>
       <p style="color: #cbd5e1; font-size: 10px; margin: 8px 0 0 0;">
         finksmart.com
@@ -529,16 +537,21 @@ export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Pro
     </div>
 
     <div style="text-align: center; padding: 16px;">
-      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 8px 0;">
-        FinkSmart : Pro-Investing Decoded &middot; Sponsorisé par BLACKWAVE CAPITAL
+      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 6px 0; letter-spacing: 0.5px; text-transform: uppercase;">
+        Une joint-venture entre
       </p>
-      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 8px 0;">
-        BNP Paribas | Deutsche Bank | Citi | Julius Baer | Afrasia Bank
+      <p style="color: #1E293B; font-size: 13px; font-weight: 700; margin: 0 0 12px 0;">
+        RealSmart Group <span style="color: #94a3b8; font-weight: 400;">· EU</span>
+        &nbsp; × &nbsp;
+        Gelios Investment and Partners Ltd <span style="color: #94a3b8; font-weight: 400;">· Maurice</span>
       </p>
-      <p style="color: #cbd5e1; font-size: 10px; margin: 0; line-height: 1.5;">
-        Cet email confirme votre demande d'analyse personnelle de Feuille de Route vers la Liberté.
-        Vos données ne sont partagées qu'avec nos partenaires institutionnels sélectionnés tel que décrit lors de votre soumission.
-        Aucun conseil financier n'est fourni dans cet email.
+      <p style="color: #1E293B; font-size: 11px; font-weight: 700; margin: 16px 0 6px 0;">
+        FinkSmart est un outil de diagnostic financier éducatif.
+      </p>
+      <p style="color: #94a3b8; font-size: 10px; margin: 0; line-height: 1.5;">
+        Cet email confirme que tu as commencé ton diagnostic. Nous ne fournissons aucun conseil
+        en investissement. Toute mise en relation avec un partenaire agréé se fait avec ton
+        consentement explicite, et uniquement avec des spécialistes licenciés dans ta juridiction.
       </p>
       <p style="color: #cbd5e1; font-size: 10px; margin: 8px 0 0 0;">
         finksmart.com

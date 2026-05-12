@@ -1,7 +1,16 @@
 {
   "header": {
-    "sponsoredBy": "Sponsorisé par",
-    "blackwaveCapital": "BLACKWAVE CAPITAL"
+    "jvByline": "RealSmart × Gelios"
+  },
+  "jv": {
+    "label": "Une joint-venture entre",
+    "realsmartRegion": "EU",
+    "geliosRegion": "Maurice",
+    "tagline": "Notre travail : te donner les outils. Les décisions d'investissement restent les tiennes, accompagnées de spécialistes agréés dans ta juridiction."
+  },
+  "disclaimer": {
+    "short": "FinkSmart est un outil de diagnostic financier éducatif. Nous ne fournissons aucun conseil en investissement.",
+    "long": "FinkSmart est un outil de diagnostic financier éducatif. Nous ne fournissons aucun conseil en investissement. Les projections et orientations sont des outils pédagogiques basés sur des hypothèses simplifiées. Toute décision d'investissement doit être prise avec un professionnel agréé. Toute mise en relation se fait avec ton consentement explicite."
   },
   "badge": {
     "trust": "Simulateur Financier Exclusif Conçu par des Experts",
@@ -33,10 +42,10 @@
     "privacyNote": "Aucune inscription requise. Vos données restent privées."
   },
   "institutional": {
-    "title": "Où les professionnels placent-ils vraiment leur argent ?",
-    "subtitle": "Marchés Boursiers ? Crypto ? Immobilier ? Fonds ?",
-    "description": "Nous avons passé nos carrières à gérer le patrimoine des ultra-riches — aujourd'hui, nous vous offrons exactement la même logique. Sans secrets, simplifiée et 100% gratuite.",
-    "teamLabel": "Notre équipe a fait ses armes chez",
+    "title": "Pourquoi FinkSmart ?",
+    "subtitle": "Deux fintechs. Une seule promesse.",
+    "description": "Une joint-venture entre RealSmart Group (Europe) et Gelios Investment and Partners Ltd (Maurice). Notre mission : te donner la même rigueur de diagnostic que celle utilisée par les pros — gratuitement, en langage clair, sans rien te vendre.",
+    "teamLabel": "Notre approche",
     "step1Label": "Étape 1 : Votre Objectif d'Épargne.",
     "step1Text": "Trouvez la date exacte à laquelle vous atteignez la liberté.",
     "step2Label": "Étape 2 : Votre Profil de Risque.",
@@ -511,7 +520,13 @@
     "success": "Votre feuille de route est sécurisée !",
     "successSubtitle": "Nous vous contacterons bientôt avec votre plan personnalisé et un accès anticipé à la Phase 2.",
     "close": "Fermer",
-    "consent": "J'accepte que FinkSmart conserve ces informations pour me recontacter. Je peux me désinscrire à tout moment via le lien dans chaque email."
+    "consent": "J'accepte que FinkSmart conserve ces informations pour me recontacter. Je peux me désinscrire à tout moment via le lien dans chaque email.",
+    "whatHappensNext": {
+      "title": "Ce qui se passe ensuite",
+      "b1": "On garde tes infos pour pouvoir te recontacter.",
+      "b2": "Aucun partage sans ton « oui » explicite.",
+      "b3": "Si tu choisis une mise en relation : uniquement avec des partenaires agréés dans ta juridiction (FSC Maurice, AMF Europe, FSCA Afrique du Sud, etc.)."
+    }
   },
   "narratives": {
     "astronaut": {

@@ -187,6 +187,18 @@ export function LeadCaptureModal({
                   />
                 </div>
 
+                <div className="rounded-2xl bg-muted/50 border border-border p-3 text-xs space-y-1.5">
+                  <p className="font-semibold text-foreground flex items-center gap-1.5">
+                    <Shield className="w-3.5 h-3.5 text-primary" />
+                    {t("leadCapture.whatHappensNext.title")}
+                  </p>
+                  <ul className="text-muted-foreground space-y-0.5 leading-relaxed pl-5 list-disc">
+                    <li>{t("leadCapture.whatHappensNext.b1")}</li>
+                    <li>{t("leadCapture.whatHappensNext.b2")}</li>
+                    <li>{t("leadCapture.whatHappensNext.b3")}</li>
+                  </ul>
+                </div>
+
                 <label className="flex items-start gap-2 text-xs text-muted-foreground cursor-pointer select-none">
                   <input
                     type="checkbox"
