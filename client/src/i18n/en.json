@@ -12,6 +12,22 @@
     "short": "FinkSmart is an educational financial diagnostic tool. We do not provide investment advice.",
     "long": "FinkSmart is an educational financial diagnostic tool. We do not provide investment advice. Projections and orientations are educational tools based on simplified assumptions. Any investment decision must be made with a licensed professional. Any referral happens only with your explicit consent."
   },
+  "concept": {
+    "label": "The FinkSmart concept",
+    "title": "Before you know WHERE to invest, know where you're going and who you are.",
+    "subtitle": "Our 2-phase diagnostic helps you find the right starting point. No advice. No sales. Just clarity.",
+    "phase1Tag": "① Your goal",
+    "phase1Title": "When will you be free?",
+    "phase1Text": "And at what pace? The calculator gives you your freedom age and the gap to close.",
+    "phase1Meta": "2 min · 5 questions",
+    "phase2Tag": "② Your profile",
+    "phase2Title": "How much volatility can you take?",
+    "phase2Text": "Without panicking when markets dip. Risk DNA calibrates you so you don't sell at the worst moment.",
+    "phase2Meta": "2 min · 7 questions",
+    "outcomeTitle": "Phase 1 + Phase 2 = your action plan",
+    "outcomeText": "With your consent, we can route you to the right licensed specialist in your jurisdiction. No advice, no sales. Just the right match.",
+    "audience": "We serve savers across the Indian Ocean, Africa and Europe."
+  },
   "badge": {
     "trust": "Exclusive Financial Simulator Engineered by Experts",
     "financialPlanning": "Financial Planning 2.0"
@@ -80,10 +96,10 @@
   },
   "whyDifferent": {
     "title": "Why is this different?",
-    "subtitle": "Most financial tools are built by banks to sell you products. We built this to give you the truth.",
+    "subtitle": "Most financial tools exist to sell you something. FinkSmart exists to give you clarity — and connect you with the right specialists only if you ask.",
     "bias": {
-      "title": "Zero Product Bias",
-      "text": "We don't sell insurance, funds, or any financial products. We provide the diagnosis. Independent asset managers provide the cure — only if you ask."
+      "title": "Diagnosis, not advice",
+      "text": "FinkSmart gives you an educational diagnostic — not investment advice. If you want to act on it, we can connect you (with your explicit consent) to licensed partners in your jurisdiction. Otherwise you leave with your diagnosis and that's it."
     },
     "data": {
       "title": "Your Data, Your Rules",

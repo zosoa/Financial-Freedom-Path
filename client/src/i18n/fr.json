@@ -12,6 +12,22 @@
     "short": "FinkSmart est un outil de diagnostic financier éducatif. Nous ne fournissons aucun conseil en investissement.",
     "long": "FinkSmart est un outil de diagnostic financier éducatif. Nous ne fournissons aucun conseil en investissement. Les projections et orientations sont des outils pédagogiques basés sur des hypothèses simplifiées. Toute décision d'investissement doit être prise avec un professionnel agréé. Toute mise en relation se fait avec ton consentement explicite."
   },
+  "concept": {
+    "label": "Le concept FinkSmart",
+    "title": "Avant de savoir OÙ placer ton argent, sache où tu vas et qui tu es.",
+    "subtitle": "Notre diagnostic en 2 phases t'aide à trouver le bon point de départ. Sans conseil. Sans vente. Juste de la clarté.",
+    "phase1Tag": "① Ton objectif",
+    "phase1Title": "Quand seras-tu libre ?",
+    "phase1Text": "Et à quel rythme avancer ? Le calculateur te donne ton âge de liberté et l'écart à combler.",
+    "phase1Meta": "2 min · 5 questions",
+    "phase2Tag": "② Ton profil",
+    "phase2Title": "Combien de volatilité supportes-tu ?",
+    "phase2Text": "Sans paniquer quand le marché chute. Le Risk DNA te calibre pour ne pas vendre au pire moment.",
+    "phase2Meta": "2 min · 7 questions",
+    "outcomeTitle": "Phase 1 + Phase 2 = ton plan d'action",
+    "outcomeText": "Avec ton accord, on peut t'orienter vers le bon spécialiste agréé dans ta juridiction. Sans conseil, sans vente. Juste le bon match.",
+    "audience": "Nous accompagnons les épargnants dans l'Océan Indien, l'Afrique et l'Europe."
+  },
   "badge": {
     "trust": "Simulateur Financier Exclusif Conçu par des Experts",
     "financialPlanning": "Planification Financière 2.0"
@@ -80,10 +96,10 @@
   },
   "whyDifferent": {
     "title": "En quoi est-ce différent ?",
-    "subtitle": "La plupart des outils financiers sont créés par les banques pour vous vendre des produits. Nous avons construit celui-ci pour vous donner la vérité.",
+    "subtitle": "La plupart des outils financiers existent pour te vendre quelque chose. FinkSmart existe pour te donner de la clarté — et te connecter aux bons spécialistes uniquement si tu le demandes.",
     "bias": {
-      "title": "Zéro Conflit d'Intérêts",
-      "text": "Nous ne vendons ni assurance, ni fonds, ni aucun produit financier. Nous fournissons le diagnostic. Des gestionnaires de patrimoine indépendants fournissent la solution — uniquement si vous le demandez."
+      "title": "Diagnostic, pas conseil",
+      "text": "FinkSmart te donne un diagnostic éducatif — pas un conseil en investissement. Si tu veux passer à l'action, on peut te mettre en relation (avec ton accord explicite) avec des partenaires agréés dans ta juridiction. Sinon tu repars avec ton diagnostic et c'est tout."
     },
     "data": {
       "title": "Vos Données, Vos Règles",

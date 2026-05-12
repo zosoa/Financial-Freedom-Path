@@ -418,6 +418,65 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ============== CONCEPT — value-prop in 2 phases ============== */}
+      <section className="py-16 md:py-20">
+        <div className="max-w-5xl mx-auto px-5">
+          <AnimatedSection>
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <span className="fa-pill fa-pill-mint mb-4">
+                <IconCompass size={14} />
+                {t("concept.label")}
+              </span>
+              <h2 className="fa-display text-3xl md:text-4xl mt-3 leading-tight" data-testid="text-section-concept">
+                {t("concept.title")}
+              </h2>
+              <p className="text-base md:text-lg text-muted-foreground mt-4 leading-relaxed">
+                {t("concept.subtitle")}
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <div className="grid md:grid-cols-2 gap-5 mb-6">
+            <AnimatedSection>
+              <div className="fa-card p-6 h-full">
+                <span className="fa-pill fa-pill-amber">
+                  <IconTarget size={14} />
+                  {t("concept.phase1Tag")}
+                </span>
+                <h3 className="font-serif text-2xl font-bold mt-3 mb-2">{t("concept.phase1Title")}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-3">{t("concept.phase1Text")}</p>
+                <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">{t("concept.phase1Meta")}</p>
+              </div>
+            </AnimatedSection>
+            <AnimatedSection>
+              <div className="fa-card p-6 h-full">
+                <span className="fa-pill fa-pill-sky">
+                  <IconDNA size={14} />
+                  {t("concept.phase2Tag")}
+                </span>
+                <h3 className="font-serif text-2xl font-bold mt-3 mb-2">{t("concept.phase2Title")}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-3">{t("concept.phase2Text")}</p>
+                <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">{t("concept.phase2Meta")}</p>
+              </div>
+            </AnimatedSection>
+          </div>
+
+          <AnimatedSection>
+            <div className="fa-card fa-surface-cream p-6 md:p-8 text-center">
+              <h3 className="font-serif text-xl md:text-2xl font-bold text-primary mb-2">
+                {t("concept.outcomeTitle")}
+              </h3>
+              <p className="text-sm md:text-base text-foreground/80 leading-relaxed max-w-2xl mx-auto">
+                {t("concept.outcomeText")}
+              </p>
+              <p className="text-xs text-muted-foreground mt-4 uppercase tracking-wider font-semibold">
+                {t("concept.audience")}
+              </p>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* ============== INSTITUTIONAL TRUST ============== */}
       <section className="py-16 md:py-20 bg-card border-y border-card-border">
         <div className="max-w-5xl mx-auto px-5">
