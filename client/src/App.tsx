@@ -10,6 +10,7 @@ import Calculator from "@/pages/calculator";
 import Results from "@/pages/results";
 import Report from "@/pages/report";
 import RiskDNA from "@/pages/risk-dna";
+import LearnPage from "@/pages/learn";
 
 function Router() {
   return (
@@ -19,6 +20,8 @@ function Router() {
       <Route path="/results" component={Results} />
       <Route path="/risk-dna" component={RiskDNA} />
       <Route path="/report/:id" component={Report} />
+      <Route path="/learn" component={LearnPage} />
+      <Route path="/learn/:slug" component={LearnPage} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -1248,31 +1248,6 @@ export default function Results() {
           />
         </motion.section>
 
-        {/* ============== 11. SAVE REPORT ============== */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.52 }}
-        >
-          <div className="fa-card p-6 text-center fa-surface-cream">
-            <div className="w-14 h-14 rounded-2xl bg-primary/15 grid place-items-center mx-auto mb-3">
-              <FileText className="w-7 h-7 text-primary" />
-            </div>
-            <h3 className="fa-display text-2xl mb-2">{t("results.saveReport.title")}</h3>
-            <p className="text-sm text-muted-foreground mb-5 max-w-md mx-auto">
-              {t("results.saveReport.description")}
-            </p>
-            <Button
-              className="rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
-              onClick={() => setShowSaveReport(true)}
-              data-testid="button-save-report"
-            >
-              <Mail className="w-4 h-4 mr-2" />
-              {t("results.saveReport.emailButton")}
-            </Button>
-          </div>
-        </motion.section>
-
         {/* ============== 12. PHASE 2 — UNIFIED GUIDE or LOCKED CTA ============== */}
         <motion.section
           id="phase2-cta"
@@ -1397,6 +1372,31 @@ export default function Results() {
                 </div>
               </div>
             </div>
+          </div>
+        </motion.section>
+
+        {/* ============== 13b. SAVE REPORT — placed at the end so users scroll the full report to reach it ============== */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.62 }}
+        >
+          <div className="fa-card p-6 text-center fa-surface-cream">
+            <div className="w-14 h-14 rounded-2xl bg-primary/15 grid place-items-center mx-auto mb-3">
+              <FileText className="w-7 h-7 text-primary" />
+            </div>
+            <h3 className="fa-display text-2xl mb-2">{t("results.saveReport.title")}</h3>
+            <p className="text-sm text-muted-foreground mb-5 max-w-md mx-auto">
+              {t("results.saveReport.description")}
+            </p>
+            <Button
+              className="rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+              onClick={() => setShowSaveReport(true)}
+              data-testid="button-save-report"
+            >
+              <Mail className="w-4 h-4 mr-2" />
+              {t("results.saveReport.emailButton")}
+            </Button>
           </div>
         </motion.section>
 

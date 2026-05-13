@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { useTranslation } from "react-i18next";
 import finksmartLogo from "@assets/FinkSmart_logo_final.png";
 import { motion, useInView } from "framer-motion";
@@ -201,6 +201,15 @@ export default function Landing() {
           <div className="flex items-center" data-testid="text-brand">
             <img src={finksmartLogo} alt="FinkSmart" className="h-10 w-auto" data-testid="icon-logo" />
           </div>
+          <nav className="flex items-center gap-1 text-sm">
+            <Link
+              href="/learn"
+              className="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground transition-colors font-medium"
+              data-testid="nav-learn"
+            >
+              Apprendre
+            </Link>
+          </nav>
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-1.5" data-testid="text-jv-byline">
               <RealSmartLogo className="w-5 h-5" />
