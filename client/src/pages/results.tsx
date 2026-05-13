@@ -509,12 +509,39 @@ export default function Results() {
                 value={`${results.freedomScore} / 100`}
                 tone="amber"
               />
-              <StatCard
-                Icon={IconCompound}
-                label={t("results.keyStats.yearsGained")}
-                value={`${yearsDifference > 0 ? "+" : ""}${yearsDifference} ${t("results.returnTable.yrs")}`}
-                tone="mint"
-              />
+              {(() => {
+                // Delta vs the user's own target — not "years saved by pro management".
+                // Positive delta = freedom BEFORE target (good). Negative = behind target.
+                const delta = inputs.targetFreedomAge - results.freedomAge;
+                if (delta > 0) {
+                  return (
+                    <StatCard
+                      Icon={IconCompound}
+                      label={t("results.keyStats.aheadOfTarget")}
+                      value={`+${delta} ${t("results.returnTable.yrs")}`}
+                      tone="mint"
+                    />
+                  );
+                }
+                if (delta === 0) {
+                  return (
+                    <StatCard
+                      Icon={IconCompound}
+                      label={t("results.keyStats.onTarget")}
+                      value={t("results.keyStats.onTargetValue")}
+                      tone="mint"
+                    />
+                  );
+                }
+                return (
+                  <StatCard
+                    Icon={IconCompound}
+                    label={t("results.keyStats.behindTarget")}
+                    value={`+${Math.abs(delta)} ${t("results.returnTable.yrs")}`}
+                    tone="coral"
+                  />
+                );
+              })()}
             </div>
 
             {/* Score context — peer benchmark + retirement age comparison */}
@@ -1062,8 +1089,8 @@ export default function Results() {
             />
             <KeyStat label={t("results.keyStats.standardCapital")} value={formatCurrency(results.plannedCapitalStandard, currency)} />
             <KeyStat
-              label={t("results.keyStats.yearsGained")}
-              value={`${yearsDifference > 0 ? "+" : ""}${yearsDifference} ${t("results.returnTable.yrs")}`}
+              label={t("results.keyStats.yearsSavedWithPro")}
+              value={`${yearsDifference > 0 ? "−" : ""}${Math.abs(yearsDifference)} ${t("results.returnTable.yrs")}`}
               hint={t("results.keyStats.withManaged")}
               tone="amber"
               testId="text-years-gained"
@@ -1578,13 +1605,15 @@ function StatCard({
   Icon: (p: { size?: number }) => JSX.Element;
   label: string;
   value: string;
-  tone?: "amber" | "mint";
+  tone?: "amber" | "mint" | "coral";
 }) {
   const toneCls =
     tone === "amber"
       ? "bg-primary/8 border-primary/20"
       : tone === "mint"
       ? "bg-mint/8 border-mint/20"
+      : tone === "coral"
+      ? "bg-coral/8 border-coral/30"
       : "bg-card border-border";
   return (
     <div className={`rounded-2xl border p-3 flex items-center gap-3 ${toneCls}`}>

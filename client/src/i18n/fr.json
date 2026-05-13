@@ -294,6 +294,11 @@
       "managedCapital": "Capital Géré",
       "standardCapital": "Capital Standard",
       "yearsGained": "Années Gagnées",
+      "yearsSavedWithPro": "Avance avec gestion pro",
+      "aheadOfTarget": "Avance sur l'objectif",
+      "onTarget": "Pile sur l'objectif",
+      "onTargetValue": "0 an",
+      "behindTarget": "Retard sur l'objectif",
       "withManaged": "avec rendements gérés"
     },
     "gap": {

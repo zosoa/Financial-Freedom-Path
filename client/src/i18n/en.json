@@ -294,6 +294,11 @@
       "managedCapital": "Managed Capital",
       "standardCapital": "Standard Capital",
       "yearsGained": "Years Gained",
+      "yearsSavedWithPro": "Sooner with pro management",
+      "aheadOfTarget": "Ahead of target",
+      "onTarget": "Right on target",
+      "onTargetValue": "0 yrs",
+      "behindTarget": "Behind target",
       "withManaged": "with managed returns"
     },
     "gap": {
