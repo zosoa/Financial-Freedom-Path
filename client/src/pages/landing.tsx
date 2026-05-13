@@ -38,7 +38,6 @@ import {
   IconSummit,
 } from "@/components/icons";
 import HeroSummit from "@/components/illustrations/HeroSummit";
-import lifestyleImage from "@assets/Finksmart_Chill_success_woman_1770889957387.png";
 import { useTheme } from "@/lib/theme-provider";
 import {
   COUNTRY_CURRENCY_MAP,
@@ -562,128 +561,6 @@ export default function Landing() {
               </div>
             </div>
           </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ============== 3-STEP JOURNEY ============== */}
-      <section className="py-16 md:py-24 bg-card">
-        <div className="max-w-6xl mx-auto px-5">
-          <AnimatedSection>
-            <div className="text-center mb-12 max-w-2xl mx-auto">
-              <span className="fa-pill fa-pill-amber mb-4">
-                <IconCompass size={14} />
-                {t("journey.step1Badge")}
-              </span>
-              <h2 className="fa-display text-3xl md:text-4xl mt-3" data-testid="text-section-journey">
-                {t("journey.title")}
-              </h2>
-              <p className="text-muted-foreground mt-3">{t("journey.subtitle")}</p>
-            </div>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-[45%_1fr] gap-8 md:gap-12">
-            <div>
-              <AnimatedSection>
-                <div className="md:sticky md:top-24 relative rounded-3xl overflow-hidden shadow-xl shadow-black/10">
-                  <img
-                    src={lifestyleImage}
-                    alt="Living your dream lifestyle"
-                    className="w-full h-auto object-cover"
-                    data-testid="img-journey-lifestyle"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/15 to-transparent pointer-events-none" />
-                </div>
-              </AnimatedSection>
-            </div>
-
-            <div className="relative">
-              {/* Connecting line */}
-              <div className="hidden md:block absolute left-[28px] top-[60px] bottom-[60px] w-[2px] bg-gradient-to-b from-primary/60 via-primary/30 to-mint/30 z-0" />
-
-              <div className="space-y-5">
-                {/* Step 1 — active */}
-                <AnimatedSection>
-                  <div className="relative flex gap-5 items-start">
-                    <div className="relative z-10 shrink-0 w-14 h-14 rounded-2xl bg-background shadow-lg ring-2 ring-primary/30 grid place-items-center">
-                      <IconCompass size={36} />
-                    </div>
-                    <div className="flex-1 fa-card p-5">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
-                          {t("journey.step1Label")}
-                        </span>
-                        <span className="fa-pill fa-pill-amber">
-                          <Sparkles className="w-3 h-3" />
-                          {t("journey.step1Badge")}
-                        </span>
-                      </div>
-                      <h3 className="font-serif text-xl font-bold mb-1.5" data-testid="text-step1-title">
-                        {t("journey.step1Title")}
-                      </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                        {t("journey.step1Text")}
-                      </p>
-                      <p className="text-xs font-semibold text-primary">{t("journey.step1Cta")}</p>
-                    </div>
-                  </div>
-                </AnimatedSection>
-
-                {/* Step 2 — DNA */}
-                <AnimatedSection>
-                  <div className="relative flex gap-5 items-start">
-                    <div className="relative z-10 shrink-0 w-14 h-14 rounded-2xl bg-background shadow-md ring-2 ring-sky/30 grid place-items-center">
-                      <IconDNA size={36} />
-                    </div>
-                    <div className="flex-1 fa-card p-5 opacity-90">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                          {t("journey.step2Label")}
-                        </span>
-                        <span className="fa-pill fa-pill-sky">
-                          <Lock className="w-3 h-3" />
-                          {t("journey.step2Badge")}
-                        </span>
-                      </div>
-                      <h3 className="font-serif text-xl font-bold mb-1.5 text-muted-foreground" data-testid="text-step2-title">
-                        {t("journey.step2Title")}
-                      </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                        {t("journey.step2Text")}
-                      </p>
-                      <p className="text-xs text-muted-foreground">{t("journey.step2Cta")}</p>
-                    </div>
-                  </div>
-                </AnimatedSection>
-
-                {/* Step 3 — locked */}
-                <AnimatedSection>
-                  <div className="relative flex gap-5 items-start">
-                    <div className="relative z-10 shrink-0 w-14 h-14 rounded-2xl bg-background shadow-md ring-1 ring-border grid place-items-center">
-                      <IconTarget size={36} />
-                    </div>
-                    <div className="flex-1 fa-card p-5 opacity-90">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                          {t("journey.step3Label")}
-                        </span>
-                        <span className="fa-pill bg-muted text-muted-foreground">
-                          <Lock className="w-3 h-3" />
-                          {t("journey.step3Badge")}
-                        </span>
-                      </div>
-                      <h3 className="font-serif text-xl font-bold mb-1.5 text-muted-foreground" data-testid="text-step3-title">
-                        {t("journey.step3Title")}
-                      </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                        {t("journey.step3Text")}
-                      </p>
-                      <p className="text-xs text-muted-foreground">{t("journey.step3Cta")}</p>
-                    </div>
-                  </div>
-                </AnimatedSection>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

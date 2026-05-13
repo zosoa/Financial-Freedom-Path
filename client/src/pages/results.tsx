@@ -81,6 +81,7 @@ import {
 } from "@/lib/calculations";
 import { SUPPORTED_CURRENCIES } from "@shared/schema";
 import { LeadCaptureModal } from "@/components/lead-capture-modal";
+import { MatchingRequestModal } from "@/components/matching-request-modal";
 import { FreedomScoreCard } from "@/components/freedom-score-card";
 import { apiRequest } from "@/lib/queryClient";
 import { SiWhatsapp, SiFacebook, SiLinkedin, SiX } from "react-icons/si";
@@ -146,6 +147,7 @@ export default function Results() {
     return id;
   }, []);
   const [showSaveReport, setShowSaveReport] = useState(false);
+  const [showMatchingModal, setShowMatchingModal] = useState(false);
   const [reportName, setReportName] = useState("");
   const [reportEmail, setReportEmail] = useState("");
   const [isSendingReport, setIsSendingReport] = useState(false);
@@ -1311,8 +1313,8 @@ export default function Results() {
             </div>
           )}
 
-          {/* Bloc 2 — always shown (more prominent when DNA done) */}
-          <div className="fa-card p-6 md:p-8">
+          {/* Bloc 2 — unlocked once the Risk DNA is done (climate is set) */}
+          <div className={`fa-card p-6 md:p-8 ${climate ? "ring-2 ring-mint/40 shadow-lg shadow-mint/10" : ""}`}>
             <div className="flex items-start gap-4">
               <div className="shrink-0 w-12 h-12 rounded-2xl bg-mint/15 grid place-items-center">
                 <IconShield size={32} />
@@ -1326,10 +1328,21 @@ export default function Results() {
                   {t("results.nextSteps.bloc2Text")}
                 </p>
                 <div className="mt-4">
-                  <Button variant="outline" disabled className="rounded-xl" data-testid="button-bloc2-cta">
-                    <Lock className="w-4 h-4 mr-2" />
-                    {t("results.nextSteps.bloc2CtaLocked")}
-                  </Button>
+                  {climate ? (
+                    <button
+                      className="premium-cta"
+                      onClick={() => setShowMatchingModal(true)}
+                      data-testid="button-bloc2-cta"
+                    >
+                      <Sparkles className="w-4 h-4" />
+                      {t("results.nextSteps.bloc2CtaActive")}
+                    </button>
+                  ) : (
+                    <Button variant="outline" disabled className="rounded-xl" data-testid="button-bloc2-cta-locked">
+                      <Lock className="w-4 h-4 mr-2" />
+                      {t("results.nextSteps.bloc2CtaLocked")}
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
@@ -1415,6 +1428,22 @@ export default function Results() {
             navigate(buildRiskDnaUrl(searchString));
           }
         }}
+      />
+
+      <MatchingRequestModal
+        open={showMatchingModal}
+        onClose={() => setShowMatchingModal(false)}
+        calculationId={calculationId}
+        country={country}
+        currency={currency}
+        climate={climate}
+        freedomScore={results.freedomScore}
+        gapPercent={results.gapPercent}
+        referralSource={referralSource}
+        sessionId={sessionId}
+        prefillName={storedLeadName}
+        prefillEmail={storedLeadEmail}
+        onSuccess={(name, email) => markLeadSubmitted(name, email)}
       />
 
       {showShareCard && (

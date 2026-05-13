@@ -60,7 +60,7 @@
   "institutional": {
     "title": "Pourquoi FinkSmart ?",
     "subtitle": "Deux fintechs. Une seule promesse.",
-    "description": "Une joint-venture entre RealSmart Group (Europe) et Gelios Investment and Partners Ltd (Maurice). Notre mission : te donner la même rigueur de diagnostic que celle utilisée par les pros — gratuitement, en langage clair, sans rien te vendre.",
+    "description": "Une joint-venture entre RealSmart Group (Europe) et Gelios (Maurice). Notre mission : te donner la même rigueur de diagnostic que celle utilisée par les pros — gratuitement, en langage clair, sans rien te vendre.",
     "teamLabel": "Notre approche",
     "step1Label": "Étape 1 : Votre Objectif d'Épargne.",
     "step1Text": "Trouvez la date exacte à laquelle vous atteignez la liberté.",
@@ -548,6 +548,26 @@
       "b1": "On garde tes infos pour pouvoir te recontacter.",
       "b2": "Aucun partage sans ton « oui » explicite.",
       "b3": "Si tu choisis une mise en relation : uniquement avec des partenaires agréés dans ta juridiction (FSC Maurice, AMF Europe, FSCA Afrique du Sud, etc.)."
+    }
+  },
+  "matching": {
+    "title": "Mise en relation avec notre réseau de partenaires agréés",
+    "subtitle": "Avec ton accord, on transmet ton diagnostic à un asset manager ou gestionnaire licencié dans ta juridiction. Il te recontacte directement — sans engagement.",
+    "dataUse": {
+      "title": "Ce que nous partagerons",
+      "b1": "Ton nom, email, téléphone et ton diagnostic (climat, objectif, écart).",
+      "b2": "Uniquement avec UN partenaire agréé que nous sélectionnons pour ta zone et ton profil.",
+      "b3": "Ils ne te recontactent qu'une fois. Tu décides ensuite si tu veux poursuivre ou pas."
+    },
+    "partnerConsent": {
+      "title": "J'accepte d'être mis en relation",
+      "body": "Je consens à ce que FinkSmart transmette mes données et mon diagnostic à un partenaire agréé (asset manager, gestionnaire, broker — tous licenciés FSC / AMF / FSCA / CMA selon ma juridiction) pour qu'il puisse me contacter."
+    },
+    "submit": "Demander ma mise en relation",
+    "legalFooter": "FinkSmart agit uniquement comme intermédiaire technique de mise en relation. Toute recommandation et toute décision d'investissement relève exclusivement du partenaire agréé que vous choisirez.",
+    "success": {
+      "title": "Demande enregistrée !",
+      "subtitle": "Un partenaire agréé adapté à ton profil te contactera sous 5 jours ouvrés. Si tu ne reçois rien, écris-nous à hello@finksmart.com."
     }
   },
   "narratives": {

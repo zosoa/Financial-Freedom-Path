@@ -60,7 +60,7 @@
   "institutional": {
     "title": "Why FinkSmart?",
     "subtitle": "Two fintechs. One promise.",
-    "description": "A joint venture between RealSmart Group (Europe) and Gelios Investment and Partners Ltd (Mauritius). Our mission: give you the same diagnostic discipline used by pros — for free, in plain language, with nothing to sell you.",
+    "description": "A joint venture between RealSmart Group (Europe) and Gelios (Mauritius). Our mission: give you the same diagnostic discipline used by pros — for free, in plain language, with nothing to sell you.",
     "teamLabel": "Our approach",
     "step1Label": "Step 1: Your Savings Objective.",
     "step1Text": "Find the exact date you hit freedom.",
@@ -548,6 +548,26 @@
       "b1": "We keep your info so we can reach back out.",
       "b2": "No sharing without your explicit \"yes\".",
       "b3": "If you opt-in to a referral: only with licensed partners in your jurisdiction (FSC Mauritius, AMF Europe, FSCA South Africa, etc.)."
+    }
+  },
+  "matching": {
+    "title": "Get matched with our licensed partner network",
+    "subtitle": "With your consent, we hand your diagnostic to a licensed asset manager in your jurisdiction. They reach out directly — no commitment.",
+    "dataUse": {
+      "title": "What we will share",
+      "b1": "Your name, email, phone and your diagnostic (climate, goal, gap).",
+      "b2": "Only with ONE licensed partner we pick for your region and profile.",
+      "b3": "They only contact you once. You then decide whether to continue or not."
+    },
+    "partnerConsent": {
+      "title": "I agree to be matched",
+      "body": "I consent to FinkSmart sharing my data and diagnostic with a licensed partner (asset manager, advisor, broker — all licensed FSC / AMF / FSCA / CMA per my jurisdiction) so they may contact me."
+    },
+    "submit": "Request my match",
+    "legalFooter": "FinkSmart acts only as a technical matchmaking intermediary. Any recommendation and any investment decision belong exclusively to the licensed partner you eventually choose.",
+    "success": {
+      "title": "Request received!",
+      "subtitle": "A licensed partner matched to your profile will reach out within 5 business days. If you hear nothing, email us at hello@finksmart.com."
     }
   },
   "narratives": {

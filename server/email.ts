@@ -332,7 +332,7 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
       <p style="color: #1E293B; font-size: 13px; font-weight: 700; margin: 0 0 12px 0;">
         RealSmart Group <span style="color: #94a3b8; font-weight: 400;">· EU</span>
         &nbsp; × &nbsp;
-        Gelios Investment and Partners Ltd <span style="color: #94a3b8; font-weight: 400;">· Maurice</span>
+        Gelios <span style="color: #94a3b8; font-weight: 400;">· Maurice</span>
       </p>
       <p style="color: #1E293B; font-size: 11px; font-weight: 700; margin: 16px 0 6px 0;">
         FinkSmart est un outil de diagnostic financier éducatif.
@@ -543,7 +543,7 @@ export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Pro
       <p style="color: #1E293B; font-size: 13px; font-weight: 700; margin: 0 0 12px 0;">
         RealSmart Group <span style="color: #94a3b8; font-weight: 400;">· EU</span>
         &nbsp; × &nbsp;
-        Gelios Investment and Partners Ltd <span style="color: #94a3b8; font-weight: 400;">· Maurice</span>
+        Gelios <span style="color: #94a3b8; font-weight: 400;">· Maurice</span>
       </p>
       <p style="color: #1E293B; font-size: 11px; font-weight: 700; margin: 16px 0 6px 0;">
         FinkSmart est un outil de diagnostic financier éducatif.
