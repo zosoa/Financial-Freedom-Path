@@ -127,23 +127,34 @@
     "step3Title": "De la Clarté, Pas du Commerce",
     "step3Text": "Partagez votre score, explorez des scénarios, ou consultez un expert indépendant gratuitement. Votre choix, toujours."
   },
-  "comingSoon": {
-    "title": "Plus d'outils, plus de puissance — bientôt disponible",
-    "subtitle": "Nous construisons la boîte à outils de liberté financière la plus complète, une fonctionnalité à la fois.",
-    "guides": {
-      "title": "Guides Sans Jargon",
-      "badge": "Bientôt",
-      "text": "Des guides en langage clair qui expliquent les concepts d'investissement comme un ami le ferait autour d'un café. Aucun diplôme en finance nécessaire."
+  "office": {
+    "eyebrow": "📍 Île Maurice & France",
+    "title1": "Une vraie équipe.",
+    "title2": "Derrière chaque",
+    "titleHighlight": "simulation.",
+    "body": "FinkSmart n'est pas un algorithme anonyme. Ce sont des gens réels, basés à l'île Maurice et en France, qui ont construit un outil pour que chacun puisse comprendre sa situation financière — sans diplôme, sans conseiller, sans jargon.",
+    "pill1": "🇲🇺 Basés à l'île Maurice & en France",
+    "pill2": "🔒 Zéro donnée revendue",
+    "pill3": "✦ RealSmart × Gelios"
+  },
+  "academyPreview": {
+    "title": "Apprendre avant de placer",
+    "subtitle": "L'Academy FinkSmart : 9 modules + 2 articles en langage clair, pour comprendre ce que tu fais — pas pour signer plus vite.",
+    "ctaAll": "Voir tous les modules →",
+    "fundamentals": {
+      "label": "Fondamentaux",
+      "title": "L'argent et toi : pourquoi te connaître change tout",
+      "minutes": "6 min de lecture"
     },
-    "insights": {
-      "title": "Veille de Marché",
-      "badge": "Bientôt",
-      "text": "Des perspectives uniques de professionnels qui ont géré des milliards. Pas des actualités — de véritables analyses qui comptent pour votre portefeuille."
+    "playbook": {
+      "label": "Par profil",
+      "title": "Le playbook de l'investisseur Tropical",
+      "minutes": "7 min de lecture"
     },
-    "tips": {
-      "title": "Conseils et Stratégies Intelligentes",
-      "badge": "Bientôt",
-      "text": "Des conseils pratiques et concrets pour optimiser votre épargne, réduire vos impôts et faire travailler votre argent plus dur — sans la complexité."
+    "article": {
+      "label": "Article",
+      "title": "À quel âge pouvez-vous arrêter de travailler ?",
+      "minutes": "3 min de lecture"
     }
   },
   "personalNote": {
@@ -217,6 +228,14 @@
       "msg4": "Calcul de votre Âge de Liberté...",
       "msg5": "Préparation de vos résultats..."
     }
+  },
+  "learnHints": {
+    "howFreedomAgeWorks": "Comment ce chiffre est calculé",
+    "whyMarketsMove": "Pourquoi les marchés bougent",
+    "whyKnowYourself": "Pourquoi te connaître change tout",
+    "questionsToAsk": "Questions à poser au conseiller",
+    "yourPlaybook": "Ton playbook investisseur",
+    "moneyAndYou": "L'argent et toi"
   },
   "results": {
     "backToHome": "Retour à l'accueil",
@@ -478,12 +497,13 @@
       "bloc2Tag": "② Mise en relation",
       "bloc2Title": "On peut te connecter au bon spécialiste",
       "bloc2Text": "Pas du push commercial. Uniquement des partenaires agréés dans ta juridiction (FSC Maurice, AMF Europe, FSCA Afrique du Sud, CMA Kenya, etc.). Tu choisis si tu veux être contacté.",
-      "bloc2CtaLocked": "Bientôt disponible — me notifier",
+      "bloc2CtaLocked": "Débloqué après ton profil de risque",
       "bloc2CtaActive": "Voir les options de mise en relation",
       "bloc3Tag": "③ Apprendre à ton rythme",
       "bloc3Title": "Pas prêt à passer à l'action ?",
-      "bloc3Text": "Une leçon courte par semaine : épargne, investissement, pièges classiques. Sans jargon. Sans vente. Tu te désinscris en 1 clic.",
-      "bloc3Cta": "Bientôt disponible"
+      "bloc3Text": "Des modules courts en langage clair : épargne, profils investisseurs, pièges classiques. Sans jargon. Sans vente.",
+      "bloc3Cta": "Bientôt disponible",
+      "bloc3CtaActive": "Ouvrir l'Academy →"
     },
     "retake": "Reprendre l'Évaluation et Ajuster mes Objectifs",
     "startOver": "Recommencer",

@@ -46,6 +46,11 @@ import {
   EUR_EXCHANGE_RATES,
 } from "@shared/schema";
 import ResultsPreview from "@/components/illustrations/ResultsPreview";
+import LearnHint from "@/components/learn-hint";
+import notreApprocheBg from "@assets/notre-approche.jpg";
+import academyMoneyImg from "@assets/academy-money.jpg";
+import academyTropicsImg from "@assets/academy-tropics.jpg";
+import academyWorkImg from "@assets/academy-work.jpg";
 import { RealSmartLogo, GeliosLogo, JointVentureFooter } from "@/components/illustrations/JointVenture";
 import teamPortrait from "@assets/Partners_Pictures_RealSmart_1776604047326.jpg";
 
@@ -149,6 +154,102 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
     >
       {children}
     </motion.div>
+  );
+}
+
+/**
+ * OfficeSection — "Une vraie équipe. Derrière chaque simulation."
+ * Dark band with an autoplay-on-scroll office loop video on the right
+ * and the team narrative on the left. Lives only in landing for now.
+ *
+ * Video plays only while visible (IntersectionObserver) to save CPU/battery
+ * on long pages. Falls back to the poster image while loading.
+ */
+function OfficeSection() {
+  const { t } = useTranslation();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            el.play().catch(() => {/* autoplay blocked — poster stays */});
+          } else {
+            el.pause();
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <section className="relative py-20 md:py-28 overflow-hidden bg-[#0a0e1a] text-white">
+      {/* Subtle glow accent — uses the existing primary token */}
+      <div
+        aria-hidden
+        className="absolute right-[-120px] top-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="relative max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+        {/* Mobile: video leads (visual hook). Desktop: text on the left, video on the right. */}
+        <AnimatedSection className="order-2 md:order-1">
+          <p className="text-[11px] font-bold tracking-[0.16em] uppercase text-primary/85 mb-5">
+            {t("office.eyebrow")}
+          </p>
+          <h2
+            className="fa-display text-3xl md:text-[2.5rem] leading-[1.15] mb-5"
+            data-testid="text-office-title"
+          >
+            {t("office.title1")}
+            <br />
+            {t("office.title2")} <span className="text-primary">{t("office.titleHighlight")}</span>
+          </h2>
+          <p className="text-base text-white/70 leading-relaxed">
+            {t("office.body")}
+          </p>
+        </AnimatedSection>
+
+        <AnimatedSection className="order-1 md:order-2">
+          <div
+            className="relative rounded-3xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.5)]"
+            style={{ boxShadow: "0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px hsl(var(--primary) / 0.18)" }}
+          >
+            <video
+              ref={videoRef}
+              muted
+              loop
+              playsInline
+              autoPlay
+              preload="metadata"
+              poster="/media/office-poster.jpg"
+              className="w-full block"
+              data-testid="video-office-loop"
+            >
+              <source src="/media/office-loop.webm" type="video/webm" />
+              <source src="/media/office-loop.mp4" type="video/mp4" />
+            </video>
+            <div
+              aria-hidden
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(135deg, hsl(var(--primary) / 0.08) 0%, transparent 60%)",
+              }}
+            />
+          </div>
+        </AnimatedSection>
+      </div>
+    </section>
   );
 }
 
@@ -447,10 +548,13 @@ export default function Landing() {
           <div className="grid md:grid-cols-2 gap-5 mb-6">
             <AnimatedSection>
               <div className="fa-card p-6 h-full">
-                <span className="fa-pill fa-pill-amber">
-                  <IconTarget size={14} />
-                  {t("concept.phase1Tag")}
-                </span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="fa-pill fa-pill-amber">
+                    <IconTarget size={14} />
+                    {t("concept.phase1Tag")}
+                  </span>
+                  <LearnHint slug="freedom-age-module" label={t("learnHints.howFreedomAgeWorks")} />
+                </div>
                 <h3 className="font-serif text-2xl font-bold mt-3 mb-2">{t("concept.phase1Title")}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-3">{t("concept.phase1Text")}</p>
                 <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">{t("concept.phase1Meta")}</p>
@@ -458,10 +562,13 @@ export default function Landing() {
             </AnimatedSection>
             <AnimatedSection>
               <div className="fa-card p-6 h-full">
-                <span className="fa-pill fa-pill-sky">
-                  <IconDNA size={14} />
-                  {t("concept.phase2Tag")}
-                </span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="fa-pill fa-pill-sky">
+                    <IconDNA size={14} />
+                    {t("concept.phase2Tag")}
+                  </span>
+                  <LearnHint slug="argent-et-toi-se-connaitre" label={t("learnHints.moneyAndYou")} />
+                </div>
                 <h3 className="font-serif text-2xl font-bold mt-3 mb-2">{t("concept.phase2Title")}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-3">{t("concept.phase2Text")}</p>
                 <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">{t("concept.phase2Meta")}</p>
@@ -485,20 +592,36 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ============== INSTITUTIONAL TRUST ============== */}
-      <section className="py-16 md:py-20 bg-card border-y border-card-border">
-        <div className="max-w-5xl mx-auto px-5">
+      {/* ============== INSTITUTIONAL TRUST (Notre approche) ============== */}
+      <section className="relative py-16 md:py-20 border-y border-card-border overflow-hidden">
+        {/* Sharp full-quality photo behind a darkening gradient — the section
+            reads like a moody hero band. Cards/stat-bar inside stay white and
+            pop against the dark backdrop. */}
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${notreApprocheBg})` }}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,12,28,0.78)_0%,rgba(8,12,28,0.55)_45%,rgba(8,12,28,0.78)_100%)]"
+        />
+
+        <div className="relative max-w-5xl mx-auto px-5 text-white">
           <AnimatedSection>
             <div className="text-center max-w-3xl mx-auto mb-10">
               <span className="fa-pill fa-pill-mint mb-4">
                 <IconPillars size={14} />
                 {t("institutional.teamLabel")}
               </span>
-              <h2 className="fa-display text-3xl md:text-4xl mt-3" data-testid="text-section-institutional">
+              <h2
+                className="fa-display text-3xl md:text-4xl mt-3 text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]"
+                data-testid="text-section-institutional"
+              >
                 {t("institutional.title")}
               </h2>
-              <p className="text-lg italic text-muted-foreground mt-3">{t("institutional.subtitle")}</p>
-              <p className="text-base text-muted-foreground mt-4 leading-relaxed">
+              <p className="text-lg italic text-white/85 mt-3">{t("institutional.subtitle")}</p>
+              <p className="text-base text-white/80 mt-4 leading-relaxed">
                 {t("institutional.description")}
               </p>
             </div>
@@ -663,57 +786,95 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ============== COMING SOON ============== */}
+      {/* ============== ACADEMY PREVIEW ============== */}
       <section className="py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-5">
           <AnimatedSection>
             <div className="text-center mb-12 max-w-2xl mx-auto">
-              <h2 className="fa-display text-3xl md:text-4xl" data-testid="text-section-coming-soon">
-                {t("comingSoon.title")}
+              <span className="fa-pill fa-pill-amber">
+                <IconDiploma size={14} />
+                FinkSmart Academy
+              </span>
+              <h2 className="fa-display text-3xl md:text-4xl mt-4" data-testid="text-section-academy">
+                {t("academyPreview.title")}
               </h2>
-              <p className="text-muted-foreground mt-3">{t("comingSoon.subtitle")}</p>
+              <p className="text-muted-foreground mt-3">{t("academyPreview.subtitle")}</p>
             </div>
           </AnimatedSection>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               {
-                Icon: IconDiploma,
-                title: t("comingSoon.guides.title"),
-                badge: t("comingSoon.guides.badge"),
-                text: t("comingSoon.guides.text"),
+                slug: "argent-et-toi-se-connaitre",
+                image: academyMoneyImg,
+                imageAlt: "Money",
+                label: t("academyPreview.fundamentals.label"),
+                title: t("academyPreview.fundamentals.title"),
+                minutes: t("academyPreview.fundamentals.minutes"),
               },
               {
-                Icon: IconGrowth,
-                title: t("comingSoon.insights.title"),
-                badge: t("comingSoon.insights.badge"),
-                text: t("comingSoon.insights.text"),
+                slug: "tropical-playbook",
+                image: academyTropicsImg,
+                imageAlt: "Tropics",
+                label: t("academyPreview.playbook.label"),
+                title: t("academyPreview.playbook.title"),
+                minutes: t("academyPreview.playbook.minutes"),
               },
               {
-                Icon: IconLightbulb,
-                title: t("comingSoon.tips.title"),
-                badge: t("comingSoon.tips.badge"),
-                text: t("comingSoon.tips.text"),
+                slug: "age-liberte-financiere",
+                image: academyWorkImg,
+                imageAlt: "Work",
+                label: t("academyPreview.article.label"),
+                title: t("academyPreview.article.title"),
+                minutes: t("academyPreview.article.minutes"),
               },
-            ].map(({ Icon, title, badge, text }) => (
-              <AnimatedSection key={title}>
-                <div className="fa-card p-6 h-full">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Icon size={48} />
-                    <div>
-                      <h3 className="font-semibold">{title}</h3>
-                      <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">
-                        {badge}
+            ].map(({ slug, image, imageAlt, label, title, minutes }) => (
+              <AnimatedSection key={slug}>
+                <button
+                  onClick={() => navigate(`/learn/${slug}`)}
+                  data-testid={`academy-preview-${slug}`}
+                  className="text-left w-full fa-card overflow-hidden h-full transition-transform hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <div className="relative h-40 overflow-hidden">
+                    <img
+                      src={image}
+                      alt={imageAlt}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <p className="text-[10px] font-bold tracking-[0.14em] uppercase text-muted-foreground mb-2">
+                      {label}
+                    </p>
+                    <h3 className="font-serif text-lg font-bold leading-snug mb-2">{title}</h3>
+                    <div className="flex items-center justify-between mt-3">
+                      <span className="text-xs text-muted-foreground">⏱ {minutes}</span>
+                      <span className="text-xs font-semibold text-primary inline-flex items-center gap-1">
+                        Lire <ArrowRight className="w-3 h-3" />
                       </span>
                     </div>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{text}</p>
-                </div>
+                </button>
               </AnimatedSection>
             ))}
           </div>
+
+          <div className="text-center mt-8">
+            <Button
+              onClick={() => navigate("/learn")}
+              variant="outline"
+              className="rounded-full"
+              data-testid="academy-preview-all"
+            >
+              {t("academyPreview.ctaAll")}
+            </Button>
+          </div>
         </div>
       </section>
+
+      {/* ============== OFFICE — Une vraie équipe ============== */}
+      <OfficeSection />
 
       {/* ============== PERSONAL NOTE ============== */}
       <section className="py-16 md:py-24 bg-card">

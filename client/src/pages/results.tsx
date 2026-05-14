@@ -54,6 +54,7 @@ import {
   IconDiploma,
 } from "@/components/icons";
 import MountainAscent from "@/components/illustrations/MountainAscent";
+import LearnHint, { type LearnSlug } from "@/components/learn-hint";
 import { CLIMATE_ILLUSTRATIONS } from "@/components/illustrations/Climates";
 import { JointVentureFooter } from "@/components/illustrations/JointVenture";
 import { CLIMATES, type Climate, type ClimateProfile } from "@/lib/risk-scoring";
@@ -176,6 +177,16 @@ export default function Results() {
     () => getScoreContext(results.freedomScore, results.freedomAgeStandard, country),
     [results.freedomScore, results.freedomAgeStandard, country]
   );
+
+  /** Slug of the climate-specific playbook to deep-link from the unified guide / matching block. */
+  const climatePlaybookSlug: LearnSlug | null = climate
+    ? (({
+        glacier: "glacier-playbook",
+        tempere: "tempere-equilibre",
+        tropical: "tropical-playbook",
+        volcan: "volcan-opportuniste",
+      } as const)[climate] as LearnSlug)
+    : null;
 
   /** Climate-based projection (only computed if user has Risk DNA result). */
   const climateProjection = useMemo(() => {
@@ -466,10 +477,17 @@ export default function Results() {
               <NarrativeIcon className="w-8 h-8 md:w-10 md:h-10" />
             </div>
             <div className="flex-1 min-w-0">
-              <span className={`fa-pill ${narrativeChip[results.narrative.type]}`}>
-                <Sparkles className="w-3.5 h-3.5" />
-                {t(`results.personalities.${narrativeTypeToKey[results.narrative.type]}.title`)}
-              </span>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className={`fa-pill ${narrativeChip[results.narrative.type]}`}>
+                  <Sparkles className="w-3.5 h-3.5" />
+                  {t(`results.personalities.${narrativeTypeToKey[results.narrative.type]}.title`)}
+                </span>
+                <LearnHint
+                  slug="freedom-age-module"
+                  label={t("learnHints.howFreedomAgeWorks")}
+                  testId="learn-hint-summit"
+                />
+              </div>
               <h1
                 className={`fa-display text-3xl md:text-4xl mt-3 ${narrativeAccent[results.narrative.type]}`}
                 data-testid="text-narrative-headline"
@@ -1107,7 +1125,12 @@ export default function Results() {
           <div className="fa-card p-6">
             <div className="flex items-center gap-3 mb-2">
               <IconLightbulb size={36} />
-              <h3 className="fa-display text-xl">{t("results.sensitivity.title")}</h3>
+              <h3 className="fa-display text-xl flex-1">{t("results.sensitivity.title")}</h3>
+              <LearnHint
+                slug="pourquoi-marches-baissent"
+                label={t("learnHints.whyMarketsMove")}
+                testId="learn-hint-sensitivity"
+              />
             </div>
             <p className="text-sm text-muted-foreground mb-6">
               {(() => {
@@ -1286,7 +1309,14 @@ export default function Results() {
                   <IconDNA size={32} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="fa-pill fa-pill-amber">{t("results.nextSteps.bloc1Tag")}</span>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="fa-pill fa-pill-amber">{t("results.nextSteps.bloc1Tag")}</span>
+                    <LearnHint
+                      slug="argent-et-toi-se-connaitre"
+                      label={t("learnHints.whyKnowYourself")}
+                      testId="learn-hint-bloc1"
+                    />
+                  </div>
                   <h3 className="fa-display text-2xl md:text-3xl mt-2" data-testid="text-bloc1-title">
                     {t("results.nextSteps.bloc1Title")}
                   </h3>
@@ -1322,7 +1352,18 @@ export default function Results() {
                 <IconShield size={32} />
               </div>
               <div className="flex-1 min-w-0">
-                <span className="fa-pill fa-pill-mint">{t("results.nextSteps.bloc2Tag")}</span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="fa-pill fa-pill-mint">{t("results.nextSteps.bloc2Tag")}</span>
+                  <LearnHint
+                    slug={climatePlaybookSlug ?? "questions-conseiller-financier"}
+                    label={
+                      climatePlaybookSlug
+                        ? t("learnHints.yourPlaybook")
+                        : t("learnHints.questionsToAsk")
+                    }
+                    testId="learn-hint-bloc2"
+                  />
+                </div>
                 <h3 className="fa-display text-xl md:text-2xl mt-2">
                   {t("results.nextSteps.bloc2Title")}
                 </h3>
@@ -1365,10 +1406,14 @@ export default function Results() {
                   {t("results.nextSteps.bloc3Text")}
                 </p>
                 <div className="mt-4">
-                  <Button variant="outline" disabled className="rounded-xl" data-testid="button-bloc3-cta">
-                    <Lock className="w-4 h-4 mr-2" />
-                    {t("results.nextSteps.bloc3Cta")}
-                  </Button>
+                  <button
+                    className="premium-cta"
+                    onClick={() => navigate("/learn")}
+                    data-testid="button-bloc3-cta"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    {t("results.nextSteps.bloc3CtaActive")}
+                  </button>
                 </div>
               </div>
             </div>

@@ -127,23 +127,34 @@
     "step3Title": "Get Clarity, Not Sales",
     "step3Text": "Share your score, explore scenarios, or talk to an independent expert for free. Your choice, always."
   },
-  "comingSoon": {
-    "title": "More tools, more power — coming soon",
-    "subtitle": "We're building the most complete financial freedom toolkit, one feature at a time.",
-    "guides": {
-      "title": "No-Jargon Guides",
-      "badge": "Coming Soon",
-      "text": "Plain-language guides that explain investing concepts the way a friend would over coffee. No finance degree needed."
+  "office": {
+    "eyebrow": "📍 Mauritius & France",
+    "title1": "A real team.",
+    "title2": "Behind every",
+    "titleHighlight": "simulation.",
+    "body": "FinkSmart is not an anonymous algorithm. It's real people, based in Mauritius and France, who built a tool so that anyone can understand their own financial situation — no degree, no adviser, no jargon.",
+    "pill1": "🇲🇺 Based in Mauritius & France",
+    "pill2": "🔒 No data resold",
+    "pill3": "✦ RealSmart × Gelios"
+  },
+  "academyPreview": {
+    "title": "Learn before you invest",
+    "subtitle": "FinkSmart Academy: 9 modules + 2 articles in plain language, to understand what you're doing — not to sign faster.",
+    "ctaAll": "Browse every module →",
+    "fundamentals": {
+      "label": "Fundamentals",
+      "title": "Money and you: why self-knowledge changes everything",
+      "minutes": "6 min read"
     },
-    "insights": {
-      "title": "Market Insights",
-      "badge": "Coming Soon",
-      "text": "Unique perspectives from professionals who've managed billions. Not news — real insights that matter to your wallet."
+    "playbook": {
+      "label": "By profile",
+      "title": "The Tropical investor's playbook",
+      "minutes": "7 min read"
     },
-    "tips": {
-      "title": "Smart Tips & Strategies",
-      "badge": "Coming Soon",
-      "text": "Practical, actionable tips to optimise your savings, reduce taxes, and make your money work harder — without the complexity."
+    "article": {
+      "label": "Article",
+      "title": "At what age can you stop working?",
+      "minutes": "3 min read"
     }
   },
   "personalNote": {
@@ -217,6 +228,14 @@
       "msg4": "Calculating your Freedom Age...",
       "msg5": "Preparing your results..."
     }
+  },
+  "learnHints": {
+    "howFreedomAgeWorks": "How this number is computed",
+    "whyMarketsMove": "Why markets move",
+    "whyKnowYourself": "Why self-knowledge matters",
+    "questionsToAsk": "Questions to ask your adviser",
+    "yourPlaybook": "Your investor playbook",
+    "moneyAndYou": "Money and you"
   },
   "results": {
     "backToHome": "Back to home",
@@ -478,12 +497,13 @@
       "bloc2Tag": "② Get matched",
       "bloc2Title": "We can connect you to the right specialist",
       "bloc2Text": "No commercial push. Only licensed partners in your jurisdiction (FSC Mauritius, AMF Europe, FSCA South Africa, CMA Kenya, etc.). You choose if you want to be contacted.",
-      "bloc2CtaLocked": "Coming soon — notify me",
+      "bloc2CtaLocked": "Unlocks after your risk profile",
       "bloc2CtaActive": "See connection options",
       "bloc3Tag": "③ Learn at your pace",
       "bloc3Title": "Not ready to take action?",
-      "bloc3Text": "One short lesson per week: saving, investing, classic traps. No jargon. No sales. Unsubscribe in 1 click.",
-      "bloc3Cta": "Coming soon"
+      "bloc3Text": "Short modules in plain language: savings, investor profiles, classic traps. No jargon. No sales.",
+      "bloc3Cta": "Coming soon",
+      "bloc3CtaActive": "Open the Academy →"
     },
     "retake": "Retake Assessment & Adjust Goals",
     "startOver": "Start Over",

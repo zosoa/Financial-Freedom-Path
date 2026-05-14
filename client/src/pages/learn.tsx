@@ -252,9 +252,23 @@ export default function LearnPage() {
     if (!active) return;
     if (cta.action === "matching") {
       navigate("/results?intent=matching");
-    } else {
-      navigate("/calculator");
+      return;
     }
+    // Land on the landing-page hero so the user can set country/currency
+    // first; skipping straight to /calculator would bypass that context.
+    navigate("/");
+    // Retry briefly until the Landing component mounts and #hero is in the DOM,
+    // then smooth-scroll. ~50ms intervals up to ~1.2s ceiling.
+    let attempts = 0;
+    const tryScroll = () => {
+      const el = document.getElementById("hero");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (attempts++ < 25) {
+        setTimeout(tryScroll, 50);
+      }
+    };
+    setTimeout(tryScroll, 30);
   }
 
   // Recommend 4 modules other than the active one for "À lire ensuite"
@@ -316,7 +330,7 @@ export default function LearnPage() {
           <nav className="flex items-center gap-1 text-sm">
             <Link
               href="/"
-              className="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground transition-colors"
+              className="hidden sm:inline-flex px-3 py-2 rounded-md text-muted-foreground hover:text-foreground transition-colors"
               data-testid="nav-home"
             >
               Accueil
