@@ -321,7 +321,7 @@ export default function LearnPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* ── Header (same shape as landing.tsx) ─────────────────── */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/95 md:bg-background/85 md:backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center" data-testid="text-brand">
             <img src={finksmartLogo} alt="FinkSmart" className="h-10 w-auto" />

@@ -169,7 +169,21 @@ function OfficeSection() {
   const { t } = useTranslation();
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  // Skip the video on mobile + on prefers-reduced-motion: autoplay video
+  // mid-scroll is a known cause of scroll jank on lower-end devices, and
+  // the poster image alone tells the story.
+  const [showVideo, setShowVideo] = useState(false);
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)");
+    setShowVideo(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setShowVideo(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (!showVideo) return;
     const el = videoRef.current;
     if (!el) return;
     const io = new IntersectionObserver(
@@ -186,7 +200,7 @@ function OfficeSection() {
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [showVideo]);
 
   return (
     <section className="relative py-20 md:py-28 overflow-hidden bg-[#0a0e1a] text-white">
@@ -224,20 +238,30 @@ function OfficeSection() {
             className="relative rounded-3xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.5)]"
             style={{ boxShadow: "0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px hsl(var(--primary) / 0.18)" }}
           >
-            <video
-              ref={videoRef}
-              muted
-              loop
-              playsInline
-              autoPlay
-              preload="metadata"
-              poster="/media/office-poster.jpg"
-              className="w-full block"
-              data-testid="video-office-loop"
-            >
-              <source src="/media/office-loop.webm" type="video/webm" />
-              <source src="/media/office-loop.mp4" type="video/mp4" />
-            </video>
+            {showVideo ? (
+              <video
+                ref={videoRef}
+                muted
+                loop
+                playsInline
+                autoPlay
+                preload="metadata"
+                poster="/media/office-poster.jpg"
+                className="w-full block"
+                data-testid="video-office-loop"
+              >
+                <source src="/media/office-loop.webm" type="video/webm" />
+                <source src="/media/office-loop.mp4" type="video/mp4" />
+              </video>
+            ) : (
+              <img
+                src="/media/office-poster.jpg"
+                alt={t("office.title1")}
+                className="w-full block"
+                loading="lazy"
+                data-testid="image-office-poster"
+              />
+            )}
             <div
               aria-hidden
               className="absolute inset-0 pointer-events-none"
@@ -297,7 +321,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-background">
       {/* ============== HEADER ============== */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/95 md:bg-background/85 md:backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center" data-testid="text-brand">
             <img src={finksmartLogo} alt="FinkSmart" className="h-10 w-auto" data-testid="icon-logo" />

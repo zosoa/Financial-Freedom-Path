@@ -329,7 +329,7 @@ export default function Calculator() {
   /* ---------- Step screen ---------- */
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/95 md:bg-background/85 md:backdrop-blur-md">
         <div className="max-w-3xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
           <button onClick={() => navigate("/")} className="flex items-center" aria-label="FinkSmart">
             <img src={finksmartLogo} alt="FinkSmart" className="h-9 w-auto" />
