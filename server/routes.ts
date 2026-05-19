@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import crypto from "node:crypto";
 import rateLimit from "express-rate-limit";
 import { storage } from "./storage.js";
-import { insertCalculationSchema, insertLeadSchema, SUPPORTED_CURRENCIES } from "../shared/schema.js";
+import { COUNTRY_CURRENCY_MAP, SUPPORTED_CURRENCIES } from "../shared/schema.js";
 import { ZodError } from "zod";
 import { z } from "zod";
 import { sendReportEmail, sendLeadConfirmationEmail } from "./email.js";
@@ -12,8 +12,14 @@ import { sendReportEmail, sendLeadConfirmationEmail } from "./email.js";
  * Helpers
  * ============================================================ */
 
+// In production server/app.ts asserts SESSION_SECRET is set before we
+// even load this module. The "" fallback here is dev-only and means
+// "no secret configured" — we'd rather get a different per-process
+// random fallback than a published constant string.
 const ID_TOKEN_SECRET =
-  process.env.SESSION_SECRET || process.env.ID_TOKEN_SECRET || "dev-fallback-please-set-SESSION_SECRET";
+  process.env.SESSION_SECRET ||
+  process.env.ID_TOKEN_SECRET ||
+  crypto.randomBytes(32).toString("hex");
 
 /** Sign an arbitrary string with HMAC-SHA256 → 16-char hex token. Used for
  *  read-back and unsubscribe URLs so we don't expose other people's data. */
@@ -123,42 +129,156 @@ async function resolveIpLocation(ip: string | null): Promise<string | null> {
   }
 }
 
-const saveReportSchema = z.object({
-  email: z.string().email(),
-  name: z.string().min(1),
-  calculationId: z.string().nullable(),
-  freedomScore: z.number(),
-  freedomAge: z.number(),
-  targetAge: z.number(),
-  gapPercent: z.number(),
-  requiredCapital: z.number(),
-  plannedCapital: z.number(),
-  country: z.string(),
-  currency: z.string(),
-  currencySymbol: z.string(),
-  age: z.number(),
-  monthlyIncome: z.number(),
-  desiredMonthlyIncome: z.number(),
-  monthlySavingsRate: z.number(),
-  currentSavings: z.number(),
-  personality: z.string(),
-  narrativeType: z.string(),
-  /* Phase 2 — Risk DNA (optional, included only if user has done it). */
-  climate: z.string().nullable().optional(),
-  climateName: z.string().nullable().optional(),
-  climateReturn: z.number().nullable().optional(),
-  climateAdvice1: z.string().nullable().optional(),
-  climateAdvice2: z.string().nullable().optional(),
-  climateAdvice3: z.string().nullable().optional(),
-  allocBonds: z.number().nullable().optional(),
-  allocEquity: z.number().nullable().optional(),
-  allocAlt: z.number().nullable().optional(),
-  dnaScore: z.number().nullable().optional(),
-  /* Real-world working URLs surfaced in the email body. */
-  reportUrl: z.string().nullable().optional(),
-  retakeUrl: z.string().nullable().optional(),
-  riskDnaUrl: z.string().nullable().optional(),
+/* ============================================================
+ * Input schemas — explicit allow-listed fields, bounded ranges.
+ *
+ * Generating these from `createInsertSchema(calculations)` (which is
+ * what we did before) exposes server-managed columns to mass assignment:
+ * `ipAddress`, `ipLocation`, `referralSource`, `leadStatus`, `sessionId`,
+ * `calculationId` were all accepted from the request body. Some are
+ * server-derived and shouldn't be trusted from the client; others
+ * needed bounded validation. These hand-written schemas list exactly
+ * what the client is allowed to send, with explicit bounds on every
+ * numeric field.
+ * ============================================================ */
+
+const KNOWN_COUNTRY = z
+  .string()
+  .min(1)
+  .max(80)
+  .refine((c) => c in COUNTRY_CURRENCY_MAP, { message: "Unknown country" });
+const KNOWN_CURRENCY = z
+  .string()
+  .length(3)
+  .refine((c) => c in SUPPORTED_CURRENCIES, { message: "Unknown currency" });
+const SAFE_MONEY = z.number().finite().min(0).max(1e12);
+const SAFE_AGE = z.number().int().min(0).max(120);
+const SAFE_PCT = z.number().finite().min(0).max(100);
+const SAFE_STR_80 = z.string().max(80);
+
+const calculationInputSchema = z.object({
+  country: KNOWN_COUNTRY,
+  currency: KNOWN_CURRENCY,
+  age: SAFE_AGE,
+  monthlyIncome: SAFE_MONEY,
+  desiredMonthlyIncome: SAFE_MONEY,
+  currentSavings: SAFE_MONEY,
+  monthlySavingsRate: SAFE_MONEY,
+  targetFreedomAge: SAFE_AGE.default(55),
+  expectedLumpSum: SAFE_MONEY.default(0),
+  lumpSumAge: SAFE_AGE.nullable().optional(),
+  annualReturn: z.number().finite().min(-10).max(50).default(7),
+  requiredCapital: SAFE_MONEY,
+  plannedCapital: SAFE_MONEY,
+  gapPercent: SAFE_PCT,
+  freedomAge: z.number().int().min(0).max(200),
+  freedomScore: z.number().int().min(0).max(100),
+  solutionSaveMore: SAFE_MONEY.nullable().optional(),
+  solutionLumpSum: SAFE_MONEY.nullable().optional(),
+  solutionReturnNeeded: z.number().finite().min(-10).max(100).nullable().optional(),
+  // Analytics — bounded strings. ipAddress / ipLocation / referralSource
+  // (the row column) are server-set; we accept a *client-side* referral
+  // string here but write it to the same column.
+  sessionId: SAFE_STR_80.nullable().optional(),
+  referralSource: z.string().max(40).nullable().optional(),
 });
+
+/** Lead statuses the server itself promotes the row to. We accept a
+ *  subset from the client (lifecycle states) but reject anything else
+ *  to prevent advisor-pipeline spoofing. */
+const CLIENT_LEAD_STATUS = z.enum([
+  "lead",
+  "phase1_complete",
+  "report_requested",
+  "report_requested_with_dna",
+  "matching_requested",
+  "risk_dna_started",
+]);
+
+const leadInputSchema = z.object({
+  name: z.string().min(1).max(80),
+  email: z.string().email().max(254).nullable().optional(),
+  whatsapp: z.string().max(40).nullable().optional(),
+  country: KNOWN_COUNTRY,
+  currency: KNOWN_CURRENCY,
+  calculationId: z.string().uuid().nullable().optional(),
+  lifeEvent: SAFE_STR_80.nullable().optional(),
+  // `freedomScore` and `gapPercent` are accepted as a fallback if
+  // `calculationId` is null, but server-side derivation from the linked
+  // calculation row takes precedence when calculationId is set.
+  freedomScore: z.number().int().min(0).max(100).optional(),
+  gapPercent: SAFE_PCT.optional(),
+  // Analytics — bounded.
+  sessionId: SAFE_STR_80.nullable().optional(),
+  referralSource: z.string().max(40).nullable().optional(),
+  leadStatus: CLIENT_LEAD_STATUS.optional(),
+});
+
+const saveReportSchema = z.object({
+  email: z.string().email().max(254),
+  name: z.string().min(1).max(80),
+  calculationId: z.string().uuid().nullable(),
+  freedomScore: z.number().int().min(0).max(100),
+  freedomAge: z.number().int().min(0).max(200),
+  targetAge: SAFE_AGE,
+  gapPercent: SAFE_PCT,
+  requiredCapital: SAFE_MONEY,
+  plannedCapital: SAFE_MONEY,
+  country: KNOWN_COUNTRY,
+  currency: KNOWN_CURRENCY,
+  currencySymbol: z.string().max(8),
+  age: SAFE_AGE,
+  monthlyIncome: SAFE_MONEY,
+  desiredMonthlyIncome: SAFE_MONEY,
+  monthlySavingsRate: SAFE_MONEY,
+  currentSavings: SAFE_MONEY,
+  personality: SAFE_STR_80,
+  narrativeType: SAFE_STR_80,
+  /* Phase 2 — Risk DNA (optional, included only if user has done it). */
+  climate: z.enum(["glacier", "tempere", "tropical", "volcan"]).nullable().optional(),
+  climateName: SAFE_STR_80.nullable().optional(),
+  climateReturn: z.number().finite().min(-10).max(100).nullable().optional(),
+  climateAdvice1: z.string().max(500).nullable().optional(),
+  climateAdvice2: z.string().max(500).nullable().optional(),
+  climateAdvice3: z.string().max(500).nullable().optional(),
+  allocBonds: SAFE_PCT.nullable().optional(),
+  allocEquity: SAFE_PCT.nullable().optional(),
+  allocAlt: SAFE_PCT.nullable().optional(),
+  dnaScore: z.number().int().min(0).max(100).nullable().optional(),
+  /* Real-world working URLs surfaced in the email body. Constrained to
+   * a FinkSmart-controlled host so the email body can't be tricked into
+   * pointing recipients elsewhere (phishing-via-our-domain). */
+  reportUrl: safeFinkUrl().nullable().optional(),
+  retakeUrl: safeFinkUrl().nullable().optional(),
+  riskDnaUrl: safeFinkUrl().nullable().optional(),
+});
+
+/** Accept only URLs whose host is one of: finksmart.com, www.finksmart.com,
+ *  localhost (for dev), or our Vercel preview pattern. Rejects any other
+ *  host so client-controlled URLs can't sneak into outbound emails. */
+function safeFinkUrl() {
+  return z
+    .string()
+    .url()
+    .max(2048)
+    .refine(
+      (u) => {
+        try {
+          const h = new URL(u).hostname;
+          return (
+            h === "finksmart.com" ||
+            h === "www.finksmart.com" ||
+            h === "localhost" ||
+            h === "127.0.0.1" ||
+            /^finksmart-[a-z0-9]+-zosoas-projects\.vercel\.app$/.test(h)
+          );
+        } catch {
+          return false;
+        }
+      },
+      { message: "URL must point to a FinkSmart-controlled host" },
+    );
+}
 
 export async function registerRoutes(
   httpServer: Server,
@@ -166,8 +286,11 @@ export async function registerRoutes(
 ): Promise<Server> {
   app.post("/api/calculations", writeLimiter, async (req, res) => {
     try {
-      const ipAddress = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || null;
-      const data = insertCalculationSchema.parse(req.body);
+      // `req.ip` is the proxy-trusted value (we set trust proxy = 1 in
+      // app.ts). Hand-parsing x-forwarded-for would accept caller-spoofed
+      // headers and let attackers forge analytics IPs.
+      const ipAddress = req.ip ?? null;
+      const data = calculationInputSchema.parse(req.body);
       const ipLocation = await resolveIpLocation(ipAddress);
       const calculation = await storage.createCalculation({ ...data, ipAddress, ipLocation });
       // Return the row WITHOUT ipAddress / ipLocation, plus a signed
@@ -218,43 +341,62 @@ export async function registerRoutes(
 
   app.post("/api/leads", writeLimiter, async (req, res) => {
     try {
-      const ipAddress = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || null;
-      const raw = insertLeadSchema.parse(req.body);
+      const ipAddress = req.ip ?? null;
+      const raw = leadInputSchema.parse(req.body);
+      // If the lead is linked to a calculation, derive the diagnostic
+      // numbers from the calculation row server-side — never trust the
+      // client's freedomScore / gapPercent for advisor-facing data.
+      let derivedScore = raw.freedomScore ?? 0;
+      let derivedGap = raw.gapPercent ?? 0;
+      let linkedCalculation: Awaited<ReturnType<typeof storage.getCalculation>> | undefined;
+      if (raw.calculationId) {
+        linkedCalculation = await storage.getCalculation(raw.calculationId);
+        if (linkedCalculation) {
+          derivedScore = linkedCalculation.freedomScore;
+          derivedGap = linkedCalculation.gapPercent;
+        }
+      }
       // Sanitize free-text fields before storing.
       const data = {
-        ...raw,
-        name: sanitizeName(raw.name ?? ""),
-        email: (raw.email ?? "").trim().toLowerCase().slice(0, 254),
+        name: sanitizeName(raw.name),
+        email: raw.email ? raw.email.trim().toLowerCase().slice(0, 254) : null,
+        whatsapp: raw.whatsapp ?? null,
+        country: raw.country,
+        currency: raw.currency,
+        calculationId: raw.calculationId ?? null,
+        gapPercent: derivedGap,
+        freedomScore: derivedScore,
+        leadStatus: raw.leadStatus ?? "lead",
+        lifeEvent: raw.lifeEvent ?? null,
+        referralSource: raw.referralSource ?? null,
+        sessionId: raw.sessionId ?? null,
       };
       const ipLocation = await resolveIpLocation(ipAddress);
       const lead = await storage.createLead({ ...data, ipAddress, ipLocation });
 
       if (data.email && data.name) {
         let calcData: any = {};
-        if (data.calculationId) {
-          const calc = await storage.getCalculation(data.calculationId);
-          if (calc) {
-            const currencyInfo = SUPPORTED_CURRENCIES[calc.currency];
-            calcData = {
-              freedomAge: calc.freedomAge,
-              targetAge: calc.targetFreedomAge,
-              requiredCapital: calc.requiredCapital,
-              plannedCapital: calc.plannedCapital,
-              age: calc.age,
-              currency: calc.currency,
-              currencySymbol: currencyInfo?.symbol || calc.currency,
-              desiredMonthlyIncome: calc.desiredMonthlyIncome,
-              reportUrl: `${req.protocol}://${req.get("host")}/report/${calc.id}?token=${signId(calc.id)}`,
-            };
-          }
+        if (linkedCalculation) {
+          const currencyInfo = SUPPORTED_CURRENCIES[linkedCalculation.currency];
+          calcData = {
+            freedomAge: linkedCalculation.freedomAge,
+            targetAge: linkedCalculation.targetFreedomAge,
+            requiredCapital: linkedCalculation.requiredCapital,
+            plannedCapital: linkedCalculation.plannedCapital,
+            age: linkedCalculation.age,
+            currency: linkedCalculation.currency,
+            currencySymbol: currencyInfo?.symbol || linkedCalculation.currency,
+            desiredMonthlyIncome: linkedCalculation.desiredMonthlyIncome,
+            reportUrl: `${req.protocol}://${req.get("host")}/report/${linkedCalculation.id}?token=${signId(linkedCalculation.id)}`,
+          };
         }
 
         const unsubUrl = buildUnsubscribeUrl(req, data.email);
         sendLeadConfirmationEmail({
           recipientEmail: data.email,
           recipientName: data.name,
-          freedomScore: data.freedomScore ?? 0,
-          gapPercent: data.gapPercent ?? 0,
+          freedomScore: derivedScore,
+          gapPercent: derivedGap,
           unsubscribeUrl: unsubUrl,
           ...calcData,
         }).catch((err) => {
@@ -309,7 +451,7 @@ export async function registerRoutes(
 
   app.post("/api/send-report", sendReportLimiter, async (req, res) => {
     try {
-      const ipAddress = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || null;
+      const ipAddress = req.ip ?? null;
       const parsed = saveReportSchema.parse(req.body);
       // Defensive sanitization on user-controlled string fields that flow
       // into HTML/email templates.
@@ -326,6 +468,15 @@ export async function registerRoutes(
           ? `${req.protocol}://${req.get("host")}/report/${data.calculationId}?token=${signId(data.calculationId)}`
           : undefined);
 
+      // Derive freedomScore/gapPercent server-side from the linked
+      // calculation when available, falling back to the (bounded) client
+      // values only if the calculation row isn't found.
+      const calcForLead = data.calculationId
+        ? await storage.getCalculation(data.calculationId)
+        : undefined;
+      const leadScore = calcForLead?.freedomScore ?? data.freedomScore;
+      const leadGap = calcForLead?.gapPercent ?? data.gapPercent;
+
       resolveIpLocation(ipAddress).then((ipLocation) => {
         storage.createLead({
           calculationId: data.calculationId,
@@ -334,8 +485,8 @@ export async function registerRoutes(
           whatsapp: null,
           country: data.country,
           currency: data.currency,
-          gapPercent: data.gapPercent,
-          freedomScore: data.freedomScore,
+          gapPercent: leadGap,
+          freedomScore: leadScore,
           // Differentiate the lead status: did this user have the DNA result
           // when they asked for the report?
           leadStatus: data.climate ? "report_requested_with_dna" : "report_requested",

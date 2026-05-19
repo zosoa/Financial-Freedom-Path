@@ -21,6 +21,19 @@ declare module "http" {
 
 const isProduction = process.env.NODE_ENV === "production";
 
+/* ============== Boot-time security assertions ==============
+ * Refuse to start in production without the secrets the app needs to
+ * sign tokens. The previous hard-coded fallback was a known constant
+ * that would have made every issued token forgeable if the env var was
+ * ever missing. Fail loud here, before any request is served. */
+if (isProduction) {
+  if (!process.env.SESSION_SECRET && !process.env.ID_TOKEN_SECRET) {
+    throw new Error(
+      "SESSION_SECRET (or ID_TOKEN_SECRET) must be set in production. Refusing to boot with a hard-coded fallback.",
+    );
+  }
+}
+
 /**
  * Build and configure the Express app. Idempotent — caller can cache the
  * result across Vercel serverless invocations.
@@ -58,22 +71,26 @@ export async function createApp(opts: { skipStatic?: boolean } = {}) {
 
   // CORS — restrict cross-origin to our domains. Same-origin requests
   // (the SPA on finksmart.com calling /api/*) don't need CORS at all.
+  //
+  // We tightened the allow-list after migrating off Replit: previously we
+  // accepted any *.replit.dev / *.replit.app / *.vercel.app origin, which
+  // meant any user of those platforms could call /api/* with
+  // `credentials: true`. Now only our own production + preview origins
+  // are accepted.
   const allowedOrigins = [
     "https://finksmart.com",
     "https://www.finksmart.com",
-    "https://financial-freedom-path.replit.app",
   ];
+  // Vercel preview deploys for THIS project look like
+  // `https://finksmart-<hash>-zosoas-projects.vercel.app`. Match exactly
+  // that shape — not a wildcard over the whole .vercel.app namespace.
+  const VERCEL_PREVIEW_RE = /^https:\/\/finksmart-[a-z0-9]+-zosoas-projects\.vercel\.app$/;
   app.use(
     cors({
       origin: (origin, cb) => {
         if (!origin) return cb(null, true);
         if (allowedOrigins.includes(origin)) return cb(null, true);
-        try {
-          const host = new URL(origin).hostname;
-          if (/\.replit\.(dev|app|co)$/.test(host)) return cb(null, true);
-          // Allow any Vercel preview deploy as well — *.vercel.app
-          if (host.endsWith(".vercel.app")) return cb(null, true);
-        } catch { /* ignore malformed origins */ }
+        if (VERCEL_PREVIEW_RE.test(origin)) return cb(null, true);
         return cb(new Error("Not allowed by CORS"), false);
       },
       credentials: true,
@@ -90,24 +107,29 @@ export async function createApp(opts: { skipStatic?: boolean } = {}) {
   );
   app.use(express.urlencoded({ extended: false, limit: "10kb" }));
 
-  /* ============== Request logging ============== */
-
+  /* ============== Request logging ==============
+   * In dev we capture the JSON response body for debugging. In production
+   * we NEVER do — PII (email, name, WhatsApp, financial numbers, signed
+   * read tokens) was being written to Vercel's log stream on every
+   * /api/* request, which is the wrong lawful basis under GDPR. */
   app.use((req, res, next) => {
     const start = Date.now();
     const path = req.path;
     let capturedJsonResponse: Record<string, any> | undefined = undefined;
 
-    const originalResJson = res.json;
-    res.json = function (bodyJson, ...args) {
-      capturedJsonResponse = bodyJson;
-      return originalResJson.apply(res, [bodyJson, ...args]);
-    };
+    if (!isProduction) {
+      const originalResJson = res.json;
+      res.json = function (bodyJson, ...args) {
+        capturedJsonResponse = bodyJson;
+        return originalResJson.apply(res, [bodyJson, ...args]);
+      };
+    }
 
     res.on("finish", () => {
       const duration = Date.now() - start;
       if (path.startsWith("/api")) {
         let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-        if (capturedJsonResponse) {
+        if (capturedJsonResponse && !isProduction) {
           logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
         }
         log(logLine);
