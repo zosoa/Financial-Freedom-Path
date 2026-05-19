@@ -336,6 +336,13 @@ export default function LearnPage() {
               Accueil
             </Link>
             <Link
+              href="/marche"
+              className="hidden sm:inline-flex px-3 py-2 rounded-md text-muted-foreground hover:text-foreground transition-colors"
+              data-testid="nav-marche"
+            >
+              Marché
+            </Link>
+            <Link
               href="/learn"
               className="px-3 py-2 rounded-md text-primary font-semibold border-b-2 border-primary -mb-[1px]"
               data-testid="nav-learn"

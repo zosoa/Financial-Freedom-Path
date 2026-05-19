@@ -11,6 +11,8 @@ import Results from "@/pages/results";
 import Report from "@/pages/report";
 import RiskDNA from "@/pages/risk-dna";
 import LearnPage from "@/pages/learn";
+import MarchePage from "@/pages/marche";
+import PulsePage from "@/pages/pulse";
 
 function Router() {
   return (
@@ -22,6 +24,10 @@ function Router() {
       <Route path="/report/:id" component={Report} />
       <Route path="/learn" component={LearnPage} />
       <Route path="/learn/:slug" component={LearnPage} />
+      <Route path="/marche" component={MarchePage} />
+      <Route path="/marche/:date" component={MarchePage} />
+      <Route path="/pulse" component={PulsePage} />
+      <Route path="/pulse/:date" component={PulsePage} />
       <Route component={NotFound} />
     </Switch>
   );

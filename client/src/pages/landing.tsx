@@ -47,6 +47,7 @@ import {
 } from "@shared/schema";
 import ResultsPreview from "@/components/illustrations/ResultsPreview";
 import LearnHint from "@/components/learn-hint";
+import { latestIssue } from "@/research/catalog";
 import notreApprocheBg from "@assets/notre-approche.jpg";
 import academyMoneyImg from "@assets/academy-money.jpg";
 import academyTropicsImg from "@assets/academy-tropics.jpg";
@@ -154,6 +155,47 @@ function AnimatedSection({ children, className = "" }: { children: React.ReactNo
     >
       {children}
     </motion.div>
+  );
+}
+
+/**
+ * MarcheCallout — slim band surfacing this week's Human Weekly headline
+ * right after the hero. Drops in automatically as soon as `catalog.ts`
+ * gets a fresh entry. Links to /marche/:date for the full read.
+ */
+function MarcheCallout() {
+  const { i18n } = useTranslation();
+  const lang = (i18n.language ?? "fr").toLowerCase().startsWith("en") ? "en" : "fr";
+  const latest = latestIssue();
+  if (!latest.human) return null;
+  return (
+    <section className="border-y border-border bg-card/40">
+      <div className="max-w-5xl mx-auto px-5 py-10">
+        <AnimatedSection>
+          <div className="grid md:grid-cols-[auto_1fr_auto] gap-5 items-center">
+            <span className="fa-pill fa-pill-amber">
+              ✦ {lang === "fr" ? "Marché cette semaine" : "Markets this week"}
+            </span>
+            <div className="min-w-0">
+              <p className="font-serif text-lg md:text-xl font-bold leading-snug line-clamp-2">
+                {latest.human.headline[lang as "fr" | "en"]}
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {latest.weekLabel[lang as "fr" | "en"]}
+                {latest.edition ? ` · Édition #${latest.edition}` : ""}
+              </p>
+            </div>
+            <Link
+              href={`/marche/${latest.date}`}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-primary-foreground text-xs font-bold hover:bg-primary/90 whitespace-nowrap"
+              data-testid="cta-marche-latest"
+            >
+              {lang === "fr" ? "Lire" : "Read"} <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+        </AnimatedSection>
+      </div>
+    </section>
   );
 }
 
@@ -327,6 +369,13 @@ export default function Landing() {
             <img src={finksmartLogo} alt="FinkSmart" className="h-10 w-auto" data-testid="icon-logo" />
           </div>
           <nav className="flex items-center gap-1 text-sm">
+            <Link
+              href="/marche"
+              className="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground transition-colors font-medium"
+              data-testid="nav-marche"
+            >
+              Marché
+            </Link>
             <Link
               href="/learn"
               className="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground transition-colors font-medium"
@@ -550,6 +599,9 @@ export default function Landing() {
           </div>
         </div>
       </section>
+
+      {/* ============== MARCHÉ CETTE SEMAINE — latest market review callout ============== */}
+      <MarcheCallout />
 
       {/* ============== CONCEPT — value-prop in 2 phases ============== */}
       <section className="py-16 md:py-20">
