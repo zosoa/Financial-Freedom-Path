@@ -42,6 +42,58 @@ export interface ReportEmailData {
   dnaScore?: number | null;
 }
 
+/* Minimal HTML escape — defensive layer so the email body / subject can
+ * never carry an injection even if a caller forgets to sanitize. Numbers
+ * and `null` are returned as-is (numbers can't carry HTML; nulls map to
+ * empty string). Apply this to every user-controlled string at the
+ * function boundary, then interpolate freely below. */
+function e(s: unknown): string {
+  if (s == null) return "";
+  if (typeof s === "number") return Number.isFinite(s) ? String(s) : "";
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
+/** Return a Proxy over the input object that HTML-escapes string-valued
+ *  fields on read. Numbers, booleans, nulls, undefined pass through
+ *  unchanged. Preserves the original interface type at the TS level so
+ *  callers don't need to widen to `Record<string, unknown>`. URL fields
+ *  are also validated upstream by Zod's safeFinkUrl(), but the default
+ *  HTML attribute escape is still applied here as a double-defence. */
+function escapeStrings<T extends object>(data: T): T {
+  return new Proxy(data, {
+    get(target, prop) {
+      const value = (target as any)[prop];
+      return typeof value === "string" ? e(value) : value;
+    },
+  });
+}
+
+/** Resend errors / Node fetch errors often echo the recipient address in
+ *  the body. Strip anything PII-looking before letting the message hit
+ *  the log stream — leaves only the error name + a short message. */
+function safeResendError(err: unknown): { name: string; message: string } {
+  if (err instanceof Error) {
+    // Replace any email-looking substring with a redaction placeholder
+    // before logging. Plus strip overly long messages.
+    const redacted = err.message
+      .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, "<email>")
+      .slice(0, 240);
+    return { name: err.name || "Error", message: redacted };
+  }
+  if (err && typeof err === "object" && "message" in err) {
+    const m = String((err as any).message ?? "")
+      .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, "<email>")
+      .slice(0, 240);
+    return { name: (err as any).name ?? "ResendError", message: m };
+  }
+  return { name: "Unknown", message: String(err).slice(0, 240) };
+}
+
 function formatNumber(num: number): string {
   return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
@@ -79,8 +131,15 @@ function getAgeComparisonColor(freedomAge: number, targetAge: number): { color: 
   return { color: "#ef4444", bgColor: "#fef2f2" };
 }
 
-export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
+export async function sendReportEmail(rawData: ReportEmailData): Promise<boolean> {
+  // Defensive HTML-escape every string in `data` at the function boundary
+  // so the body / subject can't carry an injection even if a caller
+  // forgets to sanitize. Numbers and URLs pass through (URLs are
+  // hostname-allow-listed by Zod). Use `rawData` only where the original
+  // unescaped value is genuinely needed (Resend recipient header).
+  const data = escapeStrings(rawData);
   const scoreColor = getScoreColor(data.freedomScore);
+  // narrativeType maps to a fixed enum of labels — already safe.
   const personality = getPersonalityLabel(data.narrativeType);
   const personalityDesc = getPersonalityDescription(data.narrativeType);
   const ageColors = getAgeComparisonColor(data.freedomAge, data.targetAge);
@@ -357,18 +416,24 @@ export async function sendReportEmail(data: ReportEmailData): Promise<boolean> {
   try {
     const { error } = await resend.emails.send({
       from: "FinkSmart <hello@finksmart.com>",
-      to: data.recipientEmail,
-      subject: `Votre Rapport de Liberté : Score ${data.freedomScore}/100 | Objectif ${data.targetAge} vs Projeté ${data.freedomAge} — ${personality}`,
+      // Headers use raw values — HTML entity escapes would render
+      // literally ("&amp;" instead of "&") in inbox views. CRLF header
+      // injection is already blocked upstream by sanitizeName() in
+      // routes.ts (only letters/spaces/apostrophes/hyphens survive).
+      to: rawData.recipientEmail,
+      subject: `Votre Rapport de Liberté : Score ${rawData.freedomScore}/100 | Objectif ${rawData.targetAge} vs Projeté ${rawData.freedomAge} — ${personality}`,
       html: htmlContent,
     });
 
     if (error) {
-      console.error("Email send error:", error);
+      // Strip recipient address from the logged Resend error — recipient
+      // is PII and shouldn't end up in the log stream (CRIT-2 territory).
+      console.error("Email send error:", safeResendError(error));
       return false;
     }
     return true;
   } catch (err) {
-    console.error("Email send failed:", err);
+    console.error("Email send failed:", safeResendError(err));
     return false;
   }
 }
@@ -391,7 +456,10 @@ export interface LeadConfirmationData {
   unsubscribeUrl?: string;
 }
 
-export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Promise<boolean> {
+export async function sendLeadConfirmationEmail(rawData: LeadConfirmationData): Promise<boolean> {
+  // See sendReportEmail for the rationale — defensive HTML-escape every
+  // string at the boundary; use `rawData` for headers, `data` for body.
+  const data = escapeStrings(rawData);
   const scoreColor = getScoreColor(data.freedomScore);
   const hasFreedomAge = data.freedomAge !== undefined && data.targetAge !== undefined;
   const yearsDiff = hasFreedomAge ? (data.freedomAge! - data.targetAge!) : 0;
@@ -570,18 +638,18 @@ export async function sendLeadConfirmationEmail(data: LeadConfirmationData): Pro
       : "";
     const { error } = await resend.emails.send({
       from: "FinkSmart <hello@finksmart.com>",
-      to: data.recipientEmail,
-      subject: `Bienvenue ${data.recipientName} — votre analyse par un conseiller est en cours${subjectAge}`,
+      to: rawData.recipientEmail,
+      subject: `Bienvenue ${rawData.recipientName} — votre analyse par un conseiller est en cours${subjectAge}`,
       html: htmlContent,
     });
 
     if (error) {
-      console.error("Lead confirmation email error:", error);
+      console.error("Lead confirmation email error:", safeResendError(error));
       return false;
     }
     return true;
   } catch (err) {
-    console.error("Lead confirmation email failed:", err);
+    console.error("Lead confirmation email failed:", safeResendError(err));
     return false;
   }
 }

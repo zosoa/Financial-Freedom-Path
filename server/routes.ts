@@ -21,20 +21,32 @@ const ID_TOKEN_SECRET =
   process.env.ID_TOKEN_SECRET ||
   crypto.randomBytes(32).toString("hex");
 
-/** Sign an arbitrary string with HMAC-SHA256 → 16-char hex token. Used for
- *  read-back and unsubscribe URLs so we don't expose other people's data. */
+/** Sign an arbitrary string with HMAC-SHA256. Returns the full 32-char
+ *  (128-bit) hex prefix — full HMAC tag is 64 chars but the URL needs to
+ *  stay short. 128 bits leaves no practical truncation-collision window
+ *  and matches the entropy of a UUID-as-secret. Used for read-back and
+ *  unsubscribe URLs so we don't expose other people's data. */
 function signId(id: string): string {
   return crypto
     .createHmac("sha256", ID_TOKEN_SECRET)
     .update(id)
     .digest("hex")
-    .slice(0, 16);
+    .slice(0, 32);
 }
+
+/** Accept tokens at the new 32-char length AND the legacy 16-char length
+ *  for a deprecation window — old email links and read URLs already in
+ *  flight (sent before the bump) need to keep working. After ~90 days
+ *  the 16-char branch can be removed. */
 function verifyToken(id: string, token: string | undefined): boolean {
-  if (!token || token.length !== 16) return false;
-  const expected = signId(id);
+  if (!token || (token.length !== 32 && token.length !== 16)) return false;
+  const expectedFull = signId(id);
+  const expected = expectedFull.slice(0, token.length);
   try {
-    return crypto.timingSafeEqual(Buffer.from(expected, "hex"), Buffer.from(token, "hex"));
+    return crypto.timingSafeEqual(
+      Buffer.from(expected, "hex"),
+      Buffer.from(token, "hex"),
+    );
   } catch {
     return false;
   }
@@ -109,24 +121,65 @@ const readLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+/* freeipapi cache — keyed by clean IP, valid for an hour. Same IP
+ * repeatedly submitting the form (a common pattern from one office /
+ * household) shouldn't re-hit the upstream every time. Bounded to 5000
+ * entries to defeat memory exhaustion from random-IP traffic. */
+const IP_CACHE = new Map<string, { value: string | null; expires: number }>();
+const IP_CACHE_TTL_MS = 60 * 60 * 1000;
+const IP_CACHE_MAX = 5000;
+
+/** Only the well-formed shape we use from the upstream payload. */
+function isValidIpRecord(x: unknown): x is { countryName?: string; cityName?: string; regionName?: string } {
+  return typeof x === "object" && x !== null;
+}
+
 async function resolveIpLocation(ip: string | null): Promise<string | null> {
   if (!ip || ip === "::1" || ip === "127.0.0.1" || ip === "::ffff:127.0.0.1") return null;
+  const cleanIp = ip.replace(/^::ffff:/, "");
+  const now = Date.now();
+  const cached = IP_CACHE.get(cleanIp);
+  if (cached && cached.expires > now) return cached.value;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 3000);
+  let value: string | null = null;
   try {
-    const cleanIp = ip.replace(/^::ffff:/, "");
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 3000);
-    const res = await fetch(`https://freeipapi.com/api/json/${cleanIp}`, {
+    const res = await fetch(`https://freeipapi.com/api/json/${encodeURIComponent(cleanIp)}`, {
       signal: controller.signal,
+      // Don't follow redirects: a redirect from a third-party API
+      // could be aimed at an internal IP (SSRF-adjacent risk).
+      redirect: "error",
     });
-    clearTimeout(timeout);
-    if (!res.ok) return null;
-    const data = await res.json();
-    if (!data.countryName) return null;
-    const parts = [data.cityName, data.regionName, data.countryName].filter(Boolean);
-    return parts.join(", ") || null;
+    if (res.ok) {
+      // Cap the response body to 16 KB to defeat a malicious upstream
+      // trying to fill our function memory with a huge JSON payload.
+      const buf = await res.arrayBuffer();
+      if (buf.byteLength <= 16 * 1024) {
+        try {
+          const data = JSON.parse(new TextDecoder().decode(buf));
+          if (isValidIpRecord(data) && data.countryName) {
+            const parts = [data.cityName, data.regionName, data.countryName].filter(Boolean);
+            value = parts.join(", ") || null;
+          }
+        } catch { /* malformed JSON — fall through to null */ }
+      }
+    }
   } catch {
-    return null;
+    // network error / abort / redirect rejection — treat as unknown.
+    value = null;
+  } finally {
+    clearTimeout(timeout);
   }
+
+  // Evict oldest entry if we hit the cap (rough LRU — Maps preserve
+  // insertion order so the first key is the oldest).
+  if (IP_CACHE.size >= IP_CACHE_MAX) {
+    const oldest = IP_CACHE.keys().next().value;
+    if (oldest !== undefined) IP_CACHE.delete(oldest);
+  }
+  IP_CACHE.set(cleanIp, { value, expires: now + IP_CACHE_TTL_MS });
+  return value;
 }
 
 /* ============================================================
@@ -477,8 +530,13 @@ export async function registerRoutes(
       const leadScore = calcForLead?.freedomScore ?? data.freedomScore;
       const leadGap = calcForLead?.gapPercent ?? data.gapPercent;
 
-      resolveIpLocation(ipAddress).then((ipLocation) => {
-        storage.createLead({
+      // Persist the lead synchronously so the client gets a real
+      // success/failure signal — previously this was wrapped in
+      // .then().catch() and the route returned 200 even if the row
+      // never landed in the DB.
+      const ipLocation = await resolveIpLocation(ipAddress);
+      try {
+        await storage.createLead({
           calculationId: data.calculationId,
           name: data.name,
           email: data.email,
@@ -492,12 +550,14 @@ export async function registerRoutes(
           leadStatus: data.climate ? "report_requested_with_dna" : "report_requested",
           ipAddress,
           ipLocation,
-        }).catch((err) => {
-          if (process.env.NODE_ENV !== "production") {
-            console.error("Failed to create lead from report request:", err);
-          }
         });
-      });
+      } catch (err) {
+        if (process.env.NODE_ENV !== "production") {
+          console.error("Failed to create lead from report request:", err);
+        }
+        // Don't fail the whole request just because the lead couldn't be
+        // recorded — email is the user-facing artifact. Log and continue.
+      }
 
       const emailSent = await sendReportEmail({
         recipientEmail: data.email,
