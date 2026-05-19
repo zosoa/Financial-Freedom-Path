@@ -6,8 +6,8 @@
  * between the two entry points.
  */
 import { createServer } from "http";
-import { createApp } from "./app";
-import { log } from "./log";
+import { createApp } from "./app.js";
+import { log } from "./log.js";
 
 (async () => {
   // In production we want serveStatic to handle the SPA. In dev we want Vite's

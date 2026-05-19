@@ -10,8 +10,8 @@ import express, { type Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import cors from "cors";
 import { createServer, type Server } from "http";
-import { registerRoutes } from "./routes";
-import { log } from "./log";
+import { registerRoutes } from "./routes.js";
+import { log } from "./log.js";
 
 declare module "http" {
   interface IncomingMessage {
@@ -150,7 +150,7 @@ export async function createApp(opts: { skipStatic?: boolean } = {}) {
   // On Vercel, dist/public is served by the edge — never call serveStatic
   // there or every static asset would round-trip through the Node function.
   if (!opts.skipStatic && isProduction) {
-    const { serveStatic } = await import("./static");
+    const { serveStatic } = await import("./static.js");
     serveStatic(app);
   }
 

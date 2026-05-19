@@ -5,8 +5,8 @@ import {
   type InsertCalculation,
   type Lead,
   type InsertLead,
-} from "@shared/schema";
-import { db } from "./db";
+} from "../shared/schema.js";
+import { db } from "./db.js";
 import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {

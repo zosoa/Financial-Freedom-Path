@@ -2,11 +2,11 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import crypto from "node:crypto";
 import rateLimit from "express-rate-limit";
-import { storage } from "./storage";
-import { insertCalculationSchema, insertLeadSchema, SUPPORTED_CURRENCIES } from "@shared/schema";
+import { storage } from "./storage.js";
+import { insertCalculationSchema, insertLeadSchema, SUPPORTED_CURRENCIES } from "../shared/schema.js";
 import { ZodError } from "zod";
 import { z } from "zod";
-import { sendReportEmail, sendLeadConfirmationEmail } from "./email";
+import { sendReportEmail, sendLeadConfirmationEmail } from "./email.js";
 
 /* ============================================================
  * Helpers
