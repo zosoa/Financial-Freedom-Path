@@ -37,6 +37,42 @@ export interface Issue {
 /** Newest first. */
 export const ISSUES: Issue[] = [
   {
+    date: "2026-05-23",
+    weekLabel: {
+      fr: "19–23 mai 2026",
+      en: "May 19–23, 2026",
+    },
+    edition: 20,
+    human: {
+      files: {
+        fr: "/research/marche/2026-05-23-fr.html",
+        en: "/research/marche/2026-05-23-en.html",
+      },
+      headline: {
+        fr: "Huit semaines. La peur disparaît. Les obligations résistent.",
+        en: "Eight straight. Fear is gone. The bond market disagrees.",
+      },
+      dek: {
+        fr: "Les actions américaines viennent de signer leur huitième semaine consécutive de hausse. Le VIX est repassé sous 20. Mais le marché obligataire — historiquement le plus lucide — vient d'atteindre un plus haut annuel sur les coûts d'emprunt.",
+        en: "US stocks logged their eighth consecutive positive week. VIX broke below 20. But the bond market — historically the smartest room in finance — just hit a one-year high on borrowing costs. Two signals. Two very different stories.",
+      },
+    },
+    pulse: {
+      files: {
+        fr: "/research/pulse/2026-05-23-fr.html",
+        en: "/research/pulse/2026-05-23-en.html",
+      },
+      headline: {
+        fr: "La plus longue série positive depuis décembre 2023",
+        en: "The longest positive streak since December 2023",
+      },
+      dek: {
+        fr: "Les actions américaines ont enchaîné leur 8e semaine consécutive de hausse et la peur est finalement tombée sous le seuil d'alerte. Le pétrole a chuté de 6 % suite à la prolongation du cessez-le-feu en Iran. Mais les coûts d'emprunt américains ont atteint un sommet d'un an — calme en surface, signal à surveiller en dessous.",
+        en: "US stocks notched their 8th consecutive winning week and fear finally dropped below the danger line. Oil fell 6% as the Iran ceasefire was extended. But US borrowing costs hit a 1-year high — calm on the surface, a signal worth watching underneath.",
+      },
+    },
+  },
+  {
     date: "2026-05-16",
     weekLabel: {
       fr: "12–16 mai 2026",
