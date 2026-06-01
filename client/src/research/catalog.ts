@@ -37,6 +37,42 @@ export interface Issue {
 /** Newest first. */
 export const ISSUES: Issue[] = [
   {
+    date: "2026-05-29",
+    weekLabel: {
+      fr: "25–29 mai 2026",
+      en: "May 25–29, 2026",
+    },
+    edition: 21,
+    human: {
+      files: {
+        fr: "/research/marche/2026-05-29-fr.html",
+        en: "/research/marche/2026-05-29-en.html",
+      },
+      headline: {
+        fr: "Neuf semaines. L'IA domine mai. La stagflation frappe.",
+        en: "Nine straight. AI rules May. Stagflation is knocking.",
+      },
+      dek: {
+        fr: "Neuf semaines de gains consécutifs — la plus longue série du S&P depuis 2023. Les résultats IA ont brisé des records : Dell +33 %, Snowflake +36 %, Micron +88 % en mai. Mais l'inflation PCE a atteint 3,8 % et le PIB a été révisé à la baisse. Le moteur tourne à plein régime sur les deux tableaux.",
+        en: "Nine consecutive winning weeks — the S&P's longest streak since 2023. AI earnings broke records: Dell +33%, Snowflake +36%, Micron +88% for May. But PCE hit 3.8% and GDP was revised down. The engine is running hot on both counts.",
+      },
+    },
+    pulse: {
+      files: {
+        fr: "/research/pulse/2026-05-29-fr.html",
+        en: "/research/pulse/2026-05-29-en.html",
+      },
+      headline: {
+        fr: "La plus longue série gagnante de l'année",
+        en: "The longest winning streak of the year",
+      },
+      dek: {
+        fr: "Dell +33 %, Snowflake +36 %, Micron +88 % en mai — le meilleur mois du Nasdaq en 2026. Neuf semaines de gains consécutifs. Mais l'inflation PCE a atteint 3,8 % — un plus haut en trois ans — tandis que le PIB a été révisé à la baisse. Le moteur tourne à plein régime, sur les deux tableaux.",
+        en: "Dell +33%, Snowflake +36%, Micron +88% for May — the Nasdaq's best month of 2026. Nine straight weeks of gains. But PCE inflation hit 3.8% — a three-year high — while GDP was revised down. The engine is running hot on both counts.",
+      },
+    },
+  },
+  {
     date: "2026-05-23",
     weekLabel: {
       fr: "19–23 mai 2026",
