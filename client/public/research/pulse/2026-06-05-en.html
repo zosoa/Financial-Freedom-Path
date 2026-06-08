@@ -259,6 +259,11 @@ body{background:var(--warm-cream);font-family:var(--f-body);color:var(--body-c);
       <h1 class="hero-hl">Good News,<br><span class="accent-p">Bad</span> <span class="accent">Tape.</span></h1>
       <p class="hero-sub">A May jobs report that was <strong>twice as strong as forecast</strong> did what bad news usually does — it sank stocks. With <strong>172,000 jobs</strong> added against an <strong>80–85k</strong> consensus, traders erased the last hope of a Fed rate cut and began pricing <strong>hikes</strong>. Rising yields then collided with a chip-led AI selloff. The S&amp;P 500 broke a <strong>nine-week</strong> winning streak; the Nasdaq had its worst day since April 2025.</p>
 
+      <!-- LinkedIn Dek -->
+      <div class="linkedin-dek">
+        <p>Jobs beat hard—+172k vs 80–85k expected—but markets panicked. Why? Strong employment data now signals higher Fed rates, not easier monetary policy. That repricing cascade caught concentrated AI bets off-guard. This week shows why understanding market transmission mechanisms beats reacting to headlines. Read on to see what happened under the hood.</p>
+      </div>
+
       <div class="ic">
         <div class="ic-tag">Rate Shock · The Driver</div>
         <div class="ic-hl">When strong jobs become a market risk</div>
@@ -459,16 +464,24 @@ body{background:var(--warm-cream);font-family:var(--f-body);color:var(--body-c);
         <defs><clipPath id="circle-clip-s2"><circle cx="200" cy="200" r="195"/></clipPath></defs>
         <circle cx="200" cy="200" r="195" fill="#fef3e0"/>
         <g clip-path="url(#circle-clip-s2)">
-          <!-- barrel -->
-          <rect x="135" y="150" width="130" height="170" rx="16" fill="#3ba8b0"/>
-          <rect x="135" y="186" width="130" height="14" fill="#2a8a90"/>
-          <rect x="135" y="270" width="130" height="14" fill="#2a8a90"/>
-          <text x="200" y="252" font-family="Poppins" font-size="40" font-weight="800" fill="#fef3e0" text-anchor="middle">OIL</text>
-          <!-- rising price arrow -->
-          <line x1="290" y1="300" x2="330" y2="120" stroke="#e07a55" stroke-width="11" stroke-linecap="round"/>
-          <polygon points="330,120 305,134 326,150" fill="#e07a55"/>
-          <!-- geopolitical spark -->
-          <polygon points="120,90 140,140 110,135 130,185 90,130 122,134" fill="#f5c076"/>
+          <!-- barrel (centered) -->
+          <rect x="145" y="120" width="110" height="170" rx="12" fill="#3ba8b0"/>
+          <!-- metal bands -->
+          <rect x="145" y="150" width="110" height="12" fill="#2a8a90"/>
+          <rect x="145" y="265" width="110" height="12" fill="#2a8a90"/>
+          <!-- OIL text (centered) -->
+          <text x="200" y="220" font-family="Poppins" font-size="48" font-weight="800" fill="#fef3e0" text-anchor="middle">OIL</text>
+          <!-- rising price arrow (45° angle from barrel top-right) -->
+          <line x1="255" y1="120" x2="320" y2="55" stroke="#e07a55" stroke-width="10" stroke-linecap="round"/>
+          <polygon points="320,55 305,70 325,65" fill="#e07a55"/>
+          <!-- spark/explosion (4-pointed star burst) -->
+          <g stroke="#f5c076" stroke-width="8" stroke-linecap="round">
+            <line x1="110" y1="55" x2="110" y2="145"/>
+            <line x1="55" y1="100" x2="145" y2="100"/>
+            <line x1="77" y1="67" x2="143" y2="133"/>
+            <line x1="143" y1="67" x2="77" y2="133"/>
+          </g>
+          <circle cx="110" cy="100" r="6" fill="#f5c076"/>
         </g>
         <circle cx="200" cy="200" r="192" fill="none" stroke="#eeddd0" stroke-width="3"/>
       </svg>

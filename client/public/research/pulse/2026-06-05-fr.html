@@ -246,6 +246,11 @@ body{background:var(--warm-cream);font-family:var(--f-body);color:var(--body-c);
       <h1 class="hero-hl">Bonne Nouvelle,<br><span class="accent-p">Mauvaise</span> <span class="accent">Séance.</span></h1>
       <p class="hero-sub">Un rapport sur l'emploi de mai <strong>deux fois plus solide que prévu</strong> a fait ce qu'une mauvaise nouvelle fait d'ordinaire — il a fait chuter les actions. Avec <strong>172 000 emplois</strong> créés contre un consensus de <strong>80–85k</strong>, les opérateurs ont effacé le dernier espoir d'une baisse de taux et ont commencé à anticiper des <strong>hausses</strong>. La remontée des rendements a ensuite heurté une vente massive sur l'IA. Le S&amp;P 500 a brisé une série de <strong>neuf semaines</strong> de hausse ; le Nasdaq a connu sa pire séance depuis avril 2025.</p>
 
+      <!-- LinkedIn Dek -->
+      <div class="linkedin-dek">
+        <p>Les emplois ont largement surpassé les attentes—+172 000 contre 80–85k attendus—mais les marchés ont paniqué. Pourquoi ? Les fortes données sur l emploi signalent maintenant des hausses de taux de la Fed, et non un assouplissement monétaire. Cette cascade de réévaluation a pris les positions concentrées sur l IA par surprise. Cette semaine montre pourquoi comprendre les mécanismes de transmission monétaire importe plus que réagir aux gros titres. Lisez la suite pour voir ce qui s est vraiment passé.</p>
+      </div>
+
       <div class="ic">
         <div class="ic-tag">Choc de Taux · Le Moteur</div>
         <div class="ic-hl">Quand un emploi solide devient un risque de marché</div>
@@ -445,13 +450,24 @@ body{background:var(--warm-cream);font-family:var(--f-body);color:var(--body-c);
         <defs><clipPath id="circle-clip-s2"><circle cx="200" cy="200" r="195"/></clipPath></defs>
         <circle cx="200" cy="200" r="195" fill="#fef3e0"/>
         <g clip-path="url(#circle-clip-s2)">
-          <rect x="135" y="150" width="130" height="170" rx="16" fill="#3ba8b0"/>
-          <rect x="135" y="186" width="130" height="14" fill="#2a8a90"/>
-          <rect x="135" y="270" width="130" height="14" fill="#2a8a90"/>
-          <text x="200" y="252" font-family="Poppins" font-size="36" font-weight="800" fill="#fef3e0" text-anchor="middle">BRUT</text>
-          <line x1="290" y1="300" x2="330" y2="120" stroke="#e07a55" stroke-width="11" stroke-linecap="round"/>
-          <polygon points="330,120 305,134 326,150" fill="#e07a55"/>
-          <polygon points="120,90 140,140 110,135 130,185 90,130 122,134" fill="#f5c076"/>
+          <!-- barrel (centered) -->
+          <rect x="145" y="120" width="110" height="170" rx="12" fill="#3ba8b0"/>
+          <!-- metal bands -->
+          <rect x="145" y="150" width="110" height="12" fill="#2a8a90"/>
+          <rect x="145" y="265" width="110" height="12" fill="#2a8a90"/>
+          <!-- BRUT text (centered) -->
+          <text x="200" y="220" font-family="Poppins" font-size="48" font-weight="800" fill="#fef3e0" text-anchor="middle">BRUT</text>
+          <!-- rising price arrow (45° angle from barrel top-right) -->
+          <line x1="255" y1="120" x2="320" y2="55" stroke="#e07a55" stroke-width="10" stroke-linecap="round"/>
+          <polygon points="320,55 305,70 325,65" fill="#e07a55"/>
+          <!-- spark/explosion (4-pointed star burst) -->
+          <g stroke="#f5c076" stroke-width="8" stroke-linecap="round">
+            <line x1="110" y1="55" x2="110" y2="145"/>
+            <line x1="55" y1="100" x2="145" y2="100"/>
+            <line x1="77" y1="67" x2="143" y2="133"/>
+            <line x1="143" y1="67" x2="77" y2="133"/>
+          </g>
+          <circle cx="110" cy="100" r="6" fill="#f5c076"/>
         </g>
         <circle cx="200" cy="200" r="192" fill="none" stroke="#eeddd0" stroke-width="3"/>
       </svg>
