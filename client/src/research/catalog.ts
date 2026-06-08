@@ -37,6 +37,42 @@ export interface Issue {
 /** Newest first. */
 export const ISSUES: Issue[] = [
   {
+    date: "2026-06-05",
+    weekLabel: {
+      fr: "1–5 juin 2026",
+      en: "June 1–5, 2026",
+    },
+    edition: 22,
+    human: {
+      files: {
+        fr: "/research/marche/2026-06-05-fr.html",
+        en: "/research/marche/2026-06-05-en.html",
+      },
+      headline: {
+        fr: "Bonnes Nouvelles, Mauvaise Cassure. Quand les créations d'emplois font s'effondrer les actions.",
+        en: "Good News, Bad Tape. When strong jobs sink stocks.",
+      },
+      dek: {
+        fr: "Un rapport d'emploi deux fois plus fort que prévu a fait ce que les mauvaises nouvelles font habituellement — les stocks se sont effondrés. Les probabilités de hausse de taux par la Fed ont grimpé à 70 %. Le Nasdaq a enregistré son pire jour depuis avril 2025. Une semaine de reprise des taux, pas une peur de la croissance.",
+        en: "A jobs report twice as strong as forecast did what bad news usually does — it sank stocks. Fed hike odds jumped to 70%. The Nasdaq had its worst day since April 2025. A week of rate repricing, not growth scare.",
+      },
+    },
+    pulse: {
+      files: {
+        fr: "/research/pulse/2026-06-05-fr.html",
+        en: "/research/pulse/2026-06-05-en.html",
+      },
+      headline: {
+        fr: "Bonnes Nouvelles, Mauvaise Cassure",
+        en: "Good News, Bad Tape",
+      },
+      dek: {
+        fr: "+172k emplois (2× le consensus) et des probabilités de hausse de la Fed à 70 % ont fait s'effondrer les actions. Le Nasdaq a chuté de 4,68 %, son pire jour depuis avril 2025. Les obligations et l'or ont tous deux chuté. La seule gagnante : le pétrole (+3 % sur les risques du Golfe).",
+        en: "+172k jobs (2× consensus) and 70% Fed hike odds sank stocks. Nasdaq down 4.68%, worst day since April 2025. Bonds and gold both fell. Only winner: oil (+3% on Hormuz risk).",
+      },
+    },
+  },
+  {
     date: "2026-05-29",
     weekLabel: {
       fr: "25–29 mai 2026",

@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Human Weekly — 1–5 juin 2026 | FinkSmart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400;0,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+
+:root {
+  --cream:      #f8efe5;
+  --white:      #ffffff;
+  --teal:       #3ba8b0;
+  --teal-light: #6dcad0;
+  --peach:      #ebc7b5;
+  --peach-d:    #d4a090;
+  --coral:      #e07a55;
+  --dark:       #1a1a1a;
+  --body-c:     #4a4a4a;
+  --muted:      #999999;
+  --hero-grad:  linear-gradient(160deg, #2a9aa8 0%, #3db8c0 40%, #c8a090 100%);
+  --teal-grad:  linear-gradient(135deg, #3ba8b0 0%, #6dcad0 100%);
+  --f-head:     'Poppins', sans-serif;
+  --f-body:     'Nunito Sans', sans-serif;
+  --shadow:     0 8px 40px rgba(59,168,176,0.12);
+  --shadow-sm:  0 4px 20px rgba(0,0,0,0.07);
+  --border:     1px solid rgba(59,168,176,0.14);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  font-family: var(--f-body);
+  font-size: 1rem;
+  color: var(--body-c);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.75;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--white);
+  border-bottom: 1px dashed rgba(59,168,176,0.25);
+  padding: 14px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+}
+.header-logo { display: flex; align-items: center; gap: 10px; }
+.header-brand { line-height: 1.2; }
+.header-brand-sup { font-family: var(--f-head); font-size: 7px; font-weight: 700; letter-spacing: 0.22em; color: var(--teal); text-transform: uppercase; display: block; }
+.header-brand-name { font-family: var(--f-head); font-size: 17px; font-weight: 800; color: var(--dark); letter-spacing: 0.05em; text-transform: uppercase; }
+.header-right { text-align: right; }
+.header-pub { font-family: var(--f-head); font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); }
+.header-date { font-family: var(--f-body); font-size: 10px; color: var(--muted); margin-top: 2px; }
+.stance-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--teal);
+  color: #fff;
+  font-family: var(--f-head);
+  font-size: 7.5px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 100px;
+  margin-top: 5px;
+}
+.stance-dot { width: 5px; height: 5px; background: rgba(255,255,255,0.6); border-radius: 50%; }
+
+/* ── LAYOUT SHELL ── */
+.article-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* ── HERO SECTION ── */
+.hero-section {
+  padding: 64px 0 48px;
+  position: relative;
+}
+.hero-edition-tag {
+  font-family: var(--f-head);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--teal);
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.hero-edition-tag::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(59,168,176,0.3), transparent);
+}
+.hero-headline {
+  font-family: var(--f-head);
+  font-size: clamp(38px, 6vw, 62px);
+  font-weight: 800;
+  color: var(--dark);
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  margin-bottom: 24px;
+}
+.hero-headline .tl { color: var(--teal); }
+.hero-headline .pe { color: var(--coral); }
+.hero-dek {
+  font-family: var(--f-body);
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--body-c);
+  line-height: 1.65;
+  max-width: 620px;
+  border-left: 3px solid var(--peach-d);
+  padding-left: 18px;
+  margin-bottom: 36px;
+}
+.hero-meta {
+  display: flex; align-items: center; gap: 16px;
+  font-family: var(--f-body); font-size: 11px; color: var(--muted);
+  padding-top: 20px;
+  border-top: var(--border);
+}
+.hero-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+
+/* ── MARKET SNAPSHOT BAR ── */
+.snapshot-bar {
+  background: var(--hero-grad);
+  border-radius: 20px;
+  padding: 20px 28px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  margin: 0 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+.snapshot-bar::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+.snap-item {
+  text-align: center;
+  padding: 0 12px;
+  border-right: 1px solid rgba(255,255,255,0.12);
+}
+.snap-item:last-child { border-right: none; }
+.snap-lbl {
+  font-family: var(--f-head); font-size: 7px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  display: block; margin-bottom: 4px;
+}
+.snap-val {
+  font-family: var(--f-head); font-size: 20px; font-weight: 800;
+  color: #fff; display: block; line-height: 1;
+  margin-bottom: 3px;
+}
+.snap-val.up { color: #b6f5f8; }
+.snap-val.dn { color: #f5c2b0; }
+.snap-chg {
+  font-family: var(--f-head); font-size: 9px; font-weight: 700;
+  color: rgba(255,255,255,0.45);
+}
+.snap-chg.up { color: #7df0f5; }
+.snap-chg.dn { color: #f5c2b0; }
+
+/* ── SECTION STRUCTURE ── */
+.section {
+  margin-bottom: 64px;
+}
+.section-label {
+  font-family: var(--f-head);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--teal);
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 18px;
+}
+.section-label::before {
+  content: '';
+  width: 28px; height: 2px;
+  background: var(--teal-grad);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+h2.section-title {
+  font-family: var(--f-head);
+  font-size: clamp(22px, 3.5vw, 30px);
+  font-weight: 800;
+  color: var(--dark);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin-bottom: 20px;
+}
+.body-text {
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--body-c);
+  margin-bottom: 18px;
+}
+.body-text strong { color: var(--dark); font-weight: 700; }
+.body-text em { color: var(--teal); font-style: normal; font-weight: 600; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  margin: 36px 0;
+  padding: 24px 32px;
+  background: var(--white);
+  border-left: 4px solid var(--teal);
+  border-radius: 0 16px 16px 0;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+.pull-quote::before {
+  content: '"';
+  font-family: var(--f-head);
+  font-size: 80px; font-weight: 800;
+  color: rgba(59,168,176,0.12);
+  position: absolute;
+  top: -10px; left: 16px;
+  line-height: 1;
+}
+.pull-quote p {
+  font-family: var(--f-head);
+  font-size: 18px; font-weight: 600;
+  color: var(--dark);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+.pull-quote cite {
+  display: block;
+  font-family: var(--f-body);
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 8px;
+  font-style: normal;
+}
+
+/* ── CALLOUT / DATA HIGHLIGHT ── */
+.callout {
+  display: inline-block;
+  background: rgba(59,168,176,0.10);
+  color: var(--teal);
+  font-family: var(--f-head);
+  font-size: 0.9em;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 6px;
+}
+.callout.neg {
+  background: rgba(212,160,144,0.18);
+  color: #8a4a38;
+}
+.callout.neutral {
+  background: rgba(26,26,26,0.07);
+  color: var(--dark);
+}
+
+/* ── HIGHLIGHT CARD ── */
+.highlight-card {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 28px 32px;
+  box-shadow: var(--shadow);
+  border: var(--border);
+  margin: 28px 0;
+}
+.highlight-card.teal { border-top: 3px solid var(--teal); }
+.highlight-card.peach { border-top: 3px solid var(--peach-d); }
+.highlight-card.gold { border-top: 3px solid #f5c076; }
+.hc-label {
+  font-family: var(--f-head); font-size: 8px; font-weight: 700;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 8px; display: block;
+}
+.highlight-card.peach .hc-label { color: var(--peach-d); }
+.highlight-card.gold .hc-label { color: #a07020; }
+.hc-title {
+  font-family: var(--f-head); font-size: 17px; font-weight: 700;
+  color: var(--dark); line-height: 1.3; margin-bottom: 10px;
+}
+.hc-body {
+  font-family: var(--f-body); font-size: 15px; color: var(--body-c);
+  line-height: 1.75;
+}
+.hc-body strong { color: var(--dark); font-weight: 700; }
+
+/* ── THREE-COLUMN DATA ROW ── */
+.data-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 28px 0;
+}
+.data-cell {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  border: var(--border);
+}
+.dc-lbl {
+  font-family: var(--f-head); font-size: 8px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); display: block; margin-bottom: 5px;
+}
+.dc-val {
+  font-family: var(--f-head); font-size: 26px; font-weight: 800;
+  color: var(--dark); display: block; line-height: 1;
+  margin-bottom: 4px;
+}
+.dc-val.up { color: var(--teal); }
+.dc-val.dn { color: var(--peach-d); }
+.dc-note {
+  font-family: var(--f-body); font-size: 11px; color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── TENSION CLOSER ── */
+.tension-block {
+  background: var(--hero-grad);
+  border-radius: 20px;
+  padding: 36px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.tension-block::before {
+  content: '';
+  position: absolute; bottom: -60px; right: -60px;
+  width: 220px; height: 220px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.tension-label {
+  font-family: var(--f-head); font-size: 8px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); display: block; margin-bottom: 12px;
+}
+.tension-q {
+  font-family: var(--f-head); font-size: clamp(18px, 3vw, 24px);
+  font-weight: 700; color: #fff;
+  line-height: 1.4; letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+.tension-body {
+  font-family: var(--f-body); font-size: 14px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.7;
+}
+
+/* ── WHAT TO WATCH ── */
+.wtw-list {
+  display: flex; flex-direction: column; gap: 12px;
+  margin-top: 20px;
+}
+.wtw-item {
+  display: flex; gap: 16px;
+  align-items: flex-start;
+  background: var(--white);
+  border-radius: 14px; padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+  border: var(--border);
+}
+.wtw-date-badge {
+  flex-shrink: 0;
+  width: 48px; text-align: center;
+  background: rgba(59,168,176,0.08);
+  border-radius: 10px; padding: 6px 0 4px;
+  border: var(--border);
+}
+.wtw-day { font-family: var(--f-head); font-size: 20px; font-weight: 800; color: var(--teal); line-height: 1; }
+.wtw-mon { font-family: var(--f-head); font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 2px; }
+.wtw-content { flex: 1; }
+.wtw-title { font-family: var(--f-head); font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 4px; line-height: 1.3; }
+.wtw-impact { display: inline-block; font-family: var(--f-head); font-size: 7px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 100px; margin-bottom: 5px; }
+.wtw-high { background: rgba(212,160,144,0.25); color: #8a4a38; }
+.wtw-med { background: rgba(59,168,176,0.12); color: var(--teal); }
+.wtw-body { font-family: var(--f-body); font-size: 12px; color: var(--muted); line-height: 1.6; }
+.wtw-body strong { color: var(--body-c); font-weight: 600; }
+
+/* ── FREEDOM CTA ── */
+.freedom-cta {
+  background: var(--hero-grad);
+  border-radius: 20px;
+  padding: 40px 44px;
+  margin: 60px 0 48px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.freedom-cta::before {
+  content: '';
+  position: absolute; top: -50px; right: -50px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.fcta-eyebrow {
+  font-family: var(--f-head); font-size: 8px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55); display: block; margin-bottom: 10px;
+}
+.fcta-hl {
+  font-family: var(--f-head); font-size: 28px; font-weight: 800;
+  color: #fff; line-height: 1.15; margin-bottom: 12px;
+  letter-spacing: -0.015em;
+}
+.fcta-hl .acc { color: #cff5f8; }
+.fcta-body {
+  font-family: var(--f-body); font-size: 15px;
+  color: rgba(255,255,255,0.80);
+  line-height: 1.6; max-width: 480px;
+  margin: 0 auto 20px;
+}
+.fcta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; color: var(--teal);
+  font-family: var(--f-head); font-size: 10px; font-weight: 800;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 13px 28px; border-radius: 100px;
+  text-decoration: none; cursor: pointer;
+  transition: transform 0.2s;
+  position: relative; z-index: 1;
+}
+.fcta-btn:hover { transform: translateY(-2px); }
+
+/* ── FOOTER ── */
+.site-footer {
+  max-width: 780px; margin: 0 auto;
+  padding: 0 24px 48px;
+}
+.footer-partners {
+  font-family: var(--f-head); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); text-align: center;
+  margin-bottom: 14px;
+}
+.disclaimer {
+  font-family: var(--f-body); font-size: 10px; color: var(--muted);
+  line-height: 1.7; text-align: center;
+  padding: 20px 0;
+  border-top: var(--border);
+}
+
+/* ── WAVE DIVIDER ── */
+.wave-divider { overflow: hidden; line-height: 0; margin: 48px 0; }
+.wave-divider svg { display: block; width: 100%; }
+
+/* ── PRINT ── */
+.no-print { display: block; }
+
+/* ── PRINT / PDF ────────────────────────────────────────── */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 14mm 12mm 12mm;
+  }
+
+  /* ── 1. FORCE ALL COLOURS, BACKGROUNDS & GRADIENTS ── */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust:         exact !important;
+    color-adjust:               exact !important;
+  }
+
+  /* ── 2. KILL ANIMATIONS & STICKY BEHAVIOUR ── */
+  * {
+    animation:  none !important;
+    transition: none !important;
+    box-shadow: none !important;
+  }
+
+  /* ── 3. CRITICAL: REVEAL ALL GSAP FADE-IN ELEMENTS ──
+     Base CSS sets .fade-in { opacity:0; transform:translateY(24px) }
+     GSAP animates them visible — but @media print kills GSAP before it fires.
+     Without this rule, every major section is invisible in the PDF. */
+  .fade-in {
+    opacity:   1 !important;
+    transform: none !important;
+  }
+
+  /* ── 4. ROOT LAYOUT ── */
+  html, body {
+    background:  #ffffff !important;
+    font-size:   13px !important;
+    line-height: 1.7 !important;
+  }
+
+  /* ── 5. HEADER — unstick, no shadow ── */
+  .site-header {
+    position:        relative !important;
+    box-shadow:      none !important;
+    border-bottom:   1px solid rgba(59,168,176,0.3) !important;
+    padding:         10px 20px !important;
+    page-break-after: avoid !important;
+    break-after:      avoid !important;
+  }
+
+  /* ── 6. ARTICLE WRAP — full A4 width ── */
+  .article-wrap {
+    max-width: 100% !important;
+    padding:   0 !important;
+    margin:    0 !important;
+  }
+
+  /* ── 7. HERO ── */
+  .hero-section {
+    padding:             24px 0 20px !important;
+    page-break-inside:   avoid !important;
+    break-inside:        avoid !important;
+  }
+  .hero-headline { font-size: 36px !important; margin-bottom: 14px !important; }
+  .hero-dek      { font-size: 13px !important; margin-bottom: 16px !important; }
+  .hero-meta     { padding-top: 12px !important; font-size: 10px !important; }
+
+  /* ── 8. SNAPSHOT BAR — force gradient, no overflow clip ── */
+  .snapshot-bar {
+    background:        linear-gradient(160deg, #2a9aa8 0%, #3db8c0 40%, #c8a090 100%) !important;
+    border-radius:     12px !important;
+    margin-bottom:     24px !important;
+    padding:           16px 20px !important;
+    overflow:          visible !important;
+    page-break-inside: avoid !important;
+    break-inside:      avoid !important;
+  }
+  .snap-lbl      { color: rgba(255,255,255,0.65) !important; font-size: 7px !important; }
+  .snap-val      { color: #ffffff !important; font-size: 18px !important; }
+  .snap-val.up   { color: #b6f5f8 !important; }
+  .snap-val.dn   { color: #f5c2b0 !important; }
+  .snap-chg      { color: rgba(255,255,255,0.55) !important; }
+  .snap-chg.up   { color: #7df0f5 !important; }
+  .snap-chg.dn   { color: #f5c2b0 !important; }
+
+  /* ── 9. SECTIONS ── */
+  .section { margin-bottom: 28px !important; }
+
+  /* Keep label + heading glued to their first paragraph */
+  .section-label,
+  h2.section-title {
+    page-break-after: avoid !important;
+    break-after:      avoid !important;
+  }
+
+  /* ── 10. BODY TEXT ── */
+  .body-text {
+    font-size:     12px !important;
+    line-height:   1.72 !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* ── 11. PULL QUOTE — no break inside, keep border ── */
+  .pull-quote {
+    background:        #f8efe5 !important;
+    border-left:       4px solid #3ba8b0 !important;
+    margin:            18px 0 !important;
+    padding:           14px 20px !important;
+    overflow:          visible !important;
+    page-break-inside: avoid !important;
+    break-inside:      avoid !important;
+  }
+  .pull-quote p    { font-size: 15px !important; }
+  .pull-quote cite { font-size: 10px !important; }
+
+  /* ── 12. HIGHLIGHT CARDS — no break inside ── */
+  .highlight-card {
+    background:        #ffffff !important;
+    border:            1px solid rgba(59,168,176,0.2) !important;
+    padding:           16px 20px !important;
+    margin:            14px 0 !important;
+    overflow:          visible !important;
+    page-break-inside: avoid !important;
+    break-inside:      avoid !important;
+  }
+  .highlight-card.teal  { border-top: 3px solid #3ba8b0 !important; }
+  .highlight-card.peach { border-top: 3px solid #d4a090 !important; }
+  .highlight-card.gold  { border-top: 3px solid #f5c076 !important; }
+  .hc-title { font-size: 14px !important; }
+  .hc-body  { font-size: 12px !important; }
+
+  /* ── 13. DATA ROW ── */
+  .data-row {
+    display:               grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap:                   10px !important;
+    margin:                14px 0 !important;
+  }
+  .data-cell {
+    background:        #ffffff !important;
+    border:            1px solid rgba(59,168,176,0.18) !important;
+    padding:           14px 16px !important;
+    overflow:          visible !important;
+    page-break-inside: avoid !important;
+    break-inside:      avoid !important;
+  }
+  .dc-val  { font-size: 22px !important; }
+  .dc-note { font-size: 10px !important; }
+
+  /* ── 14. TENSION BLOCK — force gradient, no overflow clip ── */
+  .tension-block {
+    background:        linear-gradient(160deg, #2a9aa8 0%, #3db8c0 40%, #c8a090 100%) !important;
+    border-radius:     14px !important;
+    padding:           26px 30px !important;
+    overflow:          visible !important;
+    page-break-inside: avoid !important;
+    break-inside:      avoid !important;
+  }
+  .tension-label { color: rgba(255,255,255,0.6) !important; }
+  .tension-q     { color: #ffffff !important; font-size: 18px !important; }
+  .tension-body  { color: rgba(255,255,255,0.85) !important; font-size: 12px !important; }
+
+  /* ── 15. WHAT TO WATCH ── */
+  .wtw-list { gap: 8px !important; }
+  .wtw-item {
+    background:        #ffffff !important;
+    border:            1px solid rgba(59,168,176,0.18) !important;
+    padding:           11px 14px !important;
+    overflow:          visible !important;
+    page-break-inside: avoid !important;
+    break-inside:      avoid !important;
+  }
+  .wtw-date-badge { background: rgba(59,168,176,0.10) !important; }
+  .wtw-title      { font-size: 12px !important; }
+  .wtw-body       { font-size: 11px !important; }
+
+  /* ── 16. FREEDOM CTA — the problematic one ──
+     overflow:hidden clips at page breaks.
+     Large margins can strand it mid-page.
+     Force it onto a fresh page if it won't fit. */
+  .freedom-cta {
+    background:        linear-gradient(160deg, #2a9aa8 0%, #3db8c0 40%, #c8a090 100%) !important;
+    border-radius:     14px !important;
+    padding:           28px 36px !important;
+    margin:            24px 0 20px !important;
+    overflow:          visible !important;   /* never clip at page boundary */
+    page-break-inside: avoid !important;
+    break-inside:      avoid !important;
+    page-break-before: auto !important;      /* float up if space allows */
+  }
+  .freedom-cta::before { display: none !important; } /* remove decorative pseudo */
+  .fcta-eyebrow { color: rgba(255,255,255,0.6) !important; font-size: 8px !important; }
+  .fcta-hl      { color: #ffffff !important; font-size: 22px !important; }
+  .fcta-hl .acc { color: #cff5f8 !important; }
+  .fcta-body    { color: rgba(255,255,255,0.85) !important; font-size: 13px !important; margin-bottom: 14px !important; }
+  .fcta-btn     { background: #ffffff !important; color: #3ba8b0 !important; font-size: 9px !important; padding: 10px 22px !important; }
+
+  /* ── 17. WAVE DIVIDERS — lighten, don't break ── */
+  .wave-divider {
+    margin:            16px 0 !important;
+    opacity:           0.4 !important;
+    page-break-inside: avoid !important;
+    break-inside:      avoid !important;
+  }
+
+  /* ── 18. FOOTER — always visible, always complete ── */
+  .site-footer {
+    max-width:         100% !important;
+    padding:           0 !important;
+    margin-top:        16px !important;
+    page-break-inside: avoid !important;
+    break-inside:      avoid !important;
+  }
+  .footer-partners { font-size: 9px !important; margin-bottom: 8px !important; }
+  .disclaimer      { font-size: 9px !important; padding: 10px 0 !important; border-top: 1px solid rgba(59,168,176,0.2) !important; }
+
+  /* ── 19. HIDE SCREEN-ONLY ELEMENTS ── */
+  .no-print      { display: none !important; }
+  .stance-chip   { display: inline-flex !important; }  /* keep stance visible in header */
+}
+
+/* ── PRINT BUTTON ── */
+.print-btn {
+  position: fixed; bottom: 28px; right: 28px;
+  background: var(--teal); color: #fff;
+  font-family: var(--f-head); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 11px 20px; border-radius: 100px;
+  cursor: pointer; border: none;
+  box-shadow: 0 6px 20px rgba(59,168,176,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 999;
+}
+.print-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(59,168,176,0.5); }
+
+/* ── ANIMATIONS ── */
+.fade-in { opacity: 0; transform: translateY(24px); }
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-logo">
+    <div class="header-brand">
+      <span class="header-brand-sup">Pulse</span>
+      <span class="header-brand-name">FinkSmart</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-pub">The Human Weekly</div>
+    <div class="header-date">Édition #22 • 1-5 juin 2026</div>
+    <span class="stance-chip"><span class="stance-dot"></span>Choc des Taux</span>
+  </div>
+</header>
+
+<div class="article-wrap">
+
+  <!-- ══ HERO SECTION ════════════════════════════════════════════ -->
+  <section class="hero-section fade-in">
+    <div class="hero-edition-tag">Pulse #22</div>
+    <h1 class="hero-headline">Les Bonnes <span class="pe">Nouvelles,</span><br>Mauvaise Bande.</h1>
+    <p class="hero-dek">Un emploi plus élevé que prévu a fait évaluer à 70% la probabilité d'une hausse de taux de la Fed d'ici la fin de l'année. Le résultat : les actions et obligations ont baissé ensemble. Aucun actif refuge n'a fonctionné. Les rendements ont augmenté de 10 points de base. Repricing du risque, pas une peur de croissance. Ce qui distingue un pic de volatilité tactique d'un véritable changement du régime macro.</p>
+    <div class="hero-meta">
+      <span>Semaine : 1-5 juin 2026</span>
+      <span class="hero-meta-dot"></span>
+      <span>Maurice : Pression des taux en hausse</span>
+      <span class="hero-meta-dot"></span>
+      <span>Pétrole : Signal de soulagement, pas encore celui du consommateur</span>
+    </div>
+  </section>
+
+  <!-- ══ MARKET SNAPSHOT ════════════════════════════════════════ -->
+  <div class="snapshot-bar">
+    <div class="snap-item">
+      <span class="snap-lbl">S&P 500</span>
+      <span class="snap-val dn">7,383.74</span>
+      <span class="snap-chg dn">↓ −2.59%</span>
+    </div>
+    <div class="snap-item">
+      <span class="snap-lbl">Rendement 10Y</span>
+      <span class="snap-val dn">4.55%</span>
+      <span class="snap-chg dn">↑ +10 pb</span>
+    </div>
+    <div class="snap-item">
+      <span class="snap-lbl">Nasdaq 100</span>
+      <span class="snap-val dn">25,709</span>
+      <span class="snap-chg dn">↓ −4.68%</span>
+    </div>
+    <div class="snap-item">
+      <span class="snap-lbl">Or (USD/oz)</span>
+      <span class="snap-val dn">4,340$</span>
+      <span class="snap-chg dn">↓ −4.2%</span>
+    </div>
+    <div class="snap-item">
+      <span class="snap-lbl">Pétrole (WTI)</span>
+      <span class="snap-val up">97,44$</span>
+      <span class="snap-chg up">↑ +3.0%</span>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 1 — Le choc des taux ═══════════════════════════ -->
+  <section class="section fade-in">
+    <div class="section-label">Le Choc des Taux</div>
+    <h2 class="section-title">Les salaires non-agricoles ont dépassé les attentes : 172k (+100%). Les marchés ont immédiatement réévalué les probabilités de hausse de la Fed à 70%. Tout a baissé ensemble.</h2>
+    <p class="body-text">Le consensus attendait <strong>80-85k emplois</strong> en mai. L'économie a livré <strong>172k</strong> — plus du double de la prévision. La lecture immédiate : un marché du travail fort = la Fed n'a pas besoin de réduire. Les marchés ont basculé instantanément. Les contrats à terme des taux fédéraux ont réévalué les probabilités de hausse en juin de ~35% à <span class="callout neg">70%</span>. Le rendement des bons du Trésor à 10 ans a bondi de <strong>4.45%</strong> à <span class="callout neg">4.55%</span> — un mouvement de <strong>+10 points de base</strong> quotidien qui ne s'est pas produit depuis trois mois.</p>
+    <p class="body-text">Le paradoxe : une performance sur l'emploi est normalement haussière. Un marché du travail sain = les bénéfices des entreprises augmentent. Alors pourquoi le Nasdaq a-t-il baissé de <span class="callout neg">4.68%</span> et le S&P de <span class="callout neg">2.59%</span> vendredi seul ? Parce que les bonnes données d'emploi ont détruit le récit d'« atterrissage en douceur ». Les marchés avaient évalué une croissance stable avec des taux en baisse. Ces données suggéraient une croissance stable avec des taux <em>en hausse</em>. Le choc des taux l'a emporté sur l'optimisme des bénéfices.</p>
+
+    <div class="pull-quote">
+      <p>La série de neuf semaines de gains s'est terminée. Plus mauvaise journée du Nasdaq depuis avril 2025. L'or en baisse de 4.2%. Aucune classe d'actifs n'avait de refuge sûr. Ce n'est pas une correction — c'est un événement de repricing.</p>
+    </div>
+
+    <p class="body-text">Le tableau plus large : les actions avaient grimpé pendant neuf semaines consécutives avant ce vendredi. L'élan était réel. Les dépenses en IA étaient réelles. Mais le repricing a révélé la fragilité sous-jacente. Chaque actif s'est vendu au même moment — actions, obligations, or. <span class="callout">Le VIX a sauté à 21.51</span> (+39.7% la semaine). Cette vente simultanée est la marque d'un changement de régime macro, pas une rotation sectorielle ou une histoire d'une seule action.</p>
+
+  </section>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 780 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,20 C195,40 585,0 780,20 L780,40 L0,40 Z" fill="#f8efe5" opacity="0.5"/>
+      <path d="M0,28 C234,8 546,38 780,12 L780,40 L0,40 Z" fill="#f8efe5" opacity="0.7"/>
+      <path d="M0,34 C260,14 520,38 780,6 L780,40 L0,40 Z" fill="#f8efe5"/>
+    </svg>
+  </div>
+
+  <!-- ══ SECTION 2 — Les trois moteurs ═════════════════════════ -->
+  <section class="section fade-in">
+    <div class="section-label">Pourquoi les Marchés se sont Effondrés</div>
+    <h2 class="section-title">Trois forces ont frappé simultanément : le choc des taux, le risque de concentration dans l'IA, et l'effondrement des refuges traditionnels.</h2>
+
+    <div class="highlight-card teal">
+      <span class="hc-label">Moteur 1 : La Réévaluation de la Fed</span>
+      <div class="hc-title">Les emplois forts signifient que la Fed pourrait hausser, pas réduire. Les noms sensibles aux taux (IA méga-cap, croissance non rentable) se sont réévalués à la baisse.</div>
+      <p class="hc-body">Lorsque le taux à 10 ans se déplace de +10 pb en une journée, les taux d'actualisation sur les actifs de croissance élevée se resserrent instantanément. Nvidia, Broadcom, CrowdStrike et tout l'écosystème d'infrastructure IA tirent leurs valorisations d'hypothèses de taux bas. Le repricing de cette semaine a directement touché cette thèse. Le choc des taux importe plus que le battement d'emploi pour les marchés de valorisation.</p>
+    </div>
+
+    <div class="highlight-card peach">
+      <span class="hc-label">Moteur 2 : Le Silence de Broadcom a Tué le Rallye de l'IA</span>
+      <div class="hc-title">Le rallye des semi-conducteurs s'exécutait sur la croyance que Broadcom livrerait des orientations record. Le raté a effondré l'élan de l'IA et révélé le risque de concentration.</div>
+      <p class="hc-body">L'orientation financière de Broadcom a déçu. Le marché avait devancé un signal d'accélération de l'IA. Le raté, combiné au choc des taux, s'est propagé dans le secteur. Le Nasdaq a baissé plus que le S&P parce que l'indice est fortement pondéré vers les noms même qui avaient conduit les gains de mai. Cette semaine a révélé une fragilité critique : le rallye était concentré dans une poignée de sélections, et lorsque ces sélections se réinitialisent, tout l'indice se reprend.</p>
+    </div>
+
+    <div class="highlight-card gold">
+      <span class="hc-label">Moteur 3 : Aucun Refuge Sûr</span>
+      <div class="hc-title">Les actions ont baissé. Les obligations ont baissé. L'or a baissé. Le pétrole était le seul gagnant. La diversification a échoué en une seule journée.</div>
+      <p class="hc-body">Dans une correction normale, les investisseurs fuient vers les bons du Trésor et l'or. Cette semaine, les deux étaient en baisse. Le 10 ans a baissé parce que les rendements ont monté (relation prix-inverse). L'or a baissé de <span class="callout neg">4.2%</span> en une seule journée parce que le dollar s'est renforcé suite à la réévaluation de la Fed et les rendements réels ont monté en flèche. Le pétrole était le seul actif qui a augmenté (+3%) parce que la prime de risque géopolitique (conflit Iran-Israël) compense les préoccupations de destruction de la demande. Pour les gestionnaires de portefeuille, cela signifiait aucun coussin d'allocation. Chaque déclenchement de rééquilibrage est devenu un vendeur forcé des mêmes actifs.</p>
+    </div>
+
+  </section>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 780 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,20 C195,40 585,0 780,20 L780,40 L0,40 Z" fill="#f8efe5" opacity="0.5"/>
+      <path d="M0,28 C234,8 546,38 780,12 L780,40 L0,40 Z" fill="#f8efe5" opacity="0.7"/>
+      <path d="M0,34 C260,14 520,38 780,6 L780,40 L0,40 Z" fill="#f8efe5"/>
+    </svg>
+  </div>
+
+  <!-- ══ SECTION 3 — Contexte de l'Océan Indien ═════════════════ -->
+  <section class="section fade-in">
+    <div class="section-label">Signal de l'Océan Indien</div>
+    <h2 class="section-title">Comment un choc des taux américains se transmet à Maurice en semaines, pas en mois. Le SEMDEX est resté stable. La pression sur la roupie a augmenté.</h2>
+
+    <div class="data-row">
+      <div class="data-cell">
+        <span class="dc-lbl">Indice SEMDEX</span>
+        <span class="dc-val neutral">2,250</span>
+        <span class="dc-note">Stable pour la semaine — isolé du choc mondial</span>
+      </div>
+      <div class="data-cell">
+        <span class="dc-lbl">Rendement 15Y MU</span>
+        <span class="dc-val dn">5.87%</span>
+        <span class="dc-note">Écart de 132 pb sur US 10Y (baisse de 142 pb)</span>
+      </div>
+      <div class="data-cell">
+        <span class="dc-lbl">Pression USD/MUR</span>
+        <span class="dc-val dn">Augmente</span>
+        <span class="dc-note">Les taux américains plus élevés attirent les sorties d'USD des EM</span>
+      </div>
+    </div>
+
+    <p class="body-text">Maurice a été épargné par la vente de vendredi — le SEMDEX était stable, isolé du repricing mondial. Mais ne confondez pas le calme avec l'immunité. Lorsque les taux américains augmentent de 10 pb en une seule journée, l'écart de rendement entre les actifs américains et mauriciens se resserre. Cette semaine, l'écart entre un <strong>rendement américain à 10 ans de 4.55%</strong> et un <strong>rendement mauricien à 15 ans de 5.87%</strong> s'est réduit de <strong>142 pb</strong> à <strong>132 pb</strong>. Les flux de capital vers les marchés émergents ralentissent. La roupie fait face à une pression alors que les investisseurs étrangers se rééquilibrent vers des noms américains à rendement plus élevé.</p>
+
+    <div class="pull-quote">
+      <p>Le tampon PSA du pétrole mauricien retarde le passage du prix à la pompe de 4-6 semaines. Mais le signal macro est maintenant : l'environnement des taux se resserre, ne s'assouplit pas. Le soulagement du pétrole arrive, mais seulement <em>après</em> que la surévaluation de la force du dollar s'efface.</p>
+    </div>
+
+    <p class="body-text">Sur le pétrole spécifiquement : le WTI a augmenté de <strong>3%</strong> cette semaine suite aux craintes d'escalade Iran-Israël. Mais ce n'est pas encore du soulagement pour le consommateur. Le mécanisme PSA retarde les changements de prix à la pompe au détail d'un cycle complet. Ce qui importe, c'est le signal sous-jacent : les taux américains plus élevés + un dollar plus fort compriment typiquement les prix des matières premières (y compris le pétrole) dans 4-6 semaines. La prime de risque géopolitique à court terme masque le vent de face des taux à moyen terme. Préparez-vous à ce que le pétrole s'assouplisse après que la tension immédiate s'efface, pas avant.</p>
+
+  </section>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 780 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,20 C195,40 585,0 780,20 L780,40 L0,40 Z" fill="#f8efe5" opacity="0.5"/>
+      <path d="M0,28 C234,8 546,38 780,12 L780,40 L0,40 Z" fill="#f8efe5" opacity="0.7"/>
+      <path d="M0,34 C260,14 520,38 780,6 L780,40 L0,40 Z" fill="#f8efe5"/>
+    </svg>
+  </div>
+
+  <!-- ══ SECTION 4 — À Surveiller ════════════════════════════════ -->
+  <section class="section fade-in">
+    <div class="section-label">À Surveiller</div>
+    <h2 class="section-title">Juin a trois points d'inflexion critiques. La première décision de la Fed sous Warsh. SpaceX devient public. Et si le choc des taux persiste ou s'efface.</h2>
+
+    <div class="wtw-list">
+      <div class="wtw-item">
+        <div class="wtw-date-badge">
+          <div class="wtw-day">16</div>
+          <div class="wtw-mon">Jun</div>
+        </div>
+        <div class="wtw-content">
+          <div class="wtw-title">Décision du FOMC — Premier Appel de Warsh</div>
+          <span class="wtw-impact wtw-high">Critique · Déterminant des Taux</span>
+          <div class="wtw-body">Kevin Warsh en tant que nouveau président de la Fed fait face à sa première décision de taux. PCE à 3.8%, PIB à +1.6%, probabilités de hausse à 70%. S'il augmente, toute la courbe des rendements se reprend. S'il maintient avec l'inflation à 3.8%, la crédibilité est testée. Cet appel façonne les coûts d'emprunt américains et mondiaux pour le reste de 2026 — y compris les conditions de crédit à Maurice.</div>
+        </div>
+      </div>
+      <div class="wtw-item">
+        <div class="wtw-date-badge">
+          <div class="wtw-day">4</div>
+          <div class="wtw-mon">Jun</div>
+        </div>
+        <div class="wtw-content">
+          <div class="wtw-title">Roadshow SpaceX Commence</div>
+          <span class="wtw-impact wtw-high">Haut Impact · Flux de Capital</span>
+          <div class="wtw-body">Le roadshow démarre pour le plus grand IPO de l'histoire. Évaluation le 11 juin, inscription au Nasdaq le 12 juin sous le ticker SPCX. Ciblant une levée de 75 milliards de dollars à une valorisation de 1.75-2 billions de dollars. Comment la demande institutionnelle se manifeste révélera la profondeur réelle du marché dans un environnement de taux en hausse.</div>
+        </div>
+      </div>
+      <div class="wtw-item">
+        <div class="wtw-date-badge">
+          <div class="wtw-day">—</div>
+          <div class="wtw-mon">Jun</div>
+        </div>
+        <div class="wtw-content">
+          <div class="wtw-title">Conflit Iran-Israël — Risque d'Escalade</div>
+          <span class="wtw-impact wtw-high">En Cours · Sensible au Pétrole</span>
+          <div class="wtw-body">Aucun cessez-le-feu ou accord de paix confirmé. Les frappes de mi-semaine montrent que le conflit est vivant. La base de Brent est 95-105 $ si le risque d'escalade persiste. Un accord de paix crédible serait le plus grand signal de soulagement économique depuis le début du conflit. Surveiller les signaux de progrès diplomatique ou d'escalade militaire.</div>
+        </div>
+      </div>
+      <div class="wtw-item">
+        <div class="wtw-date-badge">
+          <div class="wtw-day">10</div>
+          <div class="wtw-mon">Jun</div>
+        </div>
+        <div class="wtw-content">
+          <div class="wtw-title">Saison des Résultats — Orientations du Deuxième Semestre</div>
+          <span class="wtw-impact wtw-med">Haut Impact · Sensible aux Sentiments</span>
+          <div class="wtw-body">Avec les taux réévalués plus élevés, l'orientation des entreprises pour la deuxième moitié devient le vrai test. La croissance des bénéfices peut-elle compenser le réinitialisation de la valorisation ? Si l'orientation déçoit, la vente s'étend. Si elle surperforme, le repricing devient une opportunité d'achat d'une semaine.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TENSION BLOCK — La Méta-Question ═════════════════════ -->
+  <div class="tension-block fade-in">
+    <span class="tension-label">La Vraie Question</span>
+    <div class="tension-q">Est-ce un repricing sur de meilleures informations ? Ou le début d'un changement de régime plus long ?</div>
+    <div class="tension-body">Une journée de ventes c'est la volatilité. Une semaine c'est une correction. Mais si la Fed hisse réellement le 16 juin, et que la géopolitique reste tendue, et que le risque de concentration de l'IA persiste, alors c'est le début d'un régime où « des taux plus bas à jamais » n'est plus le cas de base. Ce régime a duré de 2015-2021. Un changement vers le dehors ne se produit pas en une semaine. Il se déploie sur 4-6 semaines. Surveillez les données. Surveillez la Fed. Surveillez la narration autour de Warsh. La semaine du 16 juin vous dira si c'était un repricing tactique ou un vrai changement de régime.</div>
+  </div>
+
+  <!-- ══ FREEDOM CTA ════════════════════════════════════════════ -->
+  <div class="freedom-cta fade-in">
+    <span class="fcta-eyebrow">Investissement Pro Décrypté · FinkSmart</span>
+    <div class="fcta-hl">Les Taux ne se Reprécisent pas par Accident.<br>Les Bonnes Nouvelles ont Brisé le Marché parce que le Régime a Changé.<br>Comprendre les Canaux de Transmission est l'Avantage.</div>
+    <p class="fcta-body">Pourquoi un battement sur les salaires non-agricoles fait-il plonger le Nasdaq ? Pourquoi Broadcom déçoit-il mais le secteur se reprend ? Pourquoi la roupie s'affaiblit-elle lorsque les rendements américains augmentent ? Parce que les flux de capital suivent les taux, les taux suivent la crédibilité de la banque centrale, et la crédibilité de la banque centrale dépend des données d'inflation. FinkSmart explique toute la chaîne, chaque semaine, sans jargon.</p>
+    <a href="https://finksmart.com" class="fcta-btn">Trouvez votre Âge de Liberté →</a>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-partners">Partenaires : RealSmart · Gelios</div>
+    <div class="disclaimer">Cette publication est à titre éducatif uniquement. FinkSmart est une plateforme de diagnostic financier, pas un conseiller en investissement agréé. Rien dans cette publication ne constitue un conseil en investissement.</div>
+  </footer>
+
+  <button class="print-btn no-print" onclick="window.print()">Imprimer / Enregistrer en PDF</button>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Fade in elements on scroll
+document.querySelectorAll('.fade-in').forEach((el, i) => {
+  gsap.to(el, {
+    scrollTrigger: { trigger: el, start: 'top 88%' },
+    opacity: 1, y: 0, duration: 0.7,
+    delay: i === 0 ? 0.2 : 0,
+    ease: 'power2.out'
+  });
+});
+
+// Stagger data cells
+gsap.utils.toArray('.data-cell').forEach((el, i) => {
+  gsap.from(el, {
+    scrollTrigger: { trigger: el, start: 'top 90%' },
+    opacity: 0, y: 16, duration: 0.5,
+    delay: i * 0.1, ease: 'power2.out'
+  });
+});
+
+// Stagger WTW items
+gsap.utils.toArray('.wtw-item').forEach((el, i) => {
+  gsap.from(el, {
+    scrollTrigger: { trigger: el, start: 'top 92%' },
+    opacity: 0, x: -20, duration: 0.5,
+    delay: i * 0.08, ease: 'power2.out'
+  });
+});
+
+// ── PRINT SAFETY: force all animated elements visible before PDF export ──
+// Chrome's print engine sometimes ignores @media print opacity overrides
+// for elements that GSAP has initialised with opacity:0.
+// Setting inline styles via beforeprint is the only 100% reliable fix.
+window.addEventListener('beforeprint', function () {
+  // Reveal all fade-in sections
+  document.querySelectorAll('.fade-in').forEach(function (el) {
+    el.style.opacity  = '1';
+    el.style.transform = 'none';
+  });
+  // Also force any element GSAP may have set inline opacity:0 on
+  document.querySelectorAll('[style*="opacity: 0"], [style*="opacity:0"]').forEach(function (el) {
+    el.style.opacity  = '1';
+    el.style.transform = 'none';
+  });
+});
+
+// Restore animated state after printing (so screen still works)
+window.addEventListener('afterprint', function () {
+  // GSAP takes back control — just remove the inline overrides
+  document.querySelectorAll('.fade-in').forEach(function (el) {
+    el.style.opacity  = '';
+    el.style.transform = '';
+  });
+});
+</script>
+</body>
+</html>
