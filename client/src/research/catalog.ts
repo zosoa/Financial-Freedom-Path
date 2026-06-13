@@ -37,6 +37,27 @@ export interface Issue {
 /** Newest first. */
 export const ISSUES: Issue[] = [
   {
+    date: "2026-06-13",
+    weekLabel: {
+      fr: "Analyse SpaceX IPO",
+      en: "SpaceX IPO Analysis",
+    },
+    human: {
+      files: {
+        fr: "/research/spacex/2026-06-13-fr.html",
+        en: "/research/spacex/2026-06-13-en.html",
+      },
+      headline: {
+        fr: "SpaceX entre en bourse - faut-il en acheter ?",
+        en: "SpaceX Just Went Public - Should You Buy It?",
+      },
+      dek: {
+        fr: "Une fusée SpaceX sur son pas de tir avec une étiquette de prix - le rêve est-il déjà dans le cours ?",
+        en: "SpaceX rocket on a launch pad with a price tag - has the price already bought the trip to Mars?",
+      },
+    },
+  },
+  {
     date: "2026-06-05",
     weekLabel: {
       fr: "1–5 juin 2026",
