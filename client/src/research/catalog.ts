@@ -37,6 +37,42 @@ export interface Issue {
 /** Newest first. */
 export const ISSUES: Issue[] = [
   {
+    date: "2026-06-12",
+    weekLabel: {
+      fr: "8–12 juin 2026",
+      en: "June 8–12, 2026",
+    },
+    edition: 23,
+    human: {
+      files: {
+        fr: "/research/marche/2026-06-12-fr.html",
+        en: "/research/marche/2026-06-12-en.html",
+      },
+      headline: {
+        fr: "Un répit, à crédit.",
+        en: "Relief, on loan.",
+      },
+      dek: {
+        fr: "Il y a une semaine, tout cassait d'un coup. Cette semaine, la peur s'est évaporée tout aussi vite — sur un cessez-le-feu et une inflation moins inquiétante que redouté. Mais les marchés célèbrent un danger dont ils ignorent encore qu'il est passé.",
+        en: "A week ago, everything broke at once. This week the fear drained out just as fast — on a ceasefire and a calmer-than-feared inflation report. But markets are celebrating a danger they don't yet know has passed.",
+      },
+    },
+    pulse: {
+      files: {
+        fr: "/research/pulse/2026-06-12-fr.html",
+        en: "/research/pulse/2026-06-12-en.html",
+      },
+      headline: {
+        fr: "Le Pétrole Cède, les Actions Guérissent.",
+        en: "Oil Cracks, Stocks Heal.",
+      },
+      dek: {
+        fr: "La panique de la semaine dernière s'est inversée sur deux fronts. Un cessez-le-feu Iran–Israël — avec un accord pour rouvrir le détroit d'Ormuz — a fait chuter le Brent de ~6 % à 87 $. Et si l'inflation globale de mai a atteint un sommet de 3 ans à 4,2 %, c'était presque entièrement l'énergie ; le cœur est resté sage à +0,2 %. Les marchés ont regardé au-delà du titre : les rendements ont reflué, le S&P, le Dow et le Nasdaq ont chacun gagné ~0,7 %, et le VIX s'est effondré de 21,5 à 17,7.",
+        en: "Last week's panic reversed on two fronts. An Iran–Israel ceasefire — with a deal to reopen the Strait of Hormuz — collapsed Brent crude ~6% to $87. And while May headline inflation hit a 3-year high of 4.2%, it was almost entirely energy; the core ran cool at +0.2%. Markets looked through the headline: yields eased, the S&P, Dow and Nasdaq each rose ~0.7%, and the VIX collapsed from 21.5 back to 17.7.",
+      },
+    },
+  },
+  {
     date: "2026-06-13",
     weekLabel: {
       fr: "Analyse SpaceX IPO",
