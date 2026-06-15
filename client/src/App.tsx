@@ -13,6 +13,7 @@ import RiskDNA from "@/pages/risk-dna";
 import LearnPage from "@/pages/learn";
 import MarchePage from "@/pages/marche";
 import PulsePage from "@/pages/pulse";
+import AdminPage from "@/pages/admin";
 
 function Router() {
   return (
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/marche/:date" component={MarchePage} />
       <Route path="/pulse" component={PulsePage} />
       <Route path="/pulse/:date" component={PulsePage} />
+      <Route path="/admin" component={AdminPage} />
       <Route component={NotFound} />
     </Switch>
   );

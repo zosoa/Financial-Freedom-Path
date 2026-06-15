@@ -121,6 +121,24 @@ const readLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+/* Admin auth middleware — check for valid ADMIN_KEY */
+function requireAdminAuth(req: Request, res: Response, next: NextFunction) {
+  const adminKey = process.env.ADMIN_KEY;
+  if (!adminKey) {
+    return res.status(500).json({ error: "Admin key not configured" });
+  }
+
+  const keyParam = req.query.key;
+  const keyHeader = req.get("x-admin-key");
+  const providedKey = typeof keyParam === "string" ? keyParam : keyHeader;
+
+  if (!providedKey || providedKey !== adminKey) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  next();
+}
+
 /* freeipapi cache — keyed by clean IP, valid for an hour. Same IP
  * repeatedly submitting the form (a common pattern from one office /
  * household) shouldn't re-hit the upstream every time. Bounded to 5000
@@ -608,6 +626,19 @@ export async function registerRoutes(
       } else {
         res.status(500).json({ error: "Failed to send report" });
       }
+    }
+  });
+
+  /* Admin stats endpoint — requires valid ADMIN_KEY */
+  app.get("/api/admin/stats", requireAdminAuth, async (req, res) => {
+    try {
+      const stats = await storage.getAdminStats();
+      res.json(stats);
+    } catch (e) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Admin stats error:", e);
+      }
+      res.status(500).json({ error: "Failed to retrieve admin stats" });
     }
   });
 
