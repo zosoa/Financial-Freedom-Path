@@ -37,6 +37,78 @@ export interface Issue {
 /** Newest first. */
 export const ISSUES: Issue[] = [
   {
+    date: "2026-06-26",
+    weekLabel: {
+      fr: "22–26 juin 2026",
+      en: "June 22–26, 2026",
+    },
+    edition: 25,
+    human: {
+      files: {
+        fr: "/research/marche/2026-06-26-fr.html",
+        en: "/research/marche/2026-06-26-en.html",
+      },
+      headline: {
+        fr: "L'addition arrive.",
+        en: "The bill arrives.",
+      },
+      dek: {
+        fr: "Il y a une semaine, le marché défiait la Fed et battait des records quand même. Cette semaine, la facture est tombée — une inflation au plus haut de 3 ans — et le pari tech surchargé a fini par céder. Pas un krach. Un rééquilibrage.",
+        en: "A week ago, the market dared the Fed and bought records anyway. This week the invoice landed — a 3-year-high inflation print — and the crowded tech trade finally cracked. Not a crash. A reckoning.",
+      },
+    },
+    pulse: {
+      files: {
+        fr: "/research/pulse/2026-06-26-fr.html",
+        en: "/research/pulse/2026-06-26-en.html",
+      },
+      headline: {
+        fr: "Inflation Brûlante. Tech Glaciale.",
+        en: "Inflation Runs Hot. Tech Runs Cold.",
+      },
+      dek: {
+        fr: "L'indicateur d'inflation préféré de la Fed, le PCE de mai, a atteint un sommet de 3 ans à 4,1 % — tuant tout espoir de répit et validant les dots restrictifs. Il a frappé un marché de méga-capitalisations tendu : Apple −6,2 % sur des hausses de prix, le Nasdaq −4,6 %, l'or, le pétrole et la crypto en baisse. Le seul feu vert fut défensif : le Dow a gagné 0,6 %. La « mauvaise évaluation » signalée la semaine dernière est arrivée.",
+        en: "The Fed's preferred inflation gauge, May PCE, hit a 3-year high of 4.1% — killing any hope of relief and validating the hawkish dots. It landed on a stretched megacap market: Apple −6.2% on price hikes, the Nasdaq −4.6%, gold, oil and crypto all lower. The one green light was defensive: the Dow rose 0.6%. The mispricing we flagged last week arrived.",
+      },
+    },
+  },
+  {
+    date: "2026-06-19",
+    weekLabel: {
+      fr: "15–19 juin 2026",
+      en: "June 15–19, 2026",
+    },
+    edition: 24,
+    human: {
+      files: {
+        fr: "/research/marche/2026-06-19-fr.html",
+        en: "/research/marche/2026-06-19-en.html",
+      },
+      headline: {
+        fr: "Le marché défie la Fed.",
+        en: "The market calls the Fed's bluff.",
+      },
+      dek: {
+        fr: "Un nouveau président de la Fed, plus dur, a annoncé que des hausses de taux étaient de retour. Le marché a tressailli une après-midi — puis a propulsé les actions à des records quand même. Cette semaine, ce n'était pas de la peur. C'était du défi.",
+        en: "A new, tougher Fed Chair said rate hikes are back on the table. The market flinched for one afternoon — then bought stocks to record highs anyway. This week wasn't fear. It was defiance.",
+      },
+    },
+    pulse: {
+      files: {
+        fr: "/research/pulse/2026-06-19-fr.html",
+        en: "/research/pulse/2026-06-19-en.html",
+      },
+      headline: {
+        fr: "Fed Restrictive, Records Quand Même.",
+        en: "Hawkish Fed, New Highs Anyway.",
+      },
+      dek: {
+        fr: "Pour la première réunion de Kevin Warsh à la présidence, la Fed a maintenu ses taux à 3,50–3,75 % — mais son « dot plot » a viré au restrictif : 9 des 18 responsables anticipent désormais une hausse en 2026. Les actions ont chuté sur l'annonce… puis bondi à de nouveaux records le lendemain. Le Brent s'effondrant de −8,6 % à 80 $, le marché a jugé qu'un pétrole moins cher comptait plus qu'une Fed plus dure. Le Nasdaq a gagné +2,4 % ; le VIX est tombé à 16,4.",
+        en: "In Kevin Warsh's first meeting as Chair, the Fed held rates at 3.50–3.75% — but its dot plot flipped hawkish: 9 of 18 officials now pencil in a rate hike in 2026. Stocks fell on the news, then ripped to new highs the next day. With Brent crude collapsing −8.6% to $80, the market decided cheaper oil mattered more than a tougher Fed. The Nasdaq jumped +2.4%; the VIX fell to 16.4.",
+      },
+    },
+  },
+  {
     date: "2026-06-12",
     weekLabel: {
       fr: "8–12 juin 2026",
