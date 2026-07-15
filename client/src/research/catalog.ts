@@ -37,6 +37,42 @@ export interface Issue {
 /** Newest first. */
 export const ISSUES: Issue[] = [
   {
+    date: "2026-07-03",
+    weekLabel: {
+      fr: "29 juin – 3 juillet 2026",
+      en: "June 29 – July 3, 2026",
+    },
+    edition: 26,
+    human: {
+      files: {
+        fr: "/research/marche/2026-07-03-fr.html",
+        en: "/research/marche/2026-07-03-en.html",
+      },
+      headline: {
+        fr: "Un record sur une population active qui rétrécit.",
+        en: "A record high on a shrinking workforce.",
+      },
+      dek: {
+        fr: "Le Dow a atteint un record historique cette semaine, porté par un rapport sur l'emploi si faible que, dans presque tout autre cadrage, il aurait été la mauvaise nouvelle. Wall Street a appris à souhaiter une économie qui ralentit. Le difficile, c'est de savoir quand ce souhait cesse de fonctionner.",
+        en: "The Dow hit an all-time high this week, cheered on by a jobs report so weak that, in almost any other framing, it would have been the bad news. Wall Street has learned to root for a slowing economy. The hard part is knowing when the rooting stops working.",
+      },
+    },
+    pulse: {
+      files: {
+        fr: "/research/pulse/2026-07-03-fr.html",
+        en: "/research/pulse/2026-07-03-en.html",
+      },
+      headline: {
+        fr: "Wall Street Applaudit les Mauvaises Nouvelles.",
+        en: "Wall Street Roots for Bad News.",
+      },
+      dek: {
+        fr: "Le Dow a clôturé à un record historique (52 900) et le Nasdaq a gagné 2,1 % — porté, curieusement, par un rapport sur l'emploi si faible que le marché l'a salué. Les créations d'emplois de juin n'ont atteint que 57 000 (la moitié du consensus), avec 74 000 retranchés des mois précédents. La logique : un marché du travail qui refroidit écarte les hausses de taux de la Fed. Le repli de la semaine dernière s'est inversé, l'or et le pétrole se sont stabilisés, le Bitcoin a rebondi, et le VIX a glissé à 16,2.",
+        en: "The Dow closed at an all-time high (52,900) and the Nasdaq rose 2.1% — powered, oddly, by a June jobs report so soft that markets cheered it. Payrolls came in at just 57,000 (half the forecast), with 74,000 shaved off prior months. The logic: a cooling labour market takes Fed rate hikes off the table. Last week's sell-off reversed, gold and oil steadied, Bitcoin recovered, and the VIX slid to 16.2.",
+      },
+    },
+  },
+  {
     date: "2026-06-26",
     weekLabel: {
       fr: "22–26 juin 2026",
