@@ -37,6 +37,42 @@ export interface Issue {
 /** Newest first. */
 export const ISSUES: Issue[] = [
   {
+    date: "2026-07-10",
+    weekLabel: {
+      fr: "6–10 juillet 2026",
+      en: "July 6–10, 2026",
+    },
+    edition: 27,
+    human: {
+      files: {
+        fr: "/research/marche/2026-07-10-fr.html",
+        en: "/research/marche/2026-07-10-en.html",
+      },
+      headline: {
+        fr: "Le marché a-t-il oublié d'avoir peur ?",
+        en: "Has the market forgotten how to worry?",
+      },
+      dek: {
+        fr: "Les actions sont remontées au bord des records au fil d'une semaine presque sans événement, et l'indice de la peur est tombé à 15 — près de son niveau le plus serein de l'année. Cela ressemblait à l'image même de la confiance. Cela arrivait dans les derniers jours calmes avant les deux tests les plus bruyants de l'été.",
+        en: "Stocks drifted back to the edge of records on an almost eventless week, and the market's fear gauge sank to 15 — near its calmest of the year. It looked like the picture of confidence. It arrived in the last quiet days before the summer's two loudest tests.",
+      },
+    },
+    pulse: {
+      files: {
+        fr: "/research/pulse/2026-07-10-fr.html",
+        en: "/research/pulse/2026-07-10-en.html",
+      },
+      headline: {
+        fr: "Le Calme Avant les Données.",
+        en: "The Calm Before the Data.",
+      },
+      dek: {
+        fr: "Une semaine calme, post-férié, a prolongé la hausse presque sans drame. Le S&P 500 a clôturé à 7 575, à un cheveu de son record, et le Nasdaq a mené à +1,7 %, la tech reprenant le volant à la valeur (le Dow a cédé 0,5 %). L'indice de la peur est tombé à 15, près de son plus bas de l'année. Sous le calme, deux courants contraires s'agitaient — le Brent a rebondi de 5,9 % et le rendement à 10 ans a grimpé à 4,56 % — et le marché est passé droit devant eux, vers les plus grands tests de l'été.",
+        en: "A quiet, post-holiday week carried the rally higher on almost no drama. The S&P 500 closed at 7,575, back within a whisker of its record, and the Nasdaq led at +1.7% as tech reclaimed the wheel from value (the Dow slipped 0.5%). The fear gauge sank to 15, near its lowest of the year. Beneath the calm, two cross-currents stirred — Brent bounced 5.9% and the 10-year yield crept to 4.56% — and the market drifted straight past both, into the summer's biggest tests.",
+      },
+    },
+  },
+  {
     date: "2026-07-03",
     weekLabel: {
       fr: "29 juin – 3 juillet 2026",
