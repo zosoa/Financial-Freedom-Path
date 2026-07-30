@@ -37,6 +37,42 @@ export interface Issue {
 /** Newest first. */
 export const ISSUES: Issue[] = [
   {
+    date: "2026-07-24",
+    weekLabel: {
+      fr: "20–24 juillet 2026",
+      en: "July 20–24, 2026",
+    },
+    edition: 29,
+    human: {
+      files: {
+        fr: "/research/marche/2026-07-24-fr.html",
+        en: "/research/marche/2026-07-24-en.html",
+      },
+      headline: {
+        fr: "Le pari IA est-il en train de céder ?",
+        en: "Is the AI trade finally cracking?",
+      },
+      dek: {
+        fr: "Pendant deux ans, chaque dollar dépensé dans l'intelligence artificielle a été salué comme de la croissance future à l'état pur. Cette semaine, les investisseurs ont commencé à poser une question plus rude : qui paie tout cela, et à quel prix ? Deux résultats d'entreprises, et un taux d'intérêt en hausse, ont changé la conversation.",
+        en: "For two years, every dollar spent on artificial intelligence was cheered as pure future growth. This was the week investors started asking a harder question — who is paying for all of it, and at what price? Two earnings reports, and one rising interest rate, changed the conversation.",
+      },
+    },
+    pulse: {
+      files: {
+        fr: "/research/pulse/2026-07-24-fr.html",
+        en: "/research/pulse/2026-07-24-en.html",
+      },
+      headline: {
+        fr: "L'Addition de l'IA Arrive.",
+        en: "The AI Bill Comes Due.",
+      },
+      dek: {
+        fr: "Le marché a enfin lu la facture. Tesla a signé sa pire réaction de résultats jamais vue (−14,5 %) et Alphabet a révélé des dépenses d'investissement s'envolant vers 200 Md$ — assez pour rendre son flux de trésorerie libre négatif. Ensemble, ils ont forcé les investisseurs à affronter le coût réel de la construction de l'IA. La US 10 ans a bondi de +14 pb à 4,69 %, son plus haut depuis janvier 2025, tandis que les espoirs de baisse s'évanouissaient — et le Brent a franchi 100 $ en milieu de semaine sur la guerre US–Iran. Une deuxième semaine d'aversion consécutive.",
+        en: "The market finally read the invoice. Tesla posted its worst-ever earnings reaction (−14.5%) and Alphabet revealed capital spending ballooning toward $200bn — enough to turn its free cash flow negative. Together they forced investors to confront the real cost of the AI build-out. The US 10-year jumped +14bps to 4.69%, its highest since January 2025, as rate-cut hopes faded — and Brent crossed $100 midweek on the US–Iran war. A second straight risk-off week.",
+      },
+    },
+  },
+  {
     date: "2026-07-17",
     weekLabel: {
       fr: "13–17 juillet 2026",
