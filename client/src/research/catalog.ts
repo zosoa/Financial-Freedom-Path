@@ -37,6 +37,42 @@ export interface Issue {
 /** Newest first. */
 export const ISSUES: Issue[] = [
   {
+    date: "2026-07-17",
+    weekLabel: {
+      fr: "13–17 juillet 2026",
+      en: "July 13–17, 2026",
+    },
+    edition: 28,
+    human: {
+      files: {
+        fr: "/research/marche/2026-07-17-fr.html",
+        en: "/research/marche/2026-07-17-en.html",
+      },
+      headline: {
+        fr: "La bonne nouvelle n'a pas suffi.",
+        en: "The good news wasn't enough.",
+      },
+      dek: {
+        fr: "L'inflation est retombée à son plus bas niveau depuis des années. Toutes les grandes banques ont dépassé les attentes. Sur le papier, une semaine de rêve — et le marché a chuté malgré tout. Parce que deux vraies inquiétudes sont arrivées d'un coup, et qu'un mois d'insouciance n'avait laissé aucun coussin pour les amortir.",
+        en: "Inflation cooled to its lowest in years. Every big bank beat. On paper, a dream week — and the market fell anyway. Because two real worries arrived at once, and a month of not worrying had left no cushion to absorb them.",
+      },
+    },
+    pulse: {
+      files: {
+        fr: "/research/pulse/2026-07-17-fr.html",
+        en: "/research/pulse/2026-07-17-en.html",
+      },
+      headline: {
+        fr: "Les Puces Cèdent, le Pétrole Flambe.",
+        en: "Chips Crack, Oil Spikes.",
+      },
+      dek: {
+        fr: "La bonne nouvelle n'était pas l'histoire. L'inflation de juin a reflué à 3,5 % (sa plus forte baisse mensuelle en six ans) et les grandes banques ont publié des résultats exceptionnels — et pourtant les actions ont chuté. Deux forces les ont submergées : une vente massive sur les semi-conducteurs qui a fait plonger le Nasdaq de 2,9 %, et une flambée de 16 % du Brent à 88 $ avec l'escalade du conflit États-Unis–Iran. Le calme signalé la semaine dernière a cassé : le VIX a bondi de 15 à près de 19.",
+        en: "The good news wasn't the story. June inflation cooled to 3.5% (its biggest monthly drop in six years) and the big banks posted blockbuster results — yet stocks fell. Two forces overwhelmed them: a semiconductor selloff that dragged the Nasdaq down 2.9%, and a 16% surge in Brent crude to $88 as the US–Iran conflict escalated. The calm we flagged a week ago broke: the VIX leapt from 15 to nearly 19.",
+      },
+    },
+  },
+  {
     date: "2026-07-10",
     weekLabel: {
       fr: "6–10 juillet 2026",
